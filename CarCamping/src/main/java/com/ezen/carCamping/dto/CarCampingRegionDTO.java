@@ -10,6 +10,7 @@ public class CarCampingRegionDTO {
 	private int ccr_restroom;
 	private int ccr_water;
 	private int ccr_market;
+	private int ccr_river;
 	private String ccr_ground;
 	private int ccr_reviewCount;
 	private int ccr_likeCount;
@@ -76,6 +77,12 @@ public class CarCampingRegionDTO {
 	}
 	public void setCcr_market(int ccr_market) {
 		this.ccr_market = ccr_market;
+	}
+	public int getCcr_river() {
+		return ccr_river;
+	}
+	public void setCcr_river(int ccr_river) {
+		this.ccr_river = ccr_river;
 	}
 	public String getCcr_ground() {
 		return ccr_ground;
