@@ -77,8 +77,8 @@
 								</ul></li>
 							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
 							<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a href="field_review.review"  style="background: #E9EFC0;">장소 리뷰</a></li>
-									<li><a href="goods_review.review"  style="background: #E9EFC0;">용품 리뷰</a></li>
+									<li><a style="background: #E9EFC0;" onclick="field_review()">장소 리뷰</a></li>
+									<li><a style="background: #E9EFC0;" onclick="goods_review()">용품 리뷰</a></li>
 								</ul></li>
 							<li class="scroll-to-section">
 								<a class="btn btn-outline-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" style="padding-top:0px; padding-bottom:0px;">
