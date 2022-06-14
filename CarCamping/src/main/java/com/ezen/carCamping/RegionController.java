@@ -1,5 +1,6 @@
 package com.ezen.carCamping;
 
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,31 +22,32 @@ public class RegionController {
 	
 	private RegionMapper RegionMapper;
 	
+	private Hashtable<String, List<CarCampingRegionDTO>> ht = RegionMapper.getInstance();
+	
 	@RequestMapping(value="goRegion.region", method=RequestMethod.GET)
 	public String goRegion(HttpServletRequest req) {
-		String region_num = req.getParameter("region_num");
-		if(region_num!=null) {
-			RegionDTO dto = RegionMapper.selectRegion(Integer.parseInt(region_num));
-			List<CarCampingRegionDTO> hot_region_list = RegionMapper.listCarCampingRegionHotRegion(Integer.parseInt(region_num));
-			req.setAttribute("regionDTO",dto);
-			req.setAttribute("hotList_Region",hot_region_list);
-		}
 		List<CarCampingRegionDTO> hot_list = RegionMapper.listHotRegion();
 		List<CarCampingRegionDTO> recommand_list = RegionMapper.listRecommandRegion();
+		ht.put("hot_list", hot_list);
+		ht.put("recommand_list", recommand_list);
 		req.setAttribute("hotRegionList", hot_list);
 		req.setAttribute("recommandRegionList", recommand_list);
 		
 		return "region/regionMain";
 	}
 	
-	/*
-	 * @RequestMapping("/goRegionHOT.region") public String
-	 * goRegionHOT(HttpServletRequest req,@RequestParam int region_num) { RegionDTO
-	 * dto = RegionMapper.selectRegion(region_num); List<CarCampingRegionDTO> list =
-	 * RegionMapper.listCarCampingRegionHotReview(region_num);
-	 * req.setAttribute("regionDTO",dto);
-	 * req.setAttribute("hotReviewList_Region",list); return "region/regionMain"; }
-	 */
+	
+	  @RequestMapping("/goRegionHotLocList.region")
+	  public String goRegionHOT(HttpServletRequest req,@RequestParam int region_num) { 
+		  RegionDTO dto = RegionMapper.selectRegion(region_num); 
+		  List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(region_num);
+		  req.setAttribute("regionDTO",dto);
+		  req.setAttribute("hotList_Region",list);
+		  req.setAttribute("hotRegionList", ht.get("hot_list"));
+		  req.setAttribute("recommandRegionList", ht.get("recommand_list"));
+		  return "region/regionHotLocList"; 
+	  }
+	 
 	
 	
 	

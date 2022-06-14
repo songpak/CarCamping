@@ -1,5 +1,6 @@
 package com.ezen.carCamping.service;
 
+import java.util.Hashtable;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -14,7 +15,13 @@ public class RegionMapper {
 
 	@Autowired
 	private SqlSession sqlSession;
-
+	
+	private static Hashtable<String,List<CarCampingRegionDTO>> instance = new Hashtable<>();
+	
+	public static Hashtable<String,List<CarCampingRegionDTO>> getInstance(){
+		return instance;
+	}
+	
 	public List<RegionDTO> listRegion() {
 		List<RegionDTO> list = sqlSession.selectList("listRegion");
 		return list;
