@@ -49,6 +49,32 @@
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 				
+<script>
+	function field_review(){
+		let signIn = "${signIn}";
+		if (signIn ==""){
+			alert("리뷰 쓰기는 로그인 후 사용하실 수 있습니다.");
+			location.href="login.login";
+			
+		}else{
+			location.href="field_review.review";
+		}
+	}
+</script>
+
+<script>
+	function goods_review(){
+		let signIn = "${signIn}";
+		if (signIn ==""){
+			alert("리뷰 쓰기는 로그인 후 사용하실 수 있습니다.");
+			location.href="login.login";
+			
+		}else{
+			location.href="goods_review.review";
+		}
+	}
+</script>
+
 
 
 </head>

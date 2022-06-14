@@ -16,18 +16,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 
-<script>
-	function field_review(){
-		let signIn = "${signIn}";
-		if (signIn ==""){
-			alert("리뷰 쓰기는 로그인 후 사용하실 수 있습니다.");
-			location.href="login.login";
-			
-		}else{
-			location.href="field_review.review";
-		}
-	}
-</script>
+
 </head>
 	
 
