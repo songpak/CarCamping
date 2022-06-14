@@ -10,6 +10,7 @@
             var option = "width = 800, height = 1000, top = 100, left = 200, location = no"
             window.open(url, name, option);
         }
+        
        
 		function popup1() {
 			var url = "myPageContactUs.myPage";
@@ -80,7 +81,7 @@
 		});
 	});
 </script>
-								<style>
+<style>
 .search-box {
 	width: fit-content;
 	background-color: #ffffff;
@@ -138,6 +139,7 @@
 							</select> <input type="text" name="searchString">
 							<button type="submit">검색하기</button>
 						</form>
+						
 						<div align="left">
 							<button onclick="location.href='productView.product'">전체보기</button>
 						</div>
