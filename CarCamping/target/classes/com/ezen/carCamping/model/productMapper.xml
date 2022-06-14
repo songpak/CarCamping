@@ -6,27 +6,11 @@
  	
 <mapper namespace="com.ezen.carCamping.model.productMapper"> 
 
-
-	<select id="listProduct" resultType="productDTO">
-	select * from Product;
-	</select>
-	
-	<select id="findProduct" parameterType="java.util.Map" resultType="ProductDTO">
-	select * from product where ${search} = #{searchString}
-	</select>
-	
-
-	
-
 	<select id="getReviewCount" resultType="int">
-	select count(*) from ReviewProduct;
+	select count(*) from ReviewProduct
 	</select>
 	
-	<select id="listProdReview" resultType="ReviewProductDTO" parameterType="int">
-	select * from (select @rownum, A.* from (select * from ReviewProduct)A)B where @rownum between #{statRow} and #{endRow};
-	</select>
-	
-	<select id="listProdReview2" resultType="ReviewProductDTO">
+	<select id="listProdReview" resultType="ReviewProductDTO">
 	select * from ReviewProduct
 	</select>
 	
