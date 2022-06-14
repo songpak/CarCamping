@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 	
+ 	
+<mapper namespace="com.ezen.carCamping.model.productMapper"> 
+
+
+	<select id="listProduct" resultType="productDTO">
+	select * from Product;
+	</select>
+	
+	<select id="findProduct" parameterType="java.util.Map" resultType="ProductDTO">
+	select * from product where ${search} = #{searchString}
+	</select>
+	
+
+	
+
+	<select id="getReviewCount" resultType="int">
+	select count(*) from ReviewProduct;
+	</select>
+	
+	<select id="listProdReview" resultType="ReviewProductDTO" parameterType="int">
+	select * from (select @rownum, A.* from (select * from ReviewProduct)A)B where @rownum between #{statRow} and #{endRow};
+	</select>
+	
+	<select id="listProdReview2" resultType="ReviewProductDTO">
+	select * from ReviewProduct
+	</select>
+	
+	<select id="findProdReview" parameterType="java.util.Map" resultType="ReviewProductDTO">
+		select * from ReviewProduct where ${search} = #{searchString}
+	</select>
+	
+	
+	
+</mapper>
+
