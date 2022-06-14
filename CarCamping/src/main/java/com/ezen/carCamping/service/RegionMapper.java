@@ -16,10 +16,14 @@ public class RegionMapper {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private static Hashtable<String,List<CarCampingRegionDTO>> instance = new Hashtable<>();
+	private static Hashtable<String,List<CarCampingRegionDTO>> ht = new Hashtable<>();
 	
 	public static Hashtable<String,List<CarCampingRegionDTO>> getInstance(){
-		return instance;
+		/*
+		 * for(int i=1;i<=9;i++) {
+		 * ht.put(String.valueOf(i),listCarCampingRegionHotRegion(i)); }
+		 */
+		return ht;
 	}
 	
 	public List<RegionDTO> listRegion() {
@@ -45,4 +49,10 @@ public class RegionMapper {
 		List<CarCampingRegionDTO> list = sqlSession.selectList("listRecommandRegion");
 		return list;
 	}
+	
+	public CarCampingRegionDTO selectRegionByCcrnum(int ccr_num) {
+		CarCampingRegionDTO dto = (CarCampingRegionDTO)sqlSession.selectOne("selectRegionByCcrnum",ccr_num);
+		return dto;
+	}
+	
 }

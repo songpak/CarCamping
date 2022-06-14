@@ -15,6 +15,7 @@ public class CarCampingRegionDTO {
 	private int ccr_likeCount;
 	private float ccr_score;
 	private int ccr_popular;
+	private int ccr_river;
 	private String ccr_viewImage1;
 	private String ccr_viewImage2;
 	private String ccr_viewImage3;
@@ -150,4 +151,11 @@ public class CarCampingRegionDTO {
 	public void setCcr_content(String ccr_content) {
 		this.ccr_content = ccr_content;
 	}
+	public int getCcr_river() {
+		return ccr_river;
+	}
+	public void setCcr_river(int ccr_river) {
+		this.ccr_river = ccr_river;
+	}
+	
 }

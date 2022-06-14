@@ -22,4 +22,8 @@
 	<select id="listRecommandRegion" resultType="CarCampingRegionDTO"> <!-- 추천 차박지 -->
 		SELECT * FROM songsama.CarCampingRegion where ccr_popular=1 and ccr_score>=4 order by ccr_score desc limit 10
 	</select>
+	
+	<select id="selectRegionByCcrnum" parameterType="Integer" resultType="CarCampingRegionDTO">
+		select * from songsama.CarCampingRegion where ccr_num = #{ccr_num} 
+	</select>
 </mapper>

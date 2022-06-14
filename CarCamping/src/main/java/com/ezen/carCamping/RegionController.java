@@ -32,46 +32,37 @@ public class RegionController {
 		ht.put("recommand_list", recommand_list);
 		req.setAttribute("hotRegionList", hot_list);
 		req.setAttribute("recommandRegionList", recommand_list);
-		
+		/*
+		 * for(int i=1;i<=9;i++) {
+		 * ht.put(String.valueOf(i),RegionMapper.listCarCampingRegionHotRegion(i)); }
+		 */
 		return "region/regionMain";
 	}
 	
-	
-	  @RequestMapping("/goRegionHotLocList.region")
-	  public String goRegionHOT(HttpServletRequest req,@RequestParam int region_num) { 
+	@RequestMapping("/regionHotLocList.region")
+	public String goRegionHOT(HttpServletRequest req,@RequestParam int region_num) {
 		  RegionDTO dto = RegionMapper.selectRegion(region_num); 
-		  List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(region_num);
+		 List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(region_num);
 		  req.setAttribute("regionDTO",dto);
+		 // req.setAttribute("hotList_Region",ht.get(String.valueOf(region_num)));
 		  req.setAttribute("hotList_Region",list);
 		  req.setAttribute("hotRegionList", ht.get("hot_list"));
 		  req.setAttribute("recommandRegionList", ht.get("recommand_list"));
 		  return "region/regionHotLocList"; 
-	  }
-	 
-	
-	
-	
-	/*
-	 * @RequestMapping(value="goRegion.region", method=RequestMethod.POST) public
-	 * String goRegion(HttpServletRequest req,@RequestParam int region_num) {
-	 * //String num = (String)req.getAttribute("region_num");
-	 * req.setAttribute("region_num", region_num); return "region/regionMain"; }
-	 */
-	
-	/*
-	 * @RequestMapping(value="goRegion.region", method=RequestMethod.POST) public
-	 * String goRegion(HttpServletRequest req) {
-	 * 
-	 * RegionDTO dto = RegionMapper.selectRegion(Integer.parseInt(num));
-	 * req.setAttribute("dto", dto); return "region/regionMain"; }
-	 */
+	}
+		
+
 	@RequestMapping("/regionReviewView.region")
-	public String regionReviewView() {
+	public String regionReviewView(HttpServletRequest req,@RequestParam int ccr_num) {
+		
 		return "/region/regionReviewView";
 	}
 	
 	@RequestMapping("/regionView.region")
-	public String regionView() {
+	public String regionView(HttpServletRequest req,@RequestParam int ccr_num) {
+		System.out.println(ccr_num);
+		CarCampingRegionDTO dto = RegionMapper.selectRegionByCcrnum(ccr_num);
+		req.setAttribute("regionSelected", dto);
 		return "/region/regionView";
 	}
 }

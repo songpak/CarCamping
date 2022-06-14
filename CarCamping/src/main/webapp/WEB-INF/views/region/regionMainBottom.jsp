@@ -15,7 +15,7 @@
 					navbarexample" 
 					style="margin-bottom: 0px; background-color: #dc3545d4;">
 					<div class="container">
-						<a class="navbar-brand text-light" href="#" text>H O T 차 박 지</a>
+						<a class="navbar-brand text-light" href="#" >H O T 차 박 지</a>
 					</div>
 				</nav>
 			</div>
@@ -29,7 +29,7 @@
 
 					<c:forEach var="hotRegion" items="${hotRegionList}">
 
-						<a href="regionView.region?${hotRegion.ccr_num}">
+						<a href="regionView.region?ccr_num=${hotRegion.ccr_num}">
 							<div class="carousel-cell" style="width: 300px; height: 380px">
 								<div class="card" style="width: 100%; height: 100%">
 									<img src="resources/images/${hotRegion.ccr_viewImage1}"
@@ -78,7 +78,7 @@
 									"freeScroll": true,"wrapAround": true}'>
 				<c:forEach var="recommandRegion" items="${recommandRegionList}">
 
-					<a href="regionView.region?${recommandRegion.ccr_num}">
+					<a href="regionView.region?ccr_num=${recommandRegion.ccr_num}">
 						<div class="carousel-cell" style="width: 300px; height: 380px">
 							<div class="card" style="width: 100%; height: 100%">
 								<img src="resources/images/${recommandRegion.ccr_viewImage1}"
