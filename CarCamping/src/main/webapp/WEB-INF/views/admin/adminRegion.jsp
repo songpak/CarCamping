@@ -42,8 +42,9 @@
 					id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
 					지역</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-					<li><button class="dropdown-item" type="button">서울|경기도</button></li>
-					<li><button class="dropdown-item" type="button">강원도</button></li>
+					<c:forEach items="${adminListRegion}" var="dto">
+						<li><button class="dropdown-item" type="button" onclick="location.href='adminRegion.admin?region_num=${dto.region_num}'">${dto.region_name}</button></li>
+					</c:forEach>
 				</ul>
 			</div>
 			
@@ -52,18 +53,21 @@
 		<div class="col" align="right">
 		<!-- 장소 등록 모달 버튼 -->
 			<button type="button" 
-					class="btn btn-primary"
-					data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop">
+					onclick="location.href='javascript:popup()'">
 						장소 등록
 			</button>
 		<!-- 장소 등록 모달 버튼 끝 -->
 		</div>
 	</div>
-	<div class="row">
 		&nbsp;
-	</div>
-	
+	<script>
+		function popup(){
+			var url = "adminRegisterRegion.admin"
+			var name = "장소 등록"
+			var option = "width=600,height=800,top=100,left=200,location=no"
+			window.open(url,name,opton);
+		}
+	</script>
 
 	<!-- 장소 등록 모달 -->
 	<form class="row gy-2 gx-3 align-items-center">

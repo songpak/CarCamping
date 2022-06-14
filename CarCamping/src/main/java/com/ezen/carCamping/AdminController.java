@@ -1,10 +1,25 @@
 package com.ezen.carCamping;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.ezen.carCamping.dto.CarCampingRegionDTO;
+import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.service.AdminMapper;
 
 @Controller
 public class AdminController {
+	
+	@Autowired
+	private AdminMapper adminMapper;
 	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin() {
@@ -12,8 +27,22 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/adminRegion.admin")
-	public String adminRegion() {
+	public String adminRegion(HttpServletRequest req,@RequestParam(required=false) String region_num) {
+		List<RegionDTO> adminListRegion = adminMapper.adminListRegion();
+		req.setAttribute("adminListRegion", adminListRegion);
 		return "admin/adminRegion";
+	}
+	@RequestMapping(value="/adminRegisterRegion.admin", method=RequestMethod.GET)
+	public String adminRegisterRegion(HttpServletRequest req) {
+		List<RegionDTO> adminListRegion = adminMapper.adminListRegion();
+		req.setAttribute("adminListRegion", adminListRegion);
+		return "admin/adminRegisterRegion";
+	}
+	
+	@RequestMapping(value="/adminRegisterRegion.admin", method=RequestMethod.POST)
+	public String adminRegisterRegionPro(@ModelAttribute CarCampingRegionDTO dto) {
+		
+		return "admin/adminRegisterRegion";
 	}
 	
 	@RequestMapping("/adminAgency.admin")
