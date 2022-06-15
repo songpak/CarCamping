@@ -55,5 +55,10 @@ public class ProductMapper {
 		return list;
 	}
 	
+	public List<ReviewProductDTO> getReviewView(int rp_num) {
+		List<ReviewProductDTO>list= sqlSession.selectList("getReviewView", rp_num);
+		return list;
+	}
+	
 }
  

@@ -57,7 +57,9 @@ public class ProductController {
 		return "product/productView";
 	}
 	@RequestMapping("/productReviewView.product")
-	public String productReviewView() {
+	public String productReviewView(HttpServletRequest req, int rp_num) {
+		List<ReviewProductDTO> list = productMapper.getReviewView(rp_num);
+		req.setAttribute("getRv", list);
 		return "product/productReviewView";
 	}
 }

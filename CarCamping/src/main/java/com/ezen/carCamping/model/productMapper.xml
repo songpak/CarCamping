@@ -30,6 +30,10 @@
 		select * from ReviewProduct where ${search} = #{searchString}
 	</select>
 	
+	<select id="getReviewView" resultType="ReviewProductDTO">
+		select * from ReviewProduct where rp_num = #{rp_num}
+	</select>
+	
 	
 	
 </mapper>
