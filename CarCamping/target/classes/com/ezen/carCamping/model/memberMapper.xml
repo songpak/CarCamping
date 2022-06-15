@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
  <mapper namespace="com.ezen.carCamping.model.memberMapper">
     <select id="getMember" parameterType="int" resultType="memberDTO">
       select * from Member where mem_num = #{mem_num}
@@ -17,7 +17,7 @@
       select * from Member where mem_id=#{mem_id}
    </select>
    <insert id="insertMember" parameterType="MemberDTO">
-      insert into Member values(#{mem_id},#{mem_email},#{mem_password},#{mem_userName},#{mem_nickName},#{mem_image},#{mem_phone},#{mem_birthday},#{mem_gender},#{region_num},#{mem_point},#{mem_rentalCount},now(),#{mem_accept_email},#{mem_accept_phone},#{mem_accept_privacy},#{mem_denied},#{mem_image},#{mem_summary},#{mem_introduce},#{mem_firstReview})
+      insert into Member(mem_id, mem_email, mem_password, mem_userName, mem_nickName, mem_phone, mem_birthday, mem_gender, region_num, mem_point, mem_rentalCount, mem_sysdate, mem_accept_email, mem_accept_phone, mem_accept_privacy, mem_denied, mem_image, mem_summary, mem_introduce, mem_firstReview)
+      values(#{mem_id}, #{mem_email}, #{mem_password}, #{mem_userName}, #{mem_nickName}, #{mem_phone}, #{mem_birthday}, #{mem_gender}, #{regionDTO.region_num}, 0, 0, now(), #{mem_accept_email},#{mem_accept_phone}, #{mem_accept_privacy}, 0, #{mem_image}, #{mem_summary}, #{mem_introduce},0)
    </insert>
 </mapper>
-

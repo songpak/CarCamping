@@ -9,12 +9,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.carCamping.dto.MemberDTO;
-import com.ezen.carCamping.dto.ReviewRegionDTO;
+import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.service.MemberMapper;
 
 
@@ -25,7 +26,7 @@ public class MemberController {
    @Autowired
    private MemberMapper memberMapper;
    
-   @RequestMapping("/login.login")
+   @RequestMapping(value="login.login", method=RequestMethod.GET)
    public String login() {
       return "login/login";
    }
@@ -60,7 +61,7 @@ public class MemberController {
       return "message";
    }
    
-   @RequestMapping("/login_ok.login")
+   @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
@@ -70,9 +71,9 @@ public class MemberController {
          msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
          url = "login.login";
       }else {
-         if (params.get("passwd").equals(dto.getMem_password())){
+         if (params.get("mem_password").equals(dto.getMem_password())){
             msg = dto.getMem_id()+"님, 환영합니다!!";
-            url = "index_member.do";
+            url = "index.do";
             HttpSession session = req.getSession();
             session.setAttribute("mbdto", dto);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
@@ -98,8 +99,13 @@ public class MemberController {
    }
    
    @RequestMapping(value="sign.login", method=RequestMethod.POST)
-   public String signOK(HttpServletRequest req, MemberDTO dto) {
+   public String signOK(HttpServletRequest req,@ModelAttribute MemberDTO dto) {
+   
+      RegionDTO rdto = new RegionDTO();
+      rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
+      dto.setRegionDTO(rdto);
       int res = memberMapper.insertMember(dto);
+      
        if (res>0) {
           req.setAttribute("msg", "회원가입 성공 ^__^");
           req.setAttribute("url", "index.do");

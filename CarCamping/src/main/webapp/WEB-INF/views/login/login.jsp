@@ -1,53 +1,81 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-  <link href="resources/css/login.css" rel="stylesheet"/> 	
-    
-   	
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>Log In</title>
+<!-- í•©ì³ì§€ê³  ìµœì†Œí™”ëœ ìµœì‹  CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- ë¶€ê°€ì ì¸ í…Œë§ˆ -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<!-- í•©ì³ì§€ê³  ìµœì†Œí™”ëœ ìµœì‹  ìë°”ìŠ¤í¬ë¦½íŠ¸ -->
 </head>
 <body>
-<div class="inner_login">
-    <div class="login_tistory">
-
-        <form method="post" id="authForm" action="https://www.tistory.com/auth/login">
-            <input type="hidden" name="redirectUrl" value="https://blogpack.tistory.com/manage">
-            <fieldset>
-            <legend class="screen_out">·Î±×ÀÎ Á¤º¸ ÀÔ·ÂÆû</legend>
-            <div class="box_login">
-                <div class="inp_text">
-                <label for="loginId" class="screen_out">¾ÆÀÌµğ</label>
-                <input type="email" id="loginId" name="loginId" placeholder="ID" >
-                </div>
-                <div class="inp_text">
-                <label for="loginPw" class="screen_out">ºñ¹Ğ¹øÈ£</label>
-                <input type="password" id="loginPw" name="password" placeholder="Password" >
-                </div>
-            </div>
-            <button type="submit" class="btn_login"  disabled>·Î±×ÀÎ</button>
-             <button type="submit" class="btn_login"  style="background-color: #575757;margin-top: 10px;" disabled>È¸¿ø°¡ÀÔ</button>
-            <div class="login_append">
-                <div class="inp_chk"> <!-- Ã¼Å©½Ã checked Ãß°¡ -->
-                <input type="checkbox" id="keepLogin" class="inp_radio"  name="keepLogin">
-                <label for="keepLogin" class="lab_g">
-        <span class="img_top ico_check"></span>
-        <span class="txt_lab">·Î±×ÀÎ »óÅÂ À¯Áö</span>
-        </label>
-                </div>
-                <span class="txt_find">
-                <a href="findID.login" class="link_find">¾ÆÀÌµğ</a>
-                    / 
-                <a href="findPW.login" class="link_find">ºñ¹Ğ¹øÈ£ Ã£±â</a>
-                </span>
-            </div>
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h3 class="card-title text-center"><font color="green"><b>Log in</b></font></h3>
+            <form class="form-signin" method="post" action="login.login">
+              <div class="form-label-group">
+            <nobr>
+			<c:if test="${empty cookie.saveId}">			
+					<input type="checkbox" name="saveId">
+			</c:if>
+			<c:if test="${not empty cookie.saveId}">
+					<input type="checkbox" name="saveId" checked>
+			</c:if>					
+					<font face="êµ´ë¦¼" size="2">ì•„ì´ë”” ê¸°ì–µí•˜ê¸°</font>
+				</nobr>
             
-            </fieldset>
-        </form>
-        
+              <c:if test="${empty cookie.saveId}">
+                <input type="text" id="id" name="mem_id" class="form-control" placeholder="ID" required autofocus>
+              	</c:if></div>
+				<c:if test="${not empty cookie.saveId}">
+				<input type="text" name="id" tabindex="1" value="${cookie.saveId.value}">
+			</c:if>				
+			<div class="row">
+			<p>
+			<p>
+			</div>
+			
+			
+              <div class="form-label-group">
+                <input type="password" id="pwd" name="mem_password" class="form-control" placeholder="Password" required>
+              </div>
+              
+              <hr>
+              
+              <div class="form-label-group">
+              <c:if test="${check == 1 }">
+                <label>${message}</label>
+              </c:if>
+              </div>
+
+              <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">ë¡œê·¸ì¸</button>
+              <hr class="my-4">
+             <a href="javascript:void(0)" onclick="findID()">ì•„ì´ë”” ì°¾ê¸°</a>/ 
+              <a href="javascript:void(0)" onclick="findPW()">ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°</a>
+              <button class="btn btn-lg btn-success btn-block text-uppercase" onclick="location='sign.login'">íšŒì›ê°€ì…</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-</body>
-</html>
+  </div>
+  
+  <script type="text/javascript">
+  function findID(){
+		var url="findID.login";
+		
+		window.open(url, "_blank_1", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=500, height=500");
+	}
+  
+  function findPW(){
+	  var url="findPW.login";
+	  
+	  window.open(url, "_blank_1", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=500, height=500");
+  }
+  </script>
