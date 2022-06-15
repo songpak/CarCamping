@@ -2,11 +2,12 @@ package com.ezen.carCamping;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.*;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.service.AdminMapper;
@@ -40,7 +42,12 @@ public class AdminController {
 	
 	@RequestMapping("/adminRegion.admin")
 	public String adminRegion(HttpServletRequest req,@RequestParam(required=false) String region_num) {
-		List<CarCampingRegionDTO> adminListCarCampingRegion = adminMapper.adminListCarCampingRegion();
+		List<CarCampingRegionDTO> adminListCarCampingRegion = new ArrayList<CarCampingRegionDTO>();
+		if (region_num==null) {
+			adminListCarCampingRegion = adminMapper.adminListCarCampingRegion();
+		}else {
+			adminListCarCampingRegion = adminMapper.adminListCarCampingRegionSelectRegion(Integer.parseInt(region_num));
+		}
 		
 		req.setAttribute("adminListCarCampingRegion", adminListCarCampingRegion);
 		return "admin/adminRegion";
@@ -97,14 +104,16 @@ public class AdminController {
 				//다중파일 업로드
 				for (MultipartFile f : file) {
 					String filename = f.getOriginalFilename();		
+					if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
+					else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
+					else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
+					else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
+					else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
+					
 					try {
 						f.transferTo(new File(upPath+"/images/region/"+filename));
 						
-						if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
-						else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
-						else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
-						else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
-						else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
+						
 		
 					}catch(IOException e) {
 						e.printStackTrace();
@@ -134,87 +143,211 @@ public class AdminController {
 			
 	
 
-//	@RequestMapping("/updateRegion.admin")
-//	public ModelAndView  updateRegion(@RequestParam("ccr_viewImage") MultipartFile[] file,@RequestParam int ccr_num, Map<String,String> map) {
-//		CarCampingRegionDTO dto = adminMapper.getCarCampingRegion(ccr_num);
-//		//차량 접근
-//		String ccr_car = "";
-//		if (map.containsKey("ccr_car1")) ccr_car += "승용차  ";
-//		if (map.containsKey("ccr_car2")) ccr_car += "소형 트레일러  ";
-//		if (map.containsKey("ccr_car3")) ccr_car += "카라반  ";
-//		if (map.containsKey("ccr_car4")) ccr_car += "루프탑  ";
-//		if (map.containsKey("ccr_car5")) ccr_car += "캠핑카  ";
-//		dto.setCcr_car(ccr_car.trim());
-//		
-//		//바닥 종류
-//		String ccr_ground = "";
-//		if (map.containsKey("ccr_ground1")) ccr_ground += "맨흙  ";
-//		if (map.containsKey("ccr_ground2")) ccr_ground += "자갈  ";
-//		if (map.containsKey("ccr_ground3")) ccr_ground += "모래  ";
-//		if (map.containsKey("ccr_ground4")) ccr_ground += "데크  ";
-//		if (map.containsKey("ccr_ground5")) ccr_ground += "잔디 ";
-//		dto.setCcr_ground(ccr_ground.trim());
-//		
-//		//유무 체크
-//		if (map.containsKey("ccr_amenity1")) dto.setCcr_toilet(0);
-//		else dto.setCcr_toilet(1);
-//		
-//		if (map.containsKey("ccr_amenity2")) dto.setCcr_restroom(0);
-//		else dto.setCcr_restroom(1);
-//		
-//		if (map.containsKey("ccr_amenity3")) dto.setCcr_water(0);
-//		else dto.setCcr_water(1);
-//		
-//		if (map.containsKey("ccr_amenity4")) dto.setCcr_market(0);
-//		else dto.setCcr_market(1);
-//		
-//		if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
-//		else dto.setCcr_river(1);
-//		
-//		//다중파일 업로드
-//		for (MultipartFile f : file) {
-//			String filename = f.getOriginalFilename();
-//			try {
-//				f.transferTo(new File(upPathImage+"/"+filename));
-//				
-//				if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
-//				else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
-//				else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
-//				else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
-//				else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
-//				
-//			}catch(IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		//인기여부
-//		if (map.containsKey("ccr_popular")) dto.setCcr_popular(0);
-//		else dto.setCcr_popular(1);
-//		
-//		int res = adminMapper.insertRegion(dto);
-//		String msg =null, url = null;
-//		if (res>0) {
-//			msg = "장소가 수정되었습니다.";
-//			url = "adminRegion.admin";
-//		}else {
-//			msg = "장소 수정이 실패되었습니다. 관리자에게 문의하세요";
-//			url = "adminRegion.admin";
-//		}
-//		ModelAndView mav = new ModelAndView("message");
-//		mav.addObject("msg", msg);
-//		mav.addObject("url", url);
-//		return mav;
-//		return "admin/adminRegisterRegion";
-//	}
-	
+	@RequestMapping("/adminUpdateRegion.admin")
+	public ModelAndView  updateRegion(HttpServletRequest req,@RequestParam("ccr_viewImage") MultipartFile[] file,@RequestParam Map<String,String> map) {
+		CarCampingRegionDTO dto = adminMapper.getCarCampingRegion(Integer.parseInt(map.get("ccr_num")));
+		//차량 접근
+		String ccr_car = "";
+		if (map.containsKey("ccr_car1")) ccr_car += "승용차  ";
+		if (map.containsKey("ccr_car2")) ccr_car += "소형 트레일러  ";
+		if (map.containsKey("ccr_car3")) ccr_car += "카라반  ";
+		if (map.containsKey("ccr_car4")) ccr_car += "루프탑  ";
+		if (map.containsKey("ccr_car5")) ccr_car += "캠핑카  ";
+		dto.setCcr_car(ccr_car.trim());
+		
+		//바닥 종류
+		String ccr_ground = "";
+		if (map.containsKey("ccr_ground1")) ccr_ground += "맨흙  ";
+		if (map.containsKey("ccr_ground2")) ccr_ground += "자갈  ";
+		if (map.containsKey("ccr_ground3")) ccr_ground += "모래  ";
+		if (map.containsKey("ccr_ground4")) ccr_ground += "데크  ";
+		if (map.containsKey("ccr_ground5")) ccr_ground += "잔디 ";
+		dto.setCcr_ground(ccr_ground.trim());
+		
+		//유무 체크
+		if (map.containsKey("ccr_amenity1")) dto.setCcr_toilet(0);
+		else dto.setCcr_toilet(1);
+		
+		if (map.containsKey("ccr_amenity2")) dto.setCcr_restroom(0);
+		else dto.setCcr_restroom(1);
+		
+		if (map.containsKey("ccr_amenity3")) dto.setCcr_water(0);
+		else dto.setCcr_water(1);
+		
+		if (map.containsKey("ccr_amenity4")) dto.setCcr_market(0);
+		else dto.setCcr_market(1);
+		
+		if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
+		else dto.setCcr_river(1);
+		
+		String upPath = (String)req.getSession().getAttribute("upPath");
+		
+		//다중파일 업로드
+		for (MultipartFile f : file) {
+			String filename = f.getOriginalFilename();		
+			if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
+			else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
+			else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
+			else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
+			else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
+			
+			try {
+				f.transferTo(new File(upPath+"/images/region/"+filename));
+				
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		//인기여부
+		if (map.containsKey("ccr_popular")) dto.setCcr_popular(0);
+		else dto.setCcr_popular(1);
+		
+		int res = adminMapper.adminUpdateRegion(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "장소가 수정되었습니다.";
+			url = "adminRegion.admin";
+		}else {
+			msg = "장소 수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminRegion.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	@RequestMapping("/adminDeleteRegion.admin")
+	public ModelAndView adminDeleteRegion(@RequestParam int ccr_num) {
+		int res = adminMapper.adminDeleteRegion(ccr_num);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "장소가 삭제되었습니다.";
+			url = "adminRegion.admin";
+		}else {
+			msg = "장소 삭제가 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminRegion.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+///////////////////////////////////대리점///////////////////////////////////////////////
 	@RequestMapping("/adminAgency.admin")
-	public String adminAgency() {
+	public String adminAgency(HttpServletRequest req) {
+		List<AgencyDTO> adminListAgency = adminMapper.adminListAgency();
+		req.setAttribute("adminListAgency", adminListAgency);
 		return "admin/adminAgency";
+	}
+	
+	@RequestMapping(value="/adminRegisterAgency.admin", method=RequestMethod.GET)
+	public String adminRegisterAgency() {
+		return "admin/adminRegisterAgency";
+	}
+	
+	@RequestMapping(value="/adminRegisterAgency.admin", method=RequestMethod.POST)
+	public ModelAndView adminRegisterAgencyPro(@ModelAttribute AgencyDTO dto,@RequestParam int region_num) {
+		RegionDTO rdto = new RegionDTO();
+		rdto.setRegion_num(region_num);
+		dto.setRegionDTO(rdto);
+		
+		int res = adminMapper.adminInsertAgency(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "대리점이 등록되었습니다.";
+			url = "adminAgency.admin";
+		}else {
+			msg = "대리점 등록이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminAgency.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping(value="/adminViewAgency.admin", method=RequestMethod.GET)
+	public ModelAndView adminViewAgency(@RequestParam int agency_num) {
+		AgencyDTO adto = adminMapper.adminGetAgency(agency_num);
+		return new ModelAndView("admin/adminViewAgency","adto",adto);
+	}
+	
+	@RequestMapping(value="/adminViewAgency.admin", method=RequestMethod.POST)
+	public ModelAndView adminViewAgencyPro(@RequestParam Map<String,String> map) {
+		AgencyDTO adto = adminMapper.adminGetAgency(Integer.parseInt(map.get("agency_num")));
+		adto.setAgency_name(map.get("agency_name"));
+		adto.setAgency_location(map.get("agency_location"));
+		adto.setAgency_phone(map.get("agency_phone"));
+		
+		int res = adminMapper.adminUpdateAgency(adto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "대리점이 수정되었습니다.";
+			url = "adminAgency.admin";
+		}else {
+			msg = "대리점 수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminAgency.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping("/adminDeleteAgency.admin")
+	public ModelAndView adminDeleteAgency(@RequestParam int agency_num) {
+		int res = adminMapper.adminDeleteAgency(agency_num);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "대리점이 삭제되었습니다.";
+			url = "adminAgency.admin";
+		}else {
+			msg = "대리점 삭제가 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminAgency.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
 	}
 	
 	@RequestMapping("/adminCategory.admin")
 	public String adminCategory() {
+		
 		return "admin/adminCategory";
+	}
+	@RequestMapping("/adminDeleteBrand.admin")
+	public ModelAndView adminDeleteBrand(int brand_num) {
+		int res = adminMapper.adminDeleteBrand(brand_num);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "브랜드 카테고리가 삭제되었습니다.";
+			url = "adminCategory.admin";
+		}else {
+			msg = "브랜드 카테고리 삭제가 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminCategory.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping("/adminDeleteProductCategory.admin")
+	public ModelAndView adminDeleteProductCategory(int pc_num) {
+		int res = adminMapper.adminDeleteProductCategory(pc_num);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "상품 카테고리가 삭제되었습니다.";
+			url = "adminCategory.admin";
+		}else {
+			msg = "상품 카테고리 삭제가 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminCategory.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
 	}
 	
 	@RequestMapping("/adminProduct.admin")

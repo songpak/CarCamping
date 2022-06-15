@@ -19,101 +19,40 @@
 			<p class="fw-bolder">대리점 목록</p>
 		</div>
 	<div class="row">
-		<!-- 드랍 버튼 -->
-			<div class="col" align="left">
-				<div class="dropdown">
-					<button class="btn btn-outline-success" dropdown-toggle" type="button"
-						id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-						지역선택</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-						<c:forEach items="${listRegion}" var="dto">
-							<li><button class="dropdown-item" type="button" onclick="location.href=adminRegion.admin?region_num=${dto.region_num}">${dto.region_name}</button>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
-		<!-- 드랍 버튼 끝 -->
+		<!-- 정렬 지역 버튼 -->
+		<div class="col">
+			<form name="searchRegion" method="post" action="adminAgency.admin">
+				<select name="region_num">
+					<c:forEach items="${adminListRegion}" var="dto">
+						<option value="${dto.region_num}">${dto.region_name}</option>
+					</c:forEach>
+				</select>
+				<input type="submit" value="정렬">
+			</form>
+		</div>
+		<!-- 정렬 지역 버튼 끝 -->
 		
-		<!-- 대리점 등록 모달 버튼 -->
+		<!-- 대리점 등록 버튼 -->
 			<div class="col" align="right">
-				<button type="button" 
-					class="btn btn-outline-success"
-					data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop">
+				<button type="button" class="btn btn-primary"
+					onclick="location.href='javascript:popup()'">
 						대리점 등록
-				</button>
+			</button>
 			</div>
-		<!-- 대리점 등록 모달 버튼 끝 -->
+		<!-- 대리점 등록 버튼 끝 -->
 	</div>
 	<div class="row">
 		&nbsp;
 	</div>
 </div>
-	<!-- 대리점 등록 모달 -->
-	<form class="row gy-2 gx-3 align-items-center">
-	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-		data-bs-keyboard="false" tabindex="-1"
-		aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">대리점 등록</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-				<!-- 대리점 지역&이름 -->
-					<div class="row">
-						<div class="col">
-							<div class="form-floating">
-								<select class="form-select" id="floatingSelect"
-									aria-label="Floating label select example">
-									<option selected>서울/경기도</option>
-									<option value="1">강원도</option>
-									<option value="2">충청북도</option>
-									<option value="3">충청남도</option>
-								</select> <label for="floatingSelect">지역</label>
-							</div>
-						</div>
-						<div class="col">
-							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="floatingInput"
-									placeholder="name@example.com"> <label
-									for="floatingInput">대리점명</label>
-							</div>
-						</div>
-					</div>
-					
-				<!-- 대리점 위치 -->
-						<div class="row">
-							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="floatingInput"
-									placeholder="name@example.com"> <label
-									for="floatingInput">대리점 위치</label>
-							</div>
-						</div>
-				
-				<!-- 대리점 전화번호 -->
-						<div class="row">
-							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="floatingInput"
-									placeholder="name@example.com"> <label
-									for="floatingInput">대리점 전화번호 ('-'포함)</label>
-							</div>
-						</div>
-						
-				<!-- 버튼 영역 -->
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-success"
-							data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-outline-success">등록</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</form>
-	<!-- 대리점 등록 모달 끝 -->
+	<script>
+		function popup(){
+			var url = "adminRegisterAgency.admin"
+			var name = "대리점 등록"
+			var option = "width=600,height=800,top=100,left=200,location=no"
+			window.open(url,name,option);
+		}
+	</script>
 	
 	<!-- 본문 -->
 	<table class="table table-striped">
@@ -122,112 +61,38 @@
 			<th>대리점명</th>
 			<th>위치</th>
 			<th>전화번호</th>
-			<th>수정</th>
+			<th>수정|삭제</th>
 		</tr>
-		<tr>
-			<td>서울/경기도</td>
-			<td>강북점</td>
-			<td>서울시 노원구 덕릉로 126라길11</td>
-			<td>02-933-9933</td>
-			<td><button type="button" 
-					class="btn btn-success"
-					data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop-11">
-						수정
-				</button></td>
-		</tr>
-		<tr>
-			<td>서울/경기도</td>
-			<td>강북점</td>
-			<td>서울시 노원구 덕릉로 126라길11</td>
-			<td>02-933-9933</td>
-			<td><button type="button" 
-					class="btn btn-success"
-					data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop-11">
-						수정
-				</button></td>
-		</tr>
-		<tr>
-			<td>서울/경기도</td>
-			<td>강북점</td>
-			<td>서울시 노원구 덕릉로 126라길11</td>
-			<td>02-933-9933</td>
-			<td><button type="button" 
-					class="btn btn-success"
-					data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop-11">
-						수정
-				</button></td>
-		</tr>
-		
+		<c:if test="${not empty adminListAgency}">
+			<c:forEach items="${adminListAgency}" var="dto">
+				<tr>
+					<td>${dto.regionDTO.region_name}</td>
+					<td>${dto.agency_name}</td>
+					<td>${dto.agency_location}</td>
+					<td>${dto.agency_phone}</td>
+					<td><button type="button" 
+							class="btn btn-primary"
+							onclick="location.href='javascript:popup2(${dto.agency_num})'">
+								수정
+						</button></td>
+				</tr>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty adminListAgency}">
+			<tr>
+				<td colspan="5">등록된 대리점이 없습니다</td>
+			</tr>
+		</c:if>
 	</table>
 	
-	<!-- 대리점 수정 모달 -->
-	<form class="row gy-2 gx-3 align-items-center">
-	<div class="modal fade" id="staticBackdrop-11" data-bs-backdrop="static"
-		data-bs-keyboard="false" tabindex="-1"
-		aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">대리점 수정</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-				<!-- 대리점 지역&이름 -->
-					<div class="row">
-						<div class="col">
-							<div class="form-floating">
-								<select class="form-select" id="floatingSelect"
-									aria-label="Floating label select example">
-									<option selected>서울/경기도</option>
-									<option value="1">강원도</option>
-									<option value="2">충청북도</option>
-									<option value="3">충청남도</option>
-								</select> <label for="floatingSelect">지역</label>
-							</div>
-						</div>
-						<div class="col">
-							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="floatingInput"
-									placeholder="name@example.com"> <label
-									for="floatingInput">대리점명</label>
-							</div>
-						</div>
-					</div>
-					
-				<!-- 대리점 위치 -->
-						<div class="row">
-							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="floatingInput"
-									placeholder="name@example.com"> <label
-									for="floatingInput">대리점 위치</label>
-							</div>
-						</div>
-				
-				<!-- 대리점 전화번호 -->
-						<div class="row">
-							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="floatingInput"
-									placeholder="name@example.com"> <label
-									for="floatingInput">대리점 전화번호 ('-'포함)</label>
-							</div>
-						</div>
-						
-				<!-- 버튼 영역 -->
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-success"
-							data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-outline-success">수정</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</form>
-	<!-- 대리점 수정 모달 끝 -->
+	<script>
+		function popup2(a){
+			var url = "adminViewAgency.admin?agency_num="+a
+			var name = "대리점 수정"
+			var option = "width=600,height=800,top=100,left=200,location=no"
+			window.open(url,name,option);
+		}
+	</script>
 	
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">

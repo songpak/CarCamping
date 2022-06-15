@@ -37,17 +37,14 @@
 	<div class="row">
 		<!-- 정렬&지역 드랍 버튼 -->
 		<div class="col">
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button"
-					id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-					지역</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+			<form name="searchRegion" method="post" action="adminRegion.admin">
+				<select name="region_num">
 					<c:forEach items="${adminListRegion}" var="dto">
-						<li><button class="dropdown-item" type="button" onclick="location.href='adminRegion.admin?region_num=${dto.region_num}'">${dto.region_name}</button></li>
+						<option value="${dto.region_num}">${dto.region_name}</option>
 					</c:forEach>
-				</ul>
-			</div>
-			
+				</select>
+				<input type="submit" value="정렬">
+			</form>
 		</div>
 
 		<div class="col" align="right">
@@ -88,11 +85,7 @@
 		<c:if test="${not empty adminListCarCampingRegion}">
 			<c:forEach items="${adminListCarCampingRegion}" var="cdto">
 				<tr>
-				<c:forEach items="${adminListRegion}" var="rdto">
-					<c:if test="${cdto.regionDTO==rdto.region_num}">
-						<td>${rdto.region_name}</td>
-					</c:if>
-				</c:forEach>
+				<td>${cdto.regionDTO.region_name}</td>
 				<td>${cdto.ccr_name}</td>
 				<td>${cdto.ccr_pricePerDay}</td>
 				<td>${cdto.ccr_score}</td>

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 
@@ -27,21 +28,64 @@ public class AdminMapper {
 	
 	public List<CarCampingRegionDTO> adminListCarCampingRegion(){
 		List<CarCampingRegionDTO> adminListCarCampingRegion = sqlSession.selectList("adminListCarCampingRegion");
-		List<RegionDTO> adminListRegion = adminListRegion();
 		
-		for (CarCampingRegionDTO cdto : adminListCarCampingRegion) {
-			for (RegionDTO rdto : adminListRegion) {
-				if (rdto.getRegion_num()==cdto.getRegionDTO()) {
-					cdto.setRegionDTO(rdto);
-				}
-			}
-		}
+		return adminListCarCampingRegion;
+	}
+	
+	public List<CarCampingRegionDTO> adminListCarCampingRegionSelectRegion(int region_num){
+		List<CarCampingRegionDTO> adminListCarCampingRegion = sqlSession.selectList("adminListCarCampingRegionSelectRegion",region_num);
 		
 		return adminListCarCampingRegion;
 	}
 	
 	public CarCampingRegionDTO getCarCampingRegion(int ccr_num) {
-		CarCampingRegionDTO dto = sqlSession.selectOne("getCarCampingRegion", ccr_num);
+		CarCampingRegionDTO dto = sqlSession.selectOne("adminGetCarCampingRegion", ccr_num);
 		return dto;
+	}
+	
+	public int adminUpdateRegion(CarCampingRegionDTO dto) {
+		int res = sqlSession.update("adminUpdateRegion", dto);
+		return res;
+	}
+	
+	public int adminDeleteRegion(int ccr_num) {
+		int res = sqlSession.delete("adminDeleteRegion",ccr_num);
+		return res;
+	}
+	
+	////////////////////////////´ë¸®Á¡////////////////////////////////////////////
+	public List<AgencyDTO> adminListAgency(){
+		List<AgencyDTO> adminListAgency = sqlSession.selectList("adminListAgency");
+		return adminListAgency;
+	}
+	
+	public int adminInsertAgency(AgencyDTO dto) {
+		int res = sqlSession.insert("adminInsertAgency", dto);
+		return res;
+	}
+	
+	public AgencyDTO adminGetAgency(int agency_num) {
+		AgencyDTO dto = sqlSession.selectOne("adminGetAgency", agency_num);
+		return dto;
+	}
+	
+	public int adminUpdateAgency(AgencyDTO dto) {
+		int res = sqlSession.update("adminUpdateAgency", dto);
+		return res;
+	}
+	
+	public int adminDeleteAgency(int agency_num) {
+		int res = sqlSession.delete("adminDeleteAgency", agency_num);
+		return res;
+	}
+	
+	public int adminDeleteBrand(int brand_num) {
+		int res = sqlSession.delete("adminDeleteBrand", brand_num);
+		return res;
+	}
+	
+	public int adminDeleteProductCategory(int pc_num) {
+		int res = sqlSession.delete("adminDeleteProductCategory", pc_num);
+		return res;
 	}
 }
