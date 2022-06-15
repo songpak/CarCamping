@@ -1,7 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ include file="../top.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- 
+1. 로그인 했을떄 안했을때 넘어가는 페이지 분리
+2.리스트 다음페이지로 넘기기
+3.리뷰 검색
+4.대여날짜 넘기기
+5.정렬
+※일단 페이지 내에서 할 수 있는 기능부터 구현할것!!
+ -->
 
 <script>
         function popup(){
@@ -11,7 +19,6 @@
             window.open(url, name, option);
         }
         
-       
 		function popup1() {
 			var url = "myPageContactUs.myPage";
 			var name = "popup test";
@@ -21,34 +28,40 @@
     </script>
 
 <!-- 부트스트랩 영역 -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-
-<link rel="stylesheet"
-	href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-
-<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-<!-- 부트스트랩 영역 끝 -->
-
-<html>
-<form name="f" action="mall_cgProdList.do" method="post">
-	<input type="hidden" name="cname" /> <input type="hidden" name="code" />
-</form>
-<body>
-	<div align="center">
-		<table border="1" width="100%" height="100%">
-			<tr height="10%" rowspan="2">
-				<td align="center"><font size="6">withCar</font></td>
-				<td colspan="2" align="center"><a href="">로그인</a>|<a href="">글쓰기</a>
-				</td>
-
-			</tr>
-			<tr height="80%">
-				<td width="20%" valign="top" align="center"><img
-					src="resources/images/carbak1.jpg" width="200" height="200" />
-					<table>
-						<tr>
-							<td><script type="text/javascript">
+<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+		crossorigin="anonymous"> 
+	
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+		
+	<link rel="stylesheet"
+		href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+		
+	<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+	<!-- 부트스트랩 영역 끝 -->
+	 
+<!-- 용품상세보기 영역 -->
+<div class="container-fluid themed-container"
+	style="margin-top: 40px; margin-left: 10%;">
+	<!-- Row Grid -->
+	<div class="row mb-3">
+		<!-- List Column Grid -->
+		<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+			style="width: 280px;">
+			<a href="/"
+				class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+				<svg class="bi me-2" width="40" height="32">
+					<use xlink:href="#bootstrap"></use></svg> <span class="fs-4">용품
+					상세정보</span>
+					
+			<!-- 이미지 영역 -->
+			</a> <img src="resources/images/carbak1.jpg" class="card-img-top" alt="...">
+			<!-- 이미지 영역 끝 -->
+			
+			<script type="text/javascript">
 		$("#mForm").submit(function(){
 			var indate2 = $("#indate1").val();
 			var outdate2 = $("#outdate1").val();
@@ -81,10 +94,12 @@
 		});
 	});
 </script>
-<style>
+
+
+			<style>
 .search-box {
 	width: fit-content;
-	background-color: #ffffff;
+	background-color: 262626;
 	border-radius: 8px;
 	padding: 25px;
 	box-shadow: 0 2px 8px rgb(0 0 0/ 20%);
@@ -107,7 +122,9 @@
 	font-size: 13px;
 }
 </style>
-								<form name="f" action="myPageCart.myPage" method="post">
+
+<!-- 여기서는 날짜 보내주기만 하고 저장은 구매할때 저장 -->
+					<form name="f" action="myPageCart.myPage" method="post">
 									<div style="width: 100%; padding: 50px 0; background: 262626;">
 										<div class="row search-box">
 											<div style="margin-bottom: 10px;">
@@ -124,62 +141,84 @@
 									</div>
 								</form>
 								
-						</tr>
-					</table></td>
-				<td>
-					<div align="center"
-						style="overflow: scroll; width: 100%; height: 100%">
-						<hr color="green" width="100%">
-						<h2>리뷰 리스트</h2>
 
-						<form name="f" method="post">
+		</div>
+		<!-- 용품 상세보기 영역 끝 -->
+    
+		<div class="col-md-8 themed-grid-col" >
+			<div class="row" align="center">
+				<div class="row">
+				</div>
+				<h2>용품 리뷰 목록</h2>
+			</div>
+			<div class="row" align="center" style="overflow: scroll; width: 100%; height: 500">
+				<form name="f" method="post">
 							<select name="search">
 								<option selected value="rp_title">리뷰 제목</option>
 								<option selected value="rp_content">리뷰 내용</option>
 							</select> <input type="text" name="searchString">
 							<button type="submit">검색하기</button>
 						</form>
-						
-						<div align="left">
-							<button onclick="location.href='productView.product'">전체보기</button>
-						</div>
-						<hr color="green" width="100%">
-						<c:if test="${empty ReList}">
-							<b>등록된 리뷰가 없습니다.</b>
-							<br>
-						</c:if>
+						<br><br>
+						<button onclick="location.href='productView.product'">전체보기</button>
 
-						<table border="0" width="100%" align="center">
-							<tr>
-								<c:set var="count" value="0" />
-								<c:forEach items="${ReList}" var="pdto">
-									<td align="center"><img src="resources/images/carbak1.jpg"
-										width="200" height="200"> <br>제목 : ${pdto.rp_title}<br>
-										<font color="red"> <fmt:formatNumber
-												value="${pdto.rp_score}" pattern="###,###" />
-									</font>점<br> <font color="green">${pdto.rp_readCount}</font>번 조회<br>
-										<a href="javascript:popup()"><button type="button"
-												class="btn btn-primary" data-bs-toggle="modal">내용보기</button></a>
-									</td>
-									<c:set var="count" value="${count+1}" />
-
-									<c:if test="${count%3==0}">
-							</tr>
-							<tr>
-							</c:if>
-							</c:forEach>
-							</tr>
-						</table>
-					</div>
-				</td>
-			</tr>
+			<!-- 본문 -->
+			<c:if test="${empty ReList}">
+			<table class="table table-borderless" >
 			<tr>
-				<td colspan="2" align="center">Copyright © 2022 <a href="#">WITHCAR
-						Co.</a> Ltd. All Rights Reserved. <br> Design: <a href="#">WITHCAR
-						DESIGN TEAM</a> <br> MADE BY: <a href="#">WITHCAR TEAM</a></td>
+				<td>
+					<div class="card" style="width: 18rem;">
+						<!-- 리뷰리스트 이미지 영역 -->
+							<img src="resources/images/carbak4.jpg" class="card-img-top">
+							<!-- 리뷰리스트 이미지 영역 끝 -->
+							<div class="card-body">
+								<h5 class="card-title">리뷰 없음</h5>
+								<p class="card-text">
+									<label for="disabledRange" class="form-label">없음</label> <input
+										type="range" class="form-range" id="disabledRange" disabled>
+									조회수|좋아요 개수<br>작성일
+								</p>
+								<a href="javascript:popup()"><button type="button"
+										class="btn btn-primary" data-bs-toggle="modal">없음</button></a>
+							</div>
+						</div>
+					</td>
 			</tr>
-		</table>
+			</table>
+			</c:if>
+					<table class="table table-borderless" >
+				<tr>
+				<c:set var="count" value="0" />
+				<c:forEach items="${ReList}" var="pdto">
+					<td>
+						<div class="card" style="width: 18rem;">
+						<!-- 리뷰리스트 이미지 영역 -->
+							<img src="resources/images/carbak4.jpg" class="card-img-top">
+							<!-- 리뷰리스트 이미지 영역 끝 -->
+							<div class="card-body">
+								<h5 class="card-title">${pdto.rp_title}</h5>
+								<p class="card-text">
+									<label for="disabledRange" class="form-label">${pdto.rp_score}|${pdto.rp_likeCount}</label> <input
+										type="range" class="form-range" id="disabledRange" disabled>
+									${pdto.rp_readCount}|${pdto.rp_likeCount}<br>${pdto.rp_sysdate}
+								</p>
+								<a href="javascript:popup()"><button type="button"
+										class="btn btn-primary" data-bs-toggle="modal">내용</button></a>
+							</div>
+						</div>
+					</td>
+					<c:set var="count" value="${count+1 }"/>
+					<c:if test="${count%3==0 }">
+					</tr>
+					<tr>
+					</c:if>
+					</c:forEach>
+					</tr>
+					</table>
+				</div>
+			</div>			
+		</div>
 	</div>
-</body>
-</html>
 
+
+<%@include file="../bottom.jsp"%>
