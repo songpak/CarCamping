@@ -37,15 +37,15 @@
   						<br>로그인 후 반드시 비밀번호를 변경하시기 바랍니다.</p>
   					</div>
   					<div class="col-md-8 col-md-offset-3">
-  						<form id="contact" method="post" class="form" role="form">
+  						<form id="contact" method="post" class="form" role="form" action="findID.login"> 
 							<div class="row">
 								<div class="col-md-6 form-group">
-									<input class="form-control" id="id" name="id" placeholder="ID" type="text" required />
+									<input class="form-control" id="id" name="mem_id" placeholder="ID" type="text" required />
 								</div>
 								</div>
 								<div class="row">
 								<div class="col-md-6 form-group">
-									<input class="form-control" id="email" name="email" placeholder="Email" type="email" required />
+									<input class="form-control" id="email" name="mem_email" placeholder="Email" type="email" required />
 								</div>
 							</div>
 							<br />

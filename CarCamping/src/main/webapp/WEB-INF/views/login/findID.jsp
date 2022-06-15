@@ -36,15 +36,15 @@
   						<p class="section-description">회원가입 시 입력하신 이름 + 이메일로 아이디를 확인하실 수 있습니다.</p>
   					</div>
   					<div class="col-md-8 col-md-offset-3">
-  						<form id="contact" method="post" class="form" role="form">
+  						<form id="contact" method="post" class="form" role="form" action="findID.login">
 							<div class="row">
 								<div class="col-md-6 form-group">
-									<input class="form-control" id="name" name="name" placeholder="이름" type="text" required />
+									<input class="form-control" id="name" name="mem_userName" placeholder="이름" type="text" required />
 								</div>
 								</div>
 								<div class="row">
 								<div class="col-md-6 form-group">
-									<input class="form-control" id="email" name="email" placeholder="Email" type="email" required />
+									<input class="form-control" id="email" name="mem_email" placeholder="Email" type="email" required />
 								</div>
 							</div>
 							<br />

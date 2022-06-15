@@ -22,7 +22,7 @@ public class MemberMapper {
 
    public String searchMemberID(Map<String, String> params) {
       String sql = null;
-      sql = "select * from Member where mem_name='"+params.get("mem_name") 
+      sql = "select * from Member where mem_userName='"+params.get("mem_userName") 
                + "' and mem_email='"+params.get("mem_email")+"'";
             params.put("sql", sql);
             MemberDTO dto = sqlSession.selectOne("searchMemberID", params);

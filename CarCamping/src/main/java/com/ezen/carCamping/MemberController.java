@@ -31,17 +31,17 @@ public class MemberController {
       return "login/login";
    }
 
-   @RequestMapping("/findID.login")
+   @RequestMapping(value="findID.login", method=RequestMethod.GET)
    public String searchMemberID() {
       return "login/findID";
    }
    
-   @RequestMapping("/findPW.login")
+   @RequestMapping(value="findPW.login", method=RequestMethod.GET)
    public String searchMemberPW() {
       return "login/findPW";
    }
    
-   @RequestMapping("/checkMemberID.login")
+   @RequestMapping(value="findID.login", method=RequestMethod.POST)
    public String checkMemberID(HttpServletRequest req, 
                            @RequestParam Map<String, String> params) {
       String msg = memberMapper.searchMemberID(params);
@@ -51,7 +51,7 @@ public class MemberController {
       return "message";
    }
    
-   @RequestMapping("/checkMemberPW.login")
+   @RequestMapping(value="findPW.login", method=RequestMethod.POST)
    public String checkMemberPW(HttpServletRequest req, 
                            @RequestParam Map<String, String> params) {
       String msg = memberMapper.searchMemberPW(params);
@@ -116,4 +116,15 @@ public class MemberController {
        }
       return "message";
    }
+   
+   @RequestMapping("/logout.login")
+   public String logout(HttpServletRequest req) {
+	   HttpSession session = req.getSession();
+	   	session.invalidate();
+		req.setAttribute("msg", "로그아웃 되었습니다.");
+		req.setAttribute("url", "index.do");
+		return "message";
+	   
+   }
+   
 }

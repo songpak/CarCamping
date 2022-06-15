@@ -21,27 +21,27 @@
             <form class="form-signin" method="post" action="login.login">
               <div class="form-label-group">
             <nobr>
-			<c:if test="${empty cookie.saveId}">			
-					<input type="checkbox" name="saveId">
-			</c:if>
-			<c:if test="${not empty cookie.saveId}">
-					<input type="checkbox" name="saveId" checked>
-			</c:if>					
-					<font face="굴림" size="2">아이디 기억하기</font>
-				</nobr>
+         <c:if test="${empty cookie.saveId}">         
+               <input type="checkbox" name="saveId">
+         </c:if>
+         <c:if test="${not empty cookie.saveId}">
+               <input type="checkbox" name="saveId" checked>
+         </c:if>               
+               <font face="굴림" size="2">아이디 기억하기</font>
+            </nobr>
             
               <c:if test="${empty cookie.saveId}">
                 <input type="text" id="id" name="mem_id" class="form-control" placeholder="ID" required autofocus>
-              	</c:if></div>
-				<c:if test="${not empty cookie.saveId}">
-				<input type="text" name="id" tabindex="1" value="${cookie.saveId.value}">
-			</c:if>				
-			<div class="row">
-			<p>
-			<p>
-			</div>
-			
-			
+                 </c:if></div>
+            <c:if test="${not empty cookie.saveId}">
+            <input type="text" name="mem_id" tabindex="1" value="${cookie.saveId.value}">
+         </c:if>            
+         <div class="row">
+         <p>
+         <p>
+         </div>
+         
+         
               <div class="form-label-group">
                 <input type="password" id="pwd" name="mem_password" class="form-control" placeholder="Password" required>
               </div>
@@ -68,14 +68,14 @@
   
   <script type="text/javascript">
   function findID(){
-		var url="findID.login";
-		
-		window.open(url, "_blank_1", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=500, height=500");
-	}
+      var url="findID.login";
+      
+      window.open(url, "_blank_1", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=500, height=400");
+   }
   
   function findPW(){
-	  var url="findPW.login";
-	  
-	  window.open(url, "_blank_1", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=500, height=500");
+     var url="findPW.login";
+     
+     window.open(url, "_blank_1", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=500, height=400");
   }
   </script>
