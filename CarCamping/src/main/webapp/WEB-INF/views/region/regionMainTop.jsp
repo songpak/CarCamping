@@ -138,7 +138,7 @@
 							</div>
 						</div>
 					</div>
-					<form name="hotRegionLocation" action="goRegionHotLocList.region" method="post">
+					<form name="hotRegionLocation" action="regionHotLocList.region" method="post">
 						<input type="hidden" name="region_num"/>
 					</form>
 								

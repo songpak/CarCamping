@@ -2,6 +2,7 @@ package com.ezen.carCamping.service;
 
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,21 @@ import org.springframework.stereotype.Service;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
+
 @Service
-public class RegionMapper {
+public class RegionMapper{
 
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private static Hashtable<String,List<CarCampingRegionDTO>> instance = new Hashtable<>();
+	private static Hashtable<String,List<CarCampingRegionDTO>> ht = new Hashtable<>();
 	
 	public static Hashtable<String,List<CarCampingRegionDTO>> getInstance(){
-		return instance;
+		/*
+		 * for(int i=1;i<=9;i++) {
+		 * ht.put(String.valueOf(i),listCarCampingRegionHotRegion(i)); }
+		 */
+		return ht;
 	}
 	
 	public List<RegionDTO> listRegion() {
@@ -45,4 +51,24 @@ public class RegionMapper {
 		List<CarCampingRegionDTO> list = sqlSession.selectList("listRecommandRegion");
 		return list;
 	}
+	
+	public CarCampingRegionDTO selectRegionByCcrnum(int ccr_num) {
+		CarCampingRegionDTO dto = (CarCampingRegionDTO)sqlSession.selectOne("selectRegionByCcrnum",ccr_num);
+		return dto;
+	}
+	
+	public List<ReviewRegionDTO> listCcrReview(int ccr_num , int startRow , int endRow){
+		Map<String,Integer> map = new Hashtable<>();
+		map.put("ccr_num",ccr_num);
+		map.put("startRow",startRow);
+		map.put("endRow",endRow);
+		List<ReviewRegionDTO> list = sqlSession.selectList("listCcrReview", map);
+		System.out.println("RegionMapper list size : "+list.size());
+		return list;
+	}
+	public int countReviewCcrnum(int ccr_num) {
+		int count = (int)sqlSession.selectOne("countReviewCcrnum", ccr_num);
+		return count;
+	}
+	
 }
