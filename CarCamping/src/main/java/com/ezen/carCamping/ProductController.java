@@ -1,23 +1,16 @@
 package com.ezen.carCamping;
 
-import java.io.File;  
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.service.ProductMapper;

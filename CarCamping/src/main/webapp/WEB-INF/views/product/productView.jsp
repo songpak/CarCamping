@@ -200,9 +200,9 @@
 							<div class="card-body">
 								<h5 class="card-title">${pdto.rp_title}</h5>
 								<p class="card-text">
-									<label for="disabledRange" class="form-label">${pdto.rp_score}|${pdto.rp_likeCount}</label> <input
+									<label for="disabledRange" class="form-label">평점 : ${pdto.rp_score}</label> <input
 										type="range" class="form-range" id="disabledRange" disabled>
-									${pdto.rp_readCount}|${pdto.rp_likeCount}<br>${pdto.rp_sysdate}
+									조회수 : ${pdto.rp_readCount}&nbsp;&nbsp; | &nbsp;&nbsp;좋아요 : ${pdto.rp_likeCount}<br>작성일 : ${pdto.rp_sysdate}
 								</p>
 								<a href="javascript:popup()"><button type="button"
 										class="btn btn-primary" data-bs-toggle="modal">내용</button></a>
