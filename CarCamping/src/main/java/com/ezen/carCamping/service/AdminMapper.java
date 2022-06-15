@@ -1,5 +1,6 @@
 package com.ezen.carCamping.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezen.carCamping.dto.AgencyDTO;
+import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
+import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 
 @Service
@@ -76,6 +79,29 @@ public class AdminMapper {
 	
 	public int adminDeleteAgency(int agency_num) {
 		int res = sqlSession.delete("adminDeleteAgency", agency_num);
+		return res;
+	}
+	
+	////////////////////////////////////////카테고리/////////////////////////////////////
+	public List<BrandCategoryDTO> adminListBrand(){
+		List<BrandCategoryDTO> adminListBrand = sqlSession.selectList("adminListBrand");
+		return adminListBrand;
+	}
+	
+	public List<ProductCategoryDTO> adminListProductCategoty(){
+		List<ProductCategoryDTO> adminListProductCategory = sqlSession.selectList("adminListProductCategory");
+		return adminListProductCategory;
+	}
+	
+	public int adminInsertCategory(HashMap<String,String> map) {
+		int res = 0;
+		String name = map.get("name");
+		if (map.get("category").equals("brand")) {
+			res = sqlSession.insert("adminInsertBrand",name);
+		}
+		else {
+			res = sqlSession.insert("adminInsertProductCategory",name);
+		}
 		return res;
 	}
 	

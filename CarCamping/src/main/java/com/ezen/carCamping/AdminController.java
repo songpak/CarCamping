@@ -3,6 +3,7 @@ package com.ezen.carCamping;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ezen.carCamping.dto.AgencyDTO;
+import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
+import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.service.AdminMapper;
 
@@ -310,12 +313,40 @@ public class AdminController {
 		mav.addObject("url", url);
 		return mav;
 	}
+	///////////////////////////////////////////카테고리/////////////////////////////////////////////////
 	
 	@RequestMapping("/adminCategory.admin")
-	public String adminCategory() {
+	public String adminCategory(HttpServletRequest req,@RequestParam(required=false) String category) {
+		List<BrandCategoryDTO> adminListBrand = adminMapper.adminListBrand();
+		req.setAttribute("adminListBrand", adminListBrand);
+		List<ProductCategoryDTO> adminListProductCategory = adminMapper.adminListProductCategoty();
+		req.setAttribute("adminListProductCategory", adminListProductCategory);
 		
 		return "admin/adminCategory";
 	}
+	@RequestMapping(value="/adminInsertCategory.admin", method=RequestMethod.GET)
+	public String adminInsertCategory() {
+		return "admin/adminRegisterCategory";
+	}
+	
+	
+	@RequestMapping(value="/adminInsertCategory.admin", method=RequestMethod.POST)
+	public ModelAndView adminInsertCategoryPro(@RequestParam HashMap<String,String> map) {
+		int res = adminMapper.adminInsertCategory(map);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "카테고리가 등록되었습니다.";
+			url = "adminCategory.admin";
+		}else {
+			msg = "카테고리 등록이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminCategory.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
 	@RequestMapping("/adminDeleteBrand.admin")
 	public ModelAndView adminDeleteBrand(int brand_num) {
 		int res = adminMapper.adminDeleteBrand(brand_num);

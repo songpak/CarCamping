@@ -101,6 +101,21 @@
 	</delete>
 	
 	<!-- ///////////////////////////////카테고리////////////////////////////////////// -->
+	<select id="adminListBrand" resultType="BrandCategoryDTO">
+		select * from BrandCategory
+	</select> 
+	<select id="adminListProductCategory" resultType="ProductCategoryDTO">
+		select * from ProductCategory
+	</select>
+	
+	<insert id="adminInsertBrand" parameterType="String">
+		insert into BrandCategory(brand_name) values(#{name})
+	</insert>
+	
+	<insert id="adminInsertProductCategory" parameterType="String">
+		insert into ProductCategory(pc_name) values(#{pc_name})
+	</insert>
+	
 	<delete id="adminDeleteBrand" parameterType="int">
 		delete from BrandCategory where brand_num = #{brand_num}
 	</delete>
