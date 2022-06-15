@@ -12,28 +12,45 @@
 	</select> 
 	
 	<select id="listCarCampingRegionHotRegion" parameterType="Integer" resultType="CarCampingRegionDTO"> <!-- 지역별 차박지 HOT차박지  -->
-		select * from songsama.CarCampingRegion,Region where Region.region_num = #{region_num} and CarCampingRegion.region_num = Region.region_num and CarCampingRegion.ccr_popular = 0 order by ccr_reviewCount + ccr_likeCount + ccr_score desc limit 4
+		select * from CarCampingRegion,Region where Region.region_num = #{region_num} and CarCampingRegion.region_num = Region.region_num and CarCampingRegion.ccr_popular = 0 order by ccr_reviewCount + ccr_likeCount + ccr_score desc limit 4
 	</select>
 	
 	<select id="listHotRegion" resultType="CarCampingRegionDTO"> <!-- HOT 차박지 -->
-		select * from songsama.CarCampingRegion where ccr_popular = 0 order by ccr_reviewCount + ccr_likeCount + ccr_score desc limit 10
+		select * from CarCampingRegion where ccr_popular = 0 order by ccr_reviewCount + ccr_likeCount + ccr_score desc limit 10
 	</select>
 	
 	<select id="listRecommandRegion" resultType="CarCampingRegionDTO"> <!-- 추천 차박지 -->
-		SELECT * FROM songsama.CarCampingRegion where ccr_popular=1 and ccr_score>=4 order by ccr_score desc limit 10
+		SELECT * FROM CarCampingRegion where ccr_popular=1 and ccr_score>=4 order by ccr_score desc limit 10
 	</select>
 	
 	<select id="selectRegionByCcrnum" parameterType="Integer" resultType="CarCampingRegionDTO">
-		select * from songsama.CarCampingRegion where ccr_num = #{ccr_num} 
+		select * from CarCampingRegion where ccr_num = #{ccr_num} 
 	</select>
 	
 	<select id="listCcrReview" parameterType="Map" resultType="ReviewRegionDTO">
 	 	<!-- //select * from songsama.ReviewRegion,songsama.CarCampingRegion where ReviewRegion.ccr_num=#{ccr_num} and ReviewRegion.ccr_num=CarCampingRegion.ccr_num and ReviewRegion.review_adminConfirm=0 -->
-		select c.* from (select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by review_num) c limit #{startRow},#{endRow};
+		select c.* from (select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by ${orderBy} desc) c limit #{startRow},#{endRow};
 	</select>
 	
 	<select id="countReviewCcrnum" parameterType="Integer" resultType="Integer">
 		select count(*) from songsama.ReviewRegion,songsama.CarCampingRegion where ReviewRegion.ccr_num=#{ccr_num} and ReviewRegion.ccr_num=CarCampingRegion.ccr_num and ReviewRegion.review_adminConfirm=0
 	</select>
 	
+	<!-- 차박지 : 좋아요 클릭 시 종아요 수 증가-->
+	<update id="addLikeCountRegion" parameterType="Integer">
+		update CarCampingRegion set ccr_likeCount=ccr_likeCount+1 where ccr_num=#{ccr_num};
+	</update>
+	<!-- 차박지 : 좋아요 다시 클릭시 좋아요 수 감소 -->
+		<update id="subLikeCountRegion" parameterType="Integer">
+		update CarCampingRegion set ccr_likeCount=ccr_likeCount-1 where ccr_num=#{ccr_num};
+	</update>
+	
+	<!-- 차박지 리뷰 : 좋아요 클릭 시 종아요 수 증가-->
+	<update id="addLikeCountReview" parameterType="Integer">
+		update ReviewRegion set review_likeCount=review_likeCount+1 where review_num=#{review_num};
+	</update>
+	<!-- 차박지 리뷰: 좋아요 다시 클릭시 좋아요 수 감소 -->
+	<update id="subLikeCountReview" parameterType="Integer" >
+		update ReviewRegion set review_likeCount=review_likeCount-1 where review_num=#{review_num};
+	</update>
 </mapper>

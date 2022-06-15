@@ -26,6 +26,9 @@
 
 
 <style>
+html, body{
+	background: white;
+}
 body {
 	background: white;
 }
@@ -37,10 +40,10 @@ body {
 	margin-bottom: 0px;
 }
 
-section {
+/* section {
 	margin-top: 30px;
 	margin-bottom: 50px;
-}
+} */
 
 #regionInfo li {
 	width: 100%;
@@ -79,7 +82,7 @@ section {
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
 	crossorigin="anonymous"></script>
 
-
+		
 
 <div class="container-fluid themed-container" style="margin-left: 55px;">
 	<!-- Row Grid -->
@@ -102,11 +105,19 @@ section {
     </div>
   </div>
   -->
+		<script>
+		function Like_function(ccr_num){
+			location.href="regionLike.region?ccr_num="+ccr_num;
+			console.log("좋아요 클릭");
+		}			
+				
+		</script>
 	
+			
 		
 		<!-- List Column Grid -->
 		<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
-			style="width: 332px; padding-left: 0px; padding-bottom: 0px; padding-right: 0px; padding-top: 0px; height: 632px; margin-right: 150px;">
+			style="width: 332px; padding-left: 0px; padding-bottom: 0px; padding-right: 0px; padding-top: 0px; height: 632px; margin-right: 86px;margin-top: 50px;">
 			<span class="fs-4 text-center" style="height: 40px;">
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#regionContent">${regionSelected.ccr_name}</button>
@@ -120,7 +131,7 @@ section {
 				<li
 					class="list-group-item d-flex justify-content-between align-items-center">
 					좋 아 요
-					<button type="button" class="btn btn-danger rounded-pill"
+					<button type="button" class="btn btn-danger rounded-pill" onclick="Like_function(${regionSelected.ccr_num});"
 						style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px;">
 						${regionSelected.ccr_likeCount}
 						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
@@ -129,6 +140,10 @@ section {
 								d="M11.5 1.246c.832-.855 2.913.642 0 2.566-2.913-1.924-.832-3.421 0-2.566ZM9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4Zm13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276ZM15 2.165c.555-.57 1.942.428 0 1.711-1.942-1.283-.555-2.281 0-1.71Z"></path></svg>
 					</button>
 				</li>
+				
+				
+				
+				
 				<li id="viewCount"
 					class="list-group-item d-flex justify-content-between align-items-center">
 					리 뷰 수
@@ -157,7 +172,15 @@ section {
 					class="list-group-item d-flex justify-content-between align-items-center">
 					차량접근
 					<div>
-						<p>${regionSelected.ccr_car}</p>
+						<c:choose>
+						 <c:when test="${regionSelected.ccr_car}>0">
+						 	<p>불가능</p>
+						 </c:when>
+						 <c:otherwise>
+						 	<p>가능</p>
+						 </c:otherwise>
+						</c:choose>
+						
 					</div>
 				</li>
 				<li
@@ -171,35 +194,74 @@ section {
 					class="list-group-item d-flex justify-content-between align-items-center">
 					샤워실
 					<div>
-						<p>${regionSelected.ccr_restroom}</p>
+						<c:choose>
+						 <c:when test="${regionSelected.ccr_restroom}>0">
+						 		<p>없음</p>
+						 </c:when>
+						 <c:otherwise>
+						 	<p>있음</p>
+						 </c:otherwise>
+						</c:choose>
+						
 					</div>
 				</li>
 				<li
 					class="list-group-item d-flex justify-content-between align-items-center">
 					화장실
 					<div>
-						<p>${regionSelected.ccr_toilet}</p>
+						<c:choose>
+						 <c:when test="${regionSelected.ccr_toilet}>0">
+						 		<p>없음</p>
+						 </c:when>
+						 <c:otherwise>
+						 	<p>있음</p>
+						 </c:otherwise>
+						</c:choose>
+						
 					</div>
 				</li>
 				<li
 					class="list-group-item d-flex justify-content-between align-items-center">
 					주변상점
 					<div>
-						<p>${regionSelected.ccr_market}</p>
+						<c:choose>
+						 <c:when test="${regionSelected.ccr_market}>0">
+						 	<p>없음</p>
+						 </c:when>
+						 <c:otherwise>
+						 	<p>있음</p>
+						 </c:otherwise>
+						</c:choose>
+						
 					</div>
 				</li>
 				<li
 					class="list-group-item d-flex justify-content-between align-items-center">
 					수도시설
 					<div>
-						<p>${regionSelected.ccr_water}</p>
+						<c:choose>
+						 <c:when test="${regionSelected.ccr_water}>0">
+						 	<p>없음</p>
+						 </c:when>
+						 <c:otherwise>
+						 	<p>있음</p>
+						 </c:otherwise>
+						</c:choose>
 					</div>
 				</li>
 				<li
 					class="list-group-item d-flex justify-content-between align-items-center">
 					하천
 					<div>
-						<p>${regionSelected.ccr_river}</p>
+						<c:choose>
+						 <c:when test="${regionSelected.ccr_river}>0">
+						 	<p>없음</p>
+						 </c:when>
+						 <c:otherwise>
+						 	<p>있음</p>
+						 </c:otherwise>
+						</c:choose>
+						
 					</div>
 				</li>
 				<li
@@ -241,8 +303,9 @@ section {
 						<button type="button" class="btn btn-primary dropdown-toggle"
 							data-bs-toggle="dropdown" aria-expanded="false">정렬</button>
 						<ul class="dropdown-menu" style="">
-							<li><a class="dropdown-item" href="#">평점순</a></li>
-							<li><a class="dropdown-item" href="#">최신순</a></li>
+							<li><a class="dropdown-item" href="regionView.region?ccr_num=${regionSelected.ccr_num}&orderBy=newly">최신순</a></li>
+							<li><a class="dropdown-item" href="regionView.region?ccr_num=${regionSelected.ccr_num}&orderBy=likeCount">좋아요순</a></li>
+							<li><a class="dropdown-item" href="regionView.region?ccr_num=${regionSelected.ccr_num}&orderBy=regionScore">평점순</a></li>
 						</ul>
 					</div>
 				</div>
@@ -306,108 +369,25 @@ section {
 					</td>
 					
 					</c:forEach>
-					<%-- <td>
-						<div class="card border-success" style="width: 18rem;">
-							<img src="resources/images/sik.jpg" class="card-img-top"
-								style="width: 286px; height: 200px;">
-							<div class="card-body">
-								<div class="card-body">
-									<h5 class="card-title">리뷰제목</h5>
-									<p class="card-text">리뷰내용</p>
-								</div>
-								<ul class="list-group list-group-flush">
-									<li class="list-group-item">별점
-										(${regionSelected.ccr_score}/5)
-										<fieldset style="float: right;">
-											<label for="rate1">⭐</label>
-											<!-- 스위치 케이스 -->
-											<label for="rate2">⭐</label> <label for="rate3">⭐</label> <label
-												for="rate4">⭐</label> <label for="rate5">⭐</label>
-										</fieldset>
-									</li>
-									<li class="list-group-item d-flex justify-content-between align-items-center">
-									조회수
-									<div><p>숫자</p></div>
-									</li>
-									<li class="list-group-item d-flex justify-content-between align-items-center">
-									좋아요
-									<div><p>숫자</p></div>
-									</li>
-								</ul>
-								<div class="card-body">
-									<a href="javascript:popup()"><button type="button" class="btn btn-primary" style="width:100%;">내용</button></a>
-								</div>
-							</div>
-						</div>
-					</td> --%>
-
 				</tr>
 			</table>
 
 			
-			<c:set var="rowCount" value="${rowCount }"/>
-			<c:set var="pageSize" value="${pageSize}"/>
-			<c:set var="currentPage" value="${currentPage}"/>
-			
 			<nav aria-label="Page navigation example">
-			
 				<ul class="pagination justify-content-center">
 					<c:if test="${rowCount>0 }">
-				<c:choose>  
-  				  <c:when test="${rowCount%pageSize==0}">  
-      				<c:set var="pageCountVar" value="0"/>	
-  				  </c:when>  
-   				  <c:otherwise>  
-					<c:set var="pageCountVar" value="1"/>
-    			 </c:otherwise>  
-				</c:choose>  
-				
-				<c:set var="pageCount" value="${rowCount/pageSize+pageCountVar }"/>
-				<c:set var="pageBlock" value="3"/>
-				<c:set var="startPage " value="${(currentPage - 1)/pageBlock  * pageBlock + 1 }"/>
-				<c:set var="endPage " value="${startPage + pageBlock - 1 }"/>
-				
-				
-				<c:if test="${startPage > pageBlock }">
-					<li class="page-item"><a class="page-link" href="regionView.region?ccr_num=${regionSelected.ccr_num}&?pageNum=${startPage-1}">Previous</a></li>
-				</c:if>
-				<c:forEach var="i" begin="${startPage}" end="${endPage}">
-					<li class="page-item"><a class="page-link" href="regionView.region?ccr_num=${regionSelected.ccr_num}&?pageNum=${i}"><c:out value="${i+1}"/></a></li>
-				</c:forEach>
-				<c:if test="${endPage < pageCount }">
-					<li class="page-item"><a class="page-link" href="regionView.region?ccr_num=${regionSelected.ccr_num}&?pageNum=${endPage+1}">Next</a></li>
-				</c:if>
-			</c:if>
+						<c:if test="${startPage>1}">
+						<li class="page-item"><a class="page-link" href="regionView.region?ccr_num=${regionSelected.ccr_num}&pageNum=${startPage-1}&orderBy=${orderBy}">Previous</a></li>		
+						</c:if>
+						<c:forEach var="i" begin="${startPage}" end="${endPage}">
+						<li class="page-item"><a class="page-link" href="regionView.region?ccr_num=${regionSelected.ccr_num}&pageNum=${i}&orderBy=${orderBy}"><c:out value="${i}"/></a></li>
+						</c:forEach>
+				 		<c:if test="${endPage < pageCount }">
+						<li class="page-item"><a class="page-link" href="regionView.region?ccr_num=${regionSelected.ccr_num}&pageNum=${endPage+1}&orderBy=${orderBy}">Next</a></li>
+						</c:if> 
+					</c:if>
 				</ul>
 			</nav>
 		</div>
 	</div>
-
-
-
-
-	<!--  		<div class="modal fade modal-dialog modal-dialog-scrollable modal-dialog-centered" id="regionContent" tabindex="-1" aria-labelledby="regionContentLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-	-->
 	<%@include file="../bottom.jsp"%>
-</div>
-
-
-
-
-
-

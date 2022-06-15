@@ -18,9 +18,9 @@ public class RegionMapper{
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private static Hashtable<String,List<CarCampingRegionDTO>> ht = new Hashtable<>();
+	private static Hashtable<String,Object> ht = new Hashtable<>();
 	
-	public static Hashtable<String,List<CarCampingRegionDTO>> getInstance(){
+	public static Hashtable<String,Object> getInstance(){
 		/*
 		 * for(int i=1;i<=9;i++) {
 		 * ht.put(String.valueOf(i),listCarCampingRegionHotRegion(i)); }
@@ -57,11 +57,12 @@ public class RegionMapper{
 		return dto;
 	}
 	
-	public List<ReviewRegionDTO> listCcrReview(int ccr_num , int startRow , int endRow){
-		Map<String,Integer> map = new Hashtable<>();
+	public List<ReviewRegionDTO> listCcrReview(int ccr_num , int startRow , int endRow,String orderBy){
+		Map<String,Object> map = new Hashtable<>();
 		map.put("ccr_num",ccr_num);
 		map.put("startRow",startRow);
 		map.put("endRow",endRow);
+		map.put("orderBy",orderBy);
 		List<ReviewRegionDTO> list = sqlSession.selectList("listCcrReview", map);
 		System.out.println("RegionMapper list size : "+list.size());
 		return list;
@@ -69,6 +70,23 @@ public class RegionMapper{
 	public int countReviewCcrnum(int ccr_num) {
 		int count = (int)sqlSession.selectOne("countReviewCcrnum", ccr_num);
 		return count;
+	}
+	
+	public int addLikeCountRegion(int ccr_num) {
+		int res = sqlSession.update("addLikeCountRegion", ccr_num);
+		return res;
+	}
+	public int subLikeCountRegion(int ccr_num) {
+		int res = sqlSession.update("subLikeCountRegion", ccr_num);
+		return res;
+	}
+	public int addLikeCountReview(int review_num) {
+		int res = sqlSession.update("addLikeCountReview", review_num);
+		return res;
+	}
+	public int subLikeCountReview(int review_num) {
+		int res = sqlSession.update("subLikeCountReview", review_num);
+		return res;
 	}
 	
 }
