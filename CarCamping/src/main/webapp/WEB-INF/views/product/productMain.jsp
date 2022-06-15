@@ -64,7 +64,7 @@
 					<c:forEach items="${popList}" var="pdto">
 						<div class="swiper-slide">
 							<a href="productView.product?prod_num=${pdto.prod_num}">
-								${pdto.prod_viewImage1} <br> ${pdto.prod_name}
+								<img src="${pdto.prod_viewImage1}"> <br> ${pdto.prod_name}
 							</a>
 							<!-- 이부분 수정하시면 됩니다 -->
 						</div>
@@ -143,7 +143,7 @@
 
 									<c:forEach items="${listProduct}" var="pdto">
 										<div class="card" style="width: 18rem;">
-											<a href="productView.product?prod_num=${pdto.prod_num}">${pdto.prod_viewImage1}</a>
+											<a href="productView.product?prod_num=${pdto.prod_num}"><img src="${pdto.prod_viewImage1}"></a>
 											<div class="card-body">
 												<p class="card-text">${pdto.prod_name}</p>
 											</div>

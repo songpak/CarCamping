@@ -12,12 +12,10 @@
  -->
 
 <script>
-        function popup(){
-            var url = "productReviewView.product";
-            var name = "popup test";
-            var option = "width = 800, height = 1000, top = 100, left = 200, location = no"
-            window.open(url, name, option);
-        }
+function fn_account(val){
+	window.open("<c:url value='productReviewView.product?rp_num="+val+"'/>",  
+				"soyoInfoPop" ,"height=1000,width=700,top=100,left=200,scrollbars=yes,resizable=yes");
+}
         
 		function popup1() {
 			var url = "myPageContactUs.myPage";
@@ -153,7 +151,7 @@
 				</div>
 				<h2>용품 리뷰 목록</h2>
 			</div>
-			<div class="row" align="center" style="overflow: scroll; width: 100%; height: 500">
+			<div class="row" align="center" style="overflow: scroll; width: 100%; height:94%">
 				<form name="f" method="post">
 							<select name="search">
 								<option selected value="rp_title">리뷰 제목</option>
@@ -195,7 +193,7 @@
 					<td>
 						<div class="card" style="width: 18rem;">
 						<!-- 리뷰리스트 이미지 영역 -->
-							<img src="resources/images/carbak4.jpg" class="card-img-top">
+							<img src="${pdto.rp_image1}">
 							<!-- 리뷰리스트 이미지 영역 끝 -->
 							<div class="card-body">
 								<h5 class="card-title">${pdto.rp_title}</h5>
@@ -204,8 +202,8 @@
 										type="range" class="form-range" id="disabledRange" disabled>
 									조회수 : ${pdto.rp_readCount}&nbsp;&nbsp; | &nbsp;&nbsp;좋아요 : ${pdto.rp_likeCount}<br>작성일 : ${pdto.rp_sysdate}
 								</p>
-								<a href="javascript:popup()"><button type="button"
-										class="btn btn-primary" data-bs-toggle="modal">내용</button></a>
+								<input type="submit" value ="내용"  onclick="fn_account(${pdto.rp_num}); return false;" />
+										
 							</div>
 						</div>
 					</td>
