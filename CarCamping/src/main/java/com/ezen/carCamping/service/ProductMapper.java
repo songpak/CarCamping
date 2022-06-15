@@ -16,19 +16,35 @@ public class ProductMapper {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	public List<ProductDTO>listProduct(){
+		List<ProductDTO>list= sqlSession.selectList("listProduct");
+		return list; 
+	}
+	public List<ProductDTO> findProduct(String search, String searchString){
+		java.util.Map<String,String> map = new Hashtable<String, String>();
+		System.out.println(map);
+		map.put("search", search);
+		map.put("searchString", searchString);
+		List<ProductDTO>list = sqlSession.selectList("findProduct",map);
+		return list;
+	}
+	
+	public List<ProductDTO> popularProduct() {//인기용품 리스트
+		List<ProductDTO> popList = sqlSession.selectList("popularProd");
+		return popList;
+	}
+	
+	public ProductDTO getProduct(int prod_num) {
+		ProductDTO dto = sqlSession.selectOne("getProduct", prod_num);
+		if(dto != null)
+			return dto;
+		else
+			return null;
+	}
+	
 	public List<ReviewProductDTO>listProdReview(){
 		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview");
 		return list; 
-	}
-	
-	public int getReviewCount() {
-		int res = sqlSession.selectOne("getReviewCount");
-		return res;
-	}
-	
-	public List<ReviewProductDTO>listReviewProduct(int startRow, int endRow) {
-		List<ReviewProductDTO>list = sqlSession.selectList("paging");
-		return list;
 	}
 	
 	public List<ReviewProductDTO> findReview(String search, String searchString) {

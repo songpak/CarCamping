@@ -55,10 +55,12 @@
 				class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 				<svg class="bi me-2" width="40" height="32">
 					<use xlink:href="#bootstrap"></use></svg> <span class="fs-4">용품
-					상세정보</span>
+					상세정보</span></a>
 					
 			<!-- 이미지 영역 -->
-			</a> <img src="resources/images/carbak1.jpg" class="card-img-top" alt="...">
+			<div align="center">
+			 <h4>${getProduct.prod_viewImage1}</h4>
+			 </div>
 			<!-- 이미지 영역 끝 -->
 			
 			<script type="text/javascript">
@@ -160,7 +162,7 @@
 							<button type="submit">검색하기</button>
 						</form>
 						<br><br>
-						<button onclick="location.href='productView.product'">전체보기</button>
+						
 
 			<!-- 본문 -->
 			<c:if test="${empty ReList}">

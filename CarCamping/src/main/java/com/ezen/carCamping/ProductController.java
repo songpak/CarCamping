@@ -29,12 +29,27 @@ public class ProductController {
 	private ProductMapper productMapper;
 	  
 	@RequestMapping("/goProduct.product")
-	public String goProduct(HttpServletRequest req) {
+	public String goProduct(HttpServletRequest req,
+			@RequestParam Map<String,String>params) {
+		List<ProductDTO> list=null;
+		String search=params.get("search");
+		String searchString=params.get("searchString");
+		if(searchString == null) {
+			list=productMapper.listProduct();
+		}else {
+			list = productMapper.findProduct(search, searchString);
+		}
 		
+		List<ProductDTO> popList = productMapper.popularProduct();
+		
+		req.setAttribute("popList", popList); // 인기용품 리스트 저장시킨겁니다
+		req.setAttribute("listProduct", list);
 		return "product/productMain";
+		
 	}
+	
 	@RequestMapping("/productView.product")
-	public String productView(HttpServletRequest req, @RequestParam Map<String, String> params) {
+	public String productView(HttpServletRequest req, @RequestParam Map<String, String> params, int prod_num ) {
 		List<ReviewProductDTO> list = null;
 		String search = params.get("search");
 		String searchString = params.get("searchString");
@@ -43,7 +58,7 @@ public class ProductController {
 		}else {
 			list = productMapper.findReview(search, searchString);
 		}
-		
+		req.setAttribute("getProduct", productMapper.getProduct(prod_num));
 		req.setAttribute("ReList", list);
 		return "product/productView";
 	}
