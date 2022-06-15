@@ -26,4 +26,14 @@
 	<select id="selectRegionByCcrnum" parameterType="Integer" resultType="CarCampingRegionDTO">
 		select * from songsama.CarCampingRegion where ccr_num = #{ccr_num} 
 	</select>
+	
+	<select id="listCcrReview" parameterType="Map" resultType="ReviewRegionDTO">
+	 	<!-- //select * from songsama.ReviewRegion,songsama.CarCampingRegion where ReviewRegion.ccr_num=#{ccr_num} and ReviewRegion.ccr_num=CarCampingRegion.ccr_num and ReviewRegion.review_adminConfirm=0 -->
+		select c.* from (select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by review_num) c limit #{startRow},#{endRow};
+	</select>
+	
+	<select id="countReviewCcrnum" parameterType="Integer" resultType="Integer">
+		select count(*) from songsama.ReviewRegion,songsama.CarCampingRegion where ReviewRegion.ccr_num=#{ccr_num} and ReviewRegion.ccr_num=CarCampingRegion.ccr_num and ReviewRegion.review_adminConfirm=0
+	</select>
+	
 </mapper>

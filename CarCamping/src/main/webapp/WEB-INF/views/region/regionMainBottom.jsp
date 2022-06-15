@@ -46,18 +46,6 @@
 					</c:forEach>
 
 				</div>
-
-
-				<!-- 	<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>
-				<div class="carousel-cell"></div>  -->
 			</div>
 		</div>
 
@@ -94,17 +82,6 @@
 
 				</c:forEach>
 			</div>
-
-
-			<!-- 		<div class="carousel-cell"></div>
-			<div class="carousel-cell"></div>
-			<div class="carousel-cell"></div>
-			<div class="carousel-cell"></div>
-			<div class="carousel-cell"></div>
-			<div class="carousel-cell"></div>
-			<div class="carousel-cell"></div>
-			<div class="carousel-cell"></div>
-			<div class="carousel-cell"></div> -->
 		</div>
 	</div>
 </div>
