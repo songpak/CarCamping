@@ -54,10 +54,11 @@ public class ProductController {
 		String search = params.get("search");
 		String searchString = params.get("searchString");
 		if(searchString == null) {
-			list = productMapper.listProdReview();
+			list = productMapper.listProdReview(prod_num);
 		}else {
 			list = productMapper.findReview(search, searchString);
 		}
+		System.out.println("¸®ºä" + list);
 		req.setAttribute("getProduct", productMapper.getProduct(prod_num));
 		req.setAttribute("ReList", list);
 		return "product/productView";

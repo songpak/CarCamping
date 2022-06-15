@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="listProdReview" resultType="ReviewProductDTO">
-	select * from ReviewProduct
+		select * from ReviewProduct,Product where ReviewProduct.prod_num = #{prod_num} and ReviewProduct.prod_num = Product.prod_num
 	</select>
 	
 	<select id="findProdReview" parameterType="java.util.Map" resultType="ReviewProductDTO">

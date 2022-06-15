@@ -178,7 +178,7 @@
 								<p class="card-text">
 									<label for="disabledRange" class="form-label">없음</label> <input
 										type="range" class="form-range" id="disabledRange" disabled>
-									조회수|좋아요 개수<br>작성일
+									등록된 리뷰가 없어요!!!<br>작성일
 								</p>
 								<a href="javascript:popup()"><button type="button"
 										class="btn btn-primary" data-bs-toggle="modal">없음</button></a>

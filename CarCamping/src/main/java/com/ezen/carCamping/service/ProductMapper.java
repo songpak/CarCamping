@@ -42,8 +42,8 @@ public class ProductMapper {
 			return null;
 	}
 	
-	public List<ReviewProductDTO>listProdReview(){
-		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview");
+	public List<ReviewProductDTO> listProdReview(int prod_num){
+		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview", prod_num);
 		return list; 
 	}
 	
