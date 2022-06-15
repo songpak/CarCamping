@@ -121,7 +121,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td align="center">
+				<td align="center" colspan="2">
 					<input type="reset" value="취소">
 					<input type="submit" value="등록">
 				</td>

@@ -31,8 +31,8 @@ public class CarCampingRegionDTO {
 	public void setCcr_num(int ccr_num) {
 		this.ccr_num = ccr_num;
 	}
-	public int getRegionDTO() {
-		return regionDTO.getRegion_num();
+	public RegionDTO getRegionDTO() {
+		return regionDTO;
 	}
 	public void setRegionDTO(RegionDTO regionDTO) {
 		this.regionDTO = regionDTO;

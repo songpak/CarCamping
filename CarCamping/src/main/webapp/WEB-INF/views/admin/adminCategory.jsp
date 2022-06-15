@@ -18,75 +18,46 @@
 			<p class="fw-bolder">카테고리 목록</p>
 		</div>
 		<div class="row">
-			<!-- 드랍 버튼 -->
-			<div class="col" align="left">
-				<div class="dropdown">
-					<button class="btn btn-outline-success" dropdown-toggle" type="button"
-						id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-						카테고리 선택</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-						<li><button class="dropdown-item" type="button">브랜드</button></li>
-						<li><button class="dropdown-item" type="button">상품</button></li>
-					</ul>
-				</div>
+			<!-- 정렬&지역 드랍 버튼 -->
+			<div class="col">
+				<form name="sortCategory" method="post" action="adminCategory.admin">
+					<select name="category">
+							<option value="BrandCategory">브랜드</option>
+							<option value="ProductCategory">상품</option>
+					</select>
+					<input type="submit" value="정렬">
+				</form>
 			</div>
-			<!-- 드랍 버튼 끝 -->
 
-			<!-- 모달 버튼 -->
+			<!-- 카테고리 등록 버튼 -->
 			<div class="col" align="right">
-				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop">카테고리 등록</button>
+				<button type="button" class="btn btn-primary" onclick="locatoin.href='javascript:popup()'">
+				카테고리 등록</button>
 			</div>
-			<!-- 모달 버튼 끝 -->
+			<!-- 카테고리 버튼 끝 -->
 		</div>
-		<div class="row">&nbsp;</div>
 	</div>
-	<!-- 카테고리 등록 모달 -->
-	<form class="row gy-2 gx-3 align-items-center">
-		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-			data-bs-keyboard="false" tabindex="-1"
-			aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">카테고리 등록</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<!-- 카테고리 옵션&이름 -->
-						<div class="row">
-							<div class="col">
-								<div class="form-floating">
-									<select class="form-select" id="floatingSelect"
-										aria-label="Floating label select example">
-										<option selected>브랜드</option>
-										<option value="1">차박용품</option>
-									</select> <label for="floatingSelect">카테고리</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-floating mb-3">
-									<input type="email" class="form-control" id="floatingInput"
-										placeholder="name@example.com"> <label
-										for="floatingInput">카테고리명</label>
-								</div>
-							</div>
-						</div>
-
-						<!-- 버튼 영역 -->
-						<div class="modal-footer">
-							<button type="button" class="btn btn-outline-success"
-								data-bs-dismiss="modal">닫기</button>
-							<button type="button" class="btn btn-outline-success">등록</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-	<!-- 대리점 등록 모달 끝 -->
-
+	<script>
+		function popup(){
+			var url = "adminRegisterCategory.admin"
+			var name = "카테고리 등록"
+			var option = "width=300,height=200,top=100,left=200,location=no"
+			window.open(url,name,option);
+		}
+		function con_deleteBrand(a){
+			var con2 = window.confirm('정말 삭제하시겠습니까?')
+			if (con2){
+				location.href="adminDeleteBrand.admin?brand_num="+a
+			}
+		}
+		function con_deleteProduct(a){
+			var con2 = window.confirm('정말 삭제하시겠습니까?')
+			if (con2){
+				location.href="adminDeleteProductCategory.admin?pc_num="+a
+			}
+		}
+	</script>
+	&nbsp;
 	<!-- 본문 -->
 	<table class="table table-striped">
 		<tr>
@@ -94,66 +65,32 @@
 			<th>카테고리명</th>
 			<th>수정</th>
 		</tr>
-		<tr>
-			<td>차박용품</td>
-			<td>도킹텐트</td>
-			<td><button type="button" class="btn btn-success"
-					data-bs-toggle="modal" data-bs-target="#staticBackdrop-111">
-					삭제</button></td>
-		</tr>
-		<tr>
-			<td>차박용품</td>
-			<td>에어메트</td>
-			<td><button type="button" class="btn btn-success"
-					data-bs-toggle="modal" data-bs-target="#staticBackdrop-111">
-					삭제</button></td>
-		</tr>
-		<tr>
-			<td>브랜드</td>
-			<td>디오프</td>
-			<td><button type="button" class="btn btn-success"
-					data-bs-toggle="modal" data-bs-target="#staticBackdrop-111">
-					삭제</button></td>
-		</tr>
-		<tr>
-			<td>브랜드</td>
-			<td>아드리아 모빌</td>
-			<td><button type="button" class="btn btn-success"
-					data-bs-toggle="modal" data-bs-target="#staticBackdrop-111">
-					삭제</button></td>
-		</tr>
+		<c:if test="${empty adminListProductCategory}">
+			<c:forEach items="${adminListBrandCategory}" var="dto">
+				<tr>
+					<td>브랜드</td>
+					<td>${dto.brand_name}</td>
+					<td>
+						<button type="button" class="btn btn-primary" onclick="locatoin.href='javascript:con_deleteBrand(${dto.brand_num})'">
+						삭제
+						</button>
+					</td>
+				</tr>
+			</c:forEach>
+		</c:if>
+		<c:if test="${not empty adminListProductCategory}">
+			<c:forEach items="${adminListProductCategory}" var="dto">
+				<tr>
+					<td>상품</td>
+					<td>${dto.pc_name}</td>
+					<td>
+						<button type="button" class="btn btn-primary" onclick="locatoin.href='javascript:con_deleteProduct(${dto.pc_num})'">
+						삭제
+						</button>
+					</td>
+				</tr>
+			</c:forEach>
+		</c:if>
 	</table>
-
-	<!-- 카테고리 삭제 모달 -->
-	<div class="modal fade" id="staticBackdrop-111"
-		data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-		aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">카테고리 삭제</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">정말 삭제하시겠습니까?</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-outline-success"
-						data-bs-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-outline-success">삭제</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 카테고리 삭제 모달 끝 -->
-	<nav aria-label="Page navigation example">
-		<ul class="pagination justify-content-center">
-			<li class="page-item disabled"><a class="page-link">Previous</a>
-			</li>
-			<li class="page-item"><a class="page-link" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#">Next</a></li>
-		</ul>
-	</nav>
 </div>
 <%@ include file="../bottom.jsp"%>
