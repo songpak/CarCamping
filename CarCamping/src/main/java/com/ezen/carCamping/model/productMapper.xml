@@ -21,10 +21,6 @@
 	<select id="getProduct" parameterType="int" resultType="ProductDTO">
 		select * from Product where prod_num = #{prod_num}
 	</select>
-
-	<select id="getReviewCount" resultType="int">
-	select count(*) from ReviewProduct
-	</select>
 	
 	<select id="listProdReview" resultType="ReviewProductDTO">
 		select * from ReviewProduct,Product where ReviewProduct.prod_num = #{prod_num} and ReviewProduct.prod_num = Product.prod_num
