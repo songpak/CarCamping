@@ -3,7 +3,24 @@
  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="con.ezen.carCamping.model.carMapper">
-	<select id="listRegion" resultType="RegionDTO">
+	<select id="adminListRegion" resultType="RegionDTO">
 		select * from Region 
 	</select>
+	
+	<insert id="adminInsertRegion" parameterType="CarCampingRegionDTO">
+		insert into CarCampingRegion(region_num,ccr_name,ccr_car,ccr_pricePerDay,ccr_toilet,ccr_restroom,ccr_water,ccr_market,ccr_river,ccr_ground,ccr_reviewCount,
+		ccr_likeCount,ccr_score,ccr_popular,ccr_viewImage1,ccr_viewImage2,ccr_viewImage3,ccr_viewImage4,ccr_viewImage5,ccr_summary,ccr_content) 
+		values(#{regionDTO},#{ccr_name},#{ccr_car},#{ccr_pricePerDay},#{ccr_toilet},
+		#{ccr_restroom},#{ccr_water},#{ccr_market},#{ccr_river},#{ccr_ground},0, 0, 0.0, 0,#{ccr_viewImage1},
+		#{ccr_viewImage2},#{ccr_viewImage3},#{ccr_viewImage4},#{ccr_viewImage5},#{ccr_summary},#{ccr_content})
+	</insert>
+	
+	<select id="adminListCarCampingRegion" resultType="CarCampingRegionDTO">
+		select *,b.region_name from CarCampingRegion a join Region b on a.region_name = b.region_name
+	</select>
+	
+	<select id="getCarCampingRegion" parameterType="int" resultType="CarCampingRegionDTO">
+		select * from CarCampingRegion where ccr_num = #{ccr_num}
+	</select>
+
 </mapper>

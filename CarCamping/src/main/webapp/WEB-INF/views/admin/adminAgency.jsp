@@ -26,10 +26,9 @@
 						id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
 						지역선택</button>
 					<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-						<li><button class="dropdown-item" type="button">서울/경기권</button></li>
-						<li><button class="dropdown-item" type="button">강원도</button></li>
-						<li><button class="dropdown-item" type="button">충청북도</button></li>
-						<li><button class="dropdown-item" type="button">충청남도</button></li>
+						<c:forEach items="${listRegion}" var="dto">
+							<li><button class="dropdown-item" type="button" onclick="location.href=adminRegion.admin?region_num=${dto.region_num}">${dto.region_name}</button>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>

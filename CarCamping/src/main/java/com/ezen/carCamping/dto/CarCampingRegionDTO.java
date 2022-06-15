@@ -24,14 +24,15 @@ public class CarCampingRegionDTO {
 	private String ccr_summary;
 	private String ccr_content;
 	
+	
 	public int getCcr_num() {
 		return ccr_num;
 	}
 	public void setCcr_num(int ccr_num) {
 		this.ccr_num = ccr_num;
 	}
-	public RegionDTO getRegionDTO() {
-		return regionDTO;
+	public int getRegionDTO() {
+		return regionDTO.getRegion_num();
 	}
 	public void setRegionDTO(RegionDTO regionDTO) {
 		this.regionDTO = regionDTO;
