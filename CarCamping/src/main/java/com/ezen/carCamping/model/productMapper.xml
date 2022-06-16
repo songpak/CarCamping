@@ -11,7 +11,7 @@
 	</select>
 	 
 	<select id="findProduct" parameterType="java.util.Map" resultType="ProductDTO">
-	select a.* from Product as a join BrandCategory as b on a.brand_num = b.brand_num and ${search} = #{searchString}
+	select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString}
 	</select>
 	
 	<select id="popularProd" resultType="ProductDTO">

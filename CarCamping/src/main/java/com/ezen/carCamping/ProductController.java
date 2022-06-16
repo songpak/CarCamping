@@ -51,7 +51,7 @@ public class ProductController {
 		}else {
 			list = productMapper.findReview(search, searchString);
 		}
-		//System.out.println("¸®ºä" + list);
+		
 		req.setAttribute("getProduct", productMapper.getProduct(prod_num));
 		req.setAttribute("ReList", list);
 		return "product/productView";
