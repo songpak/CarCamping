@@ -28,9 +28,6 @@ public class MyPageController {
 
 	@RequestMapping("/myPageCart.myPage")
 	public String myPageCart(HttpServletRequest req, String indate, String outdate, int prod_num, int cart_prodCount) {
-		Date date = new Date();        
-		indate = String.format("%1$tY-%1$tm-%1$td", date);
-		outdate = String.format("%1$tY-%1$tm-%1$td", date);
 		HttpSession session = req.getSession();
 		ProductCartDTO dto = myPageMapper.cartProduct(prod_num);
 		dto.setCart_prodCount(cart_prodCount);

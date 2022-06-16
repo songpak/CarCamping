@@ -35,7 +35,7 @@ public class ProductController {
 		}
 		
 		List<ProductDTO> popList = productMapper.popularProduct();
-		
+		System.out.println("인기리스트"+ popList);
 		req.setAttribute("popList", popList); // 인기용품 리스트 저장시킨겁니다
 		req.setAttribute("listProduct", list);
 		return "product/productMain";

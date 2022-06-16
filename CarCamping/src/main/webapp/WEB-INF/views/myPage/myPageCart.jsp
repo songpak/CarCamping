@@ -36,14 +36,14 @@
                                 </div>
                                 <div class="col-md-9 text-left mt-sm-2">
                                 
-                                    <h4>${mdto.prod_name}</h4>
+                                    <h4>용품명 : ${mdto.prod_name}</h4>
                                     <p class="font-weight-light">대여하실 날짜는 ${indate} ~ ${outdate} 까지 입니다.</p><br>
                                 </div>
                             </div>
                             </c:forEach>
                         </td>
                         <c:forEach items="${cartList}" var="mdto">
-                        <td data-th="Price">${mdto.prod_price}</td>
+                        <td data-th="Price">${mdto.prod_price}원</td>
                         
                         <td>
                              <form action="mall_cartEdit.myPage" method="post">
