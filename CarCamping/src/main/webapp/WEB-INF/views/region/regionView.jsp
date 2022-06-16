@@ -88,7 +88,10 @@ body {
 <div class="container-fluid themed-container" style="margin-left: 55px;">
 	<!-- Row Grid -->
 	<c:set var="ccr_num" value="${regionSelected.ccr_num}"/>
-	<c:set var="mode" value="${mode}"/>
+<%-- 	<c:set var="mode" value="${mode}"/>
+	<c:set var="orderBy" value="${orderBy}"/>
+	<c:set var="search" value="${search}"/>
+	<c:set var="searchString" value="${searchString}"/> --%>
 	
 	<div class="row mb-3">
 		<script>
@@ -137,10 +140,8 @@ body {
 			<hr style="margin-top: 0px; margin-bottom: 5px;">
 			<ul id="regionInfo" class="nav nav-pills flex-column mb-auto"
 				style="margin-bottom: 0px; height: 600px;">
-				<img src="resources/images/sik.jpg" class="card-img-top" alt="..."
-					style="height: 250px;">
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<img src="resources/images/sik.jpg" class="card-img-top" alt="..." style="height: 250px;">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					좋 아 요
 					<button type="button" class="btn btn-danger rounded-pill"
 						onclick="Like_function(${ccr_num});"
@@ -153,18 +154,13 @@ body {
 					</button>
 				</li>
 
-
-
-
-				<li id="viewCount"
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li id="viewCount" class="list-group-item d-flex justify-content-between align-items-center">
 					리 뷰 수
-					<button type="button" class="btn btn-dark rounded-pill"
+					<button type="button" class="btn btn-dark rounded-pill" disabled
 						style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px;">
 						${regionSelected.ccr_reviewCount}</button>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					별점 (${regionSelected.ccr_score}/5)
 					<div class="container"
 						style="width: 424px; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px;">
@@ -180,8 +176,7 @@ body {
 						</div>
 					</div>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					차량접근
 					<div>
 						<c:choose>
@@ -195,15 +190,13 @@ body {
 
 					</div>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					일일대여요금
 					<div>
 						<p>${regionSelected.ccr_pricePerDay}원</p>
 					</div>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					샤워실
 					<div>
 						<c:choose>
@@ -217,8 +210,7 @@ body {
 
 					</div>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					화장실
 					<div>
 						<c:choose>
@@ -232,8 +224,7 @@ body {
 
 					</div>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					주변상점
 					<div>
 						<c:choose>
@@ -247,8 +238,7 @@ body {
 
 					</div>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					수도시설
 					<div>
 						<c:choose>
@@ -261,8 +251,7 @@ body {
 						</c:choose>
 					</div>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					하천
 					<div>
 						<c:choose>
@@ -276,8 +265,7 @@ body {
 
 					</div>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
 					바닥종류
 					<div>
 						<p>${regionSelected.ccr_ground}</p>
@@ -290,18 +278,16 @@ body {
 			function popup(review_num) {
 				var url = "regionReviewView.region?review_num="+review_num;
 				var name = "popup test";
-				var option = "width = 700, height = 1000, top = 100, left = 200, location = no"
+				var option = "width = 800, height = 1000, top = 100, left = 200, location = no"
 				window.open(url, name, option);
 			}
 			
-			function search_function(ccr_num,mode){
+			function search_function(){
 				var searchSelect = document.getElementById("search");
 				var search = searchSelect.options[searchSelect.selectedIndex].value;
 				var searchString = document.getElementById("searchString").value;
-				console.log(search);
-				console.log(ccr_num);
-				console.log(mode);
-				location.href="regionView.region?ccr_num="+ccr_num+"&mode="+mode+"&search="+search+"&searchString="+searchString;
+			
+				location.href="regionView.region?ccr_num="+${ccr_num}+"&mode="+'searchReview'+"&orderBy="+'newly'+"&search="+search+"&searchString="+searchString;
 				//location.href="regionView.region?ccr_num=${ccr_num}&orderBy=newly&mode=${mode}&search=${search}&searchString=${searchString}";
 				//location.href="regionView.region";
 				
@@ -342,7 +328,6 @@ body {
 					</div>
 				</div>
 
-
 				<!-- 리뷰 검색 -->
 				<div class="col" align="right">
 					<div class="input-group mb-3">
@@ -351,16 +336,15 @@ body {
 							aria-label="Default select example">
 							<option value="review_title" align="center">리뷰제목</option>
 							<option value="review_regionContent" align="center">리뷰내용</option>
-							<option value="review_writer" align="center">리뷰작성자</option>
+							<option value="mem_nickName" align="center">리뷰작성자</option>
 						</select> <input type="text" id="searchString" class="form-control"
 							placeholder="리뷰를 검색하세요 !" aria-label="Recipient's username"
 							aria-describedby="button-addon2">
 						<button class="btn btn-primary" type="button" id="button-addon2"
-							onclick="search_function(${ccr_num},'searchReview');">검색</button>
+							onclick="search_function();">검색</button>
 					</div>
 				</div>
 			</div>
-
 
 			<!-- 본문 -->
 			<table class="table table-borderless">
@@ -410,66 +394,28 @@ body {
 								</div>
 							</div>
 						</td>
-
 					</c:forEach>
 				</tr>
-			</table>
-			
-			
-				
-		
-			
-			
+			</table>	
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 					<c:if test="${rowCount>0 }">
 						<c:if test="${startPage>1}">
 								<li class="page-item">
-								<a class="page-link" href="#" onclick="goPage(${ccr_num},${startPage-1},'${mode}','${orderBy}','${search}','${searchString}');">
+								<a class="page-link" href="#" onclick="location.href='regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${startPage-1}'">
 									Previous</a>
-								<%-- <a class="page-link" href="regionView.region?ccr_num=${ccr_num}&pageNum=${startPage-1}&mode=${mode}&orderBy=${orderBy}">Previous</a></li>
-								 <a class="page-link" href="regionView.region?ccr_num=${ccr_num}&pageNum=${startPage-1}&mode=${mode}&orderBy=${orderBy}">Previous</a></li>
-								 <c:if test="${mode}==searchReview">
-									<a class="page-link" href="#" onclick="goPage(${ccr_num},${startPage-1},'${mode}','${orderBy}','${search}','${searchString}');">
-									Previous</a>
-								</c:if>
-								<c:if test="${mode}==none">
-									<a class="page-link" href="#" onclick="goPage(${ccr_num},${startPage-1},'${mode}','${orderBy}');">
-									Previous</a>
-								</c:if> --%>
 								</li> 
 						</c:if>
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
-							<%-- <a class="page-link" href="regionView.region?ccr_num=${ccr_num}&pageNum=${i}&mode=${mode}&orderBy=${orderBy}"> --%>
 							<li class="page-item">
-							<a class="page-link" href="#" onclick="goPage(${ccr_num},${i},'${mode}','${orderBy}','${search}','${searchString}');">
+							<a class="page-link" href="#" onclick="location.href='regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${i}'">
 									<c:out value="${i}" /></a>
-								<%-- <c:if test="${mode }==searchReview">
-									<a class="page-link" href="#" onclick="goPage(${ccr_num},${i},'${mode}','${orderBy}','${search}','${searchString}');">
-									<c:out value="${i}" /></a>
-								</c:if>
-								
-								<c:if test="${mode }==none">
-									<a class="page-link" href="#" onclick="goPage(${ccr_num},${i},'${mode}','${orderBy}');">
-									<c:out value="${i}" /></a>
-								</c:if> --%>
-								
-							</li>
-							<%-- <a class="page-link" href="#" onclick="goPage(${ccr_num},${startPage-1},'${mode }','${orderBy}');"></a>--%>						
+							</li>						
  						</c:forEach>
 						<c:if test="${endPage < pageCount }">
 							<li class="page-item">
-							<a class="page-link" href="#" onclick="goPage(${ccr_num},${endPage+1},'${mode}','${orderBy}','${search}','${searchString}');">
-									Next</a>
-							<%-- <c:if test="${mode}==searchReview">
-									<a class="page-link" href="#" onclick="goPage(${ccr_num},${endPage+1},'${mode}','${orderBy}','${search}','${searchString}');">
-									Next</a>
-								</c:if>
-								<c:if test="${mode}==none">
-									<a class="page-link" href="#" onclick="goPage(${ccr_num},${endPage+1},'${mode}','${orderBy}');">
-									Next</a>
-								</c:if> --%>
-							<%-- <a class="page-link" href="regionView.region?ccr_num=${ccr_num}&pageNum=${endPage+1}&mode=${mode}&orderBy=${orderBy}"> --%>							
+							<a class="page-link" href="#" onclick="location.href='regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${endPage+1}'">
+									Next</a>							
 							</li>
 						</c:if>
 					</c:if>	
