@@ -262,4 +262,35 @@
 		update Member set mem_denied = #{mem_denied} where mem_num = #{mem_num}
 	</update>
 	
+	
+<!-- /////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////장소 리뷰 관리/////////////////////////////////////////// -->
+<!-- /////////////////////////////////////////////////////////////////////////////////// -->
+
+	
+	<resultMap id="reviewRegionMap" type="ReviewRegionDTO">
+		<id column="review_num" property="review_num"/>
+		<result column="review_title" property="review_title"/>
+		<result column="review_sysdate" property="review_sysdate"/>
+		<result column="review_summaryContent" property="review_summaryContent"/>
+		<result column="review_regionContent" property="review_regionContent"/>
+		<result column="review_regionScore" property="review_regionScore"/>
+		<result column="review_regionImage1" property="review_regionImage1"/>
+		<result column="review_regionImage2" property="review_regionImage2"/>
+		<result column="review_regionImage3" property="review_regionImage3"/>
+		<result column="review_regionImage4" property="review_regionImage4"/>
+		<result column="review_regionImage5" property="review_regionImage5"/>
+		<result column="review_popular" property="review_popular"/>
+		<result column="review_readCount" property="review_readCount"/>
+		<result column="review_likeCount" property="review_likeCount"/>
+		<result column="review_adminConfirm" property="review_adminConfirm"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
+		</association>
+		<association property="carCampingRegionDTO" javaType="CarCampingRegionDTO" resultMap="carCampingRegionMap">
+		</association>
+	</resultMap>
+	
+	<select id="adminListReviewRegion" resultMap="reviewRegionMap">
+		select a.*,b.*,c.* from ReviewRegion a join Member b join CarCampingRegion c on a.mem_num = b.mem_num and a.ccr_num = c.ccr_num
+	</select>
 </mapper>

@@ -26,6 +26,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.AdminMapper;
 
 @Controller
@@ -587,8 +588,19 @@ public class AdminController {
 		return mav;
 	}
 	
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////厘家 府轰 包府////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	@RequestMapping("/adminReviewRegion.admin")
-	public String adminReviewRegion() {
+	public String adminReviewRegion(HttpServletRequest req) {
+		List<ReviewRegionDTO> adminListReviewRegion = adminMapper.adminListReviewRegion();
+		
+		req.setAttribute("adminListReviewRegion", adminListReviewRegion);
 		return "admin/adminReviewRegion";
 	}
 	

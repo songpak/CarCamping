@@ -15,6 +15,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.ReviewRegionDTO;
 
 @Service
 public class AdminMapper {
@@ -196,4 +197,17 @@ public class AdminMapper {
 		int res = sqlSession.update("adminDenyMember", map);
 		return res;
 	}
+
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////¿Â º“ ∏Æ ∫‰//////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+	
+	public List<ReviewRegionDTO> adminListReviewRegion(){
+		List<ReviewRegionDTO> list = sqlSession.selectList("adminListReviewRegion");
+		return list;
+	}
+	
+	
 }
