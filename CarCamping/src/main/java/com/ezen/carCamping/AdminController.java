@@ -22,7 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
+import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
+import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.service.AdminMapper;
 
@@ -381,14 +383,208 @@ public class AdminController {
 		return mav;
 	}
 	
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////용품/////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	@RequestMapping("/adminProduct.admin")
-	public String adminProduct() {
+	public String adminProduct(HttpServletRequest req,@RequestParam(required=false) String search) {
+		List<BrandCategoryDTO> adminListBrand = adminMapper.adminListBrand();
+		List<ProductCategoryDTO> adminListProductCategory = adminMapper.adminListProductCategoty();
+		List<ProductDTO> adminListProduct = new ArrayList<ProductDTO>();
+		if (search==null) {
+			adminListProduct = adminMapper.adminListProduct();
+		}else {
+			adminListProduct = adminMapper.adminFindProduct(search.trim());
+		}
+		
+		req.setAttribute("adminListProduct", adminListProduct);
+		req.setAttribute("adminListBrand", adminListBrand);
+		req.setAttribute("adminListProductCategory", adminListProductCategory);
 		return "admin/adminProduct";
 	}
 	
+	@RequestMapping(value="/adminRegisterProduct.admin", method=RequestMethod.GET)
+	public String adminRegisterProduct(HttpServletRequest req) {
+		List<BrandCategoryDTO> adminListBrand = adminMapper.adminListBrand();
+		List<ProductCategoryDTO> adminListProductCategory = adminMapper.adminListProductCategoty();
+		
+		req.setAttribute("adminListBrand", adminListBrand);
+		req.setAttribute("adminListProductCategory", adminListProductCategory);
+		return "admin/adminRegisterProduct";
+	}
+	
+	@RequestMapping(value="/adminRegisterProduct.admin", method=RequestMethod.POST)
+	public ModelAndView adminRegisterProduct(HttpServletRequest req,@ModelAttribute ProductDTO dto,@RequestParam("prod_viewImage") MultipartFile[] file,@RequestParam Map<String,String> map) {
+		BrandCategoryDTO bdto = new BrandCategoryDTO();
+		bdto.setBrand_num(Integer.parseInt(map.get("brand_num")));
+		dto.setBrandCategoryDTO(bdto);
+		
+		ProductCategoryDTO cdto = new ProductCategoryDTO();
+		cdto.setPc_num(Integer.parseInt(map.get("pc_num")));
+		dto.setProductCategoryDTO(cdto);
+		
+		String upPath = (String)req.getSession().getAttribute("upPath");
+		
+		//다중파일 업로드
+		for (MultipartFile f : file) {
+			String filename = f.getOriginalFilename();		
+			if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
+			else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
+			else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
+			else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
+			else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
+			
+			try {
+				f.transferTo(new File(upPath+"/images/product/"+filename));
+
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		int res = adminMapper.adminInsertProduct(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "용품이 등록되었습니다.";
+			url = "adminProduct.admin";
+		}else {
+			msg = "용품 등록이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminProduct.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping(value="/adminViewProduct.admin", method=RequestMethod.GET)
+	public String adminViewProduct(HttpServletRequest req, @RequestParam int prod_num) {
+		ProductDTO pdto = adminMapper.adminGetProduct(prod_num);
+		
+		req.setAttribute("pdto", pdto);
+		
+		return "admin/adminViewProduct";
+	}
+	
+	@RequestMapping(value="/adminViewProduct.admin", method=RequestMethod.POST)
+	public ModelAndView adminViewProduct(HttpServletRequest req,@ModelAttribute ProductDTO dto, @RequestParam("prod_viewImage") MultipartFile[] file,@RequestParam(required=false) String prod_popular1) {
+		
+		if (prod_popular1==null) dto.setProd_popular(1);
+		else dto.setProd_popular(0);
+		
+		String upPath = (String)req.getSession().getAttribute("upPath");
+		
+		//다중파일 업로드
+		for (MultipartFile f : file) {
+			String filename = f.getOriginalFilename();		
+			if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
+			else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
+			else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
+			else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
+			else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
+
+			try {
+				f.transferTo(new File(upPath+"/images/product/"+filename));
+
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		int res = adminMapper.adminUpdateProduct(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "용품이 수정되었습니다.";
+			url = "adminProduct.admin";
+		}else {
+			msg = "용품 수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminProduct.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping("/adminDeleteProduct.admin")
+	public ModelAndView adminDeleteProduct(@RequestParam int prod_num) {
+		int res = adminMapper.adminDeleteProduct(prod_num);
+		
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "용품이 삭제되었습니다.";
+			url = "adminProduct.admin";
+		}else {
+			msg = "용품 삭제가 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminProduct.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////회원 관리//////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	@RequestMapping("/adminMember.admin")
-	public String adminMember() {
+	public String adminMember(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<MemberDTO> adminListMember = new ArrayList<MemberDTO>();
+		
+		if(map.containsKey("sort")) {
+			adminListMember = adminMapper.adminListMemberSort(map);
+		}
+		else if(map.containsKey("name1")) {
+			adminListMember = adminMapper.adminListMemberSearch(map);
+		}
+		else {
+			adminListMember = adminMapper.adminListMember();
+		}
+		for(MemberDTO dto : adminListMember) {
+			System.out.println(dto.getMem_point());
+		}
+		
+		req.setAttribute("adminListMember", adminListMember);
 		return "admin/adminMember";
+	}
+	
+	@RequestMapping(value="/adminViewMember.admin",method=RequestMethod.GET)
+	public String adminViewMember(HttpServletRequest req,@RequestParam int mem_num) {
+		MemberDTO dto = adminMapper.adminGetMember(mem_num);
+		req.setAttribute("mdto", dto);
+		
+		return "admin/adminViewMember";
+	}
+	
+	@RequestMapping(value="/adminViewMember.admin",method=RequestMethod.POST)
+	public ModelAndView adminDenyMember(@RequestParam(required=false) Map<String,String> map) {
+		if (map.containsKey("denied")) {
+			map.put("mem_denied", "0");
+		}else {
+			map.put("mem_denied", "1");
+		}
+		int res = adminMapper.adminDenyMember(map);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "수정되었습니다.";
+			url = "adminMember.admin";
+		}else {
+			msg = "수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminMember.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
 	}
 	
 	@RequestMapping("/adminReviewRegion.admin")

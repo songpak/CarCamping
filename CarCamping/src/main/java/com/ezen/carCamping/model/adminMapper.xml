@@ -71,7 +71,15 @@
 		select a.*,b.region_name from CarCampingRegion a join Region b on a.region_num=b.region_num where ccr_num = #{ccr_num}
 	</select>
 	
-	<!-- //////////////////////////////////////대리점////////////////////////////// -->
+	
+	
+	
+	<!-- ////////////////////////////////////////////////////////////////////////// -->
+	<!-- //////////////////////////////////////대리점//////////////////////////////// -->
+	<!-- ////////////////////////////////////////////////////////////////////////// -->
+	
+	
+	
 	<resultMap type="AgencyDTO" id="agencyMap">
 		<id column="agency_num" property="agency_num"/>
 		<result column="agency_location" property="agency_location"/>
@@ -100,7 +108,14 @@
 		delete from Agency where agency_num = #{agency_num}
 	</delete>
 	
+	
+	
+	<!-- /////////////////////////////////////////////////////////////////////////// -->
 	<!-- ///////////////////////////////카테고리////////////////////////////////////// -->
+	<!-- ////////////////////////////////////////////////////////////////////////// -->
+	
+	
+	
 	<select id="adminListBrand" resultType="BrandCategoryDTO">
 		select * from BrandCategory
 	</select> 
@@ -122,5 +137,129 @@
 	<delete id="adminDeleteProductCategory" parameterType="int">
 		delete from ProductCategory where pc_num = #{pc_num}
 	</delete>
+	
+	
+	
+	<!-- //////////////////////////////////////////////////////////////////////// -->
+	<!-- ////////////////////////////////용품////////////////////////////////////// -->
+	<!-- ///////////////////////////////////////////////////////////////////////// -->
+	
+	
+	
+	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
+		<id column="brand_num" property="brand_num"/>
+		<result column="brand_name" property="brand_name"/>
+	</resultMap>
+	
+	<resultMap id="productCategoryMap" type="ProductCategoryDTO">
+		<id column="pc_num" property="pc_num"/>
+		<result column="pc_name" property="pc_name"/>
+	</resultMap>
+	
+	<resultMap id="productMap" type="ProductDTO">
+		<id column="prod_num" property="prod_num"/>
+		<result column="prod_name" property="prod_name"/>
+		<result column="prod_popular" property="prod_popular"/>
+		<result column="prod_price" property="prod_price"/>
+		<result column="prod_viewImage1" property="prod_viewImage1"/>
+		<result column="prod_viewImage2" property="prod_viewImage2"/>
+		<result column="prod_viewImage3" property="prod_viewImage3"/>
+		<result column="prod_viewImage4" property="prod_viewImage4"/>
+		<result column="prod_viewImage5" property="prod_viewImage5"/>
+		<result column="prod_summary" property="prod_summary"/>
+		<result column="prod_viewContent" property="prod_viewContent"/>
+		<result column="prod_sysdate" property="prod_sysdate"/>
+		<result column="prod_update" property="prod_update"/>
+		<result column="prod_reviewCount" property="prod_reviewCount"/>
+		<result column="prod_reviewScore" property="prod_reviewScore"/>
+		<association property="brandCategoryDTO" javaType="BrandCategoryDTO" resultMap="brandCategoryMap">
+		</association>
+		<association property="productCategoryDTO" javaType="ProductCategoryDTO" resultMap="productCategoryMap">
+		</association>
+	</resultMap>
+	
+	<select id="adminListProduct" resultMap="productMap">
+		select a.*,b.brand_name,c.pc_name from Product a join BrandCategory b join ProductCategory c 
+		on a.brand_num = b.brand_num and a.pc_num = c.pc_num;
+	</select>
+	
+	<select id="adminFindProduct" resultMap="productMap" parameterType="String">
+		select a.*,b.brand_name,c.pc_name from Product a join BrandCategory b join ProductCategory c 
+		on a.brand_num = b.brand_num and a.pc_num = c.pc_num where b.brand_name like #{search} or c.pc_name like #{search} or a.prod_name like #{search}
+	</select>
+	
+	<select id="adminGetProduct" resultMap="productMap" parameterType="int">
+		select a.*,b.brand_name,c.pc_name from Product a join BrandCategory b join ProductCategory c 
+		on a.brand_num = b.brand_num and a.pc_num = c.pc_num where prod_num = #{prod_num}
+	</select>
+	
+	<insert id="adminInsertProduct" parameterType="ProductDTO">
+		insert into Product(pc_num,brand_num,prod_name,prod_popular,prod_price,prod_viewImage1,prod_viewImage2,prod_viewImage3,prod_viewImage4,prod_viewImage5,
+		prod_summary,prod_viewContent,prod_sysdate,prod_update,prod_reviewCount,prod_reviewScore) values(
+		#{productCategoryDTO.pc_num},#{brandCategoryDTO.brand_num},#{prod_name},1,#{prod_price},#{prod_viewImage1},#{prod_viewImage2},#{prod_viewImage3},#{prod_viewImage4},#{prod_viewImage5},
+		#{prod_summary},#{prod_viewContent},now(),now(),0,0.0)
+	</insert>
+	
+	<update id="adminUpdateProduct" parameterType="ProductDTO">
+		update Product set prod_name=#{prod_name},prod_price=#{prod_price},prod_summary=#{prod_summary},prod_viewContent=#{prod_viewContent},
+		prod_viewImage1=#{prod_viewImage1},prod_viewImage2=#{prod_viewImage2},prod_viewImage3=#{prod_viewImage3},prod_viewImage4=#{prod_viewImage4},prod_viewImage5=#{prod_viewImage5},
+		prod_popular=#{prod_popular} where prod_num = #{prod_num}
+	</update>
+	
+	<delete id="adminDeleteProduct" parameterType="int">
+		delete from Product where prod_num = #{prod_num}
+	</delete>
+	
+	
+	
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	<!-- ////////////////////////////////////회 원////////////////////////////////////// -->
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	
+	
+	<resultMap type="MemberDTO" id="memberMap">
+		<id column="mem_num" property="mem_num"/>
+		<result column="mem_id" property="mem_id"/>
+		<result column="mem_email" property="mem_email"/>
+		<result column="mem_password" property="mem_password"/>
+		<result column="mem_userName" property="mem_userName"/>
+		<result column="mem_nickName" property="mem_nickName"/>
+		<result column="mem_phone" property="mem_phone"/>
+		<result column="mem_birthday" property="mem_birthday"/>
+		<result column="mem_gender" property="mem_gender"/>
+		<result column="mem_point" property="mem_point"/>
+		<result column="mem_rentalCount" property="mem_rentalCount"/>
+		<result column="mem_sysdate" property="mem_sysdate"/>
+		<result column="mem_accept_email" property="mem_accept_email"/>
+		<result column="mem_accept_phone" property="mem_accept_phone"/>
+		<result column="mem_accept_privacy" property="mem_accept_privacy"/>
+		<result column="mem_denied" property="mem_denied"/>
+		<result column="mem_image" property="mem_image"/>
+		<result column="mem_summary" property="mem_summary"/>
+		<result column="mem_introduce" property="mem_introduce"/>
+		<result column="mem_firstReview" property="mem_firstReview"/>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
+		</association>
+	</resultMap>
+	
+	<select id="adminListMember" resultMap="memberMap">
+		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num
+	</select>
+	
+	<select id="adminGetMember" resultMap="memberMap" parameterType="int">
+		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num where a.mem_num = #{mem_num}
+	</select>
+	
+	<select id="adminListMemberSort" resultMap="memberMap" parameterType="java.util.Map">
+		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num order by ${sort} DESC
+	</select>
+	
+	<select id="adminListMemberSearch" resultMap="memberMap" parameterType="java.util.Map">
+		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num where ${name1} like CONCAT('%',trim(#{name2}),'%')
+	</select>
+	
+	<update id="adminDenyMember" parameterType="java.util.Map">
+		update Member set mem_denied = #{mem_denied} where mem_num = #{mem_num}
+	</update>
 	
 </mapper>

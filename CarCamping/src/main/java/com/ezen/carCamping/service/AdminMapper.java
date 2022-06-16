@@ -2,6 +2,7 @@ package com.ezen.carCamping.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
+import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
+import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 
 @Service
@@ -56,7 +59,12 @@ public class AdminMapper {
 		return res;
 	}
 	
-	////////////////////////////대리점////////////////////////////////////////////
+	
+//////////////////////////////////////////////////////////////////////////////////////////	
+///////////////////////////////대리점/////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	public List<AgencyDTO> adminListAgency(){
 		List<AgencyDTO> adminListAgency = sqlSession.selectList("adminListAgency");
 		return adminListAgency;
@@ -82,7 +90,12 @@ public class AdminMapper {
 		return res;
 	}
 	
-	////////////////////////////////////////카테고리/////////////////////////////////////
+	
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////카테고리///////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	public List<BrandCategoryDTO> adminListBrand(){
 		List<BrandCategoryDTO> adminListBrand = sqlSession.selectList("adminListBrand");
 		return adminListBrand;
@@ -112,6 +125,75 @@ public class AdminMapper {
 	
 	public int adminDeleteProductCategory(int pc_num) {
 		int res = sqlSession.delete("adminDeleteProductCategory", pc_num);
+		return res;
+	}
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////용품/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+	
+	public List<ProductDTO> adminListProduct(){
+		List<ProductDTO> adminListProduct = sqlSession.selectList("adminListProduct");
+		return adminListProduct;
+	}
+	
+	public List<ProductDTO> adminFindProduct(String search){
+		search = "%"+search+"%";
+		List<ProductDTO> adminFindProduct = sqlSession.selectList("adminFindProduct", search);
+		return adminFindProduct;
+	}
+	
+	public ProductDTO adminGetProduct(int prod_num) {
+		ProductDTO dto = sqlSession.selectOne("adminGetProduct",prod_num);
+		return dto;
+	}
+	
+	
+	public int adminInsertProduct(ProductDTO dto) {
+		int res = sqlSession.insert("adminInsertProduct", dto);
+		return res;
+	}
+	
+	public int adminUpdateProduct(ProductDTO dto) {
+		int res = sqlSession.update("adminUpdateProduct", dto);
+		return res;
+	}
+	
+	public int adminDeleteProduct(int prod_num) {
+		int res = sqlSession.delete("adminDeleteProduct", prod_num);
+		return res;
+	}
+	
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////회 원//////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+	
+	public List<MemberDTO> adminListMember(){
+		List<MemberDTO> list = sqlSession.selectList("adminListMember");
+		return list;
+	}
+	
+	public List<MemberDTO> adminListMemberSort(Map<String,String> map){
+		List<MemberDTO> list = sqlSession.selectList("adminListMemberSort",map);
+		return list;
+	}
+	
+	public List<MemberDTO> adminListMemberSearch(Map<String,String> map){
+		List<MemberDTO> list = sqlSession.selectList("adminListMemberSearch", map);
+		return list;
+	}
+	
+	public MemberDTO adminGetMember(int mem_num) {
+		MemberDTO dto = sqlSession.selectOne("adminGetMember",mem_num);
+		return dto;
+	}
+	
+	public int adminDenyMember(Map<String,String> map) {
+		int res = sqlSession.update("adminDenyMember", map);
 		return res;
 	}
 }
