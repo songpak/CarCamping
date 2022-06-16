@@ -27,6 +27,7 @@ public class RegionController {
 
 	private Hashtable<String, Object> ht = RegionMapper.getInstance();
 
+
 	@RequestMapping(value = "goRegion.region", method = RequestMethod.GET)
 	public String goRegion(HttpServletRequest req) {
 		List<CarCampingRegionDTO> hot_list = RegionMapper.listHotRegion();
@@ -52,6 +53,7 @@ public class RegionController {
 		req.setAttribute("hotRegionList", ht.get("hot_list"));
 		req.setAttribute("recommandRegionList", ht.get("recommand_list"));
 		return "region/regionHotLocList";
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -60,6 +62,8 @@ public class RegionController {
 		int ccr_num = Integer.parseInt(params.get("ccr_num"));
 		CarCampingRegionDTO dto = RegionMapper.selectRegionByCcrnum(ccr_num);
 		req.setAttribute("regionSelected", dto);
+		String mode = req.getParameter("mode");
+		if(mode==null) mode="none";
 		List<ReviewRegionDTO> list = null;
 		int pageSize = 3;
 		String pageNum = params.get("pageNum");
@@ -79,19 +83,30 @@ public class RegionController {
 		int rowCount = RegionMapper.countReviewCcrnum(ccr_num);
 		if (endRow > rowCount)
 			endRow = rowCount;
+		String orderBy =  params.get("orderBy");
+		if(orderBy==null||orderBy.equals("newly")) orderBy = "review_num";
+		
 		if (rowCount > 0) {
-			String orderBy =  params.get("orderBy");
-			if(orderBy==null||orderBy.equals("newly")) orderBy = "review_num";
+			if(mode.equals("none")) list = RegionMapper.listCcrReview(ccr_num,startRow-1,endRow,orderBy);
+			else if(mode.equals("searchReview")) {
+				String search  = params.get("search");
+				System.out.println(search);
+				String searchString = params.get("searchString");
+				System.out.println(searchString);
+				rowCount = RegionMapper.countReviewSearch(ccr_num, search, searchString);
+				list = RegionMapper.listCcrReviewSearch(ccr_num, startRow-1, endRow, orderBy, search, searchString);
+				req.setAttribute("search", search);
+				req.setAttribute("searchString", searchString);
+			}
 			
-			if(orderBy.equals("likeCount")) {
+			if(orderBy.equals("review_likeCount")) {
 				//Collections.sort(list, new LikeCountComparator().reversed());
 				orderBy="review_likeCount";
-			}else if(orderBy.equals("regionScore")) {
+			}else if(orderBy.equals("review_regionScore")) {
 				//Collections.sort(list,new RegionScoreComparator().reversed());
 				orderBy="review_regionScore";
 			}
-			System.out.println(orderBy);
-			list = RegionMapper.listCcrReview(ccr_num,startRow-1,endRow,orderBy);
+			
 			int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
 			int pageBlock = 3;
 			int startPage = (currentPage - 1)/pageBlock  * pageBlock + 1;
@@ -102,9 +117,10 @@ public class RegionController {
 			req.setAttribute("endPage", endPage);
 			req.setAttribute("orderBy", orderBy);
 		}
+		
 		req.setAttribute("rowCount", rowCount);
 		req.setAttribute("reviewList", list);
-		
+		req.setAttribute("mode", mode);
 		return "/region/regionView";
 	}
 	@RequestMapping("/regionLike.region")

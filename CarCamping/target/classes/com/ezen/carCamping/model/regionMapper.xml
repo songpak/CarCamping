@@ -29,28 +29,48 @@
 	
 	<select id="listCcrReview" parameterType="Map" resultType="ReviewRegionDTO">
 	 	<!-- //select * from songsama.ReviewRegion,songsama.CarCampingRegion where ReviewRegion.ccr_num=#{ccr_num} and ReviewRegion.ccr_num=CarCampingRegion.ccr_num and ReviewRegion.review_adminConfirm=0 -->
-		select c.* from (select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by ${orderBy} desc) c limit #{startRow},#{endRow};
+		select c.* from (select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by ${orderBy} desc) c limit #{startRow},#{endRow}
 	</select>
 	
 	<select id="countReviewCcrnum" parameterType="Integer" resultType="Integer">
-		select count(*) from songsama.ReviewRegion,songsama.CarCampingRegion where ReviewRegion.ccr_num=#{ccr_num} and ReviewRegion.ccr_num=CarCampingRegion.ccr_num and ReviewRegion.review_adminConfirm=0
+		select count(*) from ReviewRegion a,CarCampingRegion b where a.ccr_num=3 and a.ccr_num=b.ccr_num and a.review_adminConfirm=0
 	</select>
+
+	<!-- 검색 -->
+	<select id="listCcrReviewSearch" parameterType="Map" resultType="ReviewRegionDTO">
+		select c.* from (select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 and a.${search} like CONCAT('%',#{searchString},'%') order by ${orderBy} desc) c limit #{startRow},#{endRow}
+	</select>
+	
+	<select id="countReviewSearch" parameterType="Map" resultType="Integer">
+		select count(*) from ReviewRegion a,CarCampingRegion b where a.ccr_num=#{ccr_num} and a.ccr_num=b.ccr_num and a.review_adminConfirm=0 and a.${search} like CONCAT('%',#{searchString},'%')
+	</select>
+	
+	<!--작성자 검색  -->
+	<select id="listCcrReviewWriterSearch" parameterType="Map" resultType="ReviewRegionDTO">
+		select c.* from (select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 and a.${search} like CONCAT('%',#{searchString},'%') order by ${orderBy} desc) c limit #{startRow},#{endRow}
+	</select>
+	
+	<select id="countRevieWrietrSearch" parameterType="Map" resultType="Integer">
+	select count(*) from (select a.* from ReviewRegion a,CarCampingRegion b where a.ccr_num=#{ccr_num} and a.ccr_num=b.ccr_num and a.review_adminConfirm=0)c,Member d where c.mem_num = d.mem_num and d.mem_nickName like CONCAT('%',#{searchString},'%')
+	</select>
+	
 	
 	<!-- 차박지 : 좋아요 클릭 시 종아요 수 증가-->
 	<update id="addLikeCountRegion" parameterType="Integer">
-		update CarCampingRegion set ccr_likeCount=ccr_likeCount+1 where ccr_num=#{ccr_num};
+		update CarCampingRegion set ccr_likeCount=ccr_likeCount+1 where ccr_num=#{ccr_num}
 	</update>
 	<!-- 차박지 : 좋아요 다시 클릭시 좋아요 수 감소 -->
 		<update id="subLikeCountRegion" parameterType="Integer">
-		update CarCampingRegion set ccr_likeCount=ccr_likeCount-1 where ccr_num=#{ccr_num};
+		update CarCampingRegion set ccr_likeCount=ccr_likeCount-1 where ccr_num=#{ccr_num}
 	</update>
 	
 	<!-- 차박지 리뷰 : 좋아요 클릭 시 종아요 수 증가-->
 	<update id="addLikeCountReview" parameterType="Integer">
-		update ReviewRegion set review_likeCount=review_likeCount+1 where review_num=#{review_num};
+		update ReviewRegion set review_likeCount=review_likeCount+1 where review_num=#{review_num}
 	</update>
 	<!-- 차박지 리뷰: 좋아요 다시 클릭시 좋아요 수 감소 -->
 	<update id="subLikeCountReview" parameterType="Integer" >
-		update ReviewRegion set review_likeCount=review_likeCount-1 where review_num=#{review_num};
+		update ReviewRegion set review_likeCount=review_likeCount-1 where review_num=#{review_num}
 	</update>
+
 </mapper>
