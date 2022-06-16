@@ -45,15 +45,11 @@
                         <c:forEach items="${cartList}" var="mdto">
                         <td data-th="Price">${mdto.prod_price}</td>
                         
-                        <td data-th="Quantity">
-                       
-                            <input type="number" class="form-control form-control-lg text-center" value="${mdto.cart_prodCount }">
-                        </td>
-                        <td class="actions" data-th="">
-                            <div class="text-right">
+                        <td>
                              <form action="mall_cartEdit.myPage" method="post">
-                             	<input type="hidden" name= "cart_prodCount" value="${mdto.cart_prodCount }">
-                             	<input type="hidden" name= "prod_num" value="${mdto.cart_prodCount }">
+                             	<input type="number" name= "cart_prodCount" value="${mdto.cart_prodCount }">
+                             	<input type="hidden" name= "prod_num" value="${mdto.prod_num }">
+                             	<br><br>
                                 <button type="submit" class="btn btn-white border-secondary bg-white btn-md mb-2">
                                   		  수정
                                 </button>
@@ -61,8 +57,6 @@
                                 <button class="btn btn-white border-secondary bg-white btn-md mb-2">
                                    		삭제
                                 </button>
-                             
-                            </div>
                         </td> 
                            </c:forEach>
                     </tr>
