@@ -50,7 +50,7 @@
                 
  
  
-            <form class="form-horizontal" role="form" method="post" action="javascript:alert( 'success!' );">
+            <form class="form-horizontal" role="form" method="post" action="sign.login" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="provision" class="col-lg-2 control-label">회원가입약관</label>
                     <div class="col-lg-10" id="provision">
@@ -340,106 +340,119 @@ e-mail : dd@naver.com
                 <div class="form-group" id="divmem_Id">
                     <label for="inputmem_Id" class="col-lg-2 control-label">아이디</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control onlyHangul" id="mem_id" data-rule-required="true" placeholder="30자이내의 알파벳, 언더스코어(_), 숫자만 입력 가능합니다." maxlength="15">
+                        <input type="text" class="form-control onlyAlphabetAndNumber" id="mem_id" name="mem_id" data-rule-required="true" placeholder="30자이내의 알파벳, 언더스코어(_), 숫자만 입력 가능합니다." maxlength="15">
                     </div>
                 </div><div class="form-group" id="divmem_email">
                     <label for="inputmem_email" class="col-lg-2 control-label">이메일</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control onlyHangul" id="mem_email" data-rule-required="true" placeholder="이메일을 입력해주세요." maxlength="15">
+                        <input type="text" class="form-control" id="mem_email" name="mem_email" data-rule-required="true" placeholder="이메일을 입력해주세요." maxlength="30">
                     </div>
                 </div>
                 <div class="form-group" id="divmem_password">
                     <label for="inputmem_password" class="col-lg-2 control-label">비밀번호</label>
                     <div class="col-lg-10">
-                        <input type="password" class="form-control" id="mem_password" data-rule-required="true" placeholder="영,문,특수기호 조합 8가지 이상" maxlength="15">
+                        <input type="password" class="form-control" id="mem_password" name="mem_password" data-rule-required="true" placeholder="영,문,특수기호 조합 8가지 이상" maxlength="15">
                     </div>
                 </div>
                 <div class="form-group" id="divmem_userName">
                     <label for="inputmem_userName" class="col-lg-2 control-label">이름</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control onlyAlphabetAndNumber" id="mem_userName" data-rule-required="true" placeholder="한글만 입력 가능합니다." maxlength="30">
+                        <input type="text" class="form-control onlyHangul" id="mem_userName" name="mem_userName" data-rule-required="true" placeholder="한글만 입력 가능합니다." maxlength="30">
                     </div>
                 </div>
                 <div class="form-group" id="divmem_nickname">
                     <label for="inputmem_nickname" class="col-lg-2 control-label">닉네임</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="mem_nickname" name="excludeHangul" data-rule-required="true" placeholder="닉네임" maxlength="30">
+                        <input type="text" class="form-control" id="mem_nickName" name="mem_nickName" data-rule-required="true" placeholder="닉네임" maxlength="30">
                     </div>
                 </div>
                 <div class="form-group" id="divmem_image">
                     <label for="inputmem_image" class="col-lg-2 control-label">프로필 사진</label>
                     <div class="col-lg-10">
-                        <input type="file" class="form-control" id="mem_image" data-rule-required="true" maxlength="30">
+                        <input type="file" id="mem_image" name="mem_image" data-rule-required="true" maxlength="30">
                     </div>
                 </div>
                 <div class="form-group" id="divmem_phone">
                     <label for="inputmem_Nickname" class="col-lg-2 control-label">전화번호</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="mem_phone" name="excludeHangul" data-rule-required="true" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="30">
+                        <input type="text" class="form-control onlyNumber" id="mem_phone" name="mem_phone" name="excludeHangul" data-rule-required="true" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="30">
                     </div>
                 </div>
                 
                 <div class="form-group" id="divmem_birthday">
                     <label for="inputmem_birthday" class="col-lg-2 control-label">생년월일</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control onlyNumber" id="mem_birthday" data-rule-required="true" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
+                        <input type="text" class="form-control onlyNumber" id="mem_birthday" name="mem_birthday" data-rule-required="true" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputmem_gender" class="col-lg-2 control-label">성별</label>
                     <div class="col-lg-10">
-                        <select class="form-control" id="mem_gender">
-                            <option value="M">남</option>
-                            <option value="F">여</option>
+                        <select class="form-control" id="mem_gender" name="mem_gender">
+                            <option value="0">남</option>
+                            <option value="1">여</option>
                         </select>
                     </div>
                 </div>
                     <div class="form-group">
-                    <label for="inputregion_num" class="col-lg-2 control-label">관심지역</label>
+                    <label for="inputregionDTO" class="col-lg-2 control-label">관심지역</label>
                     <div class="col-lg-10">
-                        <select class="form-control" id="region_num">
-                            <option value="서울/경기도">서울/경기도</option>
-                            <option value="강원도">강원도</option>
-                            <option value="충청북도">충청북도</option>
-                            <option value="충청남도">충청남도</option>
-                            <option value="전라북도">전라북도</option>
-                            <option value="전라남도">전라남도</option>
-                            <option value="경상북도">경상북도</option>
-                            <option value="경상남도">경상남도</option>
-                            <option value="제주도">제주도</option>
+                        <select class="form-control" name="region_num">
+                            <option value="1">서울/경기도</option>
+                            <option value="2">강원도</option>
+                            <option value="3">충청북도</option>
+                            <option value="4">충청남도</option>
+                            <option value="5">전라북도</option>
+                            <option value="6">전라남도</option>
+                            <option value="7">경상북도</option>
+                            <option value="8">경상남도</option>
+                            <option value="9">제주도</option>
                         </select>
+             
+                    </div>
+                </div>
+                <div class="form-group" id="divmem_summary" >
+                    <label for="inputmem_summary" class="col-lg-2 control-label">자기소개 요약</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control " id="mem_summary" name="mem_summary" data-rule-required="true" placeholder="자기소개를 한줄요약으로 적어주세요." maxlength="20">
+                    </div>
+                </div>
+                 <div class="form-group" id="divmem_introduce">
+                    <label for="inputmem_introduce" class="col-lg-2 control-label">자기소개</label>
+                    <div class="col-lg-10">
+                        <textarea class="form-control" id="mem_introduce" name="mem_introduce" data-rule-required="true" placeholder="자기소개를 적어주세요" rows="5"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputmem_accept_email" class="col-lg-2 control-label">이메일 수신여부</label>
-                    <div class="col-lg-10">
+                    <div class="col-lg-10" name="mem_accept_eamil" >
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_eamil" name="emailReceiveYn" value="Y" checked> 동의합니다.
+                            <input type="radio" id="mem_accept_eamil" name="emailReceive" value="0" checked> 동의합니다.
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_email" name="emailReceiveYn" value="N"> 동의하지 않습니다.
+                            <input type="radio" id="mem_accept_email" name="emailReceive" value="1"> 동의하지 않습니다.
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputmem_accept_phone" class="col-lg-2 control-label">SMS 수신여부</label>
                     <div class="col-lg-10">
-                        <label class="radio-inline">
-                            <input type="radio" id="mem_accept_phone" name="smsReceiveYn" value="Y" checked> 동의합니다.
+                        <label class="radio-inline" name="mem_accept_phone">
+                            <input type="radio" id="mem_accept_phone" name="smsReceive" value="0" checked> 동의합니다.
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_phone" name="smsReceiveYn" value="N"> 동의하지 않습니다.
+                            <input type="radio" id="mem_accept_phone" name="smsReceive" value="1"> 동의하지 않습니다.
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputmem_accept_privacy" class="col-lg-2 control-label">개인정보 제공 동의 여부</label>
-                    <div class="col-lg-10">
+                    <div class="col-lg-10" id="mem_accept_privacy">
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_privacy" name="privacyReceiveYn" value="Y" checked> 동의합니다.
+                            <input type="radio" id="mem_accept_privacy" name="privacyReceive" value="0" checked> 동의합니다.
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_privacy" name="privacyReceiveYn" value="N"> 동의하지 않습니다.
+                            <input type="radio" id="mem_accept_privacy" name="privacyReceive" value="1"> 동의하지 않습니다.
                         </label>
                     </div>
                 </div>
@@ -493,7 +506,21 @@ e-mail : dd@naver.com
                     }
                 });
                 
-                $('#mem_password').keyup(function(event){
+                $('#mem_email').keyup(function(event){
+                    
+                   
+                    var divEmail = $('#divmem_email');
+                    
+                    if($('#mem_email').val()==""){
+                        divEmail.removeClass("has-success");
+                        divEmail.addClass("has-error");
+                    }else{
+                        divEmail.removeClass("has-error");
+                        divEmail.addClass("has-success");
+                    }
+                });
+                
+                 $('#mem_password').keyup(function(event){
                     
                     var divPassword = $('#divmem_Password');
                     
@@ -503,21 +530,6 @@ e-mail : dd@naver.com
                     }else{
                         divPassword.removeClass("has-error");
                         divPassword.addClass("has-success");
-                    }
-                });
-                
-                $('#mem_passwordCheck').keyup(function(event){
-                    
-                    var passwordCheck = $('#mem_passwordCheck').val();
-                    var password = $('#mem_password').val();
-                    var divPasswordCheck = $('#divPasswordCheck');
-                    
-                    if((passwordCheck=="") || (password!=passwordCheck)){
-                        divPasswordCheck.removeClass("has-success");
-                        divPasswordCheck.addClass("has-error");
-                    }else{
-                        divPasswordCheck.removeClass("has-error");
-                        divPasswordCheck.addClass("has-success");
                     }
                 });
                 
@@ -547,29 +559,29 @@ e-mail : dd@naver.com
                     }
                 });
                 
-                $('#mem_email').keyup(function(event){
+                $('#mem_image').keyup(function(event){
                     
-                    var divEmail = $('#divmem_email');
+                    var divImage = $('#divmem_image');
                     
-                    if($.trim($('#mem_email').val())==""){
-                        divEmail.removeClass("has-success");
-                        divEmail.addClass("has-error");
+                    if($.trim($('#mem_image').val())==""){
+                        divImage.removeClass("has-success");
+                        divImage.addClass("has-error");
                     }else{
-                        divEmail.removeClass("has-error");
-                        divEmail.addClass("has-success");
+                        divImage.removeClass("has-error");
+                        divImage.addClass("has-success");
                     }
                 });
                 
-                $('#mem_phoneNumber').keyup(function(event){
+                $('#mem_phone').keyup(function(event){
                     
-                    var divPhoneNumber = $('#divmem_PhoneNumber');
+                    var divPhone = $('#divmem_phone');
                     
-                    if($.trim($('#mem_phoneNumber').val())==""){
-                        divPhoneNumber.removeClass("has-success");
-                        divPhoneNumber.addClass("has-error");
+                    if($.trim($('#mem_phone').val())==""){
+                        divPhone.removeClass("has-success");
+                        divPhone.addClass("has-error");
                     }else{
-                        divPhoneNumber.removeClass("has-error");
-                        divPhoneNumber.addClass("has-success");
+                        divPhone.removeClass("has-error");
+                        divPhone.addClass("has-success");
                     }
                 });
                 
@@ -579,13 +591,14 @@ e-mail : dd@naver.com
                     
                     var provision = $('#provision');
                     var memberInfo = $('#memberInfo');
-                    var divId = $('#divId');
-                    var divPassword = $('#divPassword');
-                    var divPasswordCheck = $('#divPasswordCheck');
-                    var divName = $('#divName');
-                    var divNickname = $('#divNickname');
-                    var divEmail = $('#divEmail');
-                    var divPhoneNumber = $('#divPhoneNumber');
+                    var divId = $('#divmem_id');
+                    var divEmail = $('#divmem_email');
+                    var divPassword = $('#divmem_Password');
+                    var divName = $('#divmem_userName');
+                    var divNickname = $('#divmem_nickname');
+                    var divImage = $('#divmem_image');
+                    var divPhone = $('#divmem_phone');
+                   
                     
                     //회원가입약관
                     if($('#provisionYn:checked').val()=="N"){
@@ -616,69 +629,55 @@ e-mail : dd@naver.com
                     }
                     
                     //아이디 검사
-                    if($('#id').val()==""){
+                    if($('#mem_id').val()==""){
                         modalContents.text("아이디를 입력하여 주시기 바랍니다.");
                         modal.modal('show');
                         
-                        divId.removeClass("has-success");
-                        divId.addClass("has-error");
-                        $('#id').focus();
+                        divmem_Id.removeClass("has-success");
+                        divmem_Id.addClass("has-error");
+                        $('#mem_id').focus();
                         return false;
                     }else{
                         divId.removeClass("has-error");
                         divId.addClass("has-success");
                     }
                     
+                  //이메일
+                    if($('#mem_email').val()==""){
+                        modalContents.text("이메일을 입력하여 주시기 바랍니다.");
+                        modal.modal('show');
+                        
+                        divmem_email.removeClass("has-success");
+                        divmem_email.addClass("has-error");
+                        $('#mem_email').focus();
+                        return false;
+                    }else{
+                        divmem_email.removeClass("has-error");
+                        divmem_email.addClass("has-success");
+                    }
+                    
                     //패스워드 검사
-                    if($('#password').val()==""){
+                    if($('#mem_password').val()==""){
                         modalContents.text("패스워드를 입력하여 주시기 바랍니다.");
                         modal.modal('show');
                         
-                        divPassword.removeClass("has-success");
-                        divPassword.addClass("has-error");
-                        $('#password').focus();
+                        divmem_Password.removeClass("has-success");
+                        divmem_Password.addClass("has-error");
+                        $('#mem_password').focus();
                         return false;
                     }else{
                         divPassword.removeClass("has-error");
                         divPassword.addClass("has-success");
                     }
                     
-                    //패스워드 확인
-                    if($('#passwordCheck').val()==""){
-                        modalContents.text("패스워드 확인을 입력하여 주시기 바랍니다.");
-                        modal.modal('show');
-                        
-                        divPasswordCheck.removeClass("has-success");
-                        divPasswordCheck.addClass("has-error");
-                        $('#passwordCheck').focus();
-                        return false;
-                    }else{
-                        divPasswordCheck.removeClass("has-error");
-                        divPasswordCheck.addClass("has-success");
-                    }
-                    
-                    //패스워드 비교
-                    if($('#password').val()!=$('#passwordCheck').val() || $('#passwordCheck').val()==""){
-                        modalContents.text("패스워드가 일치하지 않습니다.");
-                        modal.modal('show');
-                        
-                        divPasswordCheck.removeClass("has-success");
-                        divPasswordCheck.addClass("has-error");
-                        $('#passwordCheck').focus();
-                        return false;
-                    }else{
-                        divPasswordCheck.removeClass("has-error");
-                        divPasswordCheck.addClass("has-success");
-                    }
-                    
                     //이름
-                    if($('#name').val()==""){
+                    if($('#mem_userName').val()==""){
                         modalContents.text("이름을 입력하여 주시기 바랍니다.");
                         modal.modal('show');
                         
-                        divName.removeClass("has-success");
-                        divName.addClass("has-error");
-                        $('#name').focus();
+                        divmem_userName.removeClass("has-success");
+                        divmem_userName.addClass("has-error");
+                        $('#mem_userName').focus();
                         return false;
                     }else{
                         divName.removeClass("has-error");
@@ -686,41 +685,40 @@ e-mail : dd@naver.com
                     }
                     
                     //별명
-                    if($('#nickname').val()==""){
+                    if($('#mem_nickname').val()==""){
                         modalContents.text("별명을 입력하여 주시기 바랍니다.");
                         modal.modal('show');
                         
-                        divNickname.removeClass("has-success");
-                        divNickname.addClass("has-error");
-                        $('#nickname').focus();
+                        divuser_nickname.removeClass("has-success");
+                        divuser_nickname.addClass("has-error");
+                        $('#user_nickname').focus();
                         return false;
                     }else{
-                        divNickname.removeClass("has-error");
-                        divNickname.addClass("has-success");
+                        divuser_nickname.removeClass("has-error");
+                        divuser_nickname.addClass("has-success");
                     }
-                    
-                    //이메일
-                    if($('#email').val()==""){
-                        modalContents.text("이메일을 입력하여 주시기 바랍니다.");
+                  
+                    //이미지
+                    if($('#mem_image').val()==""){
+                        modalContents.text("이미지를 입력하여 주시기 바랍니다.");
                         modal.modal('show');
                         
-                        divEmail.removeClass("has-success");
-                        divEmail.addClass("has-error");
-                        $('#email').focus();
+                        divmem_image.removeClass("has-success");
+                        divmem_image.addClass("has-error");
+                        $('#mem_image').focus();
                         return false;
                     }else{
-                        divEmail.removeClass("has-error");
-                        divEmail.addClass("has-success");
+                        divmem_image.removeClass("has-error");
+                        divmem_image.addClass("has-success");
                     }
-                    
                     //휴대폰 번호
-                    if($('#phoneNumber').val()==""){
+                    if($('#mem_phone').val()==""){
                         modalContents.text("휴대폰 번호를 입력하여 주시기 바랍니다.");
                         modal.modal('show');
                         
-                        divPhoneNumber.removeClass("has-success");
-                        divPhoneNumber.addClass("has-error");
-                        $('#phoneNumber').focus();
+                        divmem_phone.removeClass("has-success");
+                        divmem_phone.addClass("has-error");
+                        $('#mem_phone').focus();
                         return false;
                     }else{
                         divPhoneNumber.removeClass("has-error");

@@ -164,6 +164,25 @@
 
 	</dependency>
 	
+	
+	<!-- 메일 api -->
+		 <!-- 메일인증 -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		
+		<dependency>
+
+            <groupId>org.springframework</groupId>
+
+            <artifactId>spring-context-support</artifactId>
+
+            <version>4.1.6.RELEASE</version>
+
+</dependency>
+	
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
