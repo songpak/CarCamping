@@ -20,4 +20,15 @@
       insert into Member(mem_id, mem_email, mem_password, mem_userName, mem_nickName, mem_phone, mem_birthday, mem_gender, region_num, mem_point, mem_rentalCount, mem_sysdate, mem_accept_email, mem_accept_phone, mem_accept_privacy, mem_denied, mem_image, mem_summary, mem_introduce, mem_firstReview)
       values(#{mem_id}, #{mem_email}, #{mem_password}, #{mem_userName}, #{mem_nickName}, #{mem_phone}, #{mem_birthday}, #{mem_gender}, #{regionDTO.region_num}, 0, 0, now(), #{mem_accept_email},#{mem_accept_phone}, #{mem_accept_privacy}, 0, #{mem_image}, #{mem_summary}, #{mem_introduce},0)
    </insert>
+   
+	   <!-- 회원정보조회 -->
+	<select id="selectMember" parameterType="String" resultType="memberDTO">
+	select * from Member where mem_email = #{mem_email}
+	</select>
+	
+	<!-- 패스워드변경 -->
+	<update id = "pwUpdate_M" parameterType="memberDTO">
+	update Member set mem_password = #{mem_password} where mem_email= #{mem_email}
+	</update>
+	
 </mapper>

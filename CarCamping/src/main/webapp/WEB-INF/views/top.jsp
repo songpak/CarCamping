@@ -113,6 +113,7 @@
 								</a>
 							</li></c:if>
 							<c:if test="${not empty mbdto}">
+							
 							<li><a href="logout.login">로그아웃</a></li>
 							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
 								<ul class="sub-menu" style="background: #e9efc08c;">

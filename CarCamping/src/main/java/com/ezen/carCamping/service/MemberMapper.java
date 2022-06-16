@@ -51,4 +51,11 @@ public class MemberMapper {
 	      return res;
 	   }
 
+   public MemberDTO selectMember(String mem_email) {
+	   MemberDTO dto = sqlSession.selectOne("selectMember", mem_email);
+       return dto;
+   }
+   
+
+
 	}

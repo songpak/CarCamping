@@ -50,7 +50,7 @@
                 
  
  
-            <form class="form-horizontal" role="form" method="post" action="sign.login">
+            <form class="form-horizontal" role="form" method="post" action="sign.login" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="provision" class="col-lg-2 control-label">회원가입약관</label>
                     <div class="col-lg-10" id="provision">
