@@ -34,7 +34,13 @@
 		select * from ReviewProduct where rp_num = #{rp_num}
 	</select>
 	
+	<select id ="R_orderByScore" parameterType="String" resultType="ReviewProductDTO"> 
+		select * from ReviewProduct order by rp_score
+	</select>
 	
+	<select id ="R_orderByRead" parameterType="String" resultType="ReviewProductDTO"> 
+		select * from ReviewProduct order by rp_readCount
+	</select>
 	
 </mapper>
 

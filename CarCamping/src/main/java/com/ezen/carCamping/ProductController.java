@@ -21,6 +21,7 @@ public class ProductController {
 	@Autowired
 	private ProductMapper productMapper;
 	  
+	//용품메인 컨트롤러
 	@RequestMapping("/goProduct.product")
 	public String goProduct(HttpServletRequest req,
 			@RequestParam Map<String,String>params) {
@@ -41,6 +42,7 @@ public class ProductController {
 		
 	}
 	
+	//리뷰목록 컨트롤러
 	@RequestMapping("/productView.product")
 	public String productView(HttpServletRequest req, @RequestParam Map<String, String> params, int prod_num ) {
 		List<ReviewProductDTO> list = null;
@@ -56,6 +58,8 @@ public class ProductController {
 		req.setAttribute("ReList", list);
 		return "product/productView";
 	}
+	
+	//용품 리뷰상세보기 컨트롤러
 	@RequestMapping("/productReviewView.product")
 	public String productReviewView(HttpServletRequest req, int rp_num) {
 		List<ReviewProductDTO> list = productMapper.getReviewView(rp_num);

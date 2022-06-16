@@ -60,5 +60,15 @@ public class ProductMapper {
 		return list;
 	}
 	
+	public List<ReviewProductDTO> R_orderByScore() {
+		List<ReviewProductDTO>list= sqlSession.selectList("R_orderByScore");
+		return list;
+	}
+	
+	public List<ReviewProductDTO> R_orderByRead() {
+		List<ReviewProductDTO>list= sqlSession.selectList("R_orderByRead");
+		return list;
+	}
+	
 }
  
