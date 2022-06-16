@@ -5,8 +5,8 @@
  	
 <mapper namespace="com.ezen.carCamping.model.myPageMapper"> 
 
-	<select id="cartProduct" parameterType="int" resultType="ProductDTO">
-		select * from Product where prod_num = #{prod_num}
+	<select id="cartProduct" parameterType="int" resultType="ProductCartDTO">
+		select a.*, b.* from ProductCart as a left join Product as b on a.prod_num = b.prod_num
 	</select>
 
 </mapper>

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.service.MyPageMapper;
 import com.ezen.carCamping.service.ProductMapper;
@@ -22,29 +25,48 @@ public class MyPageController {
 	
 	@Autowired
 	   private MyPageMapper myPageMapper;
-	
-	//@Autowired
-	//private ProductMapper productMapper;
 
 	@RequestMapping("/myPageCart.myPage")
-	public String myPageCart(HttpServletRequest req, String indate, String outdate, int prod_num) {
+	public String myPageCart(HttpServletRequest req, String indate, String outdate, int prod_num, int cart_prodCount) {
 		Date date = new Date();        
 		indate = String.format("%1$tY-%1$tm-%1$td", date);
 		outdate = String.format("%1$tY-%1$tm-%1$td", date);
 		HttpSession session = req.getSession();
-		ProductDTO dto = myPageMapper.cartProduct(prod_num);
-		List<ProductDTO> cart = (List)session.getAttribute("cartList");
+		ProductCartDTO dto = myPageMapper.cartProduct(prod_num);
+		dto.setCart_prodCount(cart_prodCount);
+		List<ProductCartDTO> cart = (List)req.getAttribute("cartList");
 		if(cart == null) {
-			cart = new ArrayList<ProductDTO>();
+			cart = new ArrayList<ProductCartDTO>();
 		}
 		cart.add(dto);
 		session.setAttribute("cartList", cart);
 		session.setAttribute("indate", indate);
 		session.setAttribute("outdate", outdate);
-	  // System.out.println("날짜 : " + indate);
+		//System.out.println("넘버 : " + prod_num);
 	   //System.out.println("날짜 : " + outdate);
 		return "myPage/myPageCart";
 	}
+	
+	@RequestMapping("mall_cartEdit.myPage")
+	public String mall_cartEdit(HttpServletRequest req , int cart_prodCount,int prod_num) {
+		HttpSession session = req.getSession();
+		List<ProductCartDTO> cart = (List) req.getAttribute("cartList");
+		if (cart_prodCount <= 0) {
+			session.setAttribute("msg", "상품수량 : 0개 ! 장바구니에서 삭제합니다.");
+			session.setAttribute("url","mall_cartDel.do?pnum=" + prod_num);
+			return "forward:message.jsp";
+		} else {
+			for (ProductCartDTO cartDTO : cart) {
+				if (prod_num == cartDTO.getProd_num()) {
+					cartDTO.setCart_prodCount(cart_prodCount);
+				}
+			}
+		}
+		System.out.println("갯수" + cart_prodCount);
+		System.out.println("갯수" + prod_num);
+		return "shop/mall/mall_cartList";
+	}
+	
 	
 	@RequestMapping("/myPageContactUs.myPage")
 	public String myPageContactUs() {

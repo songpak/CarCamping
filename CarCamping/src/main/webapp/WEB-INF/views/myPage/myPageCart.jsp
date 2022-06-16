@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-md-9 text-left mt-sm-2">
                                 
-                                    <h4>${mdto.prod_name }</h4>
+                                    <h4>${mdto.prod_name}</h4>
                                     <p class="font-weight-light">대여하실 날짜는 ${indate} ~ ${outdate} 까지 입니다.</p><br>
                                 </div>
                             </div>
@@ -44,20 +44,26 @@
                         </td>
                         <c:forEach items="${cartList}" var="mdto">
                         <td data-th="Price">${mdto.prod_price}</td>
+                        
                         <td data-th="Quantity">
-                            <input type="number" class="form-control form-control-lg text-center" value="1">
+                       
+                            <input type="number" class="form-control form-control-lg text-center" value="${mdto.cart_prodCount }">
                         </td>
                         <td class="actions" data-th="">
                             <div class="text-right">
-                                <button class="btn btn-white border-secondary bg-white btn-md mb-2">
-                                    <i class="fas fa-sync"></i>
+                             <form action="mall_cartEdit.myPage" method="post">
+                             	<input type="hidden" name= "cart_prodCount" value="${mdto.cart_prodCount }">
+                             	<input type="hidden" name= "prod_num" value="${mdto.cart_prodCount }">
+                                <button type="submit" class="btn btn-white border-secondary bg-white btn-md mb-2">
+                                  		  수정
                                 </button>
+                               </form>
                                 <button class="btn btn-white border-secondary bg-white btn-md mb-2">
-                                    <i class="fas fa-trash"></i>
+                                   		삭제
                                 </button>
                              
                             </div>
-                        </td>
+                        </td> 
                            </c:forEach>
                     </tr>
          <!-- ------------------------------------------------- -->
@@ -66,7 +72,7 @@
             <div style="float:right">
           	<c:set var ="cartTotalPrice" value="0"/>
          <c:forEach items="${cartList}" var="mdto">
-        <c:set var="cartTotalPrice" value="${cartTotalPrice + mdto.prod_price}"/>
+        <c:set var="cartTotalPrice" value="${cartTotalPrice + mdto.prod_price * mdto.cart_prodCount}"/>
          </c:forEach>
                 <h4>합계</h4>
                 <h1>${cartTotalPrice}원</h1>

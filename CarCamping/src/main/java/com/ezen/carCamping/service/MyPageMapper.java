@@ -12,13 +12,12 @@ public class MyPageMapper {
 	@Autowired
 	   private SqlSession sqlSession;
 	
-	public ProductDTO cartProduct(int prod_num) {
-		ProductDTO dto = sqlSession.selectOne("cartProduct", prod_num);
+	public ProductCartDTO cartProduct(int prod_num) {
+		ProductCartDTO dto = sqlSession.selectOne("cartProduct", prod_num);
 		if(dto != null)
 			return dto;
 		else
 			return null;
 	}
-	
 	
 }

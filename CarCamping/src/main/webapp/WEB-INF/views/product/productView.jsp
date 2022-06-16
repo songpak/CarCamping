@@ -23,6 +23,8 @@ function fn_account(val){
 			var option = "width = 600, height = 500, top = 100, left = 200, location = no"
 			window.open(url, name, option);
 		}
+		
+		
     </script>
 
 <!-- 부트스트랩 영역 -->
@@ -139,7 +141,11 @@ function fn_account(val){
 							반납날짜 <input type="date" id="outdate1" name="outdate">
 						</div>
 						<br>
-						
+						<div align="center">
+						빌릴 갯수 입력
+						 <input type="text" name="cart_prodCount" 
+						  size="7" value="1" pattern="[0-9]+">
+						</div>
 						<br>
 						<div>
 						 <input type="submit" value="대여하기"> 
