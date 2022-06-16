@@ -57,7 +57,7 @@ function fn_account(val){
 					
 			<!-- 이미지 영역 -->
 			<div align="center">
-			 <h4>${getProduct.prod_viewImage1}</h4>
+			 <h4><img src = "${getProduct.prod_viewImage1}"/></h4>
 			 </div>
 			<!-- 이미지 영역 끝 -->
 			

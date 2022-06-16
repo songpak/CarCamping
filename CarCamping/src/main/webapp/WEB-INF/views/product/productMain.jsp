@@ -146,7 +146,9 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 										<div class="card" style="width: 18rem;">
 											<a href="productView.product?prod_num=${pdto.prod_num}"><img src="${pdto.prod_viewImage1}"></a>
 											<div class="card-body">
-												<p class="card-text">${pdto.prod_name}</p>
+												<p class="card-text">용품명 :${pdto.prod_name}<br>
+													브랜드명 : ${pdto.brand_name}</p><br>
+												<p class="card-text">가격 :${pdto.prod_price}</p>
 											</div>
 										</div>
 									</c:forEach>
