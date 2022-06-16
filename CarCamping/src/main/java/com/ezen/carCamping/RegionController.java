@@ -25,11 +25,8 @@ public class RegionController {
 
 	private RegionMapper RegionMapper;
 
-<<<<<<< HEAD
-	private Hashtable<String, List<CarCampingRegionDTO>> ht = RegionMapper.getInstance();
-=======
 	private Hashtable<String, Object> ht = RegionMapper.getInstance();
->>>>>>> eb60c6ea7d6f2a344a33ec5b15569a9d590defd1
+
 
 	@RequestMapping(value = "goRegion.region", method = RequestMethod.GET)
 	public String goRegion(HttpServletRequest req) {
@@ -56,52 +53,7 @@ public class RegionController {
 		req.setAttribute("hotRegionList", ht.get("hot_list"));
 		req.setAttribute("recommandRegionList", ht.get("recommand_list"));
 		return "region/regionHotLocList";
-<<<<<<< HEAD
-	}
 
-	@RequestMapping("/regionView.region")
-	public String regionView(HttpServletRequest req,@RequestParam Map<String,String> params) {
-		int ccr_num = Integer.parseInt(params.get("ccr_num"));
-		//int pageNum = Integer.parseInt(params.get("pageNum"));
-		System.out.println(ccr_num);
-		CarCampingRegionDTO dto = RegionMapper.selectRegionByCcrnum(ccr_num);
-		req.setAttribute("regionSelected", dto);
-		List<ReviewRegionDTO> list = null;
-		int pageSize = 3;
-		String pageNum = params.get("pageNum");
-		if (pageNum == null)
-			pageNum = "1";
-		int currentPage = Integer.parseInt(pageNum);
-		int startRow = (currentPage - 1) * pageSize + 1;
-		int endRow = startRow + pageSize - 1;
-		int rowCount = RegionMapper.countReviewCcrnum(ccr_num);
-		System.out.println("rowCount"+rowCount);
-		System.out.println("pageSize"+pageSize);
-		System.out.println("currentPage"+currentPage);
-		System.out.println("startRow"+startRow);
-		System.out.println("endRow"+endRow);
-		if (endRow > rowCount)
-			endRow = rowCount;
-		if (rowCount > 0) {
-			list = RegionMapper.listCcrReview(ccr_num,startRow-1,endRow);
-		}
-		System.out.println(list.size());
-		int boardNum = rowCount - (startRow - 1);
-		
-		req.setAttribute("rowCount", rowCount);
-		req.setAttribute("pageSize", pageSize);
-		req.setAttribute("currentPage", currentPage);
-		req.setAttribute("reviewList", list);
-		
-		return "/region/regionView";
-	}
-
-	@RequestMapping("/regionReviewView.region")
-	public String regionReviewView(HttpServletRequest req, @RequestParam int ccr_num) {
-
-		return "/region/regionReviewView";
-	}
-=======
 	}
 
 	@SuppressWarnings("unchecked")
@@ -190,6 +142,5 @@ public class RegionController {
 	 * if(o1.getReview_regionScore()<o2.getReview_regionScore()) return -1; else
 	 * return 0; } }
 	 */
->>>>>>> eb60c6ea7d6f2a344a33ec5b15569a9d590defd1
 
 }

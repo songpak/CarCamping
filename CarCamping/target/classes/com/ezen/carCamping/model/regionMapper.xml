@@ -24,28 +24,18 @@
 	</select>
 	
 	<select id="selectRegionByCcrnum" parameterType="Integer" resultType="CarCampingRegionDTO">
-<<<<<<< HEAD
-		select * from songsama.CarCampingRegion where ccr_num = #{ccr_num} 
-=======
 		select * from CarCampingRegion where ccr_num = #{ccr_num} 
->>>>>>> eb60c6ea7d6f2a344a33ec5b15569a9d590defd1
 	</select>
 	
 	<select id="listCcrReview" parameterType="Map" resultType="ReviewRegionDTO">
 	 	<!-- //select * from songsama.ReviewRegion,songsama.CarCampingRegion where ReviewRegion.ccr_num=#{ccr_num} and ReviewRegion.ccr_num=CarCampingRegion.ccr_num and ReviewRegion.review_adminConfirm=0 -->
-<<<<<<< HEAD
-		select c.* from (select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by review_num) c limit #{startRow},#{endRow};
-=======
 		select c.* from (select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by ${orderBy} desc) c limit #{startRow},#{endRow};
->>>>>>> eb60c6ea7d6f2a344a33ec5b15569a9d590defd1
 	</select>
 	
 	<select id="countReviewCcrnum" parameterType="Integer" resultType="Integer">
 		select count(*) from songsama.ReviewRegion,songsama.CarCampingRegion where ReviewRegion.ccr_num=#{ccr_num} and ReviewRegion.ccr_num=CarCampingRegion.ccr_num and ReviewRegion.review_adminConfirm=0
 	</select>
-	
-<<<<<<< HEAD
-=======
+
 	<!-- 차박지 : 좋아요 클릭 시 종아요 수 증가-->
 	<update id="addLikeCountRegion" parameterType="Integer">
 		update CarCampingRegion set ccr_likeCount=ccr_likeCount+1 where ccr_num=#{ccr_num};
@@ -63,5 +53,5 @@
 	<update id="subLikeCountReview" parameterType="Integer" >
 		update ReviewRegion set review_likeCount=review_likeCount-1 where review_num=#{review_num};
 	</update>
->>>>>>> eb60c6ea7d6f2a344a33ec5b15569a9d590defd1
+
 </mapper>
