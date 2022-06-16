@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
+import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
@@ -139,11 +140,8 @@ public class AdminMapper {
 	}
 	
 	public List<ProductDTO> adminFindProduct(String search){
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("search1", "%"+search+"%");
-		map.put("search2", "%"+search+"%");
-		map.put("search3", "%"+search+"%");
-		List<ProductDTO> adminFindProduct = sqlSession.selectList("adminFindProduct", map);
+		search = "%"+search+"%";
+		List<ProductDTO> adminFindProduct = sqlSession.selectList("adminFindProduct", search);
 		return adminFindProduct;
 	}
 	
@@ -165,6 +163,37 @@ public class AdminMapper {
 	
 	public int adminDeleteProduct(int prod_num) {
 		int res = sqlSession.delete("adminDeleteProduct", prod_num);
+		return res;
+	}
+	
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////È¸ ¿ø//////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+	
+	public List<MemberDTO> adminListMember(){
+		List<MemberDTO> list = sqlSession.selectList("adminListMember");
+		return list;
+	}
+	
+	public List<MemberDTO> adminListMemberSort(Map<String,String> map){
+		List<MemberDTO> list = sqlSession.selectList("adminListMemberSort",map);
+		return list;
+	}
+	
+	public List<MemberDTO> adminListMemberSearch(Map<String,String> map){
+		List<MemberDTO> list = sqlSession.selectList("adminListMemberSearch", map);
+		return list;
+	}
+	
+	public MemberDTO adminGetMember(int mem_num) {
+		MemberDTO dto = sqlSession.selectOne("adminGetMember",mem_num);
+		return dto;
+	}
+	
+	public int adminDenyMember(Map<String,String> map) {
+		int res = sqlSession.update("adminDenyMember", map);
 		return res;
 	}
 }

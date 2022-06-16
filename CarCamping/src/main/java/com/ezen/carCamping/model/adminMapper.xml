@@ -108,9 +108,12 @@
 		delete from Agency where agency_num = #{agency_num}
 	</delete>
 	
+	
+	
 	<!-- /////////////////////////////////////////////////////////////////////////// -->
 	<!-- ///////////////////////////////카테고리////////////////////////////////////// -->
 	<!-- ////////////////////////////////////////////////////////////////////////// -->
+	
 	
 	
 	<select id="adminListBrand" resultType="BrandCategoryDTO">
@@ -136,9 +139,13 @@
 	</delete>
 	
 	
+	
 	<!-- //////////////////////////////////////////////////////////////////////// -->
 	<!-- ////////////////////////////////용품////////////////////////////////////// -->
 	<!-- ///////////////////////////////////////////////////////////////////////// -->
+	
+	
+	
 	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
 		<id column="brand_num" property="brand_num"/>
 		<result column="brand_name" property="brand_name"/>
@@ -176,11 +183,10 @@
 		on a.brand_num = b.brand_num and a.pc_num = c.pc_num;
 	</select>
 	
-	<select id="adminFindProduct" resultMap="productMap" parameterType="java.util.Map">
+	<select id="adminFindProduct" resultMap="productMap" parameterType="String">
 		select a.*,b.brand_name,c.pc_name from Product a join BrandCategory b join ProductCategory c 
-		on a.brand_num = b.brand_num and a.pc_num = c.pc_num where b.brand_name like #{search1} or c.pc_name like #{search2} or a.prod_name like #{search3}
+		on a.brand_num = b.brand_num and a.pc_num = c.pc_num where b.brand_name like #{search} or c.pc_name like #{search} or a.prod_name like #{search}
 	</select>
-	
 	
 	<select id="adminGetProduct" resultMap="productMap" parameterType="int">
 		select a.*,b.brand_name,c.pc_name from Product a join BrandCategory b join ProductCategory c 
@@ -203,5 +209,57 @@
 	<delete id="adminDeleteProduct" parameterType="int">
 		delete from Product where prod_num = #{prod_num}
 	</delete>
+	
+	
+	
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	<!-- ////////////////////////////////////회 원////////////////////////////////////// -->
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	
+	
+	<resultMap type="MemberDTO" id="memberMap">
+		<id column="mem_num" property="mem_num"/>
+		<result column="mem_id" property="mem_id"/>
+		<result column="mem_email" property="mem_email"/>
+		<result column="mem_password" property="mem_password"/>
+		<result column="mem_userName" property="mem_userName"/>
+		<result column="mem_nickName" property="mem_nickName"/>
+		<result column="mem_phone" property="mem_phone"/>
+		<result column="mem_birthday" property="mem_birthday"/>
+		<result column="mem_gender" property="mem_gender"/>
+		<result column="mem_point" property="mem_point"/>
+		<result column="mem_rentalCount" property="mem_rentalCount"/>
+		<result column="mem_sysdate" property="mem_sysdate"/>
+		<result column="mem_accept_email" property="mem_accept_email"/>
+		<result column="mem_accept_phone" property="mem_accept_phone"/>
+		<result column="mem_accept_privacy" property="mem_accept_privacy"/>
+		<result column="mem_denied" property="mem_denied"/>
+		<result column="mem_image" property="mem_image"/>
+		<result column="mem_summary" property="mem_summary"/>
+		<result column="mem_introduce" property="mem_introduce"/>
+		<result column="mem_firstReview" property="mem_firstReview"/>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
+		</association>
+	</resultMap>
+	
+	<select id="adminListMember" resultMap="memberMap">
+		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num
+	</select>
+	
+	<select id="adminGetMember" resultMap="memberMap" parameterType="int">
+		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num where a.mem_num = #{mem_num}
+	</select>
+	
+	<select id="adminListMemberSort" resultMap="memberMap" parameterType="java.util.Map">
+		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num order by ${sort} DESC
+	</select>
+	
+	<select id="adminListMemberSearch" resultMap="memberMap" parameterType="java.util.Map">
+		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num where ${name1} like CONCAT('%',trim(#{name2}),'%')
+	</select>
+	
+	<update id="adminDenyMember" parameterType="java.util.Map">
+		update Member set mem_denied = #{mem_denied} where mem_num = #{mem_num}
+	</update>
 	
 </mapper>

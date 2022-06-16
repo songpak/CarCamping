@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
+import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
@@ -398,7 +399,6 @@ public class AdminController {
 		if (search==null) {
 			adminListProduct = adminMapper.adminListProduct();
 		}else {
-			System.out.println(search);
 			adminListProduct = adminMapper.adminFindProduct(search.trim());
 		}
 		
@@ -529,9 +529,62 @@ public class AdminController {
 		return mav;
 	}
 	
+	
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////회원 관리//////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	@RequestMapping("/adminMember.admin")
-	public String adminMember() {
+	public String adminMember(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<MemberDTO> adminListMember = new ArrayList<MemberDTO>();
+		
+		if(map.containsKey("sort")) {
+			adminListMember = adminMapper.adminListMemberSort(map);
+		}
+		else if(map.containsKey("name1")) {
+			adminListMember = adminMapper.adminListMemberSearch(map);
+		}
+		else {
+			adminListMember = adminMapper.adminListMember();
+		}
+		for(MemberDTO dto : adminListMember) {
+			System.out.println(dto.getMem_point());
+		}
+		
+		req.setAttribute("adminListMember", adminListMember);
 		return "admin/adminMember";
+	}
+	
+	@RequestMapping(value="/adminViewMember.admin",method=RequestMethod.GET)
+	public String adminViewMember(HttpServletRequest req,@RequestParam int mem_num) {
+		MemberDTO dto = adminMapper.adminGetMember(mem_num);
+		req.setAttribute("mdto", dto);
+		
+		return "admin/adminViewMember";
+	}
+	
+	@RequestMapping(value="/adminViewMember.admin",method=RequestMethod.POST)
+	public ModelAndView adminDenyMember(@RequestParam(required=false) Map<String,String> map) {
+		if (map.containsKey("denied")) {
+			map.put("mem_denied", "0");
+		}else {
+			map.put("mem_denied", "1");
+		}
+		int res = adminMapper.adminDenyMember(map);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "수정되었습니다.";
+			url = "adminMember.admin";
+		}else {
+			msg = "수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminMember.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
 	}
 	
 	@RequestMapping("/adminReviewRegion.admin")
