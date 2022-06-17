@@ -11,7 +11,7 @@
 	</select>
 	 
 	<select id="findProduct" parameterType="java.util.Map" resultType="ProductDTO">
-	select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString}
+	select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} or prod_name like concat('%',#{searchString},'%')
 	</select>
 	
 	<select id="popularProd" resultType="ProductDTO">
@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="findProdReview" parameterType="java.util.Map" resultType="ReviewProductDTO">
-		select * from ReviewProduct where ${search} = #{searchString}
+		select * from ReviewProduct where ${search} = #{searchString} or rp_title like concat('%',#{searchString},'%')
 	</select>
 	
 	<select id="getReviewView" resultType="ReviewProductDTO">
