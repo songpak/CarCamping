@@ -128,7 +128,7 @@ global styles
 --------------------------------------------- 
 */
 html, body {
-	background: #2c3e50;;
+	background: #ffffff;
 	font-family: 'Poppins', sans-serif;
 }
 
@@ -1369,7 +1369,7 @@ section.contact-us .right-info ul li span {
 	text-transform: uppercase;
 	font-size: 14px;
 	color: #fff;
-	background: #2c3e50;
+	background: #ffffff;
 }
 
 .footer p a {
