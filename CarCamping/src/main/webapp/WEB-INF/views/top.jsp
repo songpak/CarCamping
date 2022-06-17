@@ -100,7 +100,7 @@
 									</div>
 									<div class="list-group">
 										<a href="myPageProfile.myPage"
-											class="list-group-item list-group-item-action list-group-item-light p-3">		
+											class="list-group-item list-group-item-action list-group-item-light p-3">	
 											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
 											내 정보 </a> 
 										<a href="myPageWriteReview.myPage"

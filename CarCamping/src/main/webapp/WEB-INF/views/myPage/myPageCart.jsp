@@ -27,9 +27,10 @@
                 </thead>
                 <tbody>
         <!-- ------------------------------------------- -->
+         <c:forEach items="${cartList}" var="mdto">
                     <tr>
                         <td data-th="Product">
-                        <c:forEach items="${cartList}" var="mdto">
+                       
                             <div class="row">
                                 <div class="col-md-3 text-left">
                                     <img src="${mdto.prod_viewImage1}" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
@@ -40,9 +41,8 @@
                                     <p class="font-weight-light">대여하실 날짜는 ${indate} ~ ${outdate} 까지 입니다.</p><br>
                                 </div>
                             </div>
-                            </c:forEach>
+                            
                         </td>
-                        <c:forEach items="${cartList}" var="mdto">
                         <td data-th="Price">${mdto.prod_price}원</td>
                         
                         <td>
@@ -59,8 +59,8 @@
                                    		삭제
                                 </button></a> 
                         </td> 
-                           </c:forEach>
                     </tr>
+                    </c:forEach>
          <!-- ------------------------------------------------- -->
                 </tbody>
             </table>
