@@ -209,5 +209,23 @@ public class AdminMapper {
 		return list;
 	}
 	
+	public List<ReviewRegionDTO> adminListReviewRegionSort(Map<String,String> map){
+		List<ReviewRegionDTO> list = sqlSession.selectList("adminListReviewRegionSort",map);
+		return list;
+	}
 	
+	public List<ReviewRegionDTO> adminListReviewRegionSearch(Map<String,String> map){
+		List<ReviewRegionDTO> list = sqlSession.selectList("adminListReviewRegionSearch",map);
+		return list;
+	}
+	
+	public ReviewRegionDTO adminGetReviewRegion(int review_num) {
+		ReviewRegionDTO dto = sqlSession.selectOne("adminGetReviewRegion", review_num);
+		return dto;
+	}
+	
+	public int adminUpdateReviewRegion(Map<String,String> map) {
+		int res = sqlSession.update("adminUpdateReviewRegion", map);
+		return res;
+	}
 }

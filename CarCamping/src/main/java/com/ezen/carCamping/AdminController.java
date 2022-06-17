@@ -597,11 +597,58 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminReviewRegion.admin")
-	public String adminReviewRegion(HttpServletRequest req) {
-		List<ReviewRegionDTO> adminListReviewRegion = adminMapper.adminListReviewRegion();
+	public String adminReviewRegion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<ReviewRegionDTO> adminListReviewRegion = new ArrayList<ReviewRegionDTO>();
+		
+		if (map.containsKey("sort")) {
+			adminListReviewRegion = adminMapper.adminListReviewRegionSort(map);
+		}else if (map.containsKey("search")) {
+			String search = "%"+map.get("search").trim()+"%";
+			map.put("search", search);
+			adminListReviewRegion = adminMapper.adminListReviewRegionSearch(map);
+		}else {
+			adminListReviewRegion = adminMapper.adminListReviewRegion();
+		}
 		
 		req.setAttribute("adminListReviewRegion", adminListReviewRegion);
 		return "admin/adminReviewRegion";
+	}
+	
+	@RequestMapping(value="/adminViewReviewRegion.admin",method=RequestMethod.GET)
+	public String adminViewReviewRegion(HttpServletRequest req,@RequestParam int review_num) {
+		ReviewRegionDTO dto = adminMapper.adminGetReviewRegion(review_num);
+		req.setAttribute("rdto", dto);
+		return "admin/adminViewReviewRegion";
+	}
+	
+	@RequestMapping(value="/adminViewReviewRegion",method=RequestMethod.POST)
+	public ModelAndView adminViewReviewRegion(@RequestParam(required=false) Map<String,String> map) {
+		
+		if (map.containsKey("review_popular1")) {
+			map.put("review_popular", "0");
+		}else {
+			map.put("review_popular", "1");
+		}
+		
+		if (map.containsKey("review_adminConfirm1")) {
+			map.put("review_adminConfirm", "0");
+		}else {
+			map.put("review_adminConfirm", "1");
+		}
+		
+		int res = adminMapper.adminUpdateReviewRegion(map);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "수정되었습니다.";
+			url = "adminReviewRegion.admin";
+		}else {
+			msg = "수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminReviewRegion.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
 	}
 	
 	@RequestMapping("/adminReviewProduct.admin")

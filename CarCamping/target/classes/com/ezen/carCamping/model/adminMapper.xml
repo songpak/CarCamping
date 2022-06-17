@@ -263,11 +263,13 @@
 	</update>
 	
 	
+	
 <!-- /////////////////////////////////////////////////////////////////////////////////// -->
 <!-- ////////////////////////////////////장소 리뷰 관리/////////////////////////////////////////// -->
 <!-- /////////////////////////////////////////////////////////////////////////////////// -->
 
-	
+
+
 	<resultMap id="reviewRegionMap" type="ReviewRegionDTO">
 		<id column="review_num" property="review_num"/>
 		<result column="review_title" property="review_title"/>
@@ -293,4 +295,21 @@
 	<select id="adminListReviewRegion" resultMap="reviewRegionMap">
 		select a.*,b.*,c.* from ReviewRegion a join Member b join CarCampingRegion c on a.mem_num = b.mem_num and a.ccr_num = c.ccr_num
 	</select>
+	
+	<select id="adminListReviewRegionSort" resultMap="reviewRegionMap" parameterType="java.util.Map">
+		select a.*,b.*,c.* from ReviewRegion a join Member b join CarCampingRegion c on a.mem_num = b.mem_num and a.ccr_num = c.ccr_num order by ${sort} DESC
+	</select>
+	
+	<select id="adminListReviewRegionSearch" resultMap="reviewRegionMap" parameterType="java.util.Map">
+		select a.*,b.*,c.* from ReviewRegion a join Member b join CarCampingRegion c on a.mem_num = b.mem_num and a.ccr_num = c.ccr_num 
+		where review_title like #{search} or review_summaryContent like #{search} or review_regionContent like #{search}
+	</select>
+	
+	<select id="adminGetReviewRegion" resultMap="reviewRegionMap" parameterType="int">
+		select a.*,b.*,c.* from ReviewRegion a join Member b join CarCampingRegion c on a.mem_num = b.mem_num and a.ccr_num = c.ccr_num where review_num = #{review_num}
+	</select>
+	
+	<update id="adminUpdateReviewRegion" parameterType="java.util.Map">
+		update ReviewRegion set review_popular = #{review_popular}, review_adminConfirm = #{review_adminConfirm} where review_num = #{review_num}
+	</update>
 </mapper>
