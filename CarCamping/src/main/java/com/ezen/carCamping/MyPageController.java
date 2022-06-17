@@ -31,7 +31,7 @@ public class MyPageController {
 		HttpSession session = req.getSession();
 		ProductCartDTO dto = myPageMapper.cartProduct(prod_num);
 		dto.setCart_prodCount(cart_prodCount);
-		List<ProductCartDTO> cart = (List)req.getAttribute("cartList");
+		List<ProductCartDTO> cart = (List)session.getAttribute("cartList");
 		if(cart == null) {
 			cart = new ArrayList<ProductCartDTO>();
 		}
@@ -39,7 +39,7 @@ public class MyPageController {
 		session.setAttribute("cartList", cart);
 		session.setAttribute("indate", indate);
 		session.setAttribute("outdate", outdate);
-		//System.out.println("넘버 : " + prod_num);
+		System.out.println("넘버 : " + prod_num);
 	   //System.out.println("날짜 : " + outdate);
 		return "myPage/myPageCart";
 	}
