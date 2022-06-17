@@ -8,6 +8,8 @@
 
 
  -->
+ <c:set var="ccr_num" value="${regionSelected.ccr_num }"/>
+ <c:set var="mem_id" value="${sessionScope.id}"/>
 <div class="modal modal-center fade" id="regionContent" tabindex="-1"
 	role="dialog" aria-labelledby="regionContentLabel">
 	<div class="modal-dialog modal-center modal-lg" role="document">
@@ -93,7 +95,7 @@ body {
 
 <div class="container-fluid themed-container" style="margin-left: 55px;">
 	<!-- Row Grid -->
-	<c:set var="ccr_num" value="${regionSelected.ccr_num}"/>
+	
 <%-- 	<c:set var="mode" value="${mode}"/>
 	<c:set var="orderBy" value="${orderBy}"/>
 	<c:set var="search" value="${search}"/>
@@ -101,24 +103,50 @@ body {
 	
 	<div class="row mb-3">
 		<script>/*  Like_function(${ccr_num},${id})으로 변경*/
-		function Like_function(ccr_num){
-			/* location.href="regionLike.region?ccr_num="+ccr_num;
-			console.log("좋아요 클릭"); */
+		function Like_function(){
+			var mid = '${mem_id}';
+			var isEmpty = function(value){//빈값체크
+	            if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
+	              return true
+	            }else{
+	              return false
+	            }
+	          };
 			
-			/*아이디값이 있을 떄	
-			$.ajax({
-				url: "regionLike.region",
-                type: "POST",
-                data: {
-                    no: ${regionSelected.ccr_num}, //
-                    id: '${id}'
-                },
-                success: function () {
-			        recCount();
-                },
-			})
-			//아이디 값이 있어서 
-			*/
+			if(isEmpty(mid)){ //아이디가 없으면
+				console.log("아이디없음");
+				alert("로그인을 해주세요 !!");
+				
+			}else{ //아이디가 있으면
+				$.ajax({
+					url: "updateRegionLike.region", //컨트롤러 맵핑
+	                type: "POST",
+	                data: { //사용자가 데이터를 정의한다
+	                	mem_id: '${mem_id}',
+	                	ccr_num: ${ccr_num}
+	                },
+	                success: function () { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
+				       // $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
+				      	recountRegionLike();
+				        alert(mid);
+	                }
+				})
+				// 현재 지역의 추천수를 구하는 함수
+	   			 function recountRegionLike() {
+					$.ajax({
+						url: "recountRegionLike.region",
+               			type: "POST",
+                		data: {
+                			ccr_num: ${ccr_num}
+               			 },
+               			success: function (data) {
+                		$("#likeCount").text(data+"💖");
+               			 }
+					})
+	    		};
+	    		recountRegionLike(); // 처음 시작했을 때 실행되도록 해당 함수 호출
+			}
+			
 		}			
 				
 		</script>
@@ -131,7 +159,7 @@ body {
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#regionContent">${regionSelected.ccr_name}</button>
 			</span>
-
+		
 			<hr style="margin-top: 0px; margin-bottom: 5px;">
 			<ul id="regionInfo" class="nav nav-pills flex-column mb-auto"
 				style="margin-bottom: 0px; height: 600px;">
@@ -142,7 +170,7 @@ body {
 						Like_function(${ccr_num}) -> Like_function(${ccr_num},${id})
 						id값이 없으면 로그인창으로 보낸다.
 					-->
-					<button type="button" class="btn btn-danger rounded-pill" onclick="Like_function(${ccr_num});"
+					<button type="button" id="likeCount" class="btn btn-danger rounded-pill" onclick="Like_function();"
 						style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px;">
 						
 						${regionSelected.ccr_likeCount}💖

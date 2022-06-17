@@ -1,4 +1,4 @@
-	package com.ezen.carCamping;
+package com.ezen.carCamping;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,17 +9,20 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.RegionMapper;
+
 
 @Controller
 public class RegionController {
@@ -42,6 +45,11 @@ public class RegionController {
 		 * for(int i=1;i<=9;i++) {
 		 * ht.put(String.valueOf(i),RegionMapper.listCarCampingRegionHotRegion(i)); }
 		 */
+//		임시로그인
+		HttpSession test_session = req.getSession();
+		test_session.setAttribute("id", "qqq");
+		test_session.setAttribute("mem_num",3);
+		//test_session.invalidate();
 		return "region/regionMain";
 	}
 
@@ -193,21 +201,35 @@ public class RegionController {
 		return "/region/regionReviewView";
 	}
 	
-	@RequestMapping("/regionLike.region")
-	public String regionLike(HttpServletRequest req,@RequestParam Map<String,String> params) {
-		int ccr_num = Integer.parseInt(params.get("ccr_num"));
-		int res = RegionMapper.addLikeCountRegion(ccr_num);
-		String msg,url="regionView.region?ccr_num="+ccr_num;
-		if(res<0) {
-			 msg ="차박지 좋아요 목록에 추가하지 못했습니다 !";
-		}else {
-			msg="내가 좋아요한 차박지 목록에 추가됩니다 !";
-		}
-		req.setAttribute("msg", msg);
-		req.setAttribute("url", url);
-		return "message";
+	//테스트 - 삭제 해도됨
+	@RequestMapping("/test.region")
+	@ResponseBody
+	public String testRegion(HttpServletRequest req,@RequestParam int ccr_num,@RequestParam String id) {
+		System.out.println(ccr_num+" + "+ id);
+		req.setAttribute("ccr_num", ccr_num);
+		req.setAttribute("id", id);
+		String test = String.valueOf(ccr_num)+id;
+		return test;
 	}
 	
+	//좋아요 수를 증가하고 좋아요 내역에 인서트
+	@RequestMapping(value="updateRegionLike.region",method=RequestMethod.POST)
+	public void updateRegionLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int ccr_num) {
+		if(!(RegionMapper.checkRegionLikeLog(mem_id, ccr_num)>0)) { // !(좋아요 내역에서 해당 아이디에 내역이 0개 이상) == 없을때
+			int updRes = RegionMapper.addLikeCountRegion(ccr_num);//지역 좋아요 수를 증가하고 결과값을 리턴
+			if(updRes>0) {
+				RegionMapper.insertRegionLikeLog(mem_id, ccr_num); // 좋아요 내역에 추가
+			}
+		}
+	}
+	//좋아요 수 증가에 성공하면 좋아요 수를 다시 카운트함
+	@RequestMapping(value="recountRegionLike.region",method=RequestMethod.POST)
+	@ResponseBody
+	public String recountRegionLike(HttpServletRequest req,@RequestParam int ccr_num) {
+		int count = RegionMapper.recountRegionLike(ccr_num);
+		String returnString = String.valueOf(count);
+		return returnString;
+	}
 	/*
 	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //오름차순
 	 * 

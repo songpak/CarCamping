@@ -77,7 +77,7 @@
 		update CarCampingRegion set ccr_likeCount=ccr_likeCount+1 where ccr_num=#{ccr_num}
 	</update>
 	<!-- 차박지 : 좋아요 다시 클릭시 좋아요 수 감소 -->
-		<update id="subLikeCountRegion" parameterType="Integer">
+	<update id="subLikeCountRegion" parameterType="Integer">
 		update CarCampingRegion set ccr_likeCount=ccr_likeCount-1 where ccr_num=#{ccr_num}
 	</update>
 	
@@ -90,9 +90,27 @@
 		update ReviewRegion set review_likeCount=review_likeCount-1 where review_num=#{review_num}
 	</update>
 
-
 	<!--리뷰 상세보기   -->
 	<select id="selectReviewDetail" parameterType="Integer" resultType="ReviewRegionDTO">
 		select * from ReviewRegion where review_num = #{review_num}
+	</select>
+
+	<!-- 지역 좋아요 수 가져오기  -->
+	<select id="recountRegionLike" parameterType="Integer" resultType="Integer">
+		select a.ccr_likeCount from CarCampingRegion a where ccr_num = #{ccr_num}
+	</select>
+	<!--지역 좋아요 추가 & 삭제  -->
+	<insert id="insertRegionLikeLog" parameterType="Map">
+		insert into RegionLikeLog (mem_num,ccr_num) values
+		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{ccr_num});
+	</insert>
+	<delete id="deleteRegionLikeLog" parameterType="Map">
+		delete a.* from ReviewLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{id} and a.ccr_num = #{ccr_num}
+	</delete>
+	<!-- 좋아요 내역 검사  -->
+	<select id="checkRegionLikeLog" parameterType="Map">
+		select count(a.mem_num) from RegionLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{id} and a.ccr_num = #{ccr_num}
 	</select>
 </mapper>

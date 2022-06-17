@@ -123,6 +123,7 @@ public class RegionMapper{
 	public int addReviewReadCount(int review_num) {
 		return sqlSession.update("addReviewReadCount", review_num);
 	}
+	//지역과 리뷰 좋아요 수 증감
 	public int addLikeCountRegion(int ccr_num) {
 		int res = sqlSession.update("addLikeCountRegion", ccr_num);
 		return res;
@@ -139,5 +140,33 @@ public class RegionMapper{
 		int res = sqlSession.update("subLikeCountReview", review_num);
 		return res;
 	}
-
+	//지역 좋아요 수 가져오기
+	public int recountRegionLike(int ccr_num) {
+		int res = (int)sqlSession.selectOne("recountRegionLike", ccr_num);
+		return res;
+	}
+	//지역 좋아요 내역 추가 , 삭제
+	public int insertRegionLikeLog(String mem_id,int ccr_num) {
+		Map<String,Object> map = new Hashtable<>();
+		map.put("mem_id", mem_id);
+		map.put("ccr_num",ccr_num);
+		int res = sqlSession.insert("insertRegionLikeLog", map);
+		return res;
+	}
+	public int deleteRegionLikeLog(String mem_id,int ccr_num) {
+		Map<String,Object> map = new Hashtable<>();
+		map.put("mem_id", mem_id);
+		map.put("ccr_num", ccr_num);
+		int res = sqlSession.insert("deleteRegionLikeLog", map);
+		return res;
+	}
+	
+	//지역 좋아요 내역 체크
+	public int checkRegionLikeLog(String mem_id,int ccr_num) {
+		Map<String,Object> map = new Hashtable<>();
+		map.put("mem_id", mem_id);
+		map.put("ccr_num", ccr_num);
+		int res = sqlSession.insert("checkRegionLikeLog", map);
+		return res;
+	}
 }
