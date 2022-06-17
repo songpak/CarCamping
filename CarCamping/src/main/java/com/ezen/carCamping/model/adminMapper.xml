@@ -312,4 +312,56 @@
 	<update id="adminUpdateReviewRegion" parameterType="java.util.Map">
 		update ReviewRegion set review_popular = #{review_popular}, review_adminConfirm = #{review_adminConfirm} where review_num = #{review_num}
 	</update>
+	
+	
+	
+	
+<!-- /////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////용품 리뷰 관리/////////////////////////////////////////// -->
+<!-- /////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+	<resultMap id="reviewProductMap" type="ReviewProductDTO">
+		<id column="rp_num" property="rp_num"/>
+		<result column="rp_title" property="rp_title"/>
+		<result column="rp_sysdate" property="rp_sysdate"/>
+		<result column="rp_summaryContent" property="rp_summaryContent"/>
+		<result column="rp_content" property="rp_content"/>
+		<result column="rp_score" property="rp_score"/>
+		<result column="rp_image1" property="rp_image1"/>
+		<result column="rp_image2" property="rp_image2"/>
+		<result column="rp_image3" property="rp_image3"/>
+		<result column="rp_image4" property="rp_image4"/>
+		<result column="rp_image5" property="rp_image5"/>
+		<result column="rp_popular" property="rp_popular"/>
+		<result column="rp_readCount" property="rp_readCount"/>
+		<result column="rp_likeCount" property="rp_likeCount"/>
+		<result column="rp_adminConfirm" property="rp_adminConfirm"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
+		</association>
+		<association property="productDTO" javaType="ProductDTO" resultMap="productMap">
+		</association>
+	</resultMap>
+	
+	<select id="adminListReviewProduct" resultMap="reviewProductMap">
+		select a.*,b.*,c.* from ReviewProduct a join Member b join Product c on a.mem_num = b.mem_num and a.prod_num = c.prod_num
+	</select>
+	
+	<select id="adminListReviewProductSort" resultMap="reviewProductMap" parameterType="java.util.Map">
+		select a.*,b.*,c.* from ReviewProduct a join Member b join Product c on a.mem_num = b.mem_num and a.prod_num = c.prod_num order by ${sort} DESC
+	</select>
+	
+	<select id="adminListReviewProductSearch" resultMap="reviewProductMap" parameterType="java.util.Map">
+		select a.*,b.*,c.* from ReviewProduct a join Member b join Product c on a.mem_num = b.mem_num and a.prod_num = c.prod_num 
+		where rp_title like #{search} or rp_summaryContent like #{search} or rp_content like #{search}
+	</select>
+	
+	<select id="adminGetReviewProduct" resultMap="reviewProductMap" parameterType="int">
+		select a.*,b.*,c.* from ReviewProduct a join Member b join Product c on a.mem_num = b.mem_num and a.prod_num = c.prod_num where rp_num = #{rp_num}
+	</select>
+	
+	<update id="adminUpdateReviewProduct" parameterType="java.util.Map">
+		update ReviewProduct set rp_popular = #{rp_popular}, rp_adminConfirm = #{rp_adminConfirm} where rp_num = #{rp_num}
+	</update>
 </mapper>

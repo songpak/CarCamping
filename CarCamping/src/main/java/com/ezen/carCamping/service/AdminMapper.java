@@ -15,6 +15,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 
 @Service
@@ -200,9 +201,12 @@ public class AdminMapper {
 
 	
 	
+	
 ///////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////厘 家 府 轰//////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	
 	public List<ReviewRegionDTO> adminListReviewRegion(){
 		List<ReviewRegionDTO> list = sqlSession.selectList("adminListReviewRegion");
@@ -228,4 +232,40 @@ public class AdminMapper {
 		int res = sqlSession.update("adminUpdateReviewRegion", map);
 		return res;
 	}
+	
+	
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////厘 家 府 轰//////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+
+	public List<ReviewProductDTO> adminListReviewProduct(){
+		List<ReviewProductDTO> list = sqlSession.selectList("adminListReviewProduct");
+		return list;
+	}
+
+	public List<ReviewProductDTO> adminListReviewProductSort(Map<String,String> map){
+		List<ReviewProductDTO> list = sqlSession.selectList("adminListReviewProductSort",map);
+		return list;
+	}
+
+	public List<ReviewProductDTO> adminListReviewProductSearch(Map<String,String> map){
+		List<ReviewProductDTO> list = sqlSession.selectList("adminListReviewProductSearch",map);
+		return list;
+	}
+
+	public ReviewProductDTO adminGetReviewProduct(int rp_num) {
+		ReviewProductDTO dto = sqlSession.selectOne("adminGetReviewProduct", rp_num);
+		return dto;
+	}
+
+	public int adminUpdateReviewProduct(Map<String,String> map) {
+		int res = sqlSession.update("adminUpdateReviewProduct", map);
+		return res;
+	}
+	
 }

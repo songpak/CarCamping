@@ -26,6 +26,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.AdminMapper;
 
@@ -621,7 +622,7 @@ public class AdminController {
 		return "admin/adminViewReviewRegion";
 	}
 	
-	@RequestMapping(value="/adminViewReviewRegion",method=RequestMethod.POST)
+	@RequestMapping(value="/adminViewReviewRegion.admin",method=RequestMethod.POST)
 	public ModelAndView adminViewReviewRegion(@RequestParam(required=false) Map<String,String> map) {
 		
 		if (map.containsKey("review_popular1")) {
@@ -650,11 +651,76 @@ public class AdminController {
 		mav.addObject("url", url);
 		return mav;
 	}
+
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////용품 리뷰 관리////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	
 	@RequestMapping("/adminReviewProduct.admin")
-	public String adminReviewProduct() {
+	public String adminReviewProduct(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<ReviewProductDTO> adminListReviewProduct = new ArrayList<ReviewProductDTO>();
+		
+		if (map.containsKey("sort")) {
+			adminListReviewProduct = adminMapper.adminListReviewProductSort(map);
+		}else if (map.containsKey("search")) {
+			String search = "%"+map.get("search").trim()+"%";
+			map.put("search", search);
+			adminListReviewProduct = adminMapper.adminListReviewProductSearch(map);
+		}else {
+			adminListReviewProduct = adminMapper.adminListReviewProduct();
+		}
+		
+		req.setAttribute("adminListReviewProduct", adminListReviewProduct);
 		return "admin/adminReviewProduct";
 	}
+	
+	@RequestMapping(value="/adminViewReviewProduct.admin",method=RequestMethod.GET)
+	public String adminViewReviewProduct(HttpServletRequest req,@RequestParam int rp_num) {
+		ReviewProductDTO dto = adminMapper.adminGetReviewProduct(rp_num);
+		req.setAttribute("rdto", dto);
+		return "admin/adminViewReviewProduct";
+	}
+	
+	@RequestMapping(value="/adminViewReviewProduct.admin",method=RequestMethod.POST)
+	public ModelAndView adminViewReviewProduct(@RequestParam(required=false) Map<String,String> map) {
+		
+		if (map.containsKey("rp_popular1")) {
+			map.put("rp_popular", "0");
+		}else {
+			map.put("rp_popular", "1");
+		}
+		
+		if (map.containsKey("rp_adminConfirm1")) {
+			map.put("rp_adminConfirm", "0");
+		}else {
+			map.put("rp_adminConfirm", "1");
+		}
+		
+		int res = adminMapper.adminUpdateReviewProduct(map);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "수정되었습니다.";
+			url = "adminReviewProduct.admin";
+		}else {
+			msg = "수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminReviewProduct.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////공 지 사 항////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
 	
 	@RequestMapping("/adminAnnounce.admin")
 	public String adminAnnounce() {

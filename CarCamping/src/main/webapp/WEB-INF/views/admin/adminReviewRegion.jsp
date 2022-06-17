@@ -20,7 +20,7 @@
 	<div class="row">
 		<!-- 드랍 버튼 -->
 		<div class="col">
-			<form name="sortForm" action="adminReviewRegion.admin" method="post">
+			<form name="sortForm" action="adminReviewRegion.admin" method="post" enctype="multipart/form-data">
 				<select name="sort">
 					<option value="review_likeCount">좋아요순</option>
 					<option value="review_sysdate">최신순</option>
@@ -32,7 +32,7 @@
 		
 		<!-- 리뷰 검색 버튼 -->
 		<div class="col">
-			<form name="searchForm" action="adminReviewRegion.admin" method="post">
+			<form name="searchForm" action="adminReviewRegion.admin" method="post" enctype="multipart/form-data">
 				<input type="text" name="search">
 				<input type="submit" value="검색">
 			</form>
@@ -54,7 +54,7 @@
 							<p class="card-text">
 								<label for="disabledRange" class="form-label">평점|평점개수</label> <input
 									type="range" class="form-range" id="disabledRange" disabled>
-								${dto.review_readCount}회 방문|${dto.review_likeCount}<br>
+								${dto.review_readCount}회 방문|${dto.review_likeCount} 좋아요<br>
 								${dto.review_sysdate}<br>
 								<c:if test="${dto.review_adminConfirm==0}">
 							승인 완료
