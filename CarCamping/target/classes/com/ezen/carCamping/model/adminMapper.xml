@@ -376,7 +376,10 @@
 		select * from AdminAnnounce
 	</select>
 	
-	
+	<insert id="adminInsertAnnounce" parameterType="AdminAnnounceDTO">
+		insert into AdminAnnounce(aa_title,aa_content,aa_image1,aa_image2,aa_image3,aa_image4,aa_image5,aa_sysdate,aa_update) 
+		values(#{aa_title},#{aa_content},#{aa_image1},#{aa_image2},#{aa_image3},#{aa_image4},#{aa_image5},now(),now())
+	</insert>
 
 
 </mapper>

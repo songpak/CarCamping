@@ -282,4 +282,9 @@ public class AdminMapper {
 		return list;
 	}
 	
+	public int adminInsertAnnounce(AdminAnnounceDTO dto) {
+		int res = sqlSession.insert("adminInsertAnnounce", dto);
+		return res;
+	}
+	
 }
