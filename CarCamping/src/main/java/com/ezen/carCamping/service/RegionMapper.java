@@ -67,7 +67,12 @@ public class RegionMapper{
 		List<ReviewRegionDTO> list = sqlSession.selectList("listCcrReview", map);
 		return list;
 	}
-	
+	public int countReviewCcrnum(int ccr_num) {
+		
+		int count = (int)sqlSession.selectOne("countReviewCcrnum", ccr_num);
+		return count;
+	}
+
 	/*검색*/
 	public List<ReviewRegionDTO> listCcrReviewSearch(int ccr_num , int startRow , int endRow,String orderBy,String search,String searchString){
 		Map<String,Object> map = new Hashtable<>();
@@ -79,8 +84,7 @@ public class RegionMapper{
 		map.put("searchString",searchString);
 		List<ReviewRegionDTO> list = sqlSession.selectList("listCcrReviewSearch", map);
 		System.out.println("RegionMapper list size : "+list.size());
-		return list;
-		
+		return list;	
 	}
 	public int countReviewSearch(int ccr_num,String search,String searchString) {
 		Map<String,Object> map = new Hashtable<>();
@@ -90,12 +94,31 @@ public class RegionMapper{
 		int count = (int)sqlSession.selectOne("countReviewSearch", map);
 		return count;
 	}
-	
-	public int countReviewCcrnum(int ccr_num) {
-		int count = (int)sqlSession.selectOne("countReviewCcrnum", ccr_num);
+	//작성자 검색 
+	public List<ReviewRegionDTO> listCcrReviewWriterSearch(int ccr_num , int startRow , int endRow,String orderBy,String search,String searchString){
+		Map<String,Object> map = new Hashtable<>();
+		map.put("ccr_num",ccr_num);
+		map.put("startRow",startRow);
+		map.put("endRow",endRow);
+		map.put("orderBy",orderBy);
+		map.put("search",search);
+		map.put("searchString",searchString);
+		List<ReviewRegionDTO> list = sqlSession.selectList("listCcrReviewWriterSearch", map);
+		System.out.println("RegionMapper list size : "+list.size());
+		return list;	
+	}
+	public int countRevieWrietrSearch(int ccr_num,String search,String searchString) {
+		Map<String,Object> map = new Hashtable<>();
+		map.put("ccr_num",ccr_num);
+		map.put("search",search);
+		map.put("searchString",searchString);
+		int count = (int)sqlSession.selectOne("countRevieWrietrSearch", map);
 		return count;
 	}
-
+	//리뷰상세보기
+	public ReviewRegionDTO selectReviewDetail(int review_num) {
+		return (ReviewRegionDTO)sqlSession.selectOne("selectReviewDetail", review_num);
+	}
 	public int addLikeCountRegion(int ccr_num) {
 		int res = sqlSession.update("addLikeCountRegion", ccr_num);
 		return res;

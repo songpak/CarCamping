@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="stylesheet" type="text/css" href="resources/css/review_styles.css" />
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/lux/bootstrap.min.css" />
+	href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/litera/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css"
 	integrity="sha384-eoTu3+HydHRBIjnCVwsFyCpUDZHZSFKEJD0mc3ZqSBSb6YhZzRHeiomAUWCstIWo"
@@ -22,30 +22,39 @@
 	textarea {
     resize: none;
   }
-
+  #exampleTextarea {
+   border-color = #E9EFC0;
+  }
+  .h5, h5 {
+    font-size: 17px;
+}
+.blockquote {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
 </style>
 </head>
 <body>
 	<div id="wrapper">
 		<!-- Begin Header -->
 		<div align="center" id="header">
-			<div class="card border-primary mb-3"
-				style="width: 700px; height: 930px">
-				<div class="card-header">
+			<div class="card border-success mb-3"
+				style="width: 700px; height: 960px">
+				<div class="card-header" style="background-color: #83BD75;">
 					<h2 style="margin-bottom: 0px;">NAME</h2>
 				</div>
 				<div class="card-body">
 					<img src="sik.jpg" class="card-img rounded-circle"
-						style="width: 150px; height: 150px" />
+						style="width: 145px; height: 145px; float: left;" />
 					<ul class="list-group">
-						<li class="list-group-item d-flex justify-content-between align-items-center">
+						<li class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>좋 아 요</h5>
 							<button type="button" class="btn btn-danger rounded-pill" style=" padding-top: 0px;padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
 							숫자
 							<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-hearts" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.5 1.246c.832-.855 2.913.642 0 2.566-2.913-1.924-.832-3.421 0-2.566ZM9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4Zm13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276ZM15 2.165c.555-.57 1.942.428 0 1.711-1.942-1.283-.555-2.281 0-1.71Z"></path></svg>
 							</button>
 						</li>
-						<li id="viewCount" class="list-group-item d-flex justify-content-between align-items-center">
+						<li id="viewCount" class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>조 회 수</h5>
 							<button  type="button" class="btn btn-dark rounded-pill" style="padding-top: 0px;padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
 							숫자
@@ -69,11 +78,11 @@
 					
 					</ul>
 					<p></p>
-					<div class="progress">
+					<div class="progress" >
 						<div
 							class="progress-bar progress-bar-striped progress-bar-animated"
 							role="progressbar" aria-valuenow="75" aria-valuemin="0"
-							aria-valuemax="100" style="width: 100%;"></div>
+							aria-valuemax="100" style="width: 100%; background-color: #83BD75;" ></div>
 					</div>
 					<div align="center" id="leftcolumn"
 						style="width: 666px; margin-top: 20px;">
@@ -94,19 +103,18 @@
 							</div>
 						</div>
 						<p></p>
-						<div class="progress">
+						<div class="progress" style="background-color: #83BD75;">
 							<div
 								class="progress-bar progress-bar-striped progress-bar-animated"
 								role="progressbar" aria-valuenow="75" aria-valuemin="0"
-								aria-valuemax="100" style="width: 100%;"></div>
+								aria-valuemax="100" style="width: 100%; background-color: #83BD75;""></div>
 						</div>
 						<div class="form-group">
-							<p></p>
+							
 							<blockquote class="blockquote">
 								<p class="mb-0">REVIEW</p>
 							</blockquote>
-							<textarea class="form-control  border border-5 border-dark"
-								id="exampleTextarea" rows="3" readonly>리뷰내용입니다</textarea>
+							<textarea class="form-control border border-5" id="exampleTextarea" rows="10" readonly>리뷰내용입니다</textarea>
 						</div>
 					</div>
 				</div>

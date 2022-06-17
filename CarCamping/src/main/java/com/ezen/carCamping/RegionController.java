@@ -93,8 +93,13 @@ public class RegionController {
 				System.out.println(search);
 				String searchString = params.get("searchString");
 				System.out.println(searchString);
+				if(search.equals("mem_nickName")) {
+				rowCount = RegionMapper.countRevieWrietrSearch(ccr_num, search, searchString);
+				list = RegionMapper.listCcrReviewWriterSearch(ccr_num, startRow-1, endRow, orderBy, search, searchString);	
+				}else {
 				rowCount = RegionMapper.countReviewSearch(ccr_num, search, searchString);
 				list = RegionMapper.listCcrReviewSearch(ccr_num, startRow-1, endRow, orderBy, search, searchString);
+				}
 				req.setAttribute("search", search);
 				req.setAttribute("searchString", searchString);
 			}
@@ -138,10 +143,13 @@ public class RegionController {
 		return "message";
 	}
 	@RequestMapping("/regionReviewView.region")
-	public String regionReviewView(HttpServletRequest req, @RequestParam int ccr_num) {
-
+	public String regionReviewView(HttpServletRequest req, @RequestParam int review_num) {
+		System.out.println(review_num);
+		ReviewRegionDTO dto = RegionMapper.selectReviewDetail(review_num);
+		req.setAttribute("selectedReview", dto);
 		return "/region/regionReviewView";
 	}
+	
 	
 	/*
 	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //오름차순
