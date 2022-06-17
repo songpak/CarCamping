@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ezen.carCamping.dto.AdminAnnounceDTO;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
@@ -266,6 +267,19 @@ public class AdminMapper {
 	public int adminUpdateReviewProduct(Map<String,String> map) {
 		int res = sqlSession.update("adminUpdateReviewProduct", map);
 		return res;
+	}
+	
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////공 지 사 항//////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	public List<AdminAnnounceDTO> adminListAnnounce(){
+		List<AdminAnnounceDTO> list = sqlSession.selectList("adminListAnnounce");
+		return list;
 	}
 	
 }
