@@ -49,9 +49,9 @@ public class MyPageController {
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		if (cart_prodCount <= 0) {
-			//session.setAttribute("msg", "상품수량 : 0개 ! 장바구니에서 삭제합니다.");
-			//session.setAttribute("url","mall_cartDel.do?pnum=" + prod_num);
-			return "forward:message.jsp";
+			session.setAttribute("msg", "상품수량 : 0개 ! 장바구니에서 삭제합니다.");
+			session.setAttribute("url","mall_cartDel.myPage?prod_num=" + prod_num);
+			return "message";
 		} else {
 			for (ProductCartDTO cartDTO : cart) {
 				if (prod_num == cartDTO.getProd_num()) {
@@ -64,6 +64,18 @@ public class MyPageController {
 		return "myPage/myPageCart";
 	}
 	
+	@RequestMapping("mall_cartDel.myPage")//카트에서 삭제
+	public String mall_cartDel(HttpServletRequest req, @RequestParam int prod_num) {
+		HttpSession session = req.getSession();
+		List<ProductCartDTO> cart = (List)session.getAttribute("cartList");
+		for(ProductCartDTO cartDTO : cart) {
+			if(prod_num == cartDTO.getProd_num()) {
+				cart.remove(cartDTO);
+				break;
+			}
+		}
+		return "myPage/myPageCart";
+	}
 	
 	@RequestMapping("/myPageContactUs.myPage")
 	public String myPageContactUs() {

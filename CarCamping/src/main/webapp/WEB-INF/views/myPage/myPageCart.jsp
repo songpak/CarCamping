@@ -54,9 +54,10 @@
                                   		  수정
                                 </button>
                                </form>
-                                <button class="btn btn-white border-secondary bg-white btn-md mb-2">
+                            <a  href="mall_cartDel.myPage?prod_num=${mdto.prod_num }">
+                            <button class="btn btn-white border-secondary bg-white btn-md mb-2" >
                                    		삭제
-                                </button>
+                                </button></a> 
                         </td> 
                            </c:forEach>
                     </tr>
