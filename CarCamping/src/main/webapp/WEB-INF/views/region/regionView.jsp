@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
+<!-- 
 
+		회원이 로그인했을 때 : 세션에 로그인한 회원의 정보가 저장되므로 세션의 값이 있으면 로그인한것으로 판단
+		회원이 로그인 안했을 때 : 세션에 로그인한 회원의 정보가 없으므로 로그인창으로 이동시킨다.
+
+
+ -->
 <div class="modal modal-center fade" id="regionContent" tabindex="-1"
 	role="dialog" aria-labelledby="regionContentLabel">
 	<div class="modal-dialog modal-center modal-lg" role="document">
@@ -94,39 +100,28 @@ body {
 	<c:set var="searchString" value="${searchString}"/> --%>
 	
 	<div class="row mb-3">
-		<script>
+		<script>/*  Like_function(${ccr_num},${id})으로 변경*/
 		function Like_function(ccr_num){
-			location.href="regionLike.region?ccr_num="+ccr_num;
-			console.log("좋아요 클릭");
+			/* location.href="regionLike.region?ccr_num="+ccr_num;
+			console.log("좋아요 클릭"); */
+			
+			/*아이디값이 있을 떄	
+			$.ajax({
+				url: "regionLike.region",
+                type: "POST",
+                data: {
+                    no: ${regionSelected.ccr_num}, //
+                    id: '${id}'
+                },
+                success: function () {
+			        recCount();
+                },
+			})
+			//아이디 값이 있어서 
+			*/
 		}			
 				
 		</script>
-		
-			<script type="text/javascript">
-				function goPage(ccr_num,Page,mode,orderBy,search,searchString){
-					console.log(ccr_num);
-					console.log(Page);
-					console.log(mode);
-					console.log(orderBy);
-					if(mode==none){
-					var url = "regionView.region?ccr_num="+ccr_num+"&pageNum="+Page+"&mode="+mode+"&orderBy="+orderBy;
-					}
-					if(mode==searchReview){
-					var url = "regionView.region?ccr_num="+ccr_num+"&pageNum="+Page+"&mode="+mode+"&orderBy="+orderBy+"&search="+search+"&searchString="+searchString;
-					}
-					
-					location.href = url;
-				}
-				function goPage(ccr_num,Page,mode,orderBy){
-					console.log(ccr_num);
-					console.log(Page);
-					console.log(mode);
-					console.log(orderBy);
-					var url = "regionView.region?ccr_num="+ccr_num+"&pageNum="+Page+"&mode="+mode+"&orderBy="+orderBy;
-					location.href = url;
-				}
-			</script>
-	
 	
 		<c:out value="${request.getRequestURI()}"/>
 		<!-- List Column Grid -->
@@ -143,14 +138,15 @@ body {
 				<img src="resources/images/sik.jpg" class="card-img-top" alt="..." style="height: 250px;">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					좋 아 요
-					<button type="button" class="btn btn-danger rounded-pill"
-						onclick="Like_function(${ccr_num});"
+					<!-- 
+						Like_function(${ccr_num}) -> Like_function(${ccr_num},${id})
+						id값이 없으면 로그인창으로 보낸다.
+					-->
+					<button type="button" class="btn btn-danger rounded-pill" onclick="Like_function(${ccr_num});"
 						style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px;">
-						${regionSelected.ccr_likeCount}
-						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
-							fill="currentColor" class="bi bi-person-hearts"
-							viewBox="0 0 16 16"> <path fill-rule="evenodd"
-								d="M11.5 1.246c.832-.855 2.913.642 0 2.566-2.913-1.924-.832-3.421 0-2.566ZM9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4Zm13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276ZM15 2.165c.555-.57 1.942.428 0 1.711-1.942-1.283-.555-2.281 0-1.71Z"></path></svg>
+						
+						${regionSelected.ccr_likeCount}💖
+						
 					</button>
 				</li>
 
@@ -167,10 +163,36 @@ body {
 						<div class="row">
 							<div id="myform">
 								<fieldset style="float: right;">
-									<label for="rate1">⭐</label>
-									<!-- 스위치 케이스 -->
-									<label for="rate2">⭐</label> <label for="rate3">⭐</label> <label
-										for="rate4">⭐</label> <label for="rate5">⭐</label>
+									<c:choose>
+				 				<c:when test="${regionSelected.ccr_score >= 1 && regionSelected.ccr_score < 2 }">
+				  							<label for="rate1">⭐</label>
+				 				</c:when>
+				 				<c:when test="${regionSelected.ccr_score >= 2 && regionSelected.ccr_score < 3 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				 				</c:when>
+								 <c:when test="${regionSelected.ccr_score >= 3 && regionSelected.ccr_score < 4 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				 				</c:when>
+				 				<c:when test="${regionSelected.ccr_score >= 4 && regionSelected.ccr_score < 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						 <label for="rate4">⭐</label>
+				 				</c:when>
+				 				<c:when test="${regionSelected.ccr_score eq 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						<label for="rate4">⭐</label>
+				  						<label for="rate5">⭐</label> 
+				 				</c:when>
+								 <c:otherwise>
+										 ☆☆☆☆☆
+								 </c:otherwise>
+								</c:choose>
 								</fieldset>
 							</div>
 						</div>
@@ -277,8 +299,11 @@ body {
 		<script>
 			function popup(review_num) {
 				var url = "regionReviewView.region?review_num="+review_num;
-				var name = "popup test";
-				var option = "width = 800, height = 1000, top = 100, left = 200, location = no"
+				var name = "popup";
+			    var _left = Math.ceil(( window.screen.width - 800 )/2);
+				var _top = Math.ceil(( window.screen.height - 1000 )/2); 
+				
+				var option = "width = 800, height = 1000, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
 				window.open(url, name, option);
 			}
 			
@@ -316,18 +341,18 @@ body {
 							data-bs-toggle="dropdown" aria-expanded="false">정렬</button>
 						<ul class="dropdown-menu" style="">
 							<li><a class="dropdown-item"
-								href="regionView.region?ccr_num=${ccr_num}&orderBy=newly&mode=${mode}&search=${search}&searchString=${searchString}">
+								href="regionView.region?ccr_num=${ccr_num}&orderBy=newly&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${pageNum}">
 								최신순</a></li>
 							<li><a class="dropdown-item"
-								href="regionView.region?ccr_num=${ccr_num}&orderBy=review_likeCount&mode=${mode}&search=${search}&searchString=${searchString}">
+								href="regionView.region?ccr_num=${ccr_num}&orderBy=review_likeCount&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${pageNum}">
 								좋아요순</a></li>
 							<li><a class="dropdown-item"
-								href="regionView.region?ccr_num=${ccr_num}&orderBy=review_regionScore&mode=${mode}&search=${search}&searchString=${searchString}">
+								href="regionView.region?ccr_num=${ccr_num}&orderBy=review_regionScore&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${pageNum}">
 								평점순</a></li>
 						</ul>
 					</div>
 				</div>
-
+					<%-- regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${i} --%>
 				<!-- 리뷰 검색 -->
 				<div class="col" align="right">
 					<div class="input-group mb-3">
@@ -366,10 +391,36 @@ body {
 										<li class="list-group-item">별점
 											(${review_ccr.review_regionScore}/5)
 											<fieldset style="float: right;">
-												<label for="rate1">⭐</label>
-												<!-- 스위치 케이스 -->
-												<label for="rate2">⭐</label> <label for="rate3">⭐</label> <label
-													for="rate4">⭐</label> <label for="rate5">⭐</label>
+												<c:choose>
+				 				<c:when test="${review_ccr.review_regionScore >= 1 && review_ccr.review_regionScore < 2 }">
+				  							<label for="rate1">⭐</label>
+				 				</c:when>
+				 				<c:when test="${review_ccr.review_regionScore >= 2 && review_ccr.review_regionScore < 3 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				 				</c:when>
+								 <c:when test="${review_ccr.review_regionScore >= 3 && review_ccr.review_regionScore < 4 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				 				</c:when>
+				 				<c:when test="${review_ccr.review_regionScore >= 4 && review_ccr.review_regionScore < 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						 <label for="rate4">⭐</label>
+				 				</c:when>
+				 				<c:when test="${review_ccr.review_regionScore eq 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						<label for="rate4">⭐</label>
+				  						<label for="rate5">⭐</label> 
+				 				</c:when>
+								 <c:otherwise>
+										 ☆☆☆☆☆
+								 </c:otherwise>
+								</c:choose>
 											</fieldset>
 										</li>
 										<li
@@ -379,8 +430,7 @@ body {
 												<p>${review_ccr.review_readCount}</p>
 											</div>
 										</li>
-										<li
-											class="list-group-item d-flex justify-content-between align-items-center">
+										<li class="list-group-item d-flex justify-content-between align-items-center">
 											좋아요
 											<div>
 												<p>${review_ccr.review_likeCount}</p>
@@ -389,7 +439,7 @@ body {
 									</ul>
 									<div class="card-body">
 										<a href="javascript:popup(${review_ccr.review_num })"><button
-												type="button" class="btn btn-primary" style="width: 100%;">리뷰보러가기</button></a>
+												type="button" class="btn btn-primary" style="width: 100%;">리뷰 보러가기</button></a>
 									</div>
 								</div>
 							</div>

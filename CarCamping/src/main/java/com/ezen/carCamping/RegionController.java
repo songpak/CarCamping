@@ -6,7 +6,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -78,7 +80,7 @@ public class RegionController {
 			currentPage = (int) (pageNum_db);
 			
 		}
-		int startRow = (currentPage - 1) * pageSize + 1;
+		int startRow = (currentPage - 1) * pageSize + 1;//3-1 4 8
 		int endRow = startRow + pageSize - 1;
 		int rowCount = RegionMapper.countReviewCcrnum(ccr_num);
 		if (endRow > rowCount)
@@ -87,7 +89,7 @@ public class RegionController {
 		if(orderBy==null||orderBy.equals("newly")) orderBy = "review_num";
 		
 		if (rowCount > 0) {
-			if(mode.equals("none")) list = RegionMapper.listCcrReview(ccr_num,startRow-1,endRow,orderBy);
+			if(mode.equals("none")) list = RegionMapper.listCcrReview(ccr_num,startRow-1,3,orderBy);
 			else if(mode.equals("searchReview")) {
 				String search  = params.get("search");
 				System.out.println(search);
@@ -95,10 +97,10 @@ public class RegionController {
 				System.out.println(searchString);
 				if(search.equals("mem_nickName")) {
 				rowCount = RegionMapper.countRevieWrietrSearch(ccr_num, search, searchString);
-				list = RegionMapper.listCcrReviewWriterSearch(ccr_num, startRow-1, endRow, orderBy, search, searchString);	
+				list = RegionMapper.listCcrReviewWriterSearch(ccr_num, startRow-1, 3, orderBy, search, searchString);	
 				}else {
 				rowCount = RegionMapper.countReviewSearch(ccr_num, search, searchString);
-				list = RegionMapper.listCcrReviewSearch(ccr_num, startRow-1, endRow, orderBy, search, searchString);
+				list = RegionMapper.listCcrReviewSearch(ccr_num, startRow-1, 3, orderBy, search, searchString);
 				}
 				req.setAttribute("search", search);
 				req.setAttribute("searchString", searchString);
@@ -121,13 +123,76 @@ public class RegionController {
 			req.setAttribute("startPage", startPage);
 			req.setAttribute("endPage", endPage);
 			req.setAttribute("orderBy", orderBy);
+			
 		}
-		
+		System.out.println(list.size());
+		req.setAttribute("pageNum", pageNum);
 		req.setAttribute("rowCount", rowCount);
 		req.setAttribute("reviewList", list);
 		req.setAttribute("mode", mode);
 		return "/region/regionView";
 	}
+	
+	@RequestMapping("/regionReviewView.region")
+	public String regionReviewView(HttpServletRequest req,HttpServletResponse rep, @RequestParam int review_num) {
+		System.out.println(review_num);
+		ReviewRegionDTO dto = RegionMapper.selectReviewDetail(review_num);
+		
+		//새로고침 조회수 막기
+		Cookie[] cookies = req.getCookies();
+		Cookie viewCookie = null;//비교쿠키
+		
+		// 쿠키가 있을 경우 
+        if (cookies != null && cookies.length > 0) { 
+        	for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals("cookie"+review_num)) viewCookie = cookies[i];
+                // Cookie의 name이 cookie(revie_num) 와일치하는 쿠키를 viewCookie에 넣어줌 
+            }
+        }
+        
+        if (dto != null) {
+            // 만일 viewCookie가 null일 경우  쿠키를 생성해서 조회수 증가 로직을 처리함.->없으면 !처음 들어간것이므로!
+            if (viewCookie == null) {    
+                // 쿠키 생성(이름, 값)
+                Cookie newCookie = new Cookie("cookie"+review_num, "|" + review_num + "|");     
+                // 쿠키 추가
+                rep.addCookie(newCookie);
+                // 쿠키를 추가 시키고 조회수 증가시킴
+                int result = RegionMapper.addReviewReadCount(review_num);
+                dto.setReview_readCount(dto.getReview_readCount()+1);
+                if(result>0) {
+                    System.out.println("조회수 증가");
+                }else {
+                    System.out.println("조회수 증가 에러");
+                }
+            }//view 쿠키에 값이 있으면 이미 들어간 리뷰 이므로 조회수 증가하지않음
+            	
+        }else { //dto가 null이면 에러페이지로 이동
+        	return "/region/RegionErrorPage";
+        }
+        
+		// 해당 리뷰에 있는 이미지 만큼만 슬라이드 생성하기 위함
+		Class<? extends ReviewRegionDTO> cls = dto.getClass();
+		List<String> reviewImages = new java.util.ArrayList<>();
+		for(int i=1;i<=5;i++) {
+			String imageVar = "review_regionImage"+i;
+			try {
+				java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
+				f.setAccessible(true);
+				String imageSrc = (String)f.get(dto);
+				System.out.println(imageSrc);
+				if(imageSrc!=null) {
+					reviewImages.add(imageSrc);
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		req.setAttribute("selectedReview", dto);
+		req.setAttribute("reviewImageList", reviewImages); //해당 리뷰의 이미지 이름을 저장
+		return "/region/regionReviewView";
+	}
+	
 	@RequestMapping("/regionLike.region")
 	public String regionLike(HttpServletRequest req,@RequestParam Map<String,String> params) {
 		int ccr_num = Integer.parseInt(params.get("ccr_num"));
@@ -142,14 +207,6 @@ public class RegionController {
 		req.setAttribute("url", url);
 		return "message";
 	}
-	@RequestMapping("/regionReviewView.region")
-	public String regionReviewView(HttpServletRequest req, @RequestParam int review_num) {
-		System.out.println(review_num);
-		ReviewRegionDTO dto = RegionMapper.selectReviewDetail(review_num);
-		req.setAttribute("selectedReview", dto);
-		return "/region/regionReviewView";
-	}
-	
 	
 	/*
 	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //오름차순

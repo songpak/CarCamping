@@ -119,6 +119,10 @@ public class RegionMapper{
 	public ReviewRegionDTO selectReviewDetail(int review_num) {
 		return (ReviewRegionDTO)sqlSession.selectOne("selectReviewDetail", review_num);
 	}
+	//리뷰 상세보기 조회수 
+	public int addReviewReadCount(int review_num) {
+		return sqlSession.update("addReviewReadCount", review_num);
+	}
 	public int addLikeCountRegion(int ccr_num) {
 		int res = sqlSession.update("addLikeCountRegion", ccr_num);
 		return res;
