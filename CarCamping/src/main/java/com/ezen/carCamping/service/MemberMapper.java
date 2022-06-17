@@ -38,7 +38,7 @@ public class MemberMapper {
          params.put("sql", sql);
       MemberDTO dto = sqlSession.selectOne("searchMemberPW", params);
       if (dto == null) return "입력된 값과 일치하는 회원이 없습니다.";
-      return "임시 비밀번호를 이메일로 전달 드립니다.";
+      return "비밀번호는."+dto.getMem_password()+"입니다.";
 }
    
    public MemberDTO getMemberId(String mem_id) {
@@ -51,7 +51,6 @@ public class MemberMapper {
 	      return res;
 	   }
 
-   
 
 
 	}

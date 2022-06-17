@@ -40,9 +40,6 @@ public class MemberController {
    
    @RequestMapping(value="login.login", method=RequestMethod.GET)
    public String login(HttpServletRequest req) {
-	    String referer = req.getHeader("Referer");
-	    req.getSession().setAttribute("redirectURI", referer);
-	    
       return "login/login";
    }
    
@@ -66,7 +63,7 @@ public class MemberController {
       return "message";
    }
    
-   /*@RequestMapping(value="findPW.login", method=RequestMethod.POST)
+   @RequestMapping(value="findPW.login", method=RequestMethod.POST)
    public String checkMemberPW(HttpServletRequest req, 
                            @RequestParam Map<String, String> params) {
       String msg = memberMapper.searchMemberPW(params);
@@ -75,22 +72,7 @@ public class MemberController {
       req.setAttribute("url", url);
       return "message";
    }
-   */
 
-  	
-   
-   @RequestMapping(value = "pw_set.login", method = RequestMethod.POST)
-   public String pw_set(@RequestParam(value="email_injeung") String email_injeung,
-   			@RequestParam(value = "num") String num) throws IOException{
-   		
-   		if(email_injeung.equals(num)) {
-   			return "login/pw_new";
-   		}
-   		else {
-   			return "login/pw_find";
-   		}
-   } //이메일 인증번호 확인
-   
    
    
    @RequestMapping(value="login.login", method=RequestMethod.POST)
@@ -107,7 +89,7 @@ public class MemberController {
          if (params.get("mem_password").equals(dto.getMem_password())){
         	
             msg = dto.getMem_id()+"님, 환영합니다!!";
-            url = "javascript:history.go(-2)";
+            url = "index.do";
             HttpSession session = req.getSession();
             session.setAttribute("mbdto", dto);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
