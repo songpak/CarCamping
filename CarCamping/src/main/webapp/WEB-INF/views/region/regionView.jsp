@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
-<!-- 
 
-		회원이 로그인했을 때 : 세션에 로그인한 회원의 정보가 저장되므로 세션의 값이 있으면 로그인한것으로 판단
-		회원이 로그인 안했을 때 : 세션에 로그인한 회원의 정보가 없으므로 로그인창으로 이동시킨다.
-
-
- -->
  <c:set var="ccr_num" value="${regionSelected.ccr_num }"/>
  <c:set var="mem_id" value="${sessionScope.id}"/>
 <div class="modal modal-center fade" id="regionContent" tabindex="-1"
@@ -30,9 +24,6 @@
 	</div>
 </div>
  
-
-
-
 <style>
 html, body {
 	background: white;
@@ -90,69 +81,9 @@ body {
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
 	crossorigin="anonymous">
 </script>
-
-
-
-<div class="container-fluid themed-container" style="margin-left: 55px;">
-	<!-- Row Grid -->
-	
-<%-- 	<c:set var="mode" value="${mode}"/>
-	<c:set var="orderBy" value="${orderBy}"/>
-	<c:set var="search" value="${search}"/>
-	<c:set var="searchString" value="${searchString}"/> --%>
-	
+ 
+<div class="container-fluid themed-container" style="margin-left: 55px;" id="test">
 	<div class="row mb-3">
-		<script>/*  Like_function(${ccr_num},${id})으로 변경*/
-		function Like_function(){
-			var mid = '${mem_id}';
-			var isEmpty = function(value){//빈값체크
-	            if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
-	              return true
-	            }else{
-	              return false
-	            }
-	          };
-			
-			if(isEmpty(mid)){ //아이디가 없으면
-				console.log("아이디없음");
-				alert("로그인을 해주세요 !!");
-				
-			}else{ //아이디가 있으면
-				$.ajax({
-					url: "updateRegionLike.region", //컨트롤러 맵핑
-	                type: "POST",
-	                data: { //사용자가 데이터를 정의한다
-	                	mem_id: '${mem_id}',
-	                	ccr_num: ${ccr_num}
-	                },
-	                success: function () { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
-				       // $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
-				      	recountRegionLike();
-				        alert(mid);
-	                }
-				})
-				// 현재 지역의 추천수를 구하는 함수
-	   			 function recountRegionLike() {
-					$.ajax({
-						url: "recountRegionLike.region",
-               			type: "POST",
-                		data: {
-                			ccr_num: ${ccr_num}
-               			 },
-               			success: function (data) {
-                		$("#likeCount").text(data+"💖");
-               			 }
-					})
-	    		};
-	    		recountRegionLike(); // 처음 시작했을 때 실행되도록 해당 함수 호출
-			}
-			
-		}			
-				
-		</script>
-	
-		<c:out value="${request.getRequestURI()}"/>
-		<!-- List Column Grid -->
 		<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
 			style="width: 332px; padding-left: 0px; padding-bottom: 0px; padding-right: 0px; padding-top: 0px; height: 632px; margin-right: 86px; margin-top: 50px;">
 			<span class="fs-4 text-center" style="height: 40px;">
@@ -163,19 +94,21 @@ body {
 			<hr style="margin-top: 0px; margin-bottom: 5px;">
 			<ul id="regionInfo" class="nav nav-pills flex-column mb-auto"
 				style="margin-bottom: 0px; height: 600px;">
-				<img src="resources/images/sik.jpg" class="card-img-top" alt="..." style="height: 250px;">
+				<img src="resources/images/sik.jpg" class="card-img-top" style="height: 250px;">
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					좋 아 요
-					<!-- 
-						Like_function(${ccr_num}) -> Like_function(${ccr_num},${id})
-						id값이 없으면 로그인창으로 보낸다.
-					-->
-					<button type="button" id="likeCount" class="btn btn-danger rounded-pill" onclick="Like_function();"
-						style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px;">
-						
+					<c:if test="${check==0}">
+					<button type="button" id="likeCount" class="btn rounded-pill" onclick="Like_function();"
+						style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px; background-color:#ffffff;">
 						${regionSelected.ccr_likeCount}💖
-						
 					</button>
+					</c:if>
+					<c:if test="${check==1 }">
+					<button type="button" id="likeCount" class="btn rounded-pill" onclick="Like_function();"
+						style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px; background-color:#bb2d3b;">
+						${regionSelected.ccr_likeCount}💖
+					</button>
+					</c:if>
 				</li>
 
 				<li id="viewCount" class="list-group-item d-flex justify-content-between align-items-center">
@@ -324,29 +257,6 @@ body {
 			</ul>
 		</div>
 
-		<script>
-			function popup(review_num) {
-				var url = "regionReviewView.region?review_num="+review_num;
-				var name = "popup";
-			    var _left = Math.ceil(( window.screen.width - 800 )/2);
-				var _top = Math.ceil(( window.screen.height - 1000 )/2); 
-				
-				var option = "width = 800, height = 1000, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
-				window.open(url, name, option);
-			}
-			
-			function search_function(){
-				var searchSelect = document.getElementById("search");
-				var search = searchSelect.options[searchSelect.selectedIndex].value;
-				var searchString = document.getElementById("searchString").value;
-			
-				location.href="regionView.region?ccr_num="+${ccr_num}+"&mode="+'searchReview'+"&orderBy="+'newly'+"&search="+search+"&searchString="+searchString;
-				//location.href="regionView.region?ccr_num=${ccr_num}&orderBy=newly&mode=${mode}&search=${search}&searchString=${searchString}";
-				//location.href="regionView.region";
-				
-			}
-		</script>
-
 		<div class="col-md-8 themed-grid-col">
 			<div class="row" align="center">
 				<div class="row">
@@ -367,7 +277,7 @@ body {
 					<div class="btn-group">
 						<button type="button" class="btn btn-primary dropdown-toggle"
 							data-bs-toggle="dropdown" aria-expanded="false">정렬</button>
-						<ul class="dropdown-menu" style="">
+						<ul class="dropdown-menu" style="margin-right: 13px;">
 							<li><a class="dropdown-item"
 								href="regionView.region?ccr_num=${ccr_num}&orderBy=newly&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${pageNum}">
 								최신순</a></li>
@@ -379,7 +289,11 @@ body {
 								평점순</a></li>
 						</ul>
 					</div>
+					<button type="button" class="btn btn-success" style=" margin-left: 15px;" onclick="show_allList()">
+							전체보기
+						</button>
 				</div>
+				
 					<%-- regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${i} --%>
 				<!-- 리뷰 검색 -->
 				<div class="col" align="right">
@@ -502,4 +416,85 @@ body {
 		</div>
 	</div>
 </div>
+<script>
+		var isRun = false; // ajax 동시 호출 막기(ajax가 호출되는 동안 버튼이 클릭돼도 중복으로 실행되는것을 막기위함)
+		
+		function Like_function(){
+			var mid = '${mem_id}';
+			var isEmpty = function(value){//빈값체크
+	            if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
+	              return true
+	            }else{
+	              return false
+	            }
+	          };
+			
+			if(isEmpty(mid)){ //아이디가 없으면
+				console.log("아이디없음");
+				alert("로그인을 해주세요 !!");
+				
+			}else{ //아이디가 있으면			
+				 if(isRun == true) {
+				        return;
+				    }
+				 isRun = true;
+					//클릭시 로딩 이미지 호출
+				  var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
+				    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>'; 
+				   $('body').fadeTo( "fast", 0.4 ).append(loadingHtml);
+				 
+			
+					var like_button = document.getElementById("likeCount");
+	   				var like_color = like_button.style.backgroundColor;
+	   				
+					
+					$.ajax({
+						url: "updateRegionLike.region", //컨트롤러 맵핑
+		                type: "POST",
+		                data: { //사용자가 데이터를 정의한다	
+		                	mem_id: '${mem_id}',
+		                	ccr_num: ${ccr_num}
+		                },         
+		                success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
+					       	// $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
+					       	 $('body').fadeTo( "slow", 1 ).find('#loading').remove();
+		                	$("#likeCount").text(res+"💖");
+		                	if(like_color == 'rgb(255, 255, 255)'){
+		                		 alert("회원님의 좋아요가 성공적으로 등록되었습니다 !!😍");	
+		               			$("#likeCount").css("background-color","#bb2d3b");
+		               		}else if(like_color == 'rgb(187, 45, 59)'){
+		               			 alert("회원님의 좋아요가 취소되었습니다 !!😢"); 
+		                		$("#likeCount").css("background-color","#fffff");//#bb2d3b  rgb(187, 45, 59)
+		               		}
+		                	
+		                	isRun  = false;
+		                }
+					});
+			}	
+		}
+		function popup(review_num) {
+			var url = "regionReviewView.region?review_num="+review_num;
+			var name = "popup";
+		    var _left = Math.ceil(( window.screen.width - 800 )/2);
+			var _top = Math.ceil(( window.screen.height - 1000 )/2); 
+			
+			var option = "width = 800, height = 1000, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
+			window.open(url, name, option);
+		}
+		
+		function search_function(){
+			var searchSelect = document.getElementById("search");
+			var search = searchSelect.options[searchSelect.selectedIndex].value;
+			var searchString = document.getElementById("searchString").value;
+			location.href="regionView.region?ccr_num="+${ccr_num}+"&mode="+'searchReview'+"&orderBy="+'newly'+"&search="+search+"&searchString="+searchString;
+		}
+		
+		function show_allList(){
+			location.href = "regionView.region?ccr_num=${ccr_num}";
+			
+		}
+		
+</script>
+
+
 <%@include file="../bottom.jsp"%>

@@ -1,5 +1,7 @@
 package com.ezen.carCamping;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
@@ -45,11 +47,11 @@ public class RegionController {
 		 * for(int i=1;i<=9;i++) {
 		 * ht.put(String.valueOf(i),RegionMapper.listCarCampingRegionHotRegion(i)); }
 		 */
-//		ÀÓ½Ã·Î±×ÀÎ
+//		ì„ì‹œë¡œê·¸ì¸
 		HttpSession test_session = req.getSession();
 		test_session.setAttribute("id", "qqq");
 		test_session.setAttribute("mem_num",3);
-		//test_session.invalidate();
+	
 		return "region/regionMain";
 	}
 
@@ -62,6 +64,7 @@ public class RegionController {
 		req.setAttribute("hotList_Region", list);
 		req.setAttribute("hotRegionList", ht.get("hot_list"));
 		req.setAttribute("recommandRegionList", ht.get("recommand_list"));
+
 		return "region/regionHotLocList";
 
 	}
@@ -69,11 +72,23 @@ public class RegionController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/regionView.region")
 	public String regionView(HttpServletRequest req,@RequestParam Map<String,String> params) {
+		
 		int ccr_num = Integer.parseInt(params.get("ccr_num"));
 		CarCampingRegionDTO dto = RegionMapper.selectRegionByCcrnum(ccr_num);
 		req.setAttribute("regionSelected", dto);
+		
 		String mode = req.getParameter("mode");
 		if(mode==null) mode="none";
+		//idê°’ì„ ê°€ì ¸ì™€ ë¡œê·¸ ë‚´ì—­ ì²´í¬ í›„ ë²„íŠ¼ì˜ ìƒ‰ê¹”ì„ ê²°ì • 
+		HttpSession test_session = req.getSession();
+		String id = (String) test_session.getAttribute("id");
+		if (id==null || id.equals("")) req.setAttribute("check", 0);
+		else{
+			int check = RegionMapper.checkRegionLikeLog(id, ccr_num);
+			System.out.println("check = "+ check);
+			req.setAttribute("check", check);
+		}
+		
 		List<ReviewRegionDTO> list = null;
 		int pageSize = 3;
 		String pageNum = params.get("pageNum");
@@ -133,11 +148,12 @@ public class RegionController {
 			req.setAttribute("orderBy", orderBy);
 			
 		}
-		System.out.println(list.size());
+		//System.out.println(list.size());
 		req.setAttribute("pageNum", pageNum);
 		req.setAttribute("rowCount", rowCount);
 		req.setAttribute("reviewList", list);
 		req.setAttribute("mode", mode);
+		
 		return "/region/regionView";
 	}
 	
@@ -146,40 +162,40 @@ public class RegionController {
 		System.out.println(review_num);
 		ReviewRegionDTO dto = RegionMapper.selectReviewDetail(review_num);
 		
-		//»õ·Î°íÄ§ Á¶È¸¼ö ¸·±â
+		//ìƒˆë¡œê³ ì¹¨ ì¡°íšŒìˆ˜ ë§‰ê¸°
 		Cookie[] cookies = req.getCookies();
-		Cookie viewCookie = null;//ºñ±³ÄíÅ°
+		Cookie viewCookie = null;//ë¹„êµì¿ í‚¤
 		
-		// ÄíÅ°°¡ ÀÖÀ» °æ¿ì 
+		// ì¿ í‚¤ê°€ ìˆì„ ê²½ìš° 
         if (cookies != null && cookies.length > 0) { 
         	for (int i = 0; i < cookies.length; i++) {
                 if (cookies[i].getName().equals("cookie"+review_num)) viewCookie = cookies[i];
-                // CookieÀÇ nameÀÌ cookie(revie_num) ¿ÍÀÏÄ¡ÇÏ´Â ÄíÅ°¸¦ viewCookie¿¡ ³Ö¾îÁÜ 
+                // Cookieì˜ nameì´ cookie(revie_num) ì™€ì¼ì¹˜í•˜ëŠ” ì¿ í‚¤ë¥¼ viewCookieì— ë„£ì–´ì¤Œ 
             }
         }
         
         if (dto != null) {
-            // ¸¸ÀÏ viewCookie°¡ nullÀÏ °æ¿ì  ÄíÅ°¸¦ »ı¼ºÇØ¼­ Á¶È¸¼ö Áõ°¡ ·ÎÁ÷À» Ã³¸®ÇÔ.->¾øÀ¸¸é !Ã³À½ µé¾î°£°ÍÀÌ¹Ç·Î!
+            // ë§Œì¼ viewCookieê°€ nullì¼ ê²½ìš°  ì¿ í‚¤ë¥¼ ìƒì„±í•´ì„œ ì¡°íšŒìˆ˜ ì¦ê°€ ë¡œì§ì„ ì²˜ë¦¬í•¨.->ì—†ìœ¼ë©´ !ì²˜ìŒ ë“¤ì–´ê°„ê²ƒì´ë¯€ë¡œ!
             if (viewCookie == null) {    
-                // ÄíÅ° »ı¼º(ÀÌ¸§, °ª)
+                // ì¿ í‚¤ ìƒì„±(ì´ë¦„, ê°’)
                 Cookie newCookie = new Cookie("cookie"+review_num, "|" + review_num + "|");     
-                // ÄíÅ° Ãß°¡
+                // ì¿ í‚¤ ì¶”ê°€
                 rep.addCookie(newCookie);
-                // ÄíÅ°¸¦ Ãß°¡ ½ÃÅ°°í Á¶È¸¼ö Áõ°¡½ÃÅ´
+                // ì¿ í‚¤ë¥¼ ì¶”ê°€ ì‹œí‚¤ê³  ì¡°íšŒìˆ˜ ì¦ê°€ì‹œí‚´
                 int result = RegionMapper.addReviewReadCount(review_num);
                 dto.setReview_readCount(dto.getReview_readCount()+1);
                 if(result>0) {
-                    System.out.println("Á¶È¸¼ö Áõ°¡");
+                    System.out.println("ì¡°íšŒìˆ˜ ì¦ê°€");
                 }else {
-                    System.out.println("Á¶È¸¼ö Áõ°¡ ¿¡·¯");
+                    System.out.println("ì¡°íšŒìˆ˜ ì¦ê°€ ì—ëŸ¬");
                 }
-            }//view ÄíÅ°¿¡ °ªÀÌ ÀÖÀ¸¸é ÀÌ¹Ì µé¾î°£ ¸®ºä ÀÌ¹Ç·Î Á¶È¸¼ö Áõ°¡ÇÏÁö¾ÊÀ½
+            }//view ì¿ í‚¤ì— ê°’ì´ ìˆìœ¼ë©´ ì´ë¯¸ ë“¤ì–´ê°„ ë¦¬ë·° ì´ë¯€ë¡œ ì¡°íšŒìˆ˜ ì¦ê°€í•˜ì§€ì•ŠìŒ
             	
-        }else { //dto°¡ nullÀÌ¸é ¿¡·¯ÆäÀÌÁö·Î ÀÌµ¿
+        }else { //dtoê°€ nullì´ë©´ ì—ëŸ¬í˜ì´ì§€ë¡œ ì´ë™
         	return "/region/RegionErrorPage";
         }
         
-		// ÇØ´ç ¸®ºä¿¡ ÀÖ´Â ÀÌ¹ÌÁö ¸¸Å­¸¸ ½½¶óÀÌµå »ı¼ºÇÏ±â À§ÇÔ
+		// í•´ë‹¹ ë¦¬ë·°ì— ìˆëŠ” ì´ë¯¸ì§€ ë§Œí¼ë§Œ ìŠ¬ë¼ì´ë“œ ìƒì„±í•˜ê¸° ìœ„í•¨
 		Class<? extends ReviewRegionDTO> cls = dto.getClass();
 		List<String> reviewImages = new java.util.ArrayList<>();
 		for(int i=1;i<=5;i++) {
@@ -196,42 +212,65 @@ public class RegionController {
 				e.printStackTrace();
 			}
 		}
+		
+		//idê°’ì„ ê°€ì ¸ì™€ ë¡œê·¸ ë‚´ì—­ ì²´í¬ í›„ ë²„íŠ¼ì˜ ìƒ‰ê¹”ì„ ê²°ì • 
+		HttpSession test_session = req.getSession();
+		String id = (String) test_session.getAttribute("id");
+		if (id==null || id.equals("")) req.setAttribute("check", 0);
+		else{
+			int check = RegionMapper.checkReviewLikeLog(id, review_num);
+			System.out.println("check = "+ check);
+			req.setAttribute("check", check);
+		}
+					
 		req.setAttribute("selectedReview", dto);
-		req.setAttribute("reviewImageList", reviewImages); //ÇØ´ç ¸®ºäÀÇ ÀÌ¹ÌÁö ÀÌ¸§À» ÀúÀå
+		req.setAttribute("reviewImageList", reviewImages); //í•´ë‹¹ ë¦¬ë·°ì˜ ì´ë¯¸ì§€ ì´ë¦„ì„ ì €ì¥
 		return "/region/regionReviewView";
 	}
 	
-	//Å×½ºÆ® - »èÁ¦ ÇØµµµÊ
-	@RequestMapping("/test.region")
+
+	//ì§€ì—­ ì¢‹ì•„ìš” ìˆ˜ë¥¼ ì¦ê°€í•˜ê³  ì¢‹ì•„ìš” ë‚´ì—­ì— ì¸ì„œíŠ¸
+	@RequestMapping(value="updateRegionLike.region",method=RequestMethod.POST)
 	@ResponseBody
-	public String testRegion(HttpServletRequest req,@RequestParam int ccr_num,@RequestParam String id) {
-		System.out.println(ccr_num+" + "+ id);
-		req.setAttribute("ccr_num", ccr_num);
-		req.setAttribute("id", id);
-		String test = String.valueOf(ccr_num)+id;
-		return test;
+	public String updateRegionLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int ccr_num) {
+		int check = RegionMapper.checkRegionLikeLog(mem_id, ccr_num);
+		int count = 0;
+		if(check==0) { //ì¢‹ì•„ìš” ë‚´ì—­ì— ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´
+			count = RegionMapper.insertRegionLikeLog(mem_id, ccr_num); // ì¢‹ì•„ìš” ë‚´ì—­ì— ì¶”ê°€
+			System.out.println("insertí›„ ì¶”ì²œì€ "+count);
+			//if(updRes>0) {
+			//	RegionMapper.addLikeCountRegion(ccr_num);//ì§€ì—­ ì¢‹ì•„ìš” ìˆ˜ë¥¼ ì¦ê°€í•˜ê³  ê²°ê³¼ê°’ì„
+			//}
+		}else {// í´ë¦­í–ˆì„ ë•Œ ì¢‹ì•„ìš” ë‚´ì—­ì— ì´ë¯¸ ì¡´ì¬í•˜ë©´ ì¢‹ì•„ìš” ë‚´ì—­ì—ì„œ ì‚­ì œí•˜ê³  ì¢‹ì•„ìš”ìˆ˜ë¥¼ í•˜ë‚˜ ë‚´ë¦¼
+			count = RegionMapper.deleteRegionLikeLog(mem_id, ccr_num);
+			System.out.println("deleteí›„ ì¶”ì²œì€ "+count);
+			//if(updRes>0) {
+			//	RegionMapper.subLikeCountRegion(ccr_num);
+			//}
+		}
+		//int count = RegionMapper.recountRegionLike(ccr_num);
+		//String returnString = String.valueOf(RegionMapper.recountRegionLike(ccr_num));
+		return String.valueOf(count);
 	}
 	
-	//ÁÁ¾Æ¿ä ¼ö¸¦ Áõ°¡ÇÏ°í ÁÁ¾Æ¿ä ³»¿ª¿¡ ÀÎ¼­Æ®
-	@RequestMapping(value="updateRegionLike.region",method=RequestMethod.POST)
-	public void updateRegionLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int ccr_num) {
-		if(!(RegionMapper.checkRegionLikeLog(mem_id, ccr_num)>0)) { // !(ÁÁ¾Æ¿ä ³»¿ª¿¡¼­ ÇØ´ç ¾ÆÀÌµğ¿¡ ³»¿ªÀÌ 0°³ ÀÌ»ó) == ¾øÀ»¶§
-			int updRes = RegionMapper.addLikeCountRegion(ccr_num);//Áö¿ª ÁÁ¾Æ¿ä ¼ö¸¦ Áõ°¡ÇÏ°í °á°ú°ªÀ» ¸®ÅÏ
-			if(updRes>0) {
-				RegionMapper.insertRegionLikeLog(mem_id, ccr_num); // ÁÁ¾Æ¿ä ³»¿ª¿¡ Ãß°¡
-			}
-		}
-	}
-	//ÁÁ¾Æ¿ä ¼ö Áõ°¡¿¡ ¼º°øÇÏ¸é ÁÁ¾Æ¿ä ¼ö¸¦ ´Ù½Ã Ä«¿îÆ®ÇÔ
-	@RequestMapping(value="recountRegionLike.region",method=RequestMethod.POST)
+	//ë¦¬ë·° ì¢‹ì•„ìš” ìˆ˜ë¥¼ ì¦ê°€í•˜ê³  ì¢‹ì•„ìš” ë‚´ì—­ì— ì¸ì„œíŠ¸
+	@RequestMapping(value="updateReviewLike.region",method=RequestMethod.POST)
 	@ResponseBody
-	public String recountRegionLike(HttpServletRequest req,@RequestParam int ccr_num) {
-		int count = RegionMapper.recountRegionLike(ccr_num);
-		String returnString = String.valueOf(count);
-		return returnString;
+	public String updateReviewLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int review_num) {
+		int check = RegionMapper.checkReviewLikeLog(mem_id, review_num);
+		int count = 0;
+		if(check==0) { //ì¢‹ì•„ìš” ë‚´ì—­ì— ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´
+			count = RegionMapper.insertReviewLikeLog(mem_id, review_num); // ì¢‹ì•„ìš” ë‚´ì—­ì— ì¶”
+			System.out.println("insertí›„ ì¶”ì²œì€ "+count);
+		}else {// í´ë¦­í–ˆì„ ë•Œ ì¢‹ì•„ìš” ë‚´ì—­ì— ì´ë¯¸ ì¡´ì¬í•˜ë©´ ì¢‹ì•„ìš” ë‚´ì—­ì—ì„œ ì‚­ì œí•˜ê³  ì¢‹ì•„ìš”ìˆ˜ë¥¼ í•˜ë‚˜ ë‚´ë¦¼
+			count = RegionMapper.deleteReviewLikeLog(mem_id, review_num);
+			System.out.println("deleteí›„ ì¶”ì²œì€ "+count);
+		}
+		return String.valueOf(count);
 	}
+
 	/*
-	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //¿À¸§Â÷¼ø
+	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //ì˜¤ë¦„ì°¨ìˆœ
 	 * 
 	 * @Override public int compare(ReviewRegionDTO o1, ReviewRegionDTO o2) {
 	 * if(o1.getReview_likeCount()>o2.getReview_likeCount()) return 1; else
@@ -242,6 +281,15 @@ public class RegionController {
 	 * if(o1.getReview_regionScore()>o2.getReview_regionScore()) return 1; else
 	 * if(o1.getReview_regionScore()<o2.getReview_regionScore()) return -1; else
 	 * return 0; } }
+	 */
+	//í…ŒìŠ¤íŠ¸ - ì‚­ì œ í•´ë„ë¨
+	/*
+	 * @RequestMapping("/test.region")
+	 * 
+	 * @ResponseBody public String testRegion(HttpServletRequest req,@RequestParam
+	 * int ccr_num,@RequestParam String id) { System.out.println(ccr_num+" + "+ id);
+	 * req.setAttribute("ccr_num", ccr_num); req.setAttribute("id", id); String test
+	 * = String.valueOf(ccr_num)+id; return test; }
 	 */
 
 }
