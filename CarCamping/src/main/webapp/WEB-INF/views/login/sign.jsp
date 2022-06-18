@@ -13,6 +13,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <!-- Respond.js 으로 IE8 에서 반응형 기능을 활성화하세요 (https://github.com/scottjehl/Respond) -->
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<<<<<<< HEAD
     
   <script>  
     function checkLogin(){
@@ -57,8 +58,304 @@
 
 </head>
 <body>
+=======
+           <script>
+           function inputIdChk(){
+           	var signCheck = document.signCheck;
+           	var CheckId = document.signCheck.CheckId;
+           	document.signCheck.idDuplication.value="idUncheck";
+           	CheckId.disabled=false;
+           	CheckId.style.opaclty=1;
+           	CheckId.style.cursor= "pointer";        
+           } 
+           function fn_CheckId(){
+        	   var signCheck = document.signCheck;
+        	   var mem_id = signCheck.mem_id.value;
+        	   if(mem_id.length==0||mem_id==""){
+        		   alert("아이디를 입력해 주세요.");
+        		   signCheck.mem_id.focus();
+        	   }else{
+        		   window.open("checkId.login?mem_id="+mem_id,"","width=500,height=300");
+        	   }
+           }
+           
+           </script>
+           <script>
+
+           $(function(){
+               //모달을 전역변수로 선언
+               var modalContents = $(".modal-contents");
+               var modal = $("#defaultModal");
+               
+               $('.onlyAlphabetAndNumber').keyup(function(event){
+                   if (!(event.keyCode >=37 && event.keyCode<=40)) {
+                       var inputVal = $(this).val();
+                       $(this).val($(this).val().replace(/[^_a-z0-9]/gi,'')); //_(underscore), 영어, 숫자만 가능
+                   }
+               });
+               
+               $(".onlyHangul").keyup(function(event){
+                   if (!(event.keyCode >=37 && event.keyCode<=40)) {
+                       var inputVal = $(this).val();
+                       $(this).val(inputVal.replace(/[a-z0-9]/gi,''));
+                   }
+               });
+           
+               $(".onlyNumber").keyup(function(event){
+                   if (!(event.keyCode >=37 && event.keyCode<=40)) {
+                       var inputVal = $(this).val();
+                       $(this).val(inputVal.replace(/[^0-9]/gi,''));
+                   }
+               });
+               
+               //------- 검사하여 상태를 class에 적용
+               $('#mem_id').keyup(function(event){
+                   
+                   var divId = $('#divmem_id');
+                   
+                   if($('#mem_id').val()==""){
+                       divId.removeClass("has-success");
+                       divId.addClass("has-error");
+                   }else{
+                       divId.removeClass("has-error");
+                       divId.addClass("has-success");
+                   }
+               });
+               
+               $('#mem_email').keyup(function(event){
+                   
+                   var divEmail = $('#divmem_email');
+                   
+                   if($('#mem_email').val()==""){
+                       divEmail.removeClass("has-success");
+                       divEmail.addClass("has-error");
+                   }else{
+                       divEmail.removeClass("has-error");
+                       divEmail.addClass("has-success");
+                   }
+               });
+               
+                $('#mem_password').keyup(function(event){
+                   
+                   var divPassword = $('#divmem_Password');
+                   
+                   if($('#mem_password').val()==""){
+                       divPassword.removeClass("has-success");
+                       divPassword.addClass("has-error");
+                   }else{
+                       divPassword.removeClass("has-error");
+                       divPassword.addClass("has-success");
+                   }
+               });
+               
+               $('#mem_userName').keyup(function(event){
+                   
+                   var divName = $('#divmem_userName');
+                   
+                   if($.trim($('#mem_userName').val())==""){
+                       divName.removeClass("has-success");
+                       divName.addClass("has-error");
+                   }else{
+                       divName.removeClass("has-error");
+                       divName.addClass("has-success");
+                   }
+               });
+               
+               $('#mem_nickname').keyup(function(event){
+                   
+                   var divNickname = $('#divmem_nickname');
+                   
+                   if($.trim($('#mem_nickname').val())==""){
+                       divNickname.removeClass("has-success");
+                       divNickname.addClass("has-error");
+                   }else{
+                       divNickname.removeClass("has-error");
+                       divNickname.addClass("has-success");
+                   }
+               });
+               
+               $('#mem_image').keyup(function(event){
+                   
+                   var divImage = $('#divmem_image');
+                   
+                   if($.trim($('#mem_image').val())==""){
+                       divImage.removeClass("has-success");
+                       divImage.addClass("has-error");
+                   }else{
+                       divImage.removeClass("has-error");
+                       divImage.addClass("has-success");
+                   }
+               });
+               
+               $('#mem_phone').keyup(function(event){
+                   
+                   var divPhone = $('#divmem_phone');
+                   
+                   if($.trim($('#mem_phone').val())==""){
+                       divPhone.removeClass("has-success");
+                       divPhone.addClass("has-error");
+                   }else{
+                       divPhone.removeClass("has-error");
+                       divPhone.addClass("has-success");
+                   }
+               });
+               
+               
+               //------- validation 검사
+               $( "form" ).submit(function( event ) {
+                   
+                   var provision = $('#provision');
+                   var memberInfo = $('#memberInfo');
+                   var divId = $('#divmem_id');
+                   var divEmail = $('#divmem_email');
+                   var divPassword = $('#divmem_Password');
+                   var divName = $('#divmem_userName');
+                   var divNickname = $('#divmem_nickname');
+                   var divImage = $('#divmem_image');
+                   var divPhone = $('#divmem_phone');
+                  
+                   
+                   //회원가입약관
+                   if($('#provisionYn:checked').val()=="N"){
+                       modalContents.text("회원가입약관에 동의하여 주시기 바랍니다."); //모달 메시지 입력
+                       modal.modal('show'); //모달 띄우기
+                       
+                       provision.removeClass("has-success");
+                       provision.addClass("has-error");
+                       $('#provisionYn').focus();
+                       return false;
+                   }else{
+                       provision.removeClass("has-error");
+                       provision.addClass("has-success");
+                   }
+                   
+                   //개인정보취급방침
+                   if($('#memberInfoYn:checked').val()=="N"){
+                       modalContents.text("개인정보취급방침에 동의하여 주시기 바랍니다.");
+                       modal.modal('show');
+                       
+                       memberInfo.removeClass("has-success");
+                       memberInfo.addClass("has-error");
+                       $('#memberInfoYn').focus();
+                       return false;
+                   }else{
+                       memberInfo.removeClass("has-error");
+                       memberInfo.addClass("has-success");
+                   }
+                  
+                   
+                   //아이디 검사
+                   if($('#mem_id').val()==""){
+                       modalContents.text("아이디를 입력하여 주시기 바랍니다.");
+                       modal.modal('show');
+                       
+                       divmem_Id.removeClass("has-success");
+                       divmem_Id.addClass("has-error");
+                       $('#mem_id').focus();
+                       return false;
+                   }else{
+                      divmem_Id.removeClass("has-error");
+                      divmem_Id.addClass("has-success");
+                   }
+                   
+                 //이메일
+                   if($('#mem_email').val()==""){
+                       modalContents.text("이메일을 입력하여 주시기 바랍니다.");
+                       modal.modal('show');
+                       
+                       divmem_email.removeClass("has-success");
+                       divmem_email.addClass("has-error");
+                       $('#mem_email').focus();
+                       return;
+                   }else{
+                       divmem_email.removeClass("has-error");
+                       divmem_email.addClass("has-success");
+                   }
+                   
+                   //패스워드 검사
+                   if($('#mem_password').val()==""){
+                       modalContents.text("패스워드를 입력하여 주시기 바랍니다.");
+                       modal.modal('show');
+                       
+                       divmem_Password.removeClass("has-success");
+                       divmem_Password.addClass("has-error");
+                       $('#mem_password').focus();
+                       return false;
+                   }else{
+                       divPassword.removeClass("has-error");
+                       divPassword.addClass("has-success");
+                   }
+                   
+                   //이름
+                   if($('#mem_userName').val()==""){
+                       modalContents.text("이름을 입력하여 주시기 바랍니다.");
+                       modal.modal('show');
+                       
+                       divmem_userName.removeClass("has-success");
+                       divmem_userName.addClass("has-error");
+                       $('#mem_userName').focus();
+                       return false;
+                   }else{
+                      divmem_userName.removeClass("has-error");
+                      divmem_userName.addClass("has-success");
+                   }
+                   
+                   //별명
+                   if($('#mem_nickname').val()==""){
+                       modalContents.text("별명을 입력하여 주시기 바랍니다.");
+                       modal.modal('show');
+                       
+                       divuser_nickname.removeClass("has-success");
+                       divuser_nickname.addClass("has-error");
+                       $('#user_nickname').focus();
+                       return false;
+                   }else{
+                       divuser_nickname.removeClass("has-error");
+                       divuser_nickname.addClass("has-success");
+                   }
+                 
+                   //이미지
+                   if($('#mem_image').val()==""){
+                       modalContents.text("이미지를 입력하여 주시기 바랍니다.");
+                       modal.modal('show');
+                       
+                       divmem_image.removeClass("has-success");
+                       divmem_image.addClass("has-error");
+                       $('#mem_image').focus();
+                       return false;
+                   }else{
+                       divmem_image.removeClass("has-error");
+                       divmem_image.addClass("has-success");
+                   }
+                   //휴대폰 번호
+                   if($('#mem_phone').val()==""){
+                       modalContents.text("휴대폰 번호를 입력하여 주시기 바랍니다.");
+                       modal.modal('show');
+                       
+                       divmem_phone.removeClass("has-success");
+                       divmem_phone.addClass("has-error");
+                       $('#mem_phone').focus();
+                       return false;
+                   }else{
+                       divmem_phone.removeClass("has-error");
+                       divmem_phone.addClass("has-success");
+                   
+
+                   }
+                   document.signCheck.submit();
+               
+               });
+               
+           });
+           
+       </script> 
+
+    
+>>>>>>> e5e25226e1161b2cd0c5ff4e69f576d63934696b
     </head>
     <body>
+    
+    
       <div class="container"><!-- 좌우측의 공간 확보 -->
             <!-- 헤더 들어가는 부분 -->
             
@@ -77,7 +374,11 @@
                 
  
  
+<<<<<<< HEAD
             <form class="form-horizontal" role="form"  name= "frm" >
+=======
+            <form name = "signCheck" class="form-horizontal" role="form" method="post" action="sign.login" enctype="multipart/form-data">
+>>>>>>> e5e25226e1161b2cd0c5ff4e69f576d63934696b
                 <div class="form-group">
                     <label for="provision" class="col-lg-2 control-label">회원가입약관</label>
                     <div class="col-lg-10" id="provision">
@@ -361,55 +662,73 @@ e-mail : dd@naver.com
                                 <input type="radio" id="memberInfoYn" name="memberInfoYn" value="N">
                                 동의하지 않습니다.
                             </label>
-                        </div>
+                        </div> 
                     </div>
                 </div>
                 <div class="form-group" id="divmem_Id">
                     <label for="inputmem_Id" class="col-lg-2 control-label">아이디</label>
                     <div class="col-lg-10">
+<<<<<<< HEAD
                         <input type="text" class="form-control onlyAlphabetAndNumber" id="mem_id" name="mem_id" data-rule-required="true" placeholder="12자이내의 알파벳, 언더스코어(_), 숫자만 입력 가능합니다." maxlength="15">
+=======
+                        <input type="text" class="form-control onlyAlphabetAndNumber" id="mem_id" name="mem_id" data-rule-required="true" placeholder="12자이내의 알파벳, 언더스코어(_), 숫자만 입력 가능합니다." maxlength="12" onkeydown="inputIdChk()" required>
+                        <button type = "button" onclick = "fn_CheckId()" name="CheckId" class="CheckId">중복 확인</button>
+                        <input type = "hidden" name="idDuplication" value="idUncheck"/>
+>>>>>>> e5e25226e1161b2cd0c5ff4e69f576d63934696b
                     </div>
                 </div><div class="form-group" id="divmem_email">
                     <label for="inputmem_email" class="col-lg-2 control-label">이메일</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="mem_email" name="mem_email" data-rule-required="true" placeholder="이메일을 입력해주세요." maxlength="30">
+                        <input type="email" class="form-control" id="mem_email" name="mem_email" data-rule-required="true" placeholder="이메일을 입력해주세요." maxlength="30" required>
                     </div>
                 </div>
                 <div class="form-group" id="divmem_password">
                     <label for="inputmem_password" class="col-lg-2 control-label">비밀번호</label>
                     <div class="col-lg-10">
-                        <input type="password" class="form-control" id="mem_password" name="mem_password" data-rule-required="true" placeholder="영,문,특수기호 조합 8가지 이상" maxlength="15">
+                        <input type="password" class="form-control" id="mem_password" name="mem_password" data-rule-required="true" placeholder="영,문,특수기호 조합 8자이상" maxlength="15" required>
                     </div>
                 </div>
                  <div class="form-group" id="divmem_userName">
                     <label for="inputmem_userName" class="col-lg-2 control-label">이름</label>
                     <div class="col-lg-10">
+<<<<<<< HEAD
                         <input type="text" class="form-control " id="mem_userName" name="mem_userName" data-rule-required="true" placeholder="한글 또는 영어로 입력해주세요." maxlength="10">
+=======
+                        <input type="text" class="form-control " id="mem_userName" name="mem_userName" data-rule-required="true" placeholder="한글 또는 영어로 입력해주세요." maxlength="10" required>
+>>>>>>> e5e25226e1161b2cd0c5ff4e69f576d63934696b
                     </div>
                 </div>
                 <div class="form-group" id="divmem_nickname">
                     <label for="inputmem_nickname" class="col-lg-2 control-label">닉네임</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="mem_nickName" name="mem_nickName" data-rule-required="true" placeholder="닉네임" maxlength="30">
+                        <input type="text" class="form-control" id="mem_nickName" name="mem_nickName" data-rule-required="true" placeholder="닉네임" maxlength="30" required>
                     </div>
                 </div>
                 <div class="form-group" id="divmem_image">
                     <label for="inputmem_image" class="col-lg-2 control-label">프로필 사진</label>
                     <div class="col-lg-10">
-                        <input type="file" id="mem_image" name="mem_image" data-rule-required="true" maxlength="30">
+                        <input type="file" id="mem_image" name="mem_image" data-rule-required="true" maxlength="30" required>
                     </div>
                 </div>
                 <div class="form-group" id="divmem_phone">
                     <label for="inputmem_Nickname" class="col-lg-2 control-label">전화번호</label>
                     <div class="col-lg-10">
+<<<<<<< HEAD
                         <input type="number" class="form-control onlyNumber" id="mem_phone" name="mem_phone" name="excludeHangul" data-rule-required="true" placeholder="-를 제외하고 입력하세요." maxlength="30">
+=======
+                        <input type="text" class="form-control onlyNumber" id="mem_phone" name="mem_phone" name="excludeHangul" data-rule-required="true" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11" required>
+>>>>>>> e5e25226e1161b2cd0c5ff4e69f576d63934696b
                     </div>
                 </div>
                 
                 <div class="form-group" id="divmem_birthday">
                     <label for="inputmem_birthday" class="col-lg-2 control-label">생년월일</label>
                     <div class="col-lg-10">
+<<<<<<< HEAD
                         <input type="number" class="form-control onlyNumber" id="mem_birthday" name="mem_birthday" data-rule-required="true" placeholder="-를 제외하고 6자로 입력하세요." maxlength="11">
+=======
+                        <input type="text" class="form-control onlyNumber" id="mem_birthday" name="mem_birthday" data-rule-required="true" placeholder="-를 제외하고 6자로 입력하세요." maxlength="6" required>
+>>>>>>> e5e25226e1161b2cd0c5ff4e69f576d63934696b
                     </div>
                 </div>
                 <div class="form-group">
@@ -441,45 +760,45 @@ e-mail : dd@naver.com
                 <div class="form-group" id="divmem_summary" >
                     <label for="inputmem_summary" class="col-lg-2 control-label">자기소개 요약</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control " id="mem_summary" name="mem_summary" data-rule-required="true" placeholder="자기소개를 한줄요약으로 적어주세요." maxlength="20">
+                        <input type="text" class="form-control " id="mem_summary" name="mem_summary" data-rule-required="true" placeholder="자기소개를 한줄요약으로 적어주세요." maxlength="20" required>
                     </div>
                 </div>
-                 <div class="form-group" id="divmem_introduce">
+                <div class="form-group" id="divmem_introduce">
                     <label for="inputmem_introduce" class="col-lg-2 control-label">자기소개</label>
                     <div class="col-lg-10">
-                        <textarea class="form-control" id="mem_introduce" name="mem_introduce" data-rule-required="true" placeholder="자기소개를 적어주세요" rows="5"></textarea>
+                        <textarea class="form-control" id="mem_introduce" name="mem_introduce" data-rule-required="true" placeholder="자기소개를 적어주세요" rows="5" required></textarea>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="divmem_accept_email">
                     <label for="inputmem_accept_email" class="col-lg-2 control-label">이메일 수신여부</label>
                     <div class="col-lg-10" name="mem_accept_eamil" >
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_eamil" name="emailReceive" value="0" checked> 동의합니다.
+                            <input type="radio" id="mem_accept_eamil" name="mem_accept_eamil" value="0" checked> 동의합니다.
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_email" name="emailReceive" value="1"> 동의하지 않습니다.
+                            <input type="radio" id="mem_accept_email" name="mem_accept_eamil" value="1"> 동의하지 않습니다.
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="divmem_accept_phone">
                     <label for="inputmem_accept_phone" class="col-lg-2 control-label">SMS 수신여부</label>
                     <div class="col-lg-10">
                         <label class="radio-inline" name="mem_accept_phone">
-                            <input type="radio" id="mem_accept_phone" name="smsReceive" value="0" checked> 동의합니다.
+                            <input type="radio" id="mem_accept_phone" name="mem_accept_phone" value="0" checked> 동의합니다.
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_phone" name="smsReceive" value="1"> 동의하지 않습니다.
+                            <input type="radio" id="mem_accept_phone" name="mem_accept_phone" value="1"> 동의하지 않습니다.
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="divmem_accept_privacy">
                     <label for="inputmem_accept_privacy" class="col-lg-2 control-label">개인정보 제공 동의 여부</label>
                     <div class="col-lg-10" id="mem_accept_privacy">
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_privacy" name="privacyReceive" value="0" checked> 동의합니다.
+                            <input type="radio" id="mem_accept_privacy" name="mem_accept_privacy" value="0" checked> 동의합니다.
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" id="mem_accept_privacy" name="privacyReceive" value="1"> 동의하지 않습니다.
+                            <input type="radio" id="mem_accept_privacy" name="mem_accept_privacy" value="1"> 동의하지 않습니다.
                         </label>
                     </div>
                 </div>
@@ -489,6 +808,7 @@ e-mail : dd@naver.com
                     </div>
                 </div>
             </form>
+<<<<<<< HEAD
         
         
       
@@ -497,4 +817,8 @@ e-mail : dd@naver.com
           
         </div>
     </body>  
+=======
+    </div>
+</body>  
+>>>>>>> e5e25226e1161b2cd0c5ff4e69f576d63934696b
 </html>

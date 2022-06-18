@@ -6,15 +6,12 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Resource;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,17 +34,12 @@ public class MemberController {
    @Autowired
    private MemberMapper memberMapper;
    
-   @Autowired
-   private JavaMailSender mailSender;
-   
+
    @Resource(name="uploadPath")
 	private String uploadPath;
    
    @RequestMapping(value="login.login", method=RequestMethod.GET)
    public String login(HttpServletRequest req) {
-	    String referer = req.getHeader("Referer");
-	    req.getSession().setAttribute("redirectURI", referer);
-	    
       return "login/login";
    }
    
@@ -71,7 +63,7 @@ public class MemberController {
       return "message";
    }
    
-   /*@RequestMapping(value="findPW.login", method=RequestMethod.POST)
+   @RequestMapping(value="findPW.login", method=RequestMethod.POST)
    public String checkMemberPW(HttpServletRequest req, 
                            @RequestParam Map<String, String> params) {
       String msg = memberMapper.searchMemberPW(params);
@@ -80,72 +72,7 @@ public class MemberController {
       req.setAttribute("url", url);
       return "message";
    }
-   */
 
-   @RequestMapping(value="pw_auth.login", method=RequestMethod.POST)
-	public ModelAndView pw_auth(HttpSession session, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-	   String mem_userName = (String)req.getParameter("mem_userName");
-	   String mem_email = (String)req.getParameter("mem_email");
-
-		MemberDTO dto = memberMapper.selectMember(mem_email);
-			
-		if(dto != null) {
-		Random r = new Random();
-		int num = r.nextInt(999999); // 랜덤난수설정
-		
-		if (dto.getMem_userName().equals(mem_userName)) {
-			session.setAttribute("mem_email", dto.getMem_email());
-
-			String setfrom = "ektmf1101@naver.com"; 
-			String tomail = mem_email; 
-			String title = "비밀번호 변경 인증 메일 입니다"; 
-			String content = System.getProperty("line.separator") + "안녕하세요 회원님!" + System.getProperty("line.separator")
-					+ "위드카 비밀번호 찾기 인증번호는 " + num + " 입니다." + System.getProperty("line.separator"); 
-
-			try {
-				MimeMessage message = mailSender.createMimeMessage();
-				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-
-				messageHelper.setFrom(setfrom); 
-				messageHelper.setTo(tomail); 
-				messageHelper.setSubject(title);
-				messageHelper.setText(content); 
-
-				mailSender.send(message);
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("login/pw_auth");
-			mav.addObject("num", num);
-			return mav;
-		}else {
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("login/findPW");
-			return mav;
-		}
-		}else {
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("login/findPW");
-			return mav;
-		}
-		
-		
-   }	
-   
-   @RequestMapping(value = "pw_set.login", method = RequestMethod.POST)
-   public String pw_set(@RequestParam(value="email_injeung") String email_injeung,
-   			@RequestParam(value = "num") String num) throws IOException{
-   		
-   		if(email_injeung.equals(num)) {
-   			return "login/pw_new";
-   		}
-   		else {
-   			return "login/pw_find";
-   		}
-   } //이메일 인증번호 확인
-   
    
    
    @RequestMapping(value="login.login", method=RequestMethod.POST)
@@ -162,7 +89,7 @@ public class MemberController {
          if (params.get("mem_password").equals(dto.getMem_password())){
         	
             msg = dto.getMem_id()+"님, 환영합니다!!";
-            url = "javascript:history.go(-2)";
+            url = "index.do";
             HttpSession session = req.getSession();
             session.setAttribute("mbdto", dto);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
@@ -227,5 +154,20 @@ public class MemberController {
 	   
    }
    
+	@RequestMapping("/checkId.login")
+	public String checkID(HttpServletRequest req, @RequestParam String mem_id) {	
+		  MemberDTO dto = memberMapper.getMemberId(mem_id);
+	      int result = -1;
+		  if (dto == null){   
+	    	  result= 1;
+	      }else {
+	    	  result = 0;
+	      }
+		  req.setAttribute("result", result);
+	      return "login/checkId";
+	   }
+
+	}
+
+	
    
-}
