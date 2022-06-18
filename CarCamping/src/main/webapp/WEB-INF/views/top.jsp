@@ -1,7 +1,12 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8"
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%-- <%@ page import="java.util.*, com.ezen.carCamping.dto.*"%>
+<%
+	List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+%> --%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -46,83 +51,110 @@
 
 <!--바케성 0613 배너 css js-->
 
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-				
+<link rel="stylesheet" type="text/css"
+	href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<script type="text/javascript"
+	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
 
 
 </head>
 
 <body>
+
+
+
+
+
 	<!-- ***** Header Area Start ***** -->
-	<header class="header-area header-sticky" style="background-color : #83BD75;"><!-- 색깔 바꾸기 -->
-		<div class="container" style="height: 90px";>	
+	<header class="header-area header-sticky"
+		style="background-color: #83BD75;">
+		<!-- 색깔 바꾸기 -->
+		<div class="container" style="height: 90px";>
 			<div class="row" style="height: 90px";>
 				<div class="col-12">
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
-						<a href="index.html" class="logo" style="height: 90px;"><img src="resources/images/cambakLogo.png" style="width: 120px;height: 50px;"/></a>
+						<a href="index.html" class="logo" style="height: 90px;"><img
+							src="resources/images/cambakLogo.png"
+							style="width: 120px; height: 50px;" /></a>
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
 						<ul class="nav">
-							<li ><a  href="index.do"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
-  							<path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+							<li><a href="index.do"><svg
+										xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+										fill="currentColor" class="bi bi-house-door-fill"
+										viewBox="0 0 16 16">
+  							<path
+											d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z" />
 							</svg></a></li>
 							<li><a href="login.login">로그인</a></li>
 							<li><a href="sign.login">회원가입</a></li>
 							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
 								<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a href="goRegion.region"  style="background: #E9EFC0;">차박지 메인</a></li>
-									<li><a href="goProduct.product"  style="background: #E9EFC0;">용품 대여</a></li>
+									<li><a href="goRegion.region" style="background: #E9EFC0;">차박지
+											메인</a></li>
+									<li><a href="goProduct.product"
+										style="background: #E9EFC0;">용품 대여</a></li>
 								</ul></li>
 							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
-							<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a href="field_review.review"  style="background: #E9EFC0;">장소 리뷰</a></li>
-									<li><a href="goods_review.review"  style="background: #E9EFC0;">용품 리뷰</a></li>
+								<ul class="sub-menu" style="background: #e9efc08c;">
+									<li><a href="field_review.review"
+										style="background: #E9EFC0;">장소 리뷰</a></li>
+									<li><a href="goods_review.review"
+										style="background: #E9EFC0;">용품 리뷰</a></li>
 								</ul></li>
-							<li class="scroll-to-section">
-								<a class="btn btn-outline-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" style="padding-top:0px; padding-bottom:0px;">
-									프로필
-								</a>
-							</li>
-								<div class="offcanvas offcanvas-start" tabindex="-1"
+							<li class="scroll-to-section"><a
+								class="btn btn-outline-success" data-bs-toggle="offcanvas"
+								href="#offcanvasExample" role="button"
+								aria-controls="offcanvasExample"
+								style="padding-top: 0px; padding-bottom: 0px;"> 프로필 </a></li>
+							<div class="offcanvas offcanvas-start" tabindex="-1"
 								id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 								<div class="offcanvas-header">
-									<h5 class="offcanvas-title" id="offcanvasExampleLabel"><b><font color="green">내 메뉴</b></font></h5>
+									<h5 class="offcanvas-title" id="offcanvasExampleLabel">
+										<b><font color="green">내 메뉴</b></font>
+									</h5>
 									<button type="button" class="btn-close text-reset"
 										data-bs-dismiss="offcanvas" aria-label="Close"></button>
 								</div>
 								<div class="offcanvas-body">
 									<div>
-                                      <img src="sik.jpg" class="card-img rounded-circle"
-						                style="width: 150px; height: 150px" />
-										닉네임/프로필사진
+										<img src="sik.jpg" class="card-img rounded-circle"
+											style="width: 150px; height: 150px" /> 닉네임/프로필사진
 									</div>
 									<div class="list-group">
 										<a href="myPageProfile.myPage"
-											class="list-group-item list-group-item-action list-group-item-light p-3">	
-											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-											내 정보 </a> 
-										<a href="myPageWriteReview.myPage"
 											class="list-group-item list-group-item-action list-group-item-light p-3">
-											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-											내가 쓴 리뷰</a> 
-										<a href="myPageLikeReview.myPage"
+											<svg class="bi me-2" width="16" height="16">
+												<use xlink:href="#people-circle"></use></svg> 내 정보
+										</a> <a href="myPageWriteReview.myPage"
 											class="list-group-item list-group-item-action list-group-item-light p-3">
-											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-											내가 좋아한 리뷰</a> 
-										<a href="myPageCart.myPage"
+											<svg class="bi me-2" width="16" height="16">
+												<use xlink:href="#people-circle"></use></svg> 내가 쓴 리뷰
+										</a> <a href="myPageLikeReview.myPage"
 											class="list-group-item list-group-item-action list-group-item-light p-3">
-											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-											장바구니</a> 
-										<a href="myPageRental.myPage"
+											<svg class="bi me-2" width="16" height="16">
+												<use xlink:href="#people-circle"></use></svg> 내가 좋아한 리뷰
+												
+												
+										</a> <a href="myPageCart.myPage"
+											class="list-group-item list-group-item-action
+											list-group-item-light p-3"> <svg class="bi me-2" width="16"
+												height="16">
+												<use xlink:href="#people-circle"></use></svg> 장바구니
+												
+												
+												
+										</a> <a href="myPageRental.myPage"
 											class="list-group-item list-group-item-action list-group-item-light p-3">
-											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-											대여내역</a>
-										<a href="myPageContactUs.myPage"
+											<svg class="bi me-2" width="16" height="16">
+												<use xlink:href="#people-circle"></use></svg> 대여내역
+										</a> <a href="myPageContactUs.myPage"
 											class="list-group-item list-group-item-action list-group-item-light p-3">
-											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-											문의하기</a>	 
+											<svg class="bi me-2" width="16" height="16">
+												<use xlink:href="#people-circle"></use></svg> 문의하기
+										</a>
 									</div>
 								</div>
 							</div>
@@ -136,6 +168,6 @@
 		</div>
 	</header>
 	<section>
-	
-	
-	<!-- ***** Header Area End ***** -->
+
+
+		<!-- ***** Header Area End ***** -->

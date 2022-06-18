@@ -20,4 +20,9 @@ public class MyPageMapper {
 			return null;
 	}
 	
+	/*
+	 * public ProductCartDTO memCart(int prod_num) { ProductCartDTO dto =
+	 * sqlSession.selectOne("memCart",prod_num); return dto; }
+	 */
+	
 }

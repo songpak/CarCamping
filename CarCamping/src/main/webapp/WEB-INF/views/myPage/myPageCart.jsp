@@ -74,13 +74,18 @@
             </div>
         </div>
     </div>
+    
     <div class="row mt-4 d-flex align-items-center">
         <div class="col-sm-6 order-md-2 text-right">
-            <a href="checkOutForm.jsp" class="btn btn-success mb-4 btn-lg pl-5 pr-5">결제하기</a>
+        <c:forEach items="${cartList}" var="mdto">
+            <a href="checkOut.myPage" class="btn btn-success mb-4 btn-lg pl-5 pr-5">결제하기</a>
+            </c:forEach>
         </div>
         <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
-            <a href="catalog.html">
+         <c:forEach items="${cartList}" var="mdto">
+            <a href="goProduct.product"><!-- 로그인하면 회원번호 추가 -->
                 <i class="fas fa-arrow-left mr-2"></i> 계속 쇼핑하기</a>
+                </c:forEach>
         </div>
     </div>
 </div>
