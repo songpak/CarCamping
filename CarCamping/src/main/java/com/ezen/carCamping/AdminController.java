@@ -26,6 +26,7 @@ import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
+import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
@@ -835,10 +836,54 @@ public class AdminController {
 		mav.addObject("url", url);
 		return mav;
 	}
+
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////문 의 사 항////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	@RequestMapping("/adminQuestion.admin")
-	public String adminQuestion() {
+	public String adminQuestion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<QuestionDTO> adminListQuestion = new ArrayList<QuestionDTO>();
+		
+		if (map.containsKey("sort")) {
+			if (map.get("sort").equals("question_sysdate")) {
+				adminListQuestion = adminMapper.adminListQuestionSys(map);
+			}else {
+				adminListQuestion = adminMapper.adminListQuestionRep(map);
+			}
+		}else {
+			adminListQuestion = adminMapper.adminListQuestion();
+		}
+		
+		req.setAttribute("adminListQuestion", adminListQuestion);
 		return "admin/adminQuestion";
+	}
+	
+	@RequestMapping(value="/adminViewQuestion.admin", method=RequestMethod.GET)
+	public String adminViewQuestion(HttpServletRequest req, @RequestParam int question_num) {
+		QuestionDTO dto = adminMapper.adminGetQuestion(question_num);
+		
+		req.setAttribute("qdto", dto);	
+		return "admin/adminViewQuestion";
+	}
+	
+	@RequestMapping(value="/adminViewQuestion.admin", method=RequestMethod.POST)
+	public ModelAndView adminViewQuestion(@ModelAttribute QuestionDTO dto) {
+		int res = adminMapper.adminUpdateQuestion(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "답글이 작성되었습니다.";
+			url = "adminQuestion.admin";
+		}else {
+			msg = "답글작성이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminQuestion.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
 	}
 	
 	@RequestMapping("/adminRental.admin")

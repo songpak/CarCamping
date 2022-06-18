@@ -398,4 +398,42 @@
 		delete from AdminAnnounce where aa_num = #{aa_num}
 	</delete>
 
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////////문 의 사 항/////////////////////////////////////////////// -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+	<resultMap id="questionMap" type="QuestionDTO">
+		<id column="question_num" property="question_num"/>
+		<result column="question_title" property="question_title"/>
+		<result column="question_content" property="question_content"/>
+		<result column="question_sysdate" property="question_sysdate"/>
+		<result column="question_reply" property="question_reply"/>
+		<result column="question_replySysdate" property="question_replySysdate"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
+	</resultMap>
+	
+	<select id="adminListQuestion" resultMap="questionMap">
+		select a.*,b.* from Question a join Member b on a.mem_num = b.mem_num
+	</select>
+	
+	<select id="adminListQuestionSys" resultMap="questionMap" parameterType="java.util.Map">
+		select a.*,b.* from Question a join Member b on a.mem_num = b.mem_num order by ${sort} DESC
+	</select>
+	
+	<select id="adminListQuestionRep" resultMap="questionMap" parameterType="java.util.Map">
+		select a.*,b.* from Question a join Member b on a.mem_num = b.mem_num order by case when ${sort} is null then 0 else 1 end
+	</select>
+	
+	<select id="adminGetQuestion" parameterType="int" resultMap="questionMap">
+		select a.*,b.* from Question a join Member b on a.mem_num = b.mem_num where a.question_num = #{question_num}
+	</select>
+	
+	<update id="adminViewQuestion" parameterType="QuestionDTO">
+		update Question set question_replySysdate = now(), question_reply = #{question_reply} where question_num = #{question_num}
+	</update>
+	
 </mapper>

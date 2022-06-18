@@ -15,6 +15,7 @@ import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
+import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
@@ -306,5 +307,41 @@ public class AdminMapper {
 		int res = sqlSession.delete("adminDeleteAnnounce", aa_num);
 		return res;
 	}
+	
+
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////문 의 사 항//////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	
+	public List<QuestionDTO> adminListQuestion(){
+		List<QuestionDTO> list = sqlSession.selectList("adminListQuestion");
+		return list;
+	}
+	
+	public List<QuestionDTO> adminListQuestionSys(Map<String,String> map){
+		List<QuestionDTO> list = sqlSession.selectList("adminListQuestionSys",map);
+		return list;
+	}
+	
+	public List<QuestionDTO> adminListQuestionRep(Map<String,String> map){
+		List<QuestionDTO> list = sqlSession.selectList("adminListQuestionRep",map);
+		return list;
+	}
+	
+	public QuestionDTO adminGetQuestion(int question_num) {
+		QuestionDTO dto = sqlSession.selectOne("adminGetQuestion", question_num);
+		return dto;
+	}
+	
+	public int adminUpdateQuestion(QuestionDTO dto) {
+		int res = sqlSession.update("adminViewQuestion", dto);
+		return res;
+	}
+	
+	
 	
 }
