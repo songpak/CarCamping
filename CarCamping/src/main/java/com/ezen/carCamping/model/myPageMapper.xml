@@ -9,8 +9,8 @@
 		select * from ProductCart, Product where ProductCart.prod_num=#{prod_num} and ProductCart.prod_num = Product.prod_num <!-- and ProductCart.mem_num = Member.prod_num  -->         
 	</select>
 	
-	 <select id = "memberCart" parameterType="int" resultType="ProductCartDTO"><!-- 용품을 산 멤버의 정보를 mem_num으로 가져오기 -->
+	<!--  <select id = "memberCart" parameterType="int" resultType="ProductCartDTO">용품을 산 멤버의 정보를 mem_num으로 가져오기
 		select * from ProductCart, Member where ProductCart.prod_num=#{prod_num} and ProductCart.mem_num = Member.mem_num
-	</select> 
+	</select>  -->
 	
 </mapper>

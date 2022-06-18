@@ -94,12 +94,19 @@ public class MyPageController {
 			url = "";
 		} else {
 			msg = "결제 페이지로 이동합니다!";
-			url = "";
+			url = "Pay.myPage";
 		}
 		req.setAttribute("msg", msg);
 		req.setAttribute("url", url);
 		return "message";
 	}
+	
+	@RequestMapping("Pay.myPage") 
+		public String myPageCheckOut() {
+			return "myPage/myPageCheckOut";
+		}
+	
+	
 
 	@RequestMapping("/myPageContactUs.myPage")
 	public String myPageContactUs() {
