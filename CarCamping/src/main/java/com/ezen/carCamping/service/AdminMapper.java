@@ -282,8 +282,28 @@ public class AdminMapper {
 		return list;
 	}
 	
+	public List<AdminAnnounceDTO> adminListAnnounceSort(Map<String,String> map){
+		List<AdminAnnounceDTO> list = sqlSession.selectList("adminListAnnounceSort",map);
+		return list;
+	}
+	
+	public AdminAnnounceDTO adminGetAnnounce(int aa_num) {
+		AdminAnnounceDTO dto = sqlSession.selectOne("adminGetAnnounce", aa_num);
+		return dto;
+	}
+	
 	public int adminInsertAnnounce(AdminAnnounceDTO dto) {
 		int res = sqlSession.insert("adminInsertAnnounce", dto);
+		return res;
+	}
+	
+	public int adminUpdateAnnounce(AdminAnnounceDTO dto) {
+		int res = sqlSession.update("adminUpdateAnnounce", dto);
+		return res;
+	}
+	
+	public int adminDeleteAnnounce(int aa_num) {
+		int res = sqlSession.delete("adminDeleteAnnounce", aa_num);
 		return res;
 	}
 	

@@ -376,10 +376,26 @@
 		select * from AdminAnnounce
 	</select>
 	
+	<select id="adminListAnnounceSort" parameterType="java.util.Map" resultType="AdminAnnounceDTO">
+		select * from AdminAnnounce order by aa_sysdate ${sort}
+	</select>
+	
+	<select id="adminGetAnnounce" resultType="AdminAnnounceDTO" parameterType="int">
+		select * from AdminAnnounce where aa_num = #{aa_num}
+	</select>
+	
 	<insert id="adminInsertAnnounce" parameterType="AdminAnnounceDTO">
 		insert into AdminAnnounce(aa_title,aa_content,aa_image1,aa_image2,aa_image3,aa_image4,aa_image5,aa_sysdate,aa_update) 
 		values(#{aa_title},#{aa_content},#{aa_image1},#{aa_image2},#{aa_image3},#{aa_image4},#{aa_image5},now(),now())
 	</insert>
 
+	<update id="adminUpdateAnnounce" parameterType="AdminAnnounceDTO">
+		update AdminAnnounce set aa_title=#{aa_title}, aa_content=#{aa_content},aa_image1=#{aa_image1},aa_image2=#{aa_image2},aa_image3=#{aa_image3},aa_image4=#{aa_image4},aa_image5=#{aa_image5},
+		aa_update = now() where aa_num = #{aa_num}
+	</update>
+
+	<delete id="adminDeleteAnnounce" parameterType="int">
+		delete from AdminAnnounce where aa_num = #{aa_num}
+	</delete>
 
 </mapper>

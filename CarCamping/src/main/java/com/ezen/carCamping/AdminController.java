@@ -724,8 +724,14 @@ public class AdminController {
 
 	
 	@RequestMapping("/adminAnnounce.admin")
-	public String adminAnnounce(HttpServletRequest req) {
-		List<AdminAnnounceDTO> list = adminMapper.adminListAnnounce();
+	public String adminAnnounce(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<AdminAnnounceDTO> list = new ArrayList<AdminAnnounceDTO>();
+		
+		if (map.containsKey("sort")) {
+			list = adminMapper.adminListAnnounceSort(map);
+		}else {
+			list = adminMapper.adminListAnnounce();
+		}
 		
 		req.setAttribute("adminListAnnounce", list);
 		return "admin/adminAnnounce";
@@ -733,7 +739,7 @@ public class AdminController {
 	
 	@RequestMapping(value="/adminRegisterAnnounce.admin", method=RequestMethod.GET)
 	public String adminInsertAnnounce() {
-		return "admin/adminInsertAnnounce";
+		return "admin/adminRegisterAnnounce";
 	}
 	
 	@RequestMapping(value="/adminRegisterAnnounce.admin", method=RequestMethod.POST)
@@ -763,6 +769,65 @@ public class AdminController {
 			url = "adminAnnounce.admin";
 		}else {
 			msg = "등록이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminAnnounce.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping(value="/adminViewAnnounce.admin", method=RequestMethod.GET)
+	public String adminViewAnnounce(HttpServletRequest req,@RequestParam int aa_num) {
+		AdminAnnounceDTO dto = adminMapper.adminGetAnnounce(aa_num);
+		req.setAttribute("adto", dto);
+		
+		return "admin/adminViewAnnounce";
+	}
+	
+	@RequestMapping(value="/adminViewAnnounce.admin", method=RequestMethod.POST)
+	public ModelAndView adminViewAnnounce(HttpServletRequest req,@RequestParam("aa_image") MultipartFile[] file,@ModelAttribute AdminAnnounceDTO dto) {
+		String upPath = (String)req.getSession().getAttribute("upPath");
+		//다중파일 업로드
+		for (MultipartFile f : file) {
+			String filename = f.getOriginalFilename();		
+			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
+			else if (dto.getAa_image2()==null) dto.setAa_image2(filename);
+			else if (dto.getAa_image3()==null) dto.setAa_image3(filename);
+			else if (dto.getAa_image4()==null) dto.setAa_image4(filename);
+			else if (dto.getAa_image5()==null) dto.setAa_image5(filename);
+
+			try {
+				f.transferTo(new File(upPath+"/images/announce/"+filename));
+
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		int res = adminMapper.adminUpdateAnnounce(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "수정되었습니다.";
+			url = "adminAnnounce.admin";
+		}else {
+			msg = "수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminAnnounce.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping("/adminDeleteAnnounce.admin")
+	public ModelAndView adminDeleteAnnounce(@RequestParam int aa_num) {
+		int res = adminMapper.adminDeleteAnnounce(aa_num);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "삭제되었습니다.";
+			url = "adminAnnounce.admin";
+		}else {
+			msg = "삭제가 실패되었습니다. 관리자에게 문의하세요";
 			url = "adminAnnounce.admin";
 		}
 		ModelAndView mav = new ModelAndView("message");

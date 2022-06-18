@@ -80,7 +80,7 @@
 										<img src="${upPath}/images/announce/${adto.aa_image4}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
-								<c:if test="${not empty adto.prod_image5}">
+								<c:if test="${not empty adto.aa_image5}">
 									<div class="carousel-item active">
 										<img src="${upPath}/images/announce/${adto.aa_image5}" class="d-block w-100" alt="...">
 									</div>

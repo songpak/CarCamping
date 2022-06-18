@@ -24,8 +24,8 @@
 			<div class="col" align="left">
 				<form name="sortForm" method="post" action="adminAnnounce.admin">
 					<select name="sort">
-							<option value="DESC">최신순</option>
-							<option value="ASC">오래된순</option>
+							<option value="desc">최신순</option>
+							<option value="asc">오래된순</option>
 					</select>
 					<input type="submit" value="정렬">
 				</form>
@@ -47,14 +47,13 @@
 			var option = "width=300,height=200,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
-		function con_view(){
-			var url = "adminViewAnnounce.admin"
-			var name = "공지사항 등록"
+		function con_view(a){
+			var url = "adminViewAnnounce.admin?aa_num="+a
+			var name = "공지사항 보기"
 			var option = "width=300,height=200,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 	</script>
-	
 	
 	<!-- 본문 -->
 	
