@@ -73,7 +73,7 @@ public class RegionMapper{
 		return count;
 	}
 
-	/*�˻�*/
+	/*검색*/
 	public List<ReviewRegionDTO> listCcrReviewSearch(int ccr_num , int startRow , int endRow,String orderBy,String search,String searchString){
 		Map<String,Object> map = new Hashtable<>();
 		map.put("ccr_num",ccr_num);
@@ -94,7 +94,7 @@ public class RegionMapper{
 		int count = (int)sqlSession.selectOne("countReviewSearch", map);
 		return count;
 	}
-	//�ۼ��� �˻� 
+	//작성자 검색 
 	public List<ReviewRegionDTO> listCcrReviewWriterSearch(int ccr_num , int startRow , int endRow,String orderBy,String search,String searchString){
 		Map<String,Object> map = new Hashtable<>();
 		map.put("ccr_num",ccr_num);
@@ -115,15 +115,16 @@ public class RegionMapper{
 		int count = (int)sqlSession.selectOne("countRevieWrietrSearch", map);
 		return count;
 	}
-	//����󼼺���
+	//리뷰상세보기
 	public ReviewRegionDTO selectReviewDetail(int review_num) {
 		return (ReviewRegionDTO)sqlSession.selectOne("selectReviewDetail", review_num);
 	}
-	//���� �󼼺��� ��ȸ�� 
+	//리뷰 상세보기 조회수 
 	public int addReviewReadCount(int review_num) {
 		return sqlSession.update("addReviewReadCount", review_num);
 	}
-	//������ ���� ���ƿ� �� ����
+	
+	//지역과 리뷰 좋아요 수 증감
 	public int addLikeCountRegion(int ccr_num) {
 		int res = sqlSession.update("addLikeCountRegion", ccr_num);
 		return res;
@@ -140,33 +141,76 @@ public class RegionMapper{
 		int res = sqlSession.update("subLikeCountReview", review_num);
 		return res;
 	}
-	//���� ���ƿ� �� ��������
+	/*지역  좋아요*/
+	//지역 좋아요 수 가져오기
 	public int recountRegionLike(int ccr_num) {
 		int res = (int)sqlSession.selectOne("recountRegionLike", ccr_num);
 		return res;
 	}
-	//���� ���ƿ� ���� �߰� , ����
+	//지역 좋아요 내역 추가 , 삭제
 	public int insertRegionLikeLog(String mem_id,int ccr_num) {
 		Map<String,Object> map = new Hashtable<>();
 		map.put("mem_id", mem_id);
 		map.put("ccr_num",ccr_num);
-		int res = sqlSession.insert("insertRegionLikeLog", map);
+		int ud = sqlSession.update("addLikeCountRegion", ccr_num);
+		if(ud>0) sqlSession.insert("insertRegionLikeLog", map);
+		int res =(int)sqlSession.selectOne("recountRegionLike", ccr_num);
 		return res;
 	}
 	public int deleteRegionLikeLog(String mem_id,int ccr_num) {
 		Map<String,Object> map = new Hashtable<>();
 		map.put("mem_id", mem_id);
 		map.put("ccr_num", ccr_num);
-		int res = sqlSession.insert("deleteRegionLikeLog", map);
+		//int res = sqlSession.delete("deleteRegionLikeLog", map);
+		int ud = sqlSession.update("subLikeCountRegion", ccr_num);
+		if(ud>0) sqlSession.delete("deleteRegionLikeLog", map);
+		int res =(int)sqlSession.selectOne("recountRegionLike", ccr_num);
 		return res;
 	}
-	
-	//���� ���ƿ� ���� üũ
+	//지역 좋아요 내역 체크
 	public int checkRegionLikeLog(String mem_id,int ccr_num) {
 		Map<String,Object> map = new Hashtable<>();
 		map.put("mem_id", mem_id);
 		map.put("ccr_num", ccr_num);
-		int res = sqlSession.insert("checkRegionLikeLog", map);
+		int res = (int)sqlSession.selectOne("checkRegionLikeLog", map);
+		if(res>0) System.out.println("해당 아이디의  해당 지역에 대해 추천한 기록이있습니다");
+		else System.out.println("해당 아이디의 해당 지역에 대해 추천한 기록이 없습니다");
+		return res;
+	}
+	
+	/*리뷰  좋아요*/
+	//리뷰 좋아요 수 가져오기
+	public int recountReviewLike(int review_num) {
+		int res = (int)sqlSession.selectOne("recountReviewLike", review_num);
+		return res;
+	}
+	//리뷰 좋아요 내역 추가 , 삭제
+	public int insertReviewLikeLog(String mem_id,int review_num) {
+		Map<String,Object> map = new Hashtable<>();
+		map.put("mem_id", mem_id);
+		map.put("review_num",review_num);
+		int ud = sqlSession.update("addLikeCountReview", review_num);
+		if(ud>0) sqlSession.insert("insertReviewLikeLog", map);
+		int res =(int)sqlSession.selectOne("recountReviewLike", review_num);
+		return res;
+	}
+	public int deleteReviewLikeLog(String mem_id,int review_num) {
+		Map<String,Object> map = new Hashtable<>();
+		map.put("mem_id", mem_id);
+		map.put("review_num", review_num);
+		int ud = sqlSession.update("subLikeCountReview", review_num);
+		if(ud>0) sqlSession.delete("deleteReviewLikeLog", map);
+		int res =(int)sqlSession.selectOne("recountReviewLike", review_num);
+		return res;
+	}
+	//리뷰 좋아요 내역 체크
+	public int checkReviewLikeLog(String mem_id,int review_num) {
+		Map<String,Object> map = new Hashtable<>();
+		map.put("mem_id", mem_id);
+		map.put("review_num", review_num);
+		int res = (int)sqlSession.selectOne("checkReviewLikeLog", map);
+		if(res>0) System.out.println("해당 아이디의  해당 리뷰에 대해 추천한 기록이있습니다");
+		else System.out.println("해당 아이디의 해당 리뷰에 대해 추천한 기록이 없습니다");
 		return res;
 	}
 }

@@ -94,7 +94,7 @@
 	<select id="selectReviewDetail" parameterType="Integer" resultType="ReviewRegionDTO">
 		select * from ReviewRegion where review_num = #{review_num}
 	</select>
-
+	<!-- 지역  좋아요 -->
 	<!-- 지역 좋아요 수 가져오기  -->
 	<select id="recountRegionLike" parameterType="Integer" resultType="Integer">
 		select a.ccr_likeCount from CarCampingRegion a where ccr_num = #{ccr_num}
@@ -105,12 +105,33 @@
 		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{ccr_num});
 	</insert>
 	<delete id="deleteRegionLikeLog" parameterType="Map">
-		delete a.* from ReviewLikeLog a,Member b
-		where a.mem_num = b.mem_num and b.mem_id = #{id} and a.ccr_num = #{ccr_num}
+		delete from RegionLikeLog a where a.ccr_num=#{ccr_num} and a.mem_num in
+		(select * from
+		(select a.mem_num from RegionLikeLog,Member b where a.mem_num = b.mem_num and b.mem_id =#{mem_id}) as result)
 	</delete>
-	<!-- 좋아요 내역 검사  -->
-	<select id="checkRegionLikeLog" parameterType="Map">
-		select count(a.mem_num) from RegionLikeLog a,Member b
-		where a.mem_num = b.mem_num and b.mem_id = #{id} and a.ccr_num = #{ccr_num}
+	<!-- 지역 좋아요 내역 검사  -->
+	<select id="checkRegionLikeLog" parameterType="Map" resultType="Integer">
+		select count(*) from RegionLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.ccr_num = #{ccr_num}
+	</select>
+	
+	<!-- 리뷰 좋아요  -->
+	<select id="recountReviewLike" parameterType="Integer" resultType="Integer">
+		select a.review_likeCount from ReviewRegion a where review_num = #{review_num}
+	</select>
+	<!--리뷰 좋아요 추가 & 삭제  -->
+	<insert id="insertReviewLikeLog" parameterType="Map">
+		insert into ReviewLikeLog (mem_num,review_num) values
+		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{review_num});
+	</insert>
+	<delete id="deleteReviewLikeLog" parameterType="Map">
+		delete from ReviewLikeLog a where a.review_num=#{review_num} and a.mem_num in
+		(select * from
+		(select a.mem_num from ReviewLikeLog,Member b where a.mem_num = b.mem_num and b.mem_id =#{mem_id}) as result)
+	</delete>
+	<!-- 리뷰 좋아요 내역 검사  -->
+	<select id="checkReviewLikeLog" parameterType="Map" resultType="Integer">
+		select count(*) from ReviewLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.review_num = #{review_num}
 	</select>
 </mapper>
