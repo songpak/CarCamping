@@ -17,6 +17,7 @@ import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 
@@ -344,4 +345,14 @@ public class AdminMapper {
 	
 	
 	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////대 여 현 황//////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	public List<RentalLogDTO> adminListRentalLog() {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLog");
+		return list;
+	}
 }

@@ -436,4 +436,41 @@
 		update Question set question_replySysdate = now(), question_reply = #{question_reply} where question_num = #{question_num}
 	</update>
 	
+	
+	
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////////대 여 내 역/////////////////////////////////////////////// -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	
+	
+	
+	<resultMap id="productCartMap" type="ProductCartDTO">
+		<id column="cart_num" property="car_num"/>
+		<result column="cart_prodCount" property="cart_prodCount"/>
+		<result column="cart_from" property="cart_from"/>
+		<result column="cart_to" property="cart_to"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
+		<association property="productDTO" javaType="ProductDTO" resultMap="productMap"/>
+		<association property="agencyDTO" javaType="AgencyDTO" resultMap="agencyMap"/>
+	</resultMap>
+	
+	<resultMap id="rentalLogMap" type="RentalLogDTO">
+		<id column="rental_num" property="rental_num"/>
+		<result column="rental_from" property="rental_from"/>
+		<result column="rental_to" property="rental_to"/>
+		<result column="rental_return" property="rental_return"/>
+		<result column="rental_extend" property="rental_extend"/>
+		<result column="rental_notReturn" property="rental_notReturn"/>
+		<result column="rental_price" property="rental_price"/>
+		<result column="rental_usePoint" property="rental_usePoint"/>
+		<result column="rental_extendPrice" property="rental_extendPrice"/>
+		<result column="rental_notReturnPrice" property="rental_notReturnPrice"/>
+		<association property="productCartDTO" javaType="ProductCartDTO" resultMap="productCartMap"/>
+	</resultMap>
+	
+	<select id="adminListRentalLog" resultMap="rentalLogMap">
+		select from RentalLog a join ProductCart b join Member c join Product d join Agency e 
+		on a.cart_num = b.cart_num and b.mem_num = c.mem_num and b.prod_num = d.prod_num and b.agency_num = e.agency_num
+	</select>
+	
 </mapper>
