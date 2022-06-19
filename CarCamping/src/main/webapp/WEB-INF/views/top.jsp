@@ -137,13 +137,13 @@
 											<svg class="bi me-2" width="16" height="16">
 												<use xlink:href="#people-circle"></use></svg> 내가 좋아한 리뷰
 												
-												
-										</a> <a href="myPageCart.myPage"
+												<!-- 장바구니 영역 -->
+										</a> <a href="myPageCart2.myPage"
 											class="list-group-item list-group-item-action
 											list-group-item-light p-3"> <svg class="bi me-2" width="16"
 												height="16">
 												<use xlink:href="#people-circle"></use></svg> 장바구니
-												
+												<!-- 장바구니 영역 끝 -->
 												
 												
 										</a> <a href="myPageRental.myPage"

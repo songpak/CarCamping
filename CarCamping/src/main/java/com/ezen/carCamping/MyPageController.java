@@ -27,7 +27,6 @@ public class MyPageController {
 
 	@RequestMapping("/myPageCart.myPage")
 	public String myPageCart(HttpServletRequest req, String indate, String outdate, int prod_num, int cart_prodCount) {
-
 		HttpSession session = req.getSession();
 		ProductCartDTO dto = myPageMapper.cartProduct(prod_num);
 		dto.setCart_prodCount(cart_prodCount);
@@ -39,18 +38,21 @@ public class MyPageController {
 		session.setAttribute("cartList", cart);
 		session.setAttribute("indate", indate);
 		session.setAttribute("outdate", outdate);
+		
+		System.out.println("세션에 저정된값" + cart);
 		System.out.println("넘버 : " + prod_num);
 		// System.out.println("날짜 : " + outdate);
 		return "myPage/myPageCart";
 	}
 
-	/*
-	 * @RequestMapping("/myPageCart2.myPage") public String
-	 * myPageCart2(HttpServletRequest req, int prod_num) { HttpSession session =
-	 * req.getSession(); List<ProductCartDTO> cart = (List)
-	 * session.getAttribute("cartList"); return "myPage/myPageCart"; }
-	 */
-
+	@RequestMapping("/myPageCart2.myPage")
+	public String myPageCart2(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+		session.setAttribute("cartList", cart);
+		return  "myPage/myPageCart";
+	}
+	  
 	@RequestMapping("mall_cartEdit.myPage")
 	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num) {
 		HttpSession session = req.getSession();
