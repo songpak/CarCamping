@@ -10,7 +10,6 @@
 	
 	
 	<body>	
-
   		<!-- START SECTION -->
   		<div class="section" >
   			<div class="container">
@@ -18,29 +17,14 @@
   					<div class="col-md-12 text-center">
   						<h2 class="section-title">주문 완료</h2><!-- 프론트 수정 예정 -->
   						<p class="section-description">주문번호를 확인해 주세요!</p>
-  					</div>
-  					<div class="col-md-8 col-md-offset-2" align="center" >
   						<c:set var="ran"><%= java.lang.Math.round(java.lang.Math.random() * 1234567) %></c:set>
-							<div class="row">
-								<div class="col-md-6 form-group" >
 								<h2>주문번호 :	${ran}</h2>
-								</div>
+								<button class="btn btn-success mb-3" onClick="location.href='index.do'" style="width: 756px;">확인</button>
 							</div>
-							<br />
-							<div class="row" align="center">
-								<div class="col-md-12 form-group" >
-									<button class="btn btn-success mb-3" type="submit" style="width: 756px;">확인</button>
-								</div>
-							</div>
-						
+						</div>
   					</div>
   				</div><!--/.row-->
-  			</div><!--/.container-->
-  		</div>
-  		<!--/.section -->
-
-
-  
+  			
   		<!-- jQuery -->
   		<script src="//code.jquery.com/jquery.js"></script>
   		<!-- Bootstrap JavaScript -->
