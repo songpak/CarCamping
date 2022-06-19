@@ -12,12 +12,15 @@
 	</select> 
 	
 	<select id="listCarCampingRegionHotRegion" parameterType="Integer" resultType="CarCampingRegionDTO"> <!-- 지역별 차박지 HOT차박지  -->
-		select * from CarCampingRegion a,Region b
-		where b.region_num = #{region_num} and a.region_num = b.region_num and a.ccr_popular = 0 order by ccr_reviewCount + ccr_likeCount + ccr_score desc limit 4
+		select c.* from (
+		select a.* from CarCampingRegion a,Region b where b.region_num = #{region_num} and a.region_num = b.region_num)c
+		order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount + c.ccr_score desc limit 4
 	</select>
 	
 	<select id="listHotRegion" resultType="CarCampingRegionDTO"> <!-- HOT 차박지 -->
-		select * from CarCampingRegion where ccr_popular = 0 order by ccr_reviewCount + ccr_likeCount + ccr_score desc limit 10
+	select c.* from (
+	select a.* from CarCampingRegion a where a.ccr_popular = 0)c
+	order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount + c.ccr_score desc limit 10
 	</select>
 	
 	<select id="listRecommandRegion" resultType="CarCampingRegionDTO"> <!-- 추천 차박지 -->
@@ -36,7 +39,7 @@
 	</select>
 	
 	<select id="countReviewCcrnum" parameterType="Integer" resultType="Integer">
-		select count(*) from ReviewRegion a,CarCampingRegion b where a.ccr_num=3 and a.ccr_num=b.ccr_num and a.review_adminConfirm=0
+		select count(*) from ReviewRegion a,CarCampingRegion b where a.ccr_num=#{ccr_num} and a.ccr_num=b.ccr_num and a.review_adminConfirm=0
 	</select>
 
 	<!-- 검색 -->
@@ -102,7 +105,7 @@
 	<!--지역 좋아요 추가 & 삭제  -->
 	<insert id="insertRegionLikeLog" parameterType="Map">
 		insert into RegionLikeLog (mem_num,ccr_num) values
-		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{ccr_num});
+		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{ccr_num})
 	</insert>
 	<delete id="deleteRegionLikeLog" parameterType="Map">
 		delete from RegionLikeLog a where a.ccr_num=#{ccr_num} and a.mem_num in
@@ -122,7 +125,7 @@
 	<!--리뷰 좋아요 추가 & 삭제  -->
 	<insert id="insertReviewLikeLog" parameterType="Map">
 		insert into ReviewLikeLog (mem_num,review_num) values
-		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{review_num});
+		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{review_num})
 	</insert>
 	<delete id="deleteReviewLikeLog" parameterType="Map">
 		delete from ReviewLikeLog a where a.review_num=#{review_num} and a.mem_num in
@@ -133,5 +136,18 @@
 	<select id="checkReviewLikeLog" parameterType="Map" resultType="Integer">
 		select count(*) from ReviewLikeLog a,Member b
 		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.review_num = #{review_num}
+	</select>
+	
+	<!-- 리뷰 수 가져오기 -->
+	<select id="countReviewCcr" parameterType="Integer" resultType="Integer">
+		SELECT count(*) from ReviewRegion a,CarCampingRegion b 
+		where a.ccr_num = b.ccr_num and b.ccr_num = #{ccr_num} and a.review_adminConfirm=0
+	</select> 	
+
+	<select id="test" resultType="HashMap">
+		select d.* from 
+		(select c.region_num region_num ,c.ccr_num ccr_num,c.ccr_name ccr_name,
+		(select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0)reviewCount,c.ccr_likeCount ccr_likeCount ,c.ccr_popular ccr_popular,c.ccr_score ccr_score
+		from (select a.* from CarCampingRegion a)c)d where d.reviewCount>0;
 	</select>
 </mapper>

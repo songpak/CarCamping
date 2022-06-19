@@ -24,7 +24,7 @@
 	textarea {
     resize: none;
   }
-  #exampleTextarea {
+  #reviewTextarea {
    border-color = #E9EFC0;
   }
   .h5, h5 {
@@ -125,7 +125,7 @@
 							aria-valuemax="100" style="width: 100%; background-color: #83BD75;" ></div>
 					</div>
 					<div align="center" id="leftcolumn"
-						style="width: 666px; margin-top: 20px; background:#fff;">
+						style="width: 666px;margin-top: 5px; background:#fff;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-right-width: 0px;">
 						<div class="slider-gr" style="width:640px;">
 							<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
 									<input type="radio" name="slide" id="slide${i}" checked />
@@ -163,7 +163,7 @@
 							<blockquote class="blockquote">
 								<p class="mb-0">REVIEW</p>
 							</blockquote>
-							<textarea class="form-control border border-5" id="exampleTextarea" rows="10" readonly>
+							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" readonly>
 							${selectedReview.review_regionContent}
 							</textarea>
 						</div>
@@ -225,6 +225,10 @@
 					});
 			}	
 		}
+		
+		
+		document.getElementById("reviewTextarea").scrollTop = document.getElementById("reviewTextarea").scrollHeight;
+		
 		</script>
 	</body>
 

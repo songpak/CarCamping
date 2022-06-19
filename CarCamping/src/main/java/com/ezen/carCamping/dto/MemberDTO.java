@@ -78,10 +78,10 @@ public class MemberDTO {
 	public void setMem_gender(String mem_gender) {
 		this.mem_gender = mem_gender;
 	}
-	public RegionDTO getregionDTO() {
+	public RegionDTO getRegionDTO() {
 		return regionDTO;
 	}
-	public void setregionDTO(RegionDTO regionDTO) {
+	public void setRegionDTO(RegionDTO regionDTO) {
 		this.regionDTO = regionDTO;
 	}
 	public int getMem_point() {

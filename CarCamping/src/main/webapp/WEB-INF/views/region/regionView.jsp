@@ -49,6 +49,7 @@ body {
 	hegiht: 20px;
 	padding-bottom: 0px;
 	padding-top: 0px;
+	border-color: #00205b;
 }
 
 .modal.modal-center {
@@ -75,6 +76,10 @@ body {
 	width: 600px;
 	height: 800px;
 }
+#rigonContent 
+.border .border-4 {
+	border-color : red;
+}
 </style>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
@@ -84,17 +89,19 @@ body {
  
 <div class="container-fluid themed-container" style="margin-left: 55px;" id="test">
 	<div class="row mb-3">
-		<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+		<div class="d-flex flex-column flex-shrink-0 p-3 text-white border border-4 border-dark"
 			style="width: 332px; padding-left: 0px; padding-bottom: 0px; padding-right: 0px; padding-top: 0px; height: 632px; margin-right: 86px; margin-top: 50px;">
 			<span class="fs-4 text-center" style="height: 40px;">
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#regionContent">${regionSelected.ccr_name}</button>
+					data-bs-target="#regionContent" style=" background-color: #00205b; border-color: #00205b;">${regionSelected.ccr_name}</button>
 			</span>
 		
 			<hr style="margin-top: 0px; margin-bottom: 5px;">
 			<ul id="regionInfo" class="nav nav-pills flex-column mb-auto"
 				style="margin-bottom: 0px; height: 600px;">
-				<img src="resources/images/sik.jpg" class="card-img-top" style="height: 250px;">
+				<li class="list-group-item d-flex justify-content-between align-items-center">
+					<img src="resources/images/sik.jpg" class="card-img-top" style="height: 250px;">
+				</li>
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					좋 아 요
 					<c:if test="${check==0}">
@@ -115,7 +122,7 @@ body {
 					리 뷰 수
 					<button type="button" class="btn btn-dark rounded-pill" disabled
 						style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px;">
-						${regionSelected.ccr_reviewCount}</button>
+						${reviewCount}</button>
 				</li>
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					별점 (${regionSelected.ccr_score}/5)
@@ -276,22 +283,25 @@ body {
 				<div class="col">
 					<div class="btn-group">
 						<button type="button" class="btn btn-primary dropdown-toggle"
-							data-bs-toggle="dropdown" aria-expanded="false">정렬</button>
+							data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #00205b; border-color: #00205b;">정렬</button>
 						<ul class="dropdown-menu" style="margin-right: 13px;">
 							<li><a class="dropdown-item"
-								href="regionView.region?ccr_num=${ccr_num}&orderBy=newly&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${pageNum}">
+								href="regionView.region?ccr_num=${ccr_num}&orderBy=newly&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=1">
 								최신순</a></li>
 							<li><a class="dropdown-item"
-								href="regionView.region?ccr_num=${ccr_num}&orderBy=review_likeCount&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${pageNum}">
+								href="regionView.region?ccr_num=${ccr_num}&orderBy=review_likeCount&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=1">
 								좋아요순</a></li>
 							<li><a class="dropdown-item"
-								href="regionView.region?ccr_num=${ccr_num}&orderBy=review_regionScore&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${pageNum}">
-								평점순</a></li>
+								href="regionView.region?ccr_num=${ccr_num}&orderBy=review_regionScore&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=1">
+								별점순</a></li>
 						</ul>
 					</div>
-					<button type="button" class="btn btn-success" style=" margin-left: 15px;" onclick="show_allList()">
+					<button type="button" class="btn btn-success" style=" margin-left: 15px; background-color: #00205b; border-color: #00205b;" onclick="show_allList()">
 							전체보기
-						</button>
+					</button>
+					<button type="button" class="btn btn-success" style=" margin-left: 15px; " onclick="location.href='test.region'">
+							테스트
+					</button>
 				</div>
 				
 					<%-- regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${i} --%>
@@ -307,7 +317,7 @@ body {
 						</select> <input type="text" id="searchString" class="form-control"
 							placeholder="리뷰를 검색하세요 !" aria-label="Recipient's username"
 							aria-describedby="button-addon2">
-						<button class="btn btn-primary" type="button" id="button-addon2"
+						<button class="btn btn-primary" type="button" id="button-addon2" style="background-color: #00205b; border-color: #00205b;"
 							onclick="search_function();">검색</button>
 					</div>
 				</div>
@@ -323,7 +333,7 @@ body {
 						<td>
 							<div class="card border-success" style="width: 18rem;">
 								<img src="resources/images/sik.jpg" class="card-img-top"
-									style="width: 286px; height: 200px;">
+									style="width: 284px; height: 200px;">
 								<div class="card-body">
 									<div class="card-body">
 										<h5 class="card-title">${review_ccr.review_title}</h5>
@@ -478,7 +488,7 @@ body {
 		    var _left = Math.ceil(( window.screen.width - 800 )/2);
 			var _top = Math.ceil(( window.screen.height - 1000 )/2); 
 			
-			var option = "width = 800, height = 1000, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
+			var option = "width = 800, height = 900, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
 			window.open(url, name, option);
 		}
 		

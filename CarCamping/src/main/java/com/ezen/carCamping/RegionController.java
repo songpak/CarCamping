@@ -76,9 +76,10 @@ public class RegionController {
 		int ccr_num = Integer.parseInt(params.get("ccr_num"));
 		CarCampingRegionDTO dto = RegionMapper.selectRegionByCcrnum(ccr_num);
 		req.setAttribute("regionSelected", dto);
-		
+		req.setAttribute("reviewCount", RegionMapper.countReviewCcr(ccr_num));
 		String mode = req.getParameter("mode");
 		if(mode==null) mode="none";
+		
 		//id값을 가져와 로그 내역 체크 후 버튼의 색깔을 결정 
 		HttpSession test_session = req.getSession();
 		String id = (String) test_session.getAttribute("id");
@@ -106,13 +107,17 @@ public class RegionController {
 		int startRow = (currentPage - 1) * pageSize + 1;//3-1 4 8
 		int endRow = startRow + pageSize - 1;
 		int rowCount = RegionMapper.countReviewCcrnum(ccr_num);
+		System.out.println(rowCount);
 		if (endRow > rowCount)
 			endRow = rowCount;
 		String orderBy =  params.get("orderBy");
 		if(orderBy==null||orderBy.equals("newly")) orderBy = "review_num";
 		
 		if (rowCount > 0) {
-			if(mode.equals("none")) list = RegionMapper.listCcrReview(ccr_num,startRow-1,3,orderBy);
+			if(mode.equals("none")) {
+			list = RegionMapper.listCcrReview(ccr_num,startRow-1,3,orderBy);
+			System.out.println(list.size());
+			}
 			else if(mode.equals("searchReview")) {
 				String search  = params.get("search");
 				System.out.println(search);
@@ -148,7 +153,7 @@ public class RegionController {
 			req.setAttribute("orderBy", orderBy);
 			
 		}
-		//System.out.println(list.size());
+		
 		req.setAttribute("pageNum", pageNum);
 		req.setAttribute("rowCount", rowCount);
 		req.setAttribute("reviewList", list);
@@ -268,7 +273,15 @@ public class RegionController {
 		}
 		return String.valueOf(count);
 	}
-
+	
+	
+	@RequestMapping("/test.region")
+	public String test(HttpServletRequest req,HttpServletResponse rep) {
+		List<Map<String,Object>> list = RegionMapper.test();
+		req.setAttribute("list", list);
+		return "/region/test";
+	}
+	
 	/*
 	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //오름차순
 	 * 

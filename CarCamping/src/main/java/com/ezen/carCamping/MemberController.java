@@ -1,7 +1,11 @@
 package com.ezen.carCamping;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
+import java.util.Random;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,12 +13,17 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ezen.carCamping.dto.MemberDTO;
-import com.ezen.carCamping.dto.ReviewRegionDTO;
+import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.service.MemberMapper;
 
 
@@ -25,22 +34,26 @@ public class MemberController {
    @Autowired
    private MemberMapper memberMapper;
    
-   @RequestMapping("/login.login")
-   public String login() {
+
+   @Resource(name="uploadPath")
+	private String uploadPath;
+   
+   @RequestMapping(value="login.login", method=RequestMethod.GET)
+   public String login(HttpServletRequest req) {
       return "login/login";
    }
-
-   @RequestMapping("/findID.login")
+   
+@RequestMapping(value="findID.login", method=RequestMethod.GET)
    public String searchMemberID() {
       return "login/findID";
    }
    
-   @RequestMapping("/findPW.login")
+   @RequestMapping(value="findPW.login", method=RequestMethod.GET)
    public String searchMemberPW() {
       return "login/findPW";
    }
    
-   @RequestMapping("/checkMemberID.login")
+   @RequestMapping(value="findID.login", method=RequestMethod.POST)
    public String checkMemberID(HttpServletRequest req, 
                            @RequestParam Map<String, String> params) {
       String msg = memberMapper.searchMemberID(params);
@@ -50,7 +63,7 @@ public class MemberController {
       return "message";
    }
    
-   @RequestMapping("/checkMemberPW.login")
+   @RequestMapping(value="findPW.login", method=RequestMethod.POST)
    public String checkMemberPW(HttpServletRequest req, 
                            @RequestParam Map<String, String> params) {
       String msg = memberMapper.searchMemberPW(params);
@@ -59,20 +72,24 @@ public class MemberController {
       req.setAttribute("url", url);
       return "message";
    }
+
    
-   @RequestMapping("/login_ok.login")
+   
+   @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
       
+      
       String msg = null, url = null;
       if (dto == null){   
-         msg = "«ÿ¥Á«œ¥¬ æ∆¿Ãµ∞° æ¯Ω¿¥œ¥Ÿ. ¥ŸΩ√ »Æ¿Œ«œ∞Ì ∑Œ±◊¿Œ«ÿ ¡÷ººø‰!!";
+         msg = "Ìï¥ÎãπÌïòÎäî ÏïÑÏù¥ÎîîÍ∞Ä ÏóÜÏäµÎãàÎã§. Îã§Ïãú ÌôïÏù∏ÌïòÍ≥† Î°úÍ∑∏Ïù∏Ìï¥ Ï£ºÏÑ∏Ïöî!!";
          url = "login.login";
       }else {
-         if (params.get("passwd").equals(dto.getMem_password())){
-            msg = dto.getMem_id()+"¥‘, »Øøµ«’¥œ¥Ÿ!!";
-            url = "index_member.do";
+         if (params.get("mem_password").equals(dto.getMem_password())){
+        	
+            msg = dto.getMem_id()+"Îãò, ÌôòÏòÅÌï©ÎãàÎã§!!";
+            url = "index.do";
             HttpSession session = req.getSession();
             session.setAttribute("mbdto", dto);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
@@ -83,8 +100,8 @@ public class MemberController {
             }
             resp.addCookie(ck);
          }else {   
-            msg = "∫Òπ–π¯»£∞° ∆≤∑»Ω¿¥œ¥Ÿ. ¥ŸΩ√ »Æ¿Œ«œ∞Ì ∑Œ±◊¿Œ«ÿ ¡÷ººø‰!!";
-            url = "login.do";
+            msg = "ÎπÑÎ∞ÄÎ≤àÌò∏Í∞Ä ÌãÄÎ†∏ÏäµÎãàÎã§. Îã§Ïãú ÌôïÏù∏ÌïòÍ≥† Î°úÍ∑∏Ïù∏Ìï¥ Ï£ºÏÑ∏Ïöî!!";
+            url = "login.login";
          }
       }
       req.setAttribute("msg", msg);
@@ -98,16 +115,85 @@ public class MemberController {
    }
    
    @RequestMapping(value="sign.login", method=RequestMethod.POST)
-   public String signOK(HttpServletRequest req, MemberDTO dto) {
+   public String signOK(HttpServletRequest req,@ModelAttribute MemberDTO dto, BindingResult result) {
+	   MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+		MultipartFile mf = mr.getFile("mem_image");
+		String filename = mf.getOriginalFilename();
+		dto.setMem_image(filename);
+		if (filename != null && !(filename.trim().equals(""))) {
+			File file = new File(uploadPath, filename);
+			try {
+				mf.transferTo(file);
+			}catch(IOException e) {
+				e.printStackTrace();
+				}
+		}
+	  RegionDTO rdto = new RegionDTO();
+      rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
+      dto.setRegionDTO(rdto);
       int res = memberMapper.insertMember(dto);
+      
        if (res>0) {
-          req.setAttribute("msg", "»∏ø¯∞°¿‘ º∫∞¯ ^__^");
+          req.setAttribute("msg", "ÌöåÏõêÍ∞ÄÏûÖ ÏÑ±Í≥µ ^__^");
           req.setAttribute("url", "index.do");
        }else {
-          req.setAttribute("msg", "»∏ø¯∞°¿‘ Ω«∆–§–_§–");
+          req.setAttribute("msg", "ÌöåÏõêÍ∞ÄÏûÖ Ïã§Ìå®„Ö†_„Ö†");
           req.setAttribute("url", "sign.login");
           
        }
       return "message";
    }
-}
+   
+   @RequestMapping("/logout.login")
+   public String logout(HttpServletRequest req) {
+	   HttpSession session = req.getSession();
+	   	session.invalidate();
+		req.setAttribute("msg", "Î°úÍ∑∏ÏïÑÏõÉ ÎêòÏóàÏäµÎãàÎã§.");
+		req.setAttribute("url", "index.do");
+		return "message";
+	   
+   }
+   
+	@RequestMapping("/checkId.login")
+	public String checkID(HttpServletRequest req, @RequestParam String mem_id) {	
+		  MemberDTO dto = memberMapper.getMemberId(mem_id);
+	      int result = -1;
+		  if (dto == null){   
+	    	  result= 1;
+	      }else {
+	    	  result = 0;
+	      }
+		  req.setAttribute("result", result);
+	      return "login/checkId";
+	   }
+	
+	@RequestMapping("/checkNick.login")
+	public String checkNick(HttpServletRequest req, @RequestParam String mem_nickName) {	
+		  MemberDTO dto = memberMapper.getMemberNick(mem_nickName);
+	      int result = -1;
+		  if (dto == null){   
+	    	  result= 1;
+	      }else {
+	    	  result = 0;
+	      }
+		  req.setAttribute("result", result);
+	      return "login/checkNick";
+	   }
+	
+	@RequestMapping("/checkEmail.login")
+	public String checkEmail(HttpServletRequest req, @RequestParam String mem_email) {	
+		  MemberDTO dto = memberMapper.getMemberEmail(mem_email);
+	      int result = -1;
+		  if (dto == null){   
+	    	  result= 1;
+	      }else {
+	    	  result = 0;
+	      }
+		  req.setAttribute("result", result);
+	      return "login/checkEmail";
+	   }
+
+	}
+
+	
+   

@@ -213,4 +213,17 @@ public class RegionMapper{
 		else System.out.println("해당 아이디의 해당 리뷰에 대해 추천한 기록이 없습니다");
 		return res;
 	}
+	//리뷰수가져오기
+	public int countReviewCcr(int ccr_num) {
+		int count = (int)sqlSession.selectOne("countReviewCcr", ccr_num);
+		return count;
+	}
+	
+	//test
+	public List<Map<String,Object>> test() {
+		List<Map<String,Object>> list = sqlSession.selectList("test");
+		System.out.println(list.size());
+		
+		return list;
+	}
 }
