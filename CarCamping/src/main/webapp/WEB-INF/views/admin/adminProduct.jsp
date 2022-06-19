@@ -38,13 +38,13 @@
 		function popup(){
 			var url = "adminRegisterProduct.admin"
 			var name = "용품 등록"
-			var option = "width=600,height=800,top=100,left=200,location=no"
+			var option = "width=470,height=700,top=100,left=200,location=no,resizable=no"
 			window.open(url,name,option);
 		}
 		function view(a){
 			var url = "adminViewProduct.admin?prod_num="+a
 			var name = "용품 보기"
-			var option = "width=600,height=800,top=100,left=200,location=no"
+			var option = "width=470,height=700,top=100,left=200,location=no,resizable=no"
 			window.open(url,name,option);
 			}
 	</script>
@@ -87,8 +87,7 @@
     						</span>
   						</div>
 					</div>
-						(${dto.prod_reviewCount}개의 리뷰)
-						<br>
+					<br>
 							${dto.prod_summary} 
 						</p>
 						<button type="button" class="btn btn-success"

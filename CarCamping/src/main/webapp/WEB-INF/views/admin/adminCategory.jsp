@@ -41,7 +41,7 @@
 		function popup(){
 			var url = "adminInsertCategory.admin"
 			var name = "카테고리 등록"
-			var option = "width=300,height=200,top=100,left=200,location=no"
+			var option = "width=300,height=150,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 		function con_deleteBrand(a){
@@ -63,7 +63,7 @@
 		<div class="col">
 			<table class="table table-striped" style="overflow:scroll">
 				<tr>
-					<th colspan="2">브랜드 카테고리</th>
+					<th colspan="2" align="center">브랜드 카테고리</th>
 				</tr>
 				<tr>
 					<th>카테고리명</th>
@@ -84,7 +84,7 @@
 		<div class="col">
 			<table class="table table-striped" style="overflow:scroll">
 				<tr>
-					<th colspan="2">용품 카테고리</th>
+					<th colspan="2" align="center">용품 카테고리</th>
 				</tr>
 				<tr>
 					<th>카테고리명</th>

@@ -33,20 +33,6 @@
 			</div>
 		<!-- 드랍 버튼 끝 -->
 		
-		<!-- 회원 검색 버튼 -->
-			<div class="col" align="right">
-				<form name="search" action="adminMember.admin" enctype="multipart/form-data" method="post">
-					<select name="name1">
-						<option value="mem_id">아이디</option>
-						<option value="mem_nickName">닉네임</option>
-						<option value="mem_email">이메일</option>
-						<option value="mem_userName">이름</option>
-					</select>
-					<input type="text" name="name2">
-					<input type="submit" value="검색">
-				</form>
-			</div>
-		<!-- 회원 검색 버튼 끝 -->
 	</div>
 </div>
 	&nbsp;
@@ -62,7 +48,8 @@
 	<!-- 본문 -->
 	<table class="table table-striped">
 		<tr>
-			<th>ID</th>
+			<th
+			]>ID</th>
 			<th>닉네임</th>
 			<th>EMAIL</th>
 			<th>실명</th>

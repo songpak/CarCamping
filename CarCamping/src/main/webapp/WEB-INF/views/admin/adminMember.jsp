@@ -30,6 +30,16 @@
 				</form>
 				<button type="button" onclick="location.href='adminMember.admin'">전체 보기</button>
 			</div>
+			<div class="dropdown">
+ 				 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+   				 정렬
+  				</button>
+			 	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+			   	 	<li><a class="dropdown-item" href="adminMember.admin?sort=mem_point">포인트</a></li>
+			   		 <li><a class="dropdown-item" href="adminMember.admin?sort=mem_rentalCount">대여건수</a></li>
+			  	</ul>
+			</div>
+			
 		<!-- 드랍 버튼 끝 -->
 		
 		<!-- 회원 검색 버튼 -->
@@ -59,7 +69,7 @@
 	</script>
 	
 	<!-- 본문 -->
-	<table class="table table-striped">
+	<table class="table table-sm">
 		<tr>
 			<th>ID</th>
 			<th>닉네임</th>

@@ -20,7 +20,6 @@
 		<result column="ccr_market" property="ccr_market"/>
 		<result column="ccr_river" property="ccr_river"/>
 		<result column="ccr_ground" property="ccr_ground"/>
-		<result column="ccr_reviewCount" property="ccr_reviewCount"/>
 		<result column="ccr_likeCount" property="ccr_likeCount"/>
 		<result column="ccr_score" property="ccr_score"/>
 		<result column="ccr_popular" property="ccr_popular"/>
@@ -48,10 +47,10 @@
 	</select>
 	
 	<insert id="adminInsertRegion" parameterType="CarCampingRegionDTO">
-		insert into CarCampingRegion(region_num,ccr_name,ccr_car,ccr_pricePerDay,ccr_toilet,ccr_restroom,ccr_water,ccr_market,ccr_river,ccr_ground,ccr_reviewCount,
+		insert into CarCampingRegion(region_num,ccr_name,ccr_car,ccr_pricePerDay,ccr_toilet,ccr_restroom,ccr_water,ccr_market,ccr_river,ccr_ground,
 		ccr_likeCount,ccr_score,ccr_popular,ccr_viewImage1,ccr_viewImage2,ccr_viewImage3,ccr_viewImage4,ccr_viewImage5,ccr_summary,ccr_content) 
 		values(#{regionDTO.region_num},#{ccr_name},#{ccr_car},#{ccr_pricePerDay},#{ccr_toilet},
-		#{ccr_restroom},#{ccr_water},#{ccr_market},#{ccr_river},#{ccr_ground},0, 0, 0.0, 1,#{ccr_viewImage1},
+		#{ccr_restroom},#{ccr_water},#{ccr_market},#{ccr_river},#{ccr_ground}, 0, 0.0, 1,#{ccr_viewImage1},
 		#{ccr_viewImage2},#{ccr_viewImage3},#{ccr_viewImage4},#{ccr_viewImage5},#{ccr_summary},#{ccr_content})
 	</insert>
 	
@@ -170,7 +169,6 @@
 		<result column="prod_viewContent" property="prod_viewContent"/>
 		<result column="prod_sysdate" property="prod_sysdate"/>
 		<result column="prod_update" property="prod_update"/>
-		<result column="prod_reviewCount" property="prod_reviewCount"/>
 		<result column="prod_reviewScore" property="prod_reviewScore"/>
 		<association property="brandCategoryDTO" javaType="BrandCategoryDTO" resultMap="brandCategoryMap">
 		</association>
@@ -195,9 +193,9 @@
 	
 	<insert id="adminInsertProduct" parameterType="ProductDTO">
 		insert into Product(pc_num,brand_num,prod_name,prod_popular,prod_price,prod_viewImage1,prod_viewImage2,prod_viewImage3,prod_viewImage4,prod_viewImage5,
-		prod_summary,prod_viewContent,prod_sysdate,prod_update,prod_reviewCount,prod_reviewScore) values(
+		prod_summary,prod_viewContent,prod_sysdate,prod_update,prod_reviewScore) values(
 		#{productCategoryDTO.pc_num},#{brandCategoryDTO.brand_num},#{prod_name},1,#{prod_price},#{prod_viewImage1},#{prod_viewImage2},#{prod_viewImage3},#{prod_viewImage4},#{prod_viewImage5},
-		#{prod_summary},#{prod_viewContent},now(),now(),0,0.0)
+		#{prod_summary},#{prod_viewContent},now(),now(),0.0)
 	</insert>
 	
 	<update id="adminUpdateProduct" parameterType="ProductDTO">

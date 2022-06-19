@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>장소 수정</title>
+<title>장소 상세</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <script>
@@ -24,10 +24,12 @@
 	}
 </script>
 <body>
+	
 	<div align="center">
-		<form name="viewRegion" method="post" action="adminUpdateRegion.admin" enctype="multipart/form-data">
+		<form name="viewRegion" method="post" action="adminUpdateRegion.admin" enctype="multipart/form-data"
+		class="row g-3 needs-validation" novalidate>
 		<input type = "hidden" name="ccr_num" value="${cdto.ccr_num}">
-		<table class="table table-success table-striped">
+		<table class="table table-sm">
 			<tr>
 				<th>
 					장소명
@@ -236,10 +238,6 @@
 						};
 					</script>
 				</td>
-			</tr>
-			<tr>
-				<th>리뷰수</th>
-				<td>${cdto.ccr_reviewCount}</td>
 			</tr>
 			<tr>
 				<th>좋아요 수</th>
