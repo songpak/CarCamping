@@ -13,7 +13,7 @@
 	</insert>
 	
 	  <update id="updateCart" parameterType="ProductCartDTO">
-		update ProductCart set cart_prodCount=#{cart_prodCount} where prod_num = #{prod_num}
+		update ProductCart set cart_prodCount=#{cart_prodCount} where prod_num = #{prod_num} and mem_num = #{mem_num}
 	</update>  
 	
 	<delete id="deleteCart" parameterType="int">

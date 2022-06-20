@@ -28,9 +28,7 @@ public class MyPageController {
 
 	@RequestMapping("/myPageCart.myPage")//카트에 추가
 	public String myPageCart(HttpServletRequest req,ProductCartDTO dto, String cart_prodCount, String cart_from, String cart_to, int mem_num) {
-		//Cart에 상품을 DB에 저장 조건문 설정해줘야함
-		HttpSession session = req.getSession();
-		if (session.getAttribute("mem_num") == null) {
+		if(mem_num == 0) {
 			String msg = "로그인 하셔야 볼 수 있습니다!";
 			String url = "login.login";
 			req.setAttribute("msg", msg);
@@ -43,7 +41,7 @@ public class MyPageController {
 		 }else {
 			 System.err.println("등록실패");
 		 }
-		 //등록 끝 불러와서 cartList에 올려야함
+		 HttpSession session = req.getSession();
 		 List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 		 session.setAttribute("cartList", list);
 		}

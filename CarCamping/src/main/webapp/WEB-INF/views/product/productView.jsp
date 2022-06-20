@@ -136,7 +136,12 @@ function fn_account(val){
 			<!-- 여기서는 날짜 보내주기만 하고 저장은 구매할때 저장 -->
 			<form name="f" action="myPageCart.myPage" method="post">
 			<input type="hidden" name="prod_num" value="${getProduct.prod_num}">
+			<c:if test="${not empty mem_num}">
 			<input type="hidden" name="mem_num" value="${mem_num}">
+			</c:if>
+			<c:if test="${empty mem_num}">
+			<input type="hidden" name="mem_num" value="0">
+			</c:if>
 				<div style="width: 100%; padding: 50px 0; background: 262626;">
 				
 					<div class="row search-box">
