@@ -4,16 +4,6 @@
 <%@ include file="left.jsp"%>   
 <!-- Content Column Grid -->
 <div class="col-md-8 themed-grid-col">
-	<div class="row">
-		<figure class="text-center">
-			<blockquote class="blockquote">
-				<p>A well-known quote, contained in a blockquote element.</p>
-			</blockquote>
-			<figcaption class="blockquote-footer">
-				Someone famous in <cite title="Source Title">Source Title</cite>
-			</figcaption>
-		</figure>
-	</div>
 	<div class="row" align="center">
 		<div class="col">
 			<p class="h2"><strong>대리점 목록</strong></p>
@@ -48,7 +38,7 @@
 		function popup(){
 			var url = "adminRegisterAgency.admin"
 			var name = "대리점 등록"
-			var option = "width=300,height=400,top=100,left=200,location=no"
+			var option = "width=500,height=400,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 	</script>
@@ -56,7 +46,7 @@
 	<!-- 본문 -->
 <div class="row" style="overflow:hidden;">
 	<table class="table table-striped">
-		<tr>
+		<tr class="table-info">
 			<th>지역</th>
 			<th>대리점명</th>
 			<th>위치</th>
@@ -80,7 +70,7 @@
 		</c:if>
 		<c:if test="${empty adminListAgency}">
 			<tr>
-				<td colspan="5" align="center">등록된 대리점이 없습니다</td>
+				<td colspan="5" align="center">해당하는 대리점이 없습니다</td>
 			</tr>
 		</c:if>
 	</table>
@@ -89,7 +79,7 @@
 		function popup2(a){
 			var url = "adminViewAgency.admin?agency_num="+a
 			var name = "대리점 수정"
-			var option = "width=600,height=800,top=100,left=200,location=no"
+			var option = "width=500,height=400,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 	</script>

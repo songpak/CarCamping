@@ -49,25 +49,52 @@
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 				
+<script>
+	function field_review(){
+		let signIn = "${signIn}";
+		if (signIn ==""){
+			alert("리뷰 쓰기는 로그인 후 사용하실 수 있습니다.");
+			location.href="login.login";
+			
+		}else{
+			location.href="field_review.review";
+		}
+	}
+</script>
+
+<script>
+	function goods_review(){
+		let signIn = "${signIn}";
+		if (signIn ==""){
+			alert("리뷰 쓰기는 로그인 후 사용하실 수 있습니다.");
+			location.href="login.login";
+			
+		}else{
+			location.href="goods_review.review";
+		}
+	}
+</script>
+
 
 
 </head>
 
 <body>
 	<!-- ***** Header Area Start ***** -->
-	<header class="header-area header-sticky" style="background-color : #83BD75;"><!-- 색깔 바꾸기 -->
+	<header class="header-area header-sticky" style="background-color : #FFFFFF"><!-- 색깔 바꾸기 -->
 		<div class="container" style="height: 90px";>	
 			<div class="row" style="height: 90px";>
 				<div class="col-12">
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
-						<a href="index.html" class="logo" style="height: 90px;"><img src="resources/images/cambakLogo.png" style="width: 120px;height: 50px;"/></a>
+						<a href="index.html" class="logo" style="height: 90px;"><img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
 						<ul class="nav">
 							<li ><a  href="index.do"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
   							<path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
 							</svg></a></li>
+							<c:if test="${empty mbdto}">	
 							<li><a href="login.login">로그인</a></li>
 							<li><a href="sign.login">회원가입</a></li>
 							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
@@ -77,15 +104,34 @@
 								</ul></li>
 							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
 							<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a href="field_review.review"  style="background: #E9EFC0;">장소 리뷰</a></li>
-									<li><a href="goods_review.review"  style="background: #E9EFC0;">용품 리뷰</a></li>
+									<li><a style="background: #E9EFC0;" onclick="field_review()">장소 리뷰</a></li>
+									<li><a style="background: #E9EFC0;" onclick="goods_review()">용품 리뷰</a></li>
 								</ul></li>
 							<li class="scroll-to-section">
 								<a class="btn btn-outline-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" style="padding-top:0px; padding-bottom:0px;">
 									프로필
 								</a>
-							</li>
-								<div class="offcanvas offcanvas-start" tabindex="-1"
+							</li></c:if>
+							<c:if test="${not empty mbdto}">
+							
+							<li><a href="logout.login">로그아웃</a></li>
+							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
+								<ul class="sub-menu" style="background: #e9efc08c;">
+									<li><a href="goRegion.region"  style="background: #E9EFC0;">차박지 메인</a></li>
+									<li><a href="goProduct.product"  style="background: #E9EFC0;">용품 대여</a></li>
+								</ul></li>
+							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
+							<ul class="sub-menu" style="background: #e9efc08c;">
+									<li><a style="background: #E9EFC0;"  href="field_review.review">장소 리뷰</a></li>
+									<li><a style="background: #E9EFC0;"  href="goods_review.review">용품 리뷰</a></li>
+								</ul></li>
+							<li class="scroll-to-section">
+								<a class="btn btn-outline-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" style="padding-top:0px; padding-bottom:0px;">
+									프로필
+								</a>
+							</li></c:if>
+							
+				                <div class="offcanvas offcanvas-start" tabindex="-1"
 								id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 								<div class="offcanvas-header">
 									<h5 class="offcanvas-title" id="offcanvasExampleLabel"><b><font color="green">내 메뉴</b></font></h5>

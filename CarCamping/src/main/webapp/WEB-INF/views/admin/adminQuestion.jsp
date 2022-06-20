@@ -4,22 +4,13 @@
 <%@ include file="left.jsp"%>   
 <!-- Content Column Grid -->
 <div class="col-md-8 themed-grid-col">
-	<div class="row">
-		<figure class="text-center">
-			<blockquote class="blockquote">
-				<p>A well-known quote, contained in a blockquote element.</p>
-			</blockquote>
-			<figcaption class="blockquote-footer">
-				Someone famous in <cite title="Source Title">Source Title</cite>
-			</figcaption>
-		</figure>
-	</div>
+	
 	<div class="row" align="center">
 		<div class="col">
-			<p class="fw-bolder">문의사항 목록</p>
+			<p class="h2"><strong>문의사항 목록</strong></p>
 		</div>
-	</div>
-	<div class="row">
+	
+	<div class="row justify-content-md-center">
 		<!-- 드랍 버튼 -->
 			<div class="col" align="left">
 				<form name="sortForm" action="adminQuestion.admin" method="post" enctype="multipart/form-data">
@@ -27,40 +18,48 @@
 						<option value="question_sysdate">최신순</option>
 						<option value="question_reply">답변 미완료</option>
 					</select>
-					<input type="submit" value="정렬">
+					<button type="submit" class="btn btn-info">정렬</button>
 				</form>
 			</div>
 		<!-- 드랍 버튼 끝 -->
 	</div>
+</div>
 	&nbsp;
 	<!-- 본문 -->
+<div class="row" style="overflow:hidden;">
 	<table class="table table-striped">
-		<tr>
+		<tr class="table-info">
 			<th>문의일시</th>
 			<th>회원ID</th>
 			<th>제목</th>
-			<th>답변</th>
+			<th> </th>
 		</tr>
-		
-		<c:forEach items="${adminListQuestion}" var="dto">
+		<c:if test="${not empty adminListQuestion}">
+			<c:forEach items="${adminListQuestion}" var="dto">
+				<tr>
+					<td>${dto.question_sysdate}</td>
+					<td>${dto.memberDTO.mem_nickName}</td>
+					<td>${dto.question_content}</td>
+					<td><button type="button" 
+							class="btn btn-info" onclick="location.href='javascript:popup(${dto.question_num})'">
+								내용
+						</button>
+					</td>
+				</tr>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty adminListQuestion}">
 			<tr>
-				<td>${dto.question_sysdate}</td>
-				<td>${dto.memberDTO.mem_nickName}</td>
-				<td>${dto.question_content}</td>
-				<td><button type="button" 
-						class="btn btn-primary" onclick="location.href='javascript:popup(${dto.question_num})'">
-							내용
-					</button>
-				</td>
+				<td colspan="4" align="center">등록된 문의사항이 없습니다</td>
 			</tr>
-		</c:forEach>
+		</c:if>
 	</table>
 	
 	<script>
 		function popup(a){
 			var url = "adminViewQuestion.admin?question_num="+a
 			var name = "문의 내용"
-			var option = "width=300,height=200,top=100,left=200,location=no"
+			var option = "width=500,height=500,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 	</script>
@@ -76,5 +75,6 @@
 		</ul>
 	</nav>
 </div>
-<!-- End Content Coulmn Grid -->
+</div>
+<!-- End Content Column Grid -->
 <%@ include file="../bottom.jsp"%>

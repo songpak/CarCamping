@@ -4,21 +4,13 @@
 <%@ include file="left.jsp"%>   
 <!-- Content Column Grid -->
 <div class="col-md-8 themed-grid-col">
-	<div class="row">
-		<figure class="text-center">
-			<blockquote class="blockquote">
-				<p>A well-known quote, contained in a blockquote element.</p>
-			</blockquote>
-			<figcaption class="blockquote-footer">
-				Someone famous in <cite title="Source Title">Source Title</cite>
-			</figcaption>
-		</figure>
-	</div>
+
 	<div class="row" align="center">
 		<div class="col">
-			<p class="fw-bolder">회원 목록</p>
+			<p class="h2"><strong>회원 목록</strong></p>
 		</div>
-	<div class="row">
+		
+	<div class="row justify-content-md-center">
 		<!-- 드랍 버튼 -->
 			<div class="col" align="left">
 				<form name="sortMember" action="adminMember.admin" enctype="multipart/form-data" method="post">
@@ -26,18 +18,8 @@
 						<option value="mem_point">포인트</option>
 						<option value="mem_rentalCount">대여건수</option>
 					</select>
-					<input type="submit" value="정렬">
+					<button type="submit" class="btn btn-info">정렬</button>
 				</form>
-				<button type="button" onclick="location.href='adminMember.admin'">전체 보기</button>
-			</div>
-			<div class="dropdown">
- 				 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-   				 정렬
-  				</button>
-			 	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-			   	 	<li><a class="dropdown-item" href="adminMember.admin?sort=mem_point">포인트</a></li>
-			   		 <li><a class="dropdown-item" href="adminMember.admin?sort=mem_rentalCount">대여건수</a></li>
-			  	</ul>
 			</div>
 			
 		<!-- 드랍 버튼 끝 -->
@@ -52,7 +34,7 @@
 						<option value="mem_userName">이름</option>
 					</select>
 					<input type="text" name="name2">
-					<input type="submit" value="검색">
+					<button type="submit" class="btn btn-info">검색</button>
 				</form>
 			</div>
 		<!-- 회원 검색 버튼 끝 -->
@@ -63,14 +45,15 @@
 		function popup(a){
 			var url = "adminViewMember.admin?mem_num="+a
 			var name = "회원 정보"
-			var option = "width=600,height=800,top=100,left=200,location=no"
+			var option = "width=600,height=700,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 	</script>
 	
 	<!-- 본문 -->
-	<table class="table table-sm">
-		<tr>
+<div class="row" style="overflow:hidden;">
+	<table class="table table-striped">
+		<tr class="table-info">
 			<th>ID</th>
 			<th>닉네임</th>
 			<th>EMAIL</th>
@@ -81,6 +64,7 @@
 			<th>이용제한</th>
 			<th>정보</th>
 		</tr>
+		<c:if test="${not empty adminListMember}">
 		<c:forEach items="${adminListMember}" var="dto">
 			<tr>
 				<td>${dto.mem_id}</td>
@@ -96,10 +80,14 @@
 				<c:if test="${dto.mem_denied==1}">
 					<td>일반</td>
 				</c:if>
-				<td><button type="button" class="btn btn-primary"
+				<td><button type="button" class="btn btn-info"
 				onclick="location.href='javascript:popup(${dto.mem_num})'">정보</button></td>
 			</tr>
 		</c:forEach>
+		</c:if>
+		<c:if test="${empty adminListMember}">
+			<td colspan="9" align="center">해당하는 회원이 없습니다</td>
+		</c:if>
 	</table>
 	
 	<nav aria-label="Page navigation example">
@@ -112,6 +100,7 @@
 			<li class="page-item"><a class="page-link" href="#">Next</a></li>
 		</ul>
 	</nav>
+</div>
 </div>
 <!-- End Content Column Grid -->
 <%@ include file="../bottom.jsp"%>

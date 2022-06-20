@@ -5,16 +5,7 @@
 
 <!-- Content Column Grid -->
 <div class="col-md-8 themed-grid-col">
-	<div class="row">
-		<figure class="text-center">
-			<blockquote class="blockquote">
-				<p>A well-known quote, contained in a blockquote element.</p>
-			</blockquote>
-			<figcaption class="blockquote-footer">
-				Someone famous in <cite title="Source Title">Source Title</cite>
-			</figcaption>
-		</figure>
-	</div>
+	
 	<div class="row" align="center">
 		<div class="col">
 			<p class="h2"><strong>차박장소 목록</strong></p>
@@ -29,7 +20,7 @@
 						<option value="${dto.region_num}">${dto.region_name}</option>
 					</c:forEach>
 				</select>
-				<input type="submit" value="정렬">
+				<button type="submit" class="btn btn-primary">정렬</button>
 			</form>
 		</div>
 
@@ -55,7 +46,7 @@
 
 	<!-- 본문 -->
 <div class="row" style="overflow:hidden;">
-	<table class="table table-sm">
+	<table class="table table-striped">
   		<tr class="table-info">
   			<th>지역</th>
   			<th>장소명</th>
@@ -66,7 +57,7 @@
 		</tr>
 		
 		<c:if test="${empty adminListCarCampingRegion}">
-			<tr><td colspan="6" align="center">등록된 차박장소가 없습니다</td></tr>
+			<tr><td colspan="6" align="center">해당하는 차박장소가 없습니다</td></tr>
 		</c:if>
 		
 		<c:if test="${not empty adminListCarCampingRegion}">
@@ -92,7 +83,7 @@
 		function popupView(ccr_num){
 			var url = "adminViewRegion.admin?ccr_num="+ccr_num
 			var name = "장소 보기"
-			var option = "width=600,height=800,top=100,left=200,location=no"
+			var option = "width=470,height=700,top=100,left=200,location=no,resizable=no"
 			window.open(url,name,option);
 		}
 	</script>

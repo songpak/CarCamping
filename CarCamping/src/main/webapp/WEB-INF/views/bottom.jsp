@@ -29,7 +29,7 @@
 <div class="footer"
 	style="padding-bottom: 0px; margin-top: 0px; padding-top: 0px;">
 	<p
-		style="background-color: #E9EFC0; color: #6bbf57; margin-bottom: 0px;">
+		style="background-color: #2c3e50; color: #fff; margin-bottom: 0px;">
 		Copyright © 2022 <a href="#">WITHCAR Co.</a> Ltd. All Rights Reserved.
 		<br> Design: <a href="#">WITHCAR DESIGN TEAM</a> <br> MADE
 		BY: <a href="#">WITHCAR TEAM</a>

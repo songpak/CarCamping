@@ -25,20 +25,24 @@
 
 <body>
 	<div align="center">
-		<form name="viewAnnounce" method="post" action="adminViewAnnounce.admin" enctype="multipart/form-data">
+		<form name="viewAnnounce" method="post" action="adminViewAnnounce.admin" enctype="multipart/form-data"
+		class="row g-3 needs-validation" novalidate>
 		<input type = "hidden" name="aa_num" value="${adto.aa_num}">
-		<table class="table table-success table-striped">
+		<table class="table table-sm">
 			<tr>
-				<th>
-					제목
-				</th>
 				<td>
-					<input type="text" name="aa_title" value="${adto.aa_title}">
+					<div class="form-floating mb-3">
+						<input type="text" name="aa_title" value="${adto.aa_title}" class="form-control" id="validationCustom01" maxlength="20" placeholder="1" required>
+						<label for="validationCustom01">제목</label>
+					</div>
 				</td>	
 			</tr>
 			<tr>
-				<th>공지사항 내용</th>
-				<td><textarea name="aa_content">${adto.aa_content}</textarea>
+				<td>
+					<div class="form-floating mb-3">
+						<textarea name="aa_content" style="resize: none;" class="form-control" id="validationCustom02" maxlength="1000" placeholder="1" required>${adto.aa_content}</textarea>
+						<label for="validationCustom02">내용</label>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -138,9 +142,9 @@
 			</tr>
 			<tr>
 				<td align="center" colspan="2">
-					<input type="reset" value="취소">
-					<button type="button" onclick="location.href='javascript:con()'">수정</button>
-					<button type="button" onclick="location.href='javascript:con_delete()'">삭제</button>
+					<button type="reset" class="btn btn-primary">취소</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">수정</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con_delete()'">삭제</button>
 				</td>
 			</tr>
 		</table>
@@ -149,4 +153,26 @@
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
+<script>
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
 </html>

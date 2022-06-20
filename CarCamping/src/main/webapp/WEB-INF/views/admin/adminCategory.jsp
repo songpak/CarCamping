@@ -4,30 +4,11 @@
 <%@ include file="left.jsp"%>
 <div class="col-md-8 themed-grid-col">
 	<div class="row" align="center">
-		<div class="row">
-			<figure class="text-center">
-				<blockquote class="blockquote">
-					<p>A well-known quote, contained in a blockquote element.</p>
-				</blockquote>
-				<figcaption class="blockquote-footer">
-					Someone famous in <cite title="Source Title">Source Title</cite>
-				</figcaption>
-			</figure>
-		</div>
 		<div class="col">
-			<p class="fw-bolder">카테고리 목록</p>
+			<p class="h2"><strong>카테고리 목록</strong></p>
 		</div>
-		<div class="row">
-			<!-- 정렬&지역 드랍 버튼 -->
-			<div class="col">
-				<form name="sortCategory" method="post" action="adminCategory.admin">
-					<select name="category">
-							<option value="BrandCategory">브랜드</option>
-							<option value="ProductCategory">상품</option>
-					</select>
-					<input type="submit" value="정렬">
-				</form>
-			</div>
+		
+		<div class="row justify-content-md-center">
 
 			<!-- 카테고리 등록 버튼 -->
 			<div class="col" align="right">
@@ -62,45 +43,55 @@
 	<div class="row">
 		<div class="col">
 			<table class="table table-striped" style="overflow:scroll">
-				<tr>
+				<tr class="table-info">
 					<th colspan="2" align="center">브랜드 카테고리</th>
 				</tr>
-				<tr>
+				
+				<tr class="table-info">
 					<th>카테고리명</th>
-					<th>수정</th>
+					<th> </th>
 				</tr>
-				<c:forEach items="${adminListBrand}" var="dto">
-					<tr>
-						<td>${dto.brand_name}</td>
-						<td>
-							<button type="button" class="btn btn-primary"
-								onclick="location.href='javascript:con_deleteBrand(${dto.brand_num})'">
-								삭제</button>
-						</td>
-					</tr>
-				</c:forEach>
+				<c:if test="${not empty adminListBrand}">
+					<c:forEach items="${adminListBrand}" var="dto">
+						<tr>
+							<td>${dto.brand_name}</td>
+							<td>
+								<button type="button" class="btn btn-primary"
+									onclick="location.href='javascript:con_deleteBrand(${dto.brand_num})'">
+									삭제</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty adminListBrand}">
+					<td colspan="2">등록된 브랜드가 없습니다</td>
+				</c:if>
 			</table>
 		</div>
 		<div class="col">
 			<table class="table table-striped" style="overflow:scroll">
-				<tr>
+				<tr class="table-info">
 					<th colspan="2" align="center">용품 카테고리</th>
 				</tr>
-				<tr>
+				<tr class="table-info">
 					<th>카테고리명</th>
-					<th>수정</th>
+					<th> </th>
 				</tr>
-				<c:forEach items="${adminListProductCategory}" var="dto">
-					<tr>
-						<td>${dto.pc_name}</td>
-						<td>
-							<button type="button" class="btn btn-primary"
-								onclick="location.href='javascript:con_deleteProduct(${dto.pc_num})'">
-								삭제</button>
-						</td>
-					</tr>
-				</c:forEach>
-
+				<c:if test="${not empty adminListProductCategory}">
+					<c:forEach items="${adminListProductCategory}" var="dto">
+						<tr>
+							<td>${dto.pc_name}</td>
+							<td>
+								<button type="button" class="btn btn-primary"
+									onclick="location.href='javascript:con_deleteProduct(${dto.pc_num})'">
+									삭제</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty adminListProductCategory}">
+					<td colspan="2">등록된 상품분류가 없습니다</td>
+				</c:if>
 			</table>
 		</div>
 	</div>

@@ -10,22 +10,23 @@
 </head>
 <body>
 	<div align="center">
-		<form name="registerAnnounce" method="post" action="adminRegisterAnnounce.admin" enctype="multipart/form-data">
-		<table class="table table-success table-striped">
+		<form name="registerAnnounce" method="post" action="adminRegisterAnnounce.admin" enctype="multipart/form-data"
+		class="row g-3 needs-validation" novalidate>
+		<table class="table table-sm">
 			<tr>
-				<th>
-					제목
-				</th>
 				<td>
-					<input type="text" name="aa_title">
+					<div class="form-floating mb-3">
+						<input type="text" name="aa_title" class="form-control" id="validationCustom01" maxlength="20" placeholder="1" required>
+						<label for="validationCustom01">제목</label>
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<th>
-					내용
-				</th>
 				<td>
-					<textarea name="aa_content"></textarea>
+					<div class="form-floating mb-3">
+						<textarea name="aa_content" style="resize: none;" class="form-control" id="validationCustom02" maxlength="1000" placeholder="1" required></textarea>
+						<label for="validationCustom02">내용</label>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -68,8 +69,8 @@
 			</tr>
 			<tr>
 				<td align="center" colspan="2">
-					<input type="reset" value="취소">
-					<input type="submit" value="등록">
+					<button class="btn btn-primary" type="reset">취소</button>
+					<button class="btn btn-primary" type="submit">등록</button>
 				</td>
 			</tr>
 		</table>
@@ -78,4 +79,26 @@
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
+<script>
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
 </html>

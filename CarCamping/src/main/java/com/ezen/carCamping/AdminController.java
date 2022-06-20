@@ -553,9 +553,6 @@ public class AdminController {
 		else {
 			adminListMember = adminMapper.adminListMember();
 		}
-		for(MemberDTO dto : adminListMember) {
-			System.out.println(dto.getMem_point());
-		}
 		
 		req.setAttribute("adminListMember", adminListMember);
 		return "admin/adminMember";

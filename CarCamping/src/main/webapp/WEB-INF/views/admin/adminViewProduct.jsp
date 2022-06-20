@@ -25,41 +25,45 @@
 
 <body>
 	<div align="center">
-		<form name="viewProduct" method="post" action="adminViewProduct.admin" enctype="multipart/form-data">
+		<form name="viewProduct" method="post" action="adminViewProduct.admin" enctype="multipart/form-data"
+		class="row g-3 needs-validation" novalidate>
 		<input type = "hidden" name="prod_num" value="${pdto.prod_num}">
-		<table class="table table-success table-striped">
+		<table class="table table-sm">
 			<tr>
-				<th>
-					브랜드|상품분류
-				</th>
-				<td>
-					${pdto.brandCategoryDTO.brand_name}|${pdto.productCategoryDTO.pc_name}
+				<td colspan="2" align="center">
+					<p class="h3"><strong>${pdto.brandCategoryDTO.brand_name} | ${pdto.productCategoryDTO.pc_name}</strong></p>
 				</td>	
 			</tr>
 			<tr>
-				<th>
-					용품명
-				</th>
-				<td>
-					<input type="text" name="prod_name" value="${pdto.prod_name}">
+				<td colspan="2">
+					<div class="form-floating mb-3">
+						<input type="text" name="prod_name" value="${pdto.prod_name}" class="form-control" id="validationCustom01" maxlength="20" placeholder="1" required>
+						<label for="validationCustom01">용품명</label>
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<th>
-					일일대여요금 (원단위 숫자로만)
-				</th>
-				<td>
-					<input type="text" name="prod_price" value="${pdto.prod_price}">
+				<td colspan="2">
+					<div class="form-floating mb-3">
+						<input type="number" name="prod_price" value="${pdto.prod_price}" class="form-control" id="validationCustom02" min="0" placeholder="1" required>
+						<label for="validationCustom02">일일 대여 요금(원)</label>
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<th>용품 요약 설명 (30자 이내)</th>
-				<td><input type="text" name="prod_summary" value="${pdto.prod_summary}">
+				<td colspan="2">
+					<div class="form-floating mb-3">
+						<input type="text" name="prod_summary" value="${pdto.prod_summary}" class="form-control" id="validationCustom03" maxlength="20" placeholder="1" required>
+						<label for="validationCustom03">용품 요약 설명</label>
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<th>용품 상세 설명 (1000자 이내)</th>
-				<td><textarea name="prod_viewContent">${pdto.prod_viewContent}</textarea>
+				<td colspan="2">
+					<div class="form-floating mb-3">
+						<textarea name="prod_viewContent" style="resize: none;" class="form-control" id="validationCustom04" maxlength="1000" placeholder="1" required>${pdto.prod_viewContent}</textarea>
+						<label for="validationCustom04">용품 상세 설명</label>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -123,9 +127,8 @@
 			<tr>
 				<td colspan="2">
 					<input class="form-control" id="formFileMultiple-1" type="file"
-							multiple accept="image/*" name="prod_viewImage">
-						<div id="passwordHelpBlock" class="form-text">최소 2개 이미지를
-							선택해주세요 (최대 5개)</div>
+							multiple accept="image/*" name="prod_viewImage" class="form-control" id="validationCustom05" required>
+						<div id="validationCustom05" class="form-text">최소 2개, 최대  5개 이미지 업로드 가능합니다</div>
 						<ul id="file-list-1">
 							<li class="no-items"></li>
 						</ul>
@@ -158,6 +161,18 @@
 				</td>
 			</tr>
 			<tr>
+				<th>평점</th>
+				<td>${pdto.prod_reviewScore}</td>
+			</tr>
+			<tr>
+				<th>최초등록일</th>
+				<td>${pdto.prod_sysdate}</td>
+			</tr>
+			<tr>
+				<th>최종수정일</th>
+				<td>${pdto.prod_update}</td>
+			</tr>
+			<tr>
 				<th>인기용품</th>
 				<c:choose>
 					<c:when test="${pdto.prod_popular==0}">
@@ -170,9 +185,9 @@
 			</tr>
 			<tr>
 				<td align="center" colspan="2">
-					<input type="reset" value="취소">
-					<button type="button" onclick="location.href='javascript:con()'">수정</button>
-					<button type="button" onclick="location.href='javascript:con_delete()'">삭제</button>
+					<button type="reset" class="btn btn-primary">취소</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">수정</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con_delete()'">삭제</button>
 				</td>
 			</tr>
 		</table>
@@ -181,4 +196,26 @@
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
+<script>
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
 </html>

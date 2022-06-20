@@ -21,14 +21,20 @@
 	<div align="center">
 		<form name="viewReviewProduct" method="post" action="adminViewReviewProduct.admin" enctype="multipart/form-data">
 			<input type = "hidden" name="rp_num" value="${rdto.rp_num}">
-		<table class="table table-success table-striped">
+		<table class="table table-sm">
 			<tr>
 				<th>
-					차박장소|작성자
+					용품명
 				</th>
 				<td>
-					${rdto.productDTO.prod_name}|${rdto.memberDTO.mem_nickName}
+					${rdto.productDTO.prod_name}
 				</td>	
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td>
+					${rdto.memberDTO.mem_nickName}
+				</td>
 			</tr>
 			<tr>
 				<th>
@@ -152,8 +158,8 @@
 			</tr>
 			<tr>
 				<td align="center" colspan="2">
-					<input type="reset" value="취소">
-					<button type="button" onclick="location.href='javascript:con()'">변경하기</button>
+					<button type="reset" class="btn btn-primary">취소</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">변경하기</button>
 				</td>
 			</tr>
 		</table>

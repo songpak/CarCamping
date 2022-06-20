@@ -21,10 +21,12 @@
 	<div align="center">
 		<form name="viewMember" method="post" action="adminViewMember.admin" enctype="multipart/form-data">
 		<input type = "hidden" name="mem_num" value="${mdto.mem_num}">
-		<table class="table table-success table-striped">
+		<table class="table table-sm">
 			<tr>
 				<th>프로필 이미지</th>
 				<td><img src="${upPath}/images/member/${mdto.mem_image}"></td>
+			</tr>
+			<tr>
 				<th>
 					ID
 				</th>
@@ -133,7 +135,7 @@
 					<c:if test="${mdto.mem_denied==1}">
 						<input type="checkbox" name="denied">
 					</c:if>
-					<button type="button" onclick="location.href='javascript:con()'">제한하기</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">체크시 제한</button>
 				</td>
 			</tr>
 		</table>

@@ -21,15 +21,14 @@
 	<div align="center">
 		<form name="viewReviewRegion" method="post" action="adminViewReviewRegion.admin" enctype="multipart/form-data">
 			<input type = "hidden" name="review_num" value="${rdto.review_num}">
-		<table class="table table-success table-striped">
+		<table class="table table-sm">
 			<tr>
-				<th>
-					차박장소|작성자
-				</th>
-				<td>
-					${rdto.carCampingRegionDTO.ccr_name}|${rdto.memberDTO.mem_nickName}
-				</td>	
+				<th>차박장소</th>
+				<td>${rdto.carCampingRegionDTO.ccr_name}</td>	
 			</tr>
+			<tr>
+				<th>작성자</th>
+				<td>${rdto.memberDTO.mem_nickName}</td>
 			<tr>
 				<th>
 					제목
@@ -152,8 +151,8 @@
 			</tr>
 			<tr>
 				<td align="center" colspan="2">
-					<input type="reset" value="취소">
-					<button type="button" onclick="location.href='javascript:con()'">변경하기</button>
+					<button type="reset" class="btn btn-primary">취소</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">변경하기</button>
 				</td>
 			</tr>
 		</table>

@@ -199,7 +199,7 @@
 	</insert>
 	
 	<update id="adminUpdateProduct" parameterType="ProductDTO">
-		update Product set prod_name=#{prod_name},prod_price=#{prod_price},prod_summary=#{prod_summary},prod_viewContent=#{prod_viewContent},
+		update Product set prod_name=#{prod_name},prod_price=#{prod_price},prod_summary=#{prod_summary},prod_viewContent=#{prod_viewContent},prod_update=now(),
 		prod_viewImage1=#{prod_viewImage1},prod_viewImage2=#{prod_viewImage2},prod_viewImage3=#{prod_viewImage3},prod_viewImage4=#{prod_viewImage4},prod_viewImage5=#{prod_viewImage5},
 		prod_popular=#{prod_popular} where prod_num = #{prod_num}
 	</update>

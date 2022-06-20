@@ -4,21 +4,11 @@
 <%@ include file="left.jsp"%>   
 <!-- Content Column Grid -->
 <div class="col-md-8 themed-grid-col">
-	<div class="row">
-		<figure class="text-center">
-			<blockquote class="blockquote">
-				<p>A well-known quote, contained in a blockquote element.</p>
-			</blockquote>
-			<figcaption class="blockquote-footer">
-				Someone famous in <cite title="Source Title">Source Title</cite>
-			</figcaption>
-		</figure>
-	</div>
 	<div class="row" align="center">
 		<div class="col">
-			<p class="fw-bolder">대여 목록</p>
+			<p class="h2"><strong>대여 목록</strong></p>
 		</div>
-	<div class="row">
+	<div class="row justify-content-md-center">
 		<!-- 드랍 버튼 -->
 			<div class="col" align="left">
 				<form name="sortForm" method="post" enctype="multipart/form-data" action="adminRental.admin">
@@ -46,10 +36,10 @@
 	</script>
 	
 	<!-- 본문 -->
+<div class="row" style="overflow:hidden;">	
 	<table class="table table-striped">
-		<tr>
-			<th
-			]>ID</th>
+		<tr class="table-info">
+			<th>ID</th>
 			<th>닉네임</th>
 			<th>EMAIL</th>
 			<th>실명</th>
@@ -90,6 +80,7 @@
 			<li class="page-item"><a class="page-link" href="#">Next</a></li>
 		</ul>
 	</nav>
+</div>
 </div>
 <!-- End Content Column Grid -->
 <%@ include file="../bottom.jsp"%>
