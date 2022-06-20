@@ -3,7 +3,6 @@ package com.ezen.carCamping;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.RegionDTO;
@@ -193,7 +191,7 @@ public class MemberController {
 	      return "login/checkEmail";
 	   }
 
-	}
+}
 
 	
    
