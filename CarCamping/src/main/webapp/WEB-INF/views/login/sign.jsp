@@ -4,47 +4,53 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
 var right = 0;
 function regChk(){
    var signCheck = document.signCheck;
-   var signCheck = document.signCheck;
-   var mem_id = document.signCheck.mem_id.value;
-   var regx = /^[a-zA-Z0-9]*$/;
+   
    if(signCheck.agree.checked==""){
          alert("약관에 동의해주시기 바랍니다.");
          return false;
       }
-   if(mem_id.length==0 || mem_id==null){
-     alert("아이디를 입력하십시오");
-     return false;
-    }
-   if (!regx.test(mem_id)){
-     alert("아이디는 영어, 숫자만 입력가능합니다.");
-     document.signCheck.mem_id.focus();
-     return false;
-   }
-   if(signCheck.idDuplication.value != "idCheck"){
-       alert("아이디 중복체크를 해주세요.");
-        return false;
-     }
+   if (signCheck.mem_summary.value==""){
+		alert("자기소개 요약을 입력하셔야 합니다.")
+		signCheck.mem_summary.focus() 
+		return false;
+	}
+   if (signCheck.mem_introduce.value==""){
+		alert("자기소개를 입력하셔야 합니다.")
+		signCheck.mem_introduce.focus() 
+		return false;
+	}
    var mem_password = document.signCheck.mem_password.value;
    var num = mem_password.search(/[0-9]/g);
    var eng = mem_password.search(/[a-z]/ig);
    var spe = mem_password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-   
-   if(mem_password.length<6 || mem_password==null){
-      alert("비밀번호를 입력하십시오(6글자 이상)");
+   if(mem_password.length < 6 || mem_password.length > 20){
+      alert("비밀번호를 6자리 ~ 20자리 이내로 입력해주세요.");
        return false;
-       
+    }else if(mem_password.search(/\s/) != -1){
+      alert("비밀번호는 공백 없이 입력해 주세요.");
+      signCheck.mem_password.focus();
+      return false;   
     }else if( (num < 0 && eng < 0) || (eng < 0 && spe < 0) || (spe < 0 && num < 0) ){
-     alert("영문,숫자, 특수문자 중 2가지 이상을 혼합하여 입력해주세요.");
+     alert("영문,숫자, 특수문자 중 2가지 이상을 혼합하여 입력해 주세요.");
+     signCheck.mem_password.focus();
      return false;
     }
    if(right==0){
        alert("비밀번호가 동일하지 않습니다.");
+       signCheck.mem_password.focus();
        return false;
     }
+   if(signCheck.idDuplication.value != "idCheck"){
+      alert("아이디 중복체크를 해주세요.");
+      return false;
+           }
 
     if(signCheck.emailDuplication.value != "emailCheck"){
          alert("이메일 중복체크를 해주세요.");
@@ -54,10 +60,11 @@ function regChk(){
       alert("닉네임 중복체크를 해주세요.");
       return false;
    }
-   var nameRegExp = /^[가-힣a-zA-Z]+$/;
+   var nameRegExp = /^[가-힣|a-zA-Z]+$/;
     var mem_userName = signCheck.mem_userName.value;
     if (!nameRegExp.test(mem_userName)){
          alert("이름이 올바르지 않습니다.");
+         signCheck.mem_userName.focus();
          return false;
    }
    var telRegExp = /^01+[016789]+[0-9]{7,8}$/;
@@ -80,7 +87,12 @@ function regChk(){
    var ext = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
    if (!(ext == "gif" || ext == "jpg" || ext == "png")) {
       alert("이미지파일 (.jpg, .png, .gif ) 만 업로드 가능합니다.");   
+      signCheck.mem_image.focus();
       return false;
+   }
+   if($("#emailDoubleChk").val() == false){
+	   alert("인증번호가 일치하지 않습니다!");
+	   return false;
    }
           document.signCheck.submit()
 }       
@@ -97,41 +109,25 @@ function regChk(){
               CheckId.style.cursor= "pointer";        
            } 
            function fn_CheckId(){
-              var signCheck = document.signCheck;
-              var mem_id = signCheck.mem_id.value;
-              if(mem_id.length==0||mem_id==""){
-                 alert("아이디를 입력해 주세요.");
-                 signCheck.mem_id.focus();
-              }else{
+           var signCheck = document.signCheck;
+           var mem_id = signCheck.mem_id.value;
+              var regx = /^[a-zA-Z0-9]*$/;
+              if(!mem_email){
+                alert("아이디를 입력해주세요");
+              $("#mem_id").focus();
+              return false;
+                 }
+            if (!regx.test(mem_id)){
+               alert("아이디는 영어, 숫자만 입력가능합니다.");
+               document.signCheck.mem_id.focus();
+               return false;
+                    }   
                  window.open("checkId.login?mem_id="+mem_id,"","width=500,height=300");
               }
-           }
+       
            
            </script>
            
- <!-- 닉네임 체크 -->  
-               <script>
-           function inputNickChk(){
-              var signCheck = document.signCheck;
-              var CheckNick = document.signCheck.CheckNick;
-              document.signCheck.nickDuplication.value="nickUncheck";
-              CheckNick.disabled=false;
-              CheckNick.style.opaclty=1;
-              CheckNick.style.cursor= "pointer";        
-           } 
-           function fn_CheckNick(){
-              var signCheck = document.signCheck;
-              var mem_nickName = signCheck.mem_nickName.value;
-              if(mem_nickName.length==0||mem_nickName==""){
-                 alert("닉네임을 입력해 주세요.");
-                 signCheck.mem_nickName.focus();
-              }else{
-                 window.open("checkNick.login?mem_nickName="+mem_nickName,"","width=500,height=300");
-              }
-           }
-           
-           </script>
-    
  <!-- 이메일 체크 -->        
           <script>
            function inputEmailChk(){
@@ -160,7 +156,38 @@ function regChk(){
               }
            
            
-           </script>          
+           </script>             
+           
+ <!-- 닉네임 체크 -->  
+               <script>
+           function inputNickChk(){
+              var signCheck = document.signCheck;
+              var CheckNick = document.signCheck.CheckNick;
+              document.signCheck.nickDuplication.value="nickUncheck";
+              CheckNick.disabled=false;
+              CheckNick.style.opaclty=1;
+              CheckNick.style.cursor= "pointer";        
+           } 
+           function fn_CheckNick(){
+              var signCheck = document.signCheck;
+              var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+              var mem_nickName = signCheck.mem_nickName.value;
+              if(mem_nickName.length==0||mem_nickName==""){
+                 alert("닉네임을 입력해 주세요.");
+                 signCheck.mem_nickName.focus();
+                 return false;
+              }
+              if( regExp.test(mem_nickName) ){
+                 alert("특수문자는 입력하실수 없습니다.");
+                 return false;
+              }
+                 window.open("checkNick.login?mem_nickName="+mem_nickName,"","width=500,height=300");
+                 
+           }
+         
+           </script>
+    
+        
 
 <!-- 비밀번호 확인 -->
     <script>
@@ -180,7 +207,76 @@ function regChk(){
         }
         return;
        }
-    </script>
+ 
+   </script>
+<!-- 인증번호  -->
+<script>
+var code = "";
+function CertifyEamil_fn(button_id){
+	id = button_id;
+	if(id=="CertifyEmail"){
+		var mem_email = $("#mem_email").val();
+		$.ajax({
+		type:"GET",
+		url:"CertifyEmail.login?mem_email=" + mem_email,
+		cache : false,
+		success:function(data){     		
+			alert("인증번호 발송이 완료되었습니다.\n입력한 이메일에서 인증번호 확인을 해주십시오.");
+			$("#CertifyEmailNum").attr("disabled",false);
+			code = data;	          
+		     }
+		  });
+	}else if(id=="CertifyEmail_OK"){
+		if($("#CertifyEmailNum").val() == code){
+			$(".successEmailChk").text("인증번호가 일치합니다.");
+			$(".successEmailChk").css("color","green");
+			$("#emailDoubleChk").val("true");
+			$("#CertifyEmailNum").attr("disabled",true);
+			//$("#sm_email").attr("disabled",true);
+		}else{
+			$(".successEmailChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
+			$(".successEmailChk").css("color","red");
+			$("#emailDoubleChk").val("false");
+			$("#CertifyEmailNum").attr("autofocus",true);
+		}
+	}
+/* 	$("#CertifyEmail").click(function(){
+		alert("!");
+		var mem_email = $("#mem_email").val();
+		$.ajax({
+		type:"GET",
+		url:"CertifyEmail.login?mem_email=" + mem_email,
+		cache : false,
+		success:function(data){     		
+			alert("인증번호 발송이 완료되었습니다.\n입력한 이메일에서 인증번호 확인을 해주십시오.");
+			$("#CertifyEmailNum").attr("disabled",false);
+			code = data;	          
+		     }
+		  });
+	});	 */
+/* 	$("#CertifyEmail_OK").click(function(){
+
+		if($("#CertifyEmailNum").val() == code){
+			$(".successEmailChk").text("인증번호가 일치합니다.");
+			$(".successEmailChk").css("color","green");
+			$("#emailDoubleChk").val("true");
+			$("#CertifyEmailNum").attr("disabled",true);
+			//$("#sm_email").attr("disabled",true);
+		}else{
+			$(".successEmailChk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
+			$(".successEmailChk").css("color","red");
+			$("#emailDoubleChk").val("false");
+			$("#CertifyEmailNum").attr("autofocus",true);
+		}
+	}); */
+	
+}
+
+
+
+
+</script>
+
 
 <title>회원가입</title>
 
@@ -199,11 +295,11 @@ function regChk(){
 
 <table border=1  style="margin-left: auto; margin-right: auto;">
 <tr>
- <td colspan="2" align=center bgcolor="#83BD75">
- <b><font size=5>회원가입</font></b>
+ <td colspan="4" align=center bgcolor="#0B2161">
+ <font size=5 color="white">회원가입</font>
  </td>
 </tr>
- <tr height="200"><td>회원가입 약관 </td><td>
+ <tr height="200"><td>회원가입 약관 </td><td colspan="3">
  <textarea class="outer" style="width: 90%; height:100px; resize: none;"cols="100" readonly>
   제 1 조 (목적)
 1. 본 약관은 해당 사이트가 제공하는 모든 서비스(이하 "서비스")의 이용조건 및 절차, 이용자와 해당 사이트의 권리, 의무, 책임사항과 기타 필요한 사항을 규정함을 목적으로 합니다.
@@ -265,50 +361,62 @@ function regChk(){
 제 16 조 (재판관할)
 1. 해당 사이트와 이용자 간에 발생한 서비스 이용에 관한 분쟁에 대하여는 대한민국 법을 적용하며, 본 분쟁으로 인한 소는 대한민국의 법원에 제기합니다.</textarea><br>
 <input type="radio" name ="agree">약관에 동의합니다.
-<tr><td>아이디  </td><td> 
+<tr><td>아이디  </td><td colspan="3"> 
    <input type="text" class="form-control onlyAlphabetAndNumber" id="mem_id" name="mem_id" data-rule-required="true" placeholder="12자이내의 알파벳, 언더스코어(_), 숫자만 입력 가능합니다." maxlength="12" onkeydown="inputIdChk()" required>
      <button type = "button" onclick = "fn_CheckId()" name="CheckId" class="CheckId">중복 체크</button>
                         <input type = "hidden" id = "idDuplication" name="idDuplication" value="idUncheck"/></td>
 </tr>
-<tr><td>이메일 </td>
+<tr>
+<td>이메일 </td>
 <td>
-   <input class="form-control" type="text" name="mem_email" id="mem_email" value="" title="이메일" placeholder="이메일" onkeydown="inputEmailChk()" required /> 
-                    <button type = "button" onclick = "fn_CheckEmail()" name="CheckEmail" class="CheckEmail">중복 체크</button>
-                        <input type = "hidden" id = "emailDuplication" name="emailDuplication" value="emailUncheck"/></td></tr>
+   <input class="form-control" type="text" name="mem_email" id="mem_email" title="이메일" placeholder="이메일" onkeydown="inputEmailChk()" required /> 
+   <button type = "button" onclick = "fn_CheckEmail()" name="CheckEmail" class="CheckEmail">중복 체크</button>
+   <button type = "button" name="CertifyEmail" id="CertifyEmail" onclick="CertifyEamil_fn(this.id);"disabled>인증번호 전송</button>
+   <input type = "hidden" id = "emailDuplication" name="emailDuplication" value="emailUncheck"/>
    
-<tr><td>비밀번호  </td><td><input class="form-control" type="password" name="mem_password" required></td></tr>
-<tr><td>비밀번호 확인  </td><td><input class="form-control" type="password" name="mem_password2" onblur="passchk()" required>
-&nbsp;
+</td>
+<td>인증번호</td>
+<td style="width: 260px;">
+	<input class="form-control" type="text" id="CertifyEmailNum" title="인증번호" placeholder="인증번호" size="10" disabled />
+	<button type = "button" name="CertifyEmail_OK" id="CertifyEmail_OK" onclick="CertifyEamil_fn(this.id);" disabled>인증번호 확인</button>
+	<span class="point successEmailChk" style="display: block;font-size: 13px;">이메일 입력후 인증번호 전송을 눌러주세요.</span>
+	<input type="hidden" id="emailDoubleChk"/>
+</td>
+</tr>
+   
+<tr><td>비밀번호  </td><td colspan="3"><input class="form-control" type="password" name="mem_password" required></td></tr>
+<tr><td>비밀번호 확인  </td><td colspan="3"><input class="form-control" type="password" name="mem_password2" onblur="passchk()" required>
+
    <input type="text" style="border-width: 0px" size="20" name="chk" value="비밀번호를 입력하세요" readonly="readonly">
    <br><br></td></tr>
 
-<tr><td>이름  </td><td><input class="form-control" type="text" name="mem_userName" required></td></tr>
+<tr><td>이름  </td><td colspan="3"><input class="form-control" type="text" name="mem_userName" required></td></tr>
 <tr><td>닉네임  </td>
-<td>
+<td colspan="3">
 <input type="text" class="form-control" id="mem_nickName" name="mem_nickName" data-rule-required="true" placeholder="닉네임" maxlength="30" onkeydown="inputNickChk()" required>
                        <button type = "button" onclick = "fn_CheckNick()" name="CheckNick" class="CheckNick">중복 체크</button>
                         <input type = "hidden" id = "nickDuplication" name="nickDuplication" value="nickUncheck"/>
                         </td>
                         </tr>
-<tr><td>프로필 사진  </td><td><input class="form-control" type="file" id="mem_image" name="mem_image"  required></td></tr>
-<tr><td>전화번호  </td><td>
+<tr><td>프로필 사진  </td><td colspan="3"><input class="form-control" type="file" id="mem_image" name="mem_image"  required></td></tr>
+<tr><td>전화번호  </td><td colspan="3">
 <input class="form-control" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"  id="mem_phone" name="mem_phone" placeholder="전화번호는 -를 빼고 입력해 주세요" maxlength="11" required /> 
                        </td>
                        </tr>
-<tr><td>생년월일  </td><td>
+<tr><td>생년월일  </td><td colspan="3">
    <input class="form-control" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" id="mem_birthday" name="mem_birthday"  placeholder="생년월일을 6자리로 입력해 주세요 ex:990101" maxlength="6" required /> 
                    </td>
                    </tr>
 <tr>
   <td>성별</td>
-  <td>
+  <td colspan="3">
    <input type="radio" name="mem_gender" value="0" checked/>남자
    <input type="radio" name="mem_gender" value="1"/> 여자
   </td> 
  </tr>
  <tr height="100">
         <td>관심지역</td>
-        <td><select name="region_num">
+        <td colspan="3"><select name="region_num">
                             <option value="1">서울/경기도</option>
                             <option value="2">강원도</option>
                             <option value="3">충청북도</option>
@@ -321,34 +429,34 @@ function regChk(){
                 </select>
         </td>
     </tr>
-<tr><td>자기소개 요약 : </td><td><input class="form-control" type="text" name="mem_summary"  required></td></tr>
-<tr><td>자기소개 : </td><td>
-<textarea class="form-control" id="mem_introduce" name="mem_introduce" data-rule-required="true" placeholder="자기소개를 적어주세요" rows="5" required></textarea>
+<tr><td>자기소개 요약 : </td><td colspan="3"><input class="form-control" type="text" name="mem_summary" required></td></tr>
+<tr><td>자기소개 : </td><td colspan="3">
+<textarea style="resize:none;" class="form-control" id="mem_introduce" name="mem_introduce" data-rule-required="true" placeholder="자기소개를 적어주세요" rows="5" required></textarea>
 </td></tr>
 <tr>
   <td>이메일 수신여부</td>
-  <td>
+  <td colspan="3">
    <input type="radio" name="mem_accept_email" value="0" checked/>동의합니다
    <input type="radio" name="mem_accept_email" value="1"/>동의하지 않습니다
   </td> 
  </tr>
  <tr>
   <td>SMS 수신여부</td>
-  <td>
+  <td colspan="3">
    <input type="radio" name="mem_accept_phone" value="0" checked/>동의합니다
    <input type="radio" name="mem_accept_phone" value="1"/> 동의하지 않습니다
   </td> 
  </tr>
  <tr>
   <td>개인정보 제공 동의 여부</td>
-  <td>
+  <td colspan="3">
    <input type="radio" name="mem_accept_privacy" value="0" checked/>동의합니다
    <input type="radio" name="mem_accept_privacy" value="1"/> 동의하지 않습니다
   </td> 
  </tr>
  <tr>
-  <td colspan="2" align=center>
-   <input type="button" onclick="regChk();" value="회원가입"> <!-- 회원가입을 하면 sign.login으로 넘어가게된다. -->
+  <td colspan="4" align=center>
+   <input type="button" onclick="regChk();" value="회원가입">
    <input type="reset" value="다시 작성">
 
  
