@@ -140,10 +140,10 @@ function fn_account(val){
 				
 					<div class="row search-box">
 						<div style="margin-bottom: 10px;">
-							빌린날짜 <input type="date" id="indate1" name="indate" ">
+							빌린날짜 <input type="date" id="indate1" name="cart_from">
 						</div>
 						<div>
-							반납날짜 <input type="date" id="outdate1" name="outdate">
+							반납날짜 <input type="date" id="outdate1" name="cart_to">
 						</div>
 						<br>
 						<div align="center">

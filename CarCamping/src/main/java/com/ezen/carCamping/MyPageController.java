@@ -25,27 +25,23 @@ public class MyPageController {
 	@Autowired
 	private MyPageMapper myPageMapper;
 
-	@RequestMapping("/myPageCart.myPage")
-	public String myPageCart(HttpServletRequest req, String indate, String outdate, int prod_num, int cart_prodCount) {
-		HttpSession session = req.getSession();
-		ProductCartDTO dto = myPageMapper.cartProduct(prod_num);
-		dto.setCart_prodCount(cart_prodCount);
-		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
-		if (cart == null) {
-			cart = new ArrayList<ProductCartDTO>();
-		}
-		cart.add(dto);
-		session.setAttribute("cartList", cart);
-		session.setAttribute("indate", indate);
-		session.setAttribute("outdate", outdate);
-		
-		System.out.println("세션에 저정된값" + cart);
-		System.out.println("넘버 : " + prod_num);
-		// System.out.println("날짜 : " + outdate);
-		return "myPage/myPageCart";
+	@RequestMapping("/myPageCart.myPage")//카트에 추가
+	public String myPageCart(HttpServletRequest req,ProductCartDTO dto, String cart_prodCount, String cart_from, String cart_to) {
+		//Cart에 상품을 DB에 저장 조건문 설정해줘야함
+		 int res = myPageMapper.insertCart(dto);
+		 if(res>0) {
+			 System.out.println("등록성공");
+		 }else {
+			 System.err.println("등록실패");
+		 }
+		 //등록 끝 불러와서 cartList에 올려야함
+		 HttpSession session = req.getSession();
+		 List<ProductCartDTO> list = myPageMapper.cartProduct();
+		 session.setAttribute("cartList", list);
+			return "myPage/myPageCart";
 	}
 
-	@RequestMapping("/myPageCart2.myPage")
+	@RequestMapping("/myPageCart2.myPage")//나중에 회원번호 추가해서 넘겨주기!
 	public String myPageCart2(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
@@ -53,8 +49,14 @@ public class MyPageController {
 		return  "myPage/myPageCart";
 	}
 	  
-	@RequestMapping("mall_cartEdit.myPage")
-	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num) {
+	@RequestMapping("mall_cartEdit.myPage")//물건 갯수 수정
+	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num,ProductCartDTO dto) {
+		int res = myPageMapper.updateCart(dto);
+		if(res>0) {
+			System.out.println("수정성공");
+		}else {
+			System.out.println("수정실패");
+		}
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		if (cart_prodCount <= 0) {
@@ -75,6 +77,12 @@ public class MyPageController {
 
 	@RequestMapping("mall_cartDel.myPage") // 카트에서 삭제
 	public String mall_cartDel(HttpServletRequest req, @RequestParam int prod_num) {
+		int res = myPageMapper.deleteCart(prod_num);
+		if(res>0) {
+			System.out.println("삭제성공");
+		}else {
+			System.out.println("삭제실패");
+		}
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		for (ProductCartDTO cartDTO : cart) {
@@ -103,7 +111,7 @@ public class MyPageController {
 		return "message";
 	}
 	
-	@RequestMapping("Pay.myPage") 
+	@RequestMapping("Pay.myPage") //결제완료 페이지
 		public String myPageCheckOut() {
 			return "myPage/myPageCheckOut";
 		}

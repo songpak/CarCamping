@@ -5,12 +5,22 @@
  	
 <mapper namespace="com.ezen.carCamping.model.myPageMapper"> 
 
-	<select id="cartProduct" parameterType="int" resultType="ProductCartDTO"><!-- 용품을 장바구니에 추가만 하는 쿼리문 -->
-		select * from ProductCart, Product where ProductCart.prod_num=#{prod_num} and ProductCart.prod_num = Product.prod_num <!-- and ProductCart.mem_num = Member.prod_num  -->         
-	</select>
 	
-	<!--  <select id = "memberCart" parameterType="int" resultType="ProductCartDTO">용품을 산 멤버의 정보를 mem_num으로 가져오기
-		select * from ProductCart, Member where ProductCart.prod_num=#{prod_num} and ProductCart.mem_num = Member.mem_num
-	</select>  -->
+
+	<select id="cartProduct" parameterType="int" resultType="ProductCartDTO"><!-- 용품을 장바구니에 추가만 하는 쿼리문 -->
+	select a.*,b.prod_name,prod_price from ProductCart as a left join Product as b on a.prod_num = b.prod_num where a.mem_num = 1
+	</select><!-- insert로 바꿀것 -->
+
+	<insert id="insertCart" parameterType="ProductCartDTO">
+		insert into ProductCart values(null, 1, #{prod_num}, 1, #{cart_prodCount}, #{cart_from}, #{cart_to})
+	</insert>
+	
+	  <update id="updateCart" parameterType="ProductCartDTO">
+		update ProductCart set cart_prodCount=#{cart_prodCount} where prod_num = #{prod_num}
+	</update>  
+	
+	<delete id="deleteCart" parameterType="int">
+		delete from ProductCart where Prod_num =#{prod_num}
+	</delete>
 	
 </mapper>
