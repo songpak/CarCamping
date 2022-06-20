@@ -42,7 +42,7 @@ img, svg {
 					<div class="col-12">
 						<nav class="main-nav navbar-expand-lg navbar-dark shadow-5-strong">
 							<!-- ***** Logo Start ***** -->
-							<a href="index.do" class="logo"> 로고들어가요 </a>
+							<a href="index.do" class="logo"> <img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
 							<!-- ***** Logo End ***** -->
 							<!-- ***** Menu Start ***** -->
 							<ul class="nav">
@@ -79,6 +79,7 @@ img, svg {
 									<ul class="sub-menu">
 									
 										<li><a href="login.login">로그인</a></li>
+										<li><a href="sign.login">회원가입</a></li>
 									</ul>
 								</li>
 								</c:if> 
@@ -162,7 +163,7 @@ img, svg {
 
 	
 	  <div class="footer" style="padding-bottom: 0px;margin-top: 0px;padding-top: 0px;">
-      <p style=" background-color:#E9EFC0; color:#6bbf57;margin-bottom: 0px;">Copyright © 2022 <a href="#">WITHCAR Co.</a> Ltd. All Rights Reserved. 
+      <p style=" background-color:#2c3e50; color:#fff;margin-bottom: 0px;">Copyright © 2022 <a href="#">WITHCAR Co.</a> Ltd. All Rights Reserved. 
           <br>
           Design: <a href="#">WITHCAR DESIGN TEAM</a>
           <br>

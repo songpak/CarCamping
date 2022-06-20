@@ -50,7 +50,13 @@ public class MemberMapper {
 	      int res = sqlSession.insert("insertMember", dto);
 	      return res;
 	   }
-
-
+   public MemberDTO getMemberNick(String mem_nickName) {
+       MemberDTO dto = sqlSession.selectOne("getMemberNick", mem_nickName);
+       return dto;
+   }
+   public MemberDTO getMemberEmail(String mem_email) {
+       MemberDTO dto = sqlSession.selectOne("getMemberEmail", mem_email);
+       return dto;
+   }
 
 	}

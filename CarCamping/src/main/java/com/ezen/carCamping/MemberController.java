@@ -166,6 +166,32 @@ public class MemberController {
 		  req.setAttribute("result", result);
 	      return "login/checkId";
 	   }
+	
+	@RequestMapping("/checkNick.login")
+	public String checkNick(HttpServletRequest req, @RequestParam String mem_nickName) {	
+		  MemberDTO dto = memberMapper.getMemberNick(mem_nickName);
+	      int result = -1;
+		  if (dto == null){   
+	    	  result= 1;
+	      }else {
+	    	  result = 0;
+	      }
+		  req.setAttribute("result", result);
+	      return "login/checkNick";
+	   }
+	
+	@RequestMapping("/checkEmail.login")
+	public String checkEmail(HttpServletRequest req, @RequestParam String mem_email) {	
+		  MemberDTO dto = memberMapper.getMemberEmail(mem_email);
+	      int result = -1;
+		  if (dto == null){   
+	    	  result= 1;
+	      }else {
+	    	  result = 0;
+	      }
+		  req.setAttribute("result", result);
+	      return "login/checkEmail";
+	   }
 
 	}
 

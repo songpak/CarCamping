@@ -81,13 +81,13 @@
 
 <body>
 	<!-- ***** Header Area Start ***** -->
-	<header class="header-area header-sticky" style="background-color : #83BD75;"><!-- 색깔 바꾸기 -->
+	<header class="header-area header-sticky" style="background-color : #FFFFFF"><!-- 색깔 바꾸기 -->
 		<div class="container" style="height: 90px";>	
 			<div class="row" style="height: 90px";>
 				<div class="col-12">
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
-						<a href="index.html" class="logo" style="height: 90px;"><img src="resources/images/cambakLogo.png" style="width: 120px;height: 50px;"/></a>
+						<a href="index.html" class="logo" style="height: 90px;"><img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
 						<ul class="nav">
