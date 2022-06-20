@@ -36,6 +36,7 @@ public class MyPageMapper {
 		 int res = sqlSession.delete("deleteCart", prod_num);
 		 return res;
 	 }
+	 
 }
 
 

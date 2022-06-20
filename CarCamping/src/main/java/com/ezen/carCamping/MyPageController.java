@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.service.MyPageMapper;
@@ -116,10 +117,8 @@ public class MyPageController {
 			return "myPage/myPageCheckOut";
 		}
 	
-	
-
 	@RequestMapping("/myPageContactUs.myPage")
-	public String myPageContactUs() {
+	public String myPageContactUs(HttpServletRequest req) {
 		return "myPage/myPageContactUs";
 	}
 

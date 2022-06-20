@@ -16,21 +16,22 @@
         <div class="col-sm-12">
             <div class="col-sm-2"></div>
                 <div class="col-sm-9">
+                
                     <h2 class="text-center">정보 상세</h2>
-                     
                     <form action="myPageProfileEdit.mypage" method="post">
-                     
                     <table class="table table-striped">
+                   
                       <tr>
                         <td>이름</td>
                         <td>""</td>
                       </tr>
-                      
                        <tr>
                         <td>아이디</td>
-                        <td>""</td>
+                        <c:forEach items="${getMember}" var="mdto">
+                        <td>${mdto.mem_id}</td>
+                        </c:forEach>
                       </tr>
-                          
+                           
                       <tr>
                         <td>이메일</td>
                         <td>
