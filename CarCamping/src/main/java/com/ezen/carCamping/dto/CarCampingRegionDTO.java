@@ -11,7 +11,6 @@ public class CarCampingRegionDTO {
 	private int ccr_water;
 	private int ccr_market;
 	private String ccr_ground;
-	private int ccr_reviewCount;
 	private int ccr_likeCount;
 	private float ccr_score;
 	private int ccr_popular;
@@ -83,12 +82,6 @@ public class CarCampingRegionDTO {
 	}
 	public void setCcr_ground(String ccr_ground) {
 		this.ccr_ground = ccr_ground;
-	}
-	public int getCcr_reviewCount() {
-		return ccr_reviewCount;
-	}
-	public void setCcr_reviewCount(int ccr_reviewCount) {
-		this.ccr_reviewCount = ccr_reviewCount;
 	}
 	public int getCcr_likeCount() {
 		return ccr_likeCount;

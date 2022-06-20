@@ -12,12 +12,15 @@
 	</select> 
 	
 	<select id="listCarCampingRegionHotRegion" parameterType="Integer" resultType="CarCampingRegionDTO"> <!-- 지역별 차박지 HOT차박지  -->
-		select * from CarCampingRegion a,Region b
-		where b.region_num = #{region_num} and a.region_num = b.region_num and a.ccr_popular = 0 order by ccr_reviewCount + ccr_likeCount + ccr_score desc limit 4
+		select c.* from (
+		select a.* from CarCampingRegion a,Region b where b.region_num = #{region_num} and a.region_num = b.region_num)c
+		order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount + c.ccr_score desc limit 4
 	</select>
 	
 	<select id="listHotRegion" resultType="CarCampingRegionDTO"> <!-- HOT 차박지 -->
-		select * from CarCampingRegion where ccr_popular = 0 order by ccr_reviewCount + ccr_likeCount + ccr_score desc limit 10
+	select c.* from (
+	select a.* from CarCampingRegion a where a.ccr_popular = 0)c
+	order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount + c.ccr_score desc limit 10
 	</select>
 	
 	<select id="listRecommandRegion" resultType="CarCampingRegionDTO"> <!-- 추천 차박지 -->
@@ -36,7 +39,7 @@
 	</select>
 	
 	<select id="countReviewCcrnum" parameterType="Integer" resultType="Integer">
-		select count(*) from ReviewRegion a,CarCampingRegion b where a.ccr_num=3 and a.ccr_num=b.ccr_num and a.review_adminConfirm=0
+		select count(*) from ReviewRegion a,CarCampingRegion b where a.ccr_num=#{ccr_num} and a.ccr_num=b.ccr_num and a.review_adminConfirm=0
 	</select>
 
 	<!-- 검색 -->
@@ -77,7 +80,7 @@
 		update CarCampingRegion set ccr_likeCount=ccr_likeCount+1 where ccr_num=#{ccr_num}
 	</update>
 	<!-- 차박지 : 좋아요 다시 클릭시 좋아요 수 감소 -->
-		<update id="subLikeCountRegion" parameterType="Integer">
+	<update id="subLikeCountRegion" parameterType="Integer">
 		update CarCampingRegion set ccr_likeCount=ccr_likeCount-1 where ccr_num=#{ccr_num}
 	</update>
 	
@@ -90,9 +93,61 @@
 		update ReviewRegion set review_likeCount=review_likeCount-1 where review_num=#{review_num}
 	</update>
 
-
 	<!--리뷰 상세보기   -->
 	<select id="selectReviewDetail" parameterType="Integer" resultType="ReviewRegionDTO">
 		select * from ReviewRegion where review_num = #{review_num}
+	</select>
+	<!-- 지역  좋아요 -->
+	<!-- 지역 좋아요 수 가져오기  -->
+	<select id="recountRegionLike" parameterType="Integer" resultType="Integer">
+		select a.ccr_likeCount from CarCampingRegion a where ccr_num = #{ccr_num}
+	</select>
+	<!--지역 좋아요 추가 & 삭제  -->
+	<insert id="insertRegionLikeLog" parameterType="Map">
+		insert into RegionLikeLog (mem_num,ccr_num) values
+		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{ccr_num})
+	</insert>
+	<delete id="deleteRegionLikeLog" parameterType="Map">
+		delete from RegionLikeLog a where a.ccr_num=#{ccr_num} and a.mem_num in
+		(select * from
+		(select a.mem_num from RegionLikeLog,Member b where a.mem_num = b.mem_num and b.mem_id =#{mem_id}) as result)
+	</delete>
+	<!-- 지역 좋아요 내역 검사  -->
+	<select id="checkRegionLikeLog" parameterType="Map" resultType="Integer">
+		select count(*) from RegionLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.ccr_num = #{ccr_num}
+	</select>
+	
+	<!-- 리뷰 좋아요  -->
+	<select id="recountReviewLike" parameterType="Integer" resultType="Integer">
+		select a.review_likeCount from ReviewRegion a where review_num = #{review_num}
+	</select>
+	<!--리뷰 좋아요 추가 & 삭제  -->
+	<insert id="insertReviewLikeLog" parameterType="Map">
+		insert into ReviewLikeLog (mem_num,review_num) values
+		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{review_num})
+	</insert>
+	<delete id="deleteReviewLikeLog" parameterType="Map">
+		delete from ReviewLikeLog a where a.review_num=#{review_num} and a.mem_num in
+		(select * from
+		(select a.mem_num from ReviewLikeLog,Member b where a.mem_num = b.mem_num and b.mem_id =#{mem_id}) as result)
+	</delete>
+	<!-- 리뷰 좋아요 내역 검사  -->
+	<select id="checkReviewLikeLog" parameterType="Map" resultType="Integer">
+		select count(*) from ReviewLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.review_num = #{review_num}
+	</select>
+	
+	<!-- 리뷰 수 가져오기 -->
+	<select id="countReviewCcr" parameterType="Integer" resultType="Integer">
+		SELECT count(*) from ReviewRegion a,CarCampingRegion b 
+		where a.ccr_num = b.ccr_num and b.ccr_num = #{ccr_num} and a.review_adminConfirm=0
+	</select> 	
+
+	<select id="test" resultType="HashMap">
+		select d.* from 
+		(select c.region_num region_num ,c.ccr_num ccr_num,c.ccr_name ccr_name,
+		(select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0)reviewCount,c.ccr_likeCount ccr_likeCount ,c.ccr_popular ccr_popular,c.ccr_score ccr_score
+		from (select a.* from CarCampingRegion a)c)d where d.reviewCount>0;
 	</select>
 </mapper>

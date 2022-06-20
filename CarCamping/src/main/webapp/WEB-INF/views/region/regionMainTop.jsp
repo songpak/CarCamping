@@ -130,6 +130,7 @@
 															//window.location.href = "goRegionHOT.region?region_num="+(i + 1);
 															//window.location.href = "goRegion.region?region_num="+ (i + 1);
 															document.hotRegionLocation.region_num.value=i+1	
+															document.hotRegionLocation.mem_id = '${sessionScope.id}'
 															document.hotRegionLocation.submit()    
 															
 														});
@@ -140,6 +141,7 @@
 					</div>
 					<form name="hotRegionLocation" action="regionHotLocList.region" method="post">
 						<input type="hidden" name="region_num"/>
+						<input type="hidden" name="mem_id"/>
 					</form>
 								
 					<!--지역별 HOT리뷰글  -->

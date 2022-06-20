@@ -6,6 +6,7 @@
 			</div>
 		</div>
 	</div>
+		
 		<!--HOT차박지  -->
 		<div class="ccm-b-hs">
 			<div id="hot-loaction-title-hs" style="margin-top: 20px;">
@@ -28,7 +29,7 @@
 									"freeScroll": true,"wrapAround": true}'>
 
 					<c:forEach var="hotRegion" items="${hotRegionList}">
-
+			
 						<a href="regionView.region?ccr_num=${hotRegion.ccr_num}">
 							<div class="carousel-cell" style="width: 300px; height: 380px">
 								<div class="card" style="width: 100%; height: 100%">
@@ -88,5 +89,6 @@
 
 
 <script>
+	
 	
 </script>

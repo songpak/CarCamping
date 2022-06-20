@@ -14,7 +14,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css"
 	integrity="sha384-eoTu3+HydHRBIjnCVwsFyCpUDZHZSFKEJD0mc3ZqSBSb6YhZzRHeiomAUWCstIWo"
 	crossorigin="anonymous">
-	
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <style>
 	#viewCount .btn-dark[disabled]{
 		color: #fff;
@@ -24,7 +24,7 @@
 	textarea {
     resize: none;
   }
-  #exampleTextarea {
+  #reviewTextarea {
    border-color = #E9EFC0;
   }
   .h5, h5 {
@@ -38,8 +38,12 @@
 	width:640px;
 }
 </style>
+
 </head>
 <body>
+
+	<c:set var="review_num" value="${selectedReview.review_num }"/>
+ 	<c:set var="mem_id" value="${sessionScope.id}"/>
 	<div id="wrapper">
 		<!-- Begin Header -->
 		<div align="center" id="header">
@@ -53,10 +57,16 @@
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>좋 아 요</h5>
-							<button type="button" class="btn btn-danger rounded-pill" style=" padding-top: 0px;padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
-							${selectedReview.review_likeCount}
-							<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-hearts" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.5 1.246c.832-.855 2.913.642 0 2.566-2.913-1.924-.832-3.421 0-2.566ZM9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4Zm13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276ZM15 2.165c.555-.57 1.942.428 0 1.711-1.942-1.283-.555-2.281 0-1.71Z"></path></svg>
-							</button>
+							<c:if test="${check==0}">
+								<button type="button" id="likeCount" class="btn rounded-pill" onclick="Like_function();" style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px; background-color:#ffffff;">
+									${selectedReview.review_likeCount}💖
+								</button>
+							</c:if>
+							<c:if test="${check==1 }">
+								<button type="button" id="likeCount" class="btn rounded-pill" onclick="Like_function();" style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px; background-color:#bb2d3b;">
+									${selectedReview.review_likeCount}💖
+								</button>
+							</c:if>
 						</li>
 						<li id="viewCount" class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>조 회 수</h5>
@@ -115,7 +125,7 @@
 							aria-valuemax="100" style="width: 100%; background-color: #83BD75;" ></div>
 					</div>
 					<div align="center" id="leftcolumn"
-						style="width: 666px; margin-top: 20px; background:#fff;">
+						style="width: 666px;margin-top: 5px; background:#fff;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-right-width: 0px;">
 						<div class="slider-gr" style="width:640px;">
 							<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
 									<input type="radio" name="slide" id="slide${i}" checked />
@@ -153,7 +163,7 @@
 							<blockquote class="blockquote">
 								<p class="mb-0">REVIEW</p>
 							</blockquote>
-							<textarea class="form-control border border-5" id="exampleTextarea" rows="10" readonly>
+							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" readonly>
 							${selectedReview.review_regionContent}
 							</textarea>
 						</div>
@@ -161,6 +171,65 @@
 				</div>
 			</div>
 		</div>
+		
 	</div>
-</body>
+		<script>
+		var isRun = false; // ajax 동시 호출 막기(ajax가 호출되는 동안 버튼이 클릭돼도 중복으로 실행되는것을 막기위함)
+		
+		function Like_function(){
+			var mid = '${mem_id}';
+			var isEmpty = function(value){//빈값체크
+	            if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
+	              return true
+	            }else{
+	              return false
+	            }
+	          };
+			
+			if(isEmpty(mid)){ //아이디가 없으면
+				console.log("아이디없음");
+				alert("로그인을 해주세요 !!");
+				
+			}else{ //아이디가 있으면			
+				 if(isRun == true) {
+				        return;
+				    }
+				 isRun = true;
+					//클릭시 로딩 이미지 호출
+				  var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
+				    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>'; 		   
+				    $('body').fadeTo( "fast", 0.4 ).append(loadingHtml);
+					var like_button = document.getElementById("likeCount");
+	   				var like_color = like_button.style.backgroundColor;
+	   				
+	   				$.ajax({
+						url: "updateReviewLike.region", //컨트롤러 맵핑
+		                type: "POST",
+		                data: { //사용자가 데이터를 정의한다	
+		                	mem_id: '${mem_id}',
+		                	review_num: ${review_num}
+		                },         
+		                success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
+					       	// $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
+					       	 $('body').fadeTo( "slow", 1 ).find('#loading').remove();
+		                	$("#likeCount").text(res+"💖");
+		                	if(like_color == 'rgb(255, 255, 255)'){
+		                		 alert("회원님의 좋아요가 성공적으로 등록되었습니다 !!😍"); 
+		                		$("#likeCount").css("background-color","#bb2d3b");//#bb2d3b  rgb(187, 45, 59)
+		               		}else if(like_color == 'rgb(187, 45, 59)'){          
+		               			alert("회원님의 좋아요가 취소되었습니다 !!😢"); 
+		               			$("#likeCount").css("background-color","white");
+		               		}   
+		                	isRun  = false;
+		                }
+					});
+			}	
+		}
+		
+		
+		document.getElementById("reviewTextarea").scrollTop = document.getElementById("reviewTextarea").scrollHeight;
+		
+		</script>
+	</body>
+
 </html>
