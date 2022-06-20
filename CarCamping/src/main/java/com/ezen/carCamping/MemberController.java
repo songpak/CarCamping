@@ -74,13 +74,12 @@ public class MemberController {
    }
 
    
-   
+   //로그인 버튼 눌렀을떄 컨트롤러
    @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
-      
-      
+      int mem_num = dto.getMem_num();
       String msg = null, url = null;
       if (dto == null){   
          msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
@@ -89,8 +88,9 @@ public class MemberController {
          if (params.get("mem_password").equals(dto.getMem_password())){
         	
             msg = dto.getMem_id()+"님, 환영합니다!!";
-            url = "index.do";
+            url = "index.do?mem_num=" + mem_num;
             HttpSession session = req.getSession();
+            session.setAttribute("mem_num", mem_num);
             session.setAttribute("mbdto", dto);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){

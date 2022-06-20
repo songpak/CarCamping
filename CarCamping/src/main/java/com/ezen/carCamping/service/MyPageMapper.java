@@ -15,8 +15,8 @@ public class MyPageMapper {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public List<ProductCartDTO> cartProduct() {
-		List<ProductCartDTO> dto = sqlSession.selectList("cartProduct");
+	public List<ProductCartDTO> cartProduct(int mem_num) {
+		List<ProductCartDTO> dto = sqlSession.selectList("cartProduct",mem_num);
 		if (dto != null)
 			return dto;
 		else

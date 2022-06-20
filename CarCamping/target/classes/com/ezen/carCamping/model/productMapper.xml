@@ -31,7 +31,7 @@
 	</select>
 	
 	<select id="getReviewView" resultType="ReviewProductDTO">
-		select * from ReviewProduct where rp_num = #{rp_num}
+		select a.*,b.mem_nickName,mem_image from ReviewProduct as a left join Member as b on a.mem_num = b.mem_num where a.rp_num = #{rp_num}
 	</select>
 	
 	<select id ="R_orderByScore" parameterType="String" resultType="ReviewProductDTO"> 

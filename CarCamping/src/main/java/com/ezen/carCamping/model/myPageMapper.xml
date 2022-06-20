@@ -5,11 +5,11 @@
  	
 <mapper namespace="com.ezen.carCamping.model.myPageMapper"> 
 	<select id="cartProduct" parameterType="int" resultType="ProductCartDTO"><!-- 용품을 장바구니에 추가만 하는 쿼리문 -->
-	select a.*,b.prod_name,prod_price from ProductCart as a left join Product as b on a.prod_num = b.prod_num where a.mem_num = 1
+	select a.*,b.prod_name,prod_price from ProductCart as a left join Product as b on a.prod_num = b.prod_num where a.mem_num = #{mem_num}
 	</select>
 
 	<insert id="insertCart" parameterType="ProductCartDTO">
-		insert into ProductCart values(null, 1, #{prod_num}, 1, #{cart_prodCount}, #{cart_from}, #{cart_to})
+		insert into ProductCart values(null, #{mem_num}, #{prod_num}, 1, #{cart_prodCount}, #{cart_from}, #{cart_to})
 	</insert>
 	
 	  <update id="updateCart" parameterType="ProductCartDTO">

@@ -2,6 +2,7 @@ package com.ezen.carCamping.dto;
 
 public class ProductCartDTO {
 	private int prod_num;
+	private int mem_num;
 	private int cart_num;
 	private MemberDTO memberDTO;
 	private ProductDTO productDTO;
@@ -17,6 +18,12 @@ public class ProductCartDTO {
 	private String prod_name;
 	private int prod_price;
 	
+	public int getMem_num() {
+		return mem_num;
+	}
+	public void setMem_num(int mem_num) {
+		this.mem_num = mem_num;
+	}
 	public int getProd_num() {
 		return prod_num;
 	}
