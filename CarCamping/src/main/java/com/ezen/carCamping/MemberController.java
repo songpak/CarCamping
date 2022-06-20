@@ -89,12 +89,12 @@ public class MemberController {
       
       String msg = null, url = null;
       if (dto == null){   
-         msg = "�빐�떦�븯�뒗 �븘�씠�뵒媛� �뾾�뒿�땲�떎. �떎�떆 �솗�씤�븯怨� 濡쒓렇�씤�빐 二쇱꽭�슂!!";
+         msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
          url = "login.login";
       }else {
          if (params.get("mem_password").equals(dto.getMem_password())){
         	
-            msg = dto.getMem_id()+"�떂, �솚�쁺�빀�땲�떎!!";
+            msg = dto.getMem_id()+"님, 환영합니다!!";
             url = "index.do";
             HttpSession session = req.getSession();
             session.setAttribute("mbdto", dto);
@@ -106,7 +106,7 @@ public class MemberController {
             }
             resp.addCookie(ck);
          }else {   
-            msg = "鍮꾨�踰덊샇媛� ���졇�뒿�땲�떎. �떎�떆 �솗�씤�븯怨� 濡쒓렇�씤�빐 二쇱꽭�슂!!";
+            msg = "비밀번호가 틀렸습니다. 다시 확인하고 로그인해 주세요!!";
             url = "login.login";
          }
       }
@@ -140,10 +140,10 @@ public class MemberController {
       int res = memberMapper.insertMember(dto);
       
        if (res>0) {
-          req.setAttribute("msg", "�쉶�썝媛��엯 �꽦怨� ^__^");
+          req.setAttribute("msg", "회원가입 성공 ^__^");
           req.setAttribute("url", "index.do");
        }else {
-          req.setAttribute("msg", "�쉶�썝媛��엯 �떎�뙣�뀪_�뀪");
+          req.setAttribute("msg", "회원가입 실패ㅠ_ㅠ");
           req.setAttribute("url", "sign.login");
           
        }
@@ -154,7 +154,7 @@ public class MemberController {
    public String logout(HttpServletRequest req) {
 	   HttpSession session = req.getSession();
 	   	session.invalidate();
-		req.setAttribute("msg", "濡쒓렇�븘�썐 �릺�뿀�뒿�땲�떎.");
+		req.setAttribute("msg", "로그아웃 되었습니다.");
 		req.setAttribute("url", "index.do");
 		return "message";
 	   
