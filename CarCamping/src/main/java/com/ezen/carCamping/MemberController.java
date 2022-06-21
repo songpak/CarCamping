@@ -100,6 +100,7 @@ public class MemberController {
             HttpSession session = req.getSession();
             session.setAttribute("mem_num", mem_num);
             session.setAttribute("mbdto", dto);
+            session.setAttribute("signIn", true);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
                ck.setMaxAge(0);
