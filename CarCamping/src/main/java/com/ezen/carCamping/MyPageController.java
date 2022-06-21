@@ -14,9 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
+import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.service.MyPageMapper;
 import com.ezen.carCamping.service.ProductMapper;
 
@@ -146,9 +148,12 @@ public class MyPageController {
 	public String myPageProfile() {
 		return "myPage/myPageProfile";
 	}
-
+	
 	@RequestMapping("/myPageQuestion.myPage")
-	public String myPageQuestion() {
+	public String adminRegion(HttpServletRequest req, @RequestParam(required=false)String mem_num) {
+		List<QuestionDTO> myPageGetQuestionMember = new ArrayList<QuestionDTO>();
+		myPageGetQuestionMember = myPageMapper.myPageGetQuestionSelectMember(Integer.parseInt(mem_num));
+		req.setAttribute("listBoard", myPageGetQuestionMember);
 		return "myPage/myPageQuestion";
 	}
 
@@ -172,9 +177,5 @@ public class MyPageController {
 		return "myPage/myPageTest";
 	}
 
-	@RequestMapping("/myPageProfileEdit.mypage")
-	public String mypageProfileEdit() {
-		return "myPage/myPageProfileEdit";
-	}
 
 }
