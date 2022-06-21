@@ -1,5 +1,11 @@
 package com.ezen.carCamping;
 
+<<<<<<< HEAD
+=======
+import java.io.File; 
+
+import java.io.IOException;
+>>>>>>> 재영(관리자)
 import java.util.List;
 import java.util.Map;
 

@@ -140,7 +140,10 @@
       </Realm>
 
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 재영(관리자)
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->
         <!--
