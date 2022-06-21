@@ -18,4 +18,3 @@ public class RegionDTO {
 	}
 }
 
-//¿¬½À

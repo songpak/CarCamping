@@ -21,38 +21,52 @@ public class ProductMapper {
 		return list; 
 	}
 	public List<ProductDTO> findProduct(String search, String searchString){
-		Map<String,String> map = new Hashtable<String, String>();
+		java.util.Map<String,String> map = new Hashtable<String, String>();
+		System.out.println(map);
 		map.put("search", search);
 		map.put("searchString", searchString);
 		List<ProductDTO>list = sqlSession.selectList("findProduct",map);
 		return list;
 	}
 	
-	public ProductDTO getProduct(int prod_num) {
-		ProductDTO dto =sqlSession.selectOne("getProduct",prod_num);
-		return dto;
+	public List<ProductDTO> popularProduct() {//인기용품 리스트
+		List<ProductDTO> popList = sqlSession.selectList("popularProd");
+		return popList;
 	}
- 	
-	public List<ReviewProductDTO>listProdReview2(){
-		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview2");
+	
+	public ProductDTO getProduct(int prod_num) {
+		ProductDTO dto = sqlSession.selectOne("getProduct", prod_num);
+		if(dto != null)
+			return dto;
+		else
+			return null;
+	}
+	
+	public List<ReviewProductDTO> listProdReview(int prod_num){
+		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview", prod_num);
 		return list; 
 	}
 	
-	public int getReviewCount() {
-		int res = sqlSession.selectOne("getReviewCount");
-		return res;
-	}
-	
-	public List<ReviewProductDTO>listReviewProduct(int startRow, int endRow) {
-		List<ReviewProductDTO>list = sqlSession.selectList("listProdReview");
-		return list;
-	}
-	
 	public List<ReviewProductDTO> findReview(String search, String searchString) {
-		Map<String,String> map = new Hashtable<String, String>();
+		java.util.Map<String, String> map = new Hashtable<String, String>();
 		map.put("search", search);
 		map.put("searchString", searchString);
 		List<ReviewProductDTO> list = sqlSession.selectList("findProdReview", map);
+		return list;
+	}
+	
+	public List<ReviewProductDTO> getReviewView(int rp_num) {
+		List<ReviewProductDTO>list= sqlSession.selectList("getReviewView", rp_num);
+		return list;
+	}
+	
+	public List<ReviewProductDTO> R_orderByScore() {
+		List<ReviewProductDTO>list= sqlSession.selectList("R_orderByScore");
+		return list;
+	}
+	
+	public List<ReviewProductDTO> R_orderByRead() {
+		List<ReviewProductDTO>list= sqlSession.selectList("R_orderByRead");
 		return list;
 	}
 	
