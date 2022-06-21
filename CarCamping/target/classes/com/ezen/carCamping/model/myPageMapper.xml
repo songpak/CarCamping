@@ -20,6 +20,10 @@
 		delete from ProductCart where Prod_num =#{prod_num}
 	</delete>
 	
+	<!--  <select id = "getProduct" parameterType="int" resultType="ProductCartDTO">
+		select * from 
+	</select>-->
+	
 	
 	
 </mapper>

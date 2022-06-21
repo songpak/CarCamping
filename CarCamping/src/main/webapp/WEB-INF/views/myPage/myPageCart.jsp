@@ -47,7 +47,7 @@
                         
                         <td>
                              <form action="mall_cartEdit.myPage" method="post">
-                             	<input type="number" name= "cart_prodCount" value="${mdto.cart_prodCount}">
+                             	<input type="number" min="1" max="10" name= "cart_prodCount" value="${mdto.cart_prodCount}">
                              	<input type="hidden" name= "prod_num" value="${mdto.prod_num }">
                              	<br><br>
                                 <button type="submit" class="btn btn-white border-secondary bg-white btn-md mb-2">

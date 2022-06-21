@@ -11,7 +11,7 @@
 ※일단 페이지 내에서 할 수 있는 기능부터 구현할것!!
  -->
 
-<script>
+<script type="text/javascript">
 function fn_account(val){
 	window.open("<c:url value='productReviewView.product?rp_num="+val+"'/>",  
 				"soyoInfoPop" ,"height=1000,width=700,top=100,left=200,scrollbars=yes,resizable=yes");
@@ -24,7 +24,38 @@ function fn_account(val){
 			window.open(url, name, option);
 		}
 		
-		
+ 	/* $("f_lent").submit(function(){
+			var indate2 = $("indate1").val();
+			var outdate2 = $("outdate1").val();
+			var date1 = indate2.split('-');
+			var in_date = new Date(indate2);
+			var date2 = outdate2.split('-');
+			var out_date = new Date(outdate2);
+			
+   			var date = new Date();
+   			
+	   		if(indate2 != ''){
+	       		if(outdate2 != ''){
+		    		if(date.getDate() <= in_date.getDate()){
+		    			if(in_date.getDate() > out_date.getDate()){
+		     				alert('반납날짜보다 빌린날짜가 먼저여야 합니다');
+		     				return false;
+		     			}
+		    		}else {
+		    			alert('지난 날짜는 선택 할 수 없습니다.');
+		    			return false;
+		    		}
+	       		}else{
+	       			alert('반납날짜를 지정해주세요');
+	       			return false;
+	       		}
+	       	}else{
+	       		alert('빌린날짜를 지정해주세요');
+	       		return false;
+	       	}
+		});
+	});  */
+
     </script>
 
 <!-- 부트스트랩 영역 -->
@@ -37,7 +68,7 @@ function fn_account(val){
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-	crossorigin="anonymous"></script> 
+	crossorigin="anonymous"></script>
 
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
@@ -70,43 +101,7 @@ function fn_account(val){
 				</h4>
 			</div>
 			<!-- 이미지 영역 끝 -->
-
-			<script type="text/javascript">
-		$("#mForm").submit(function(){
-			var indate2 = $("#indate1").val();
-			var outdate2 = $("#outdate1").val();
-			var date1 = indate2.split('-');
-			var in_date = new Date(indate2);
-			var date2 = outdate2.split('-');
-			var out_date = new Date(outdate2);
-			
-   			var date = new Date();
-   			
-	   		if(indate2 != ''){
-	       		if(outdate2 != ''){
-		    		if(date.getDate() <= in_date.getDate()){
-		    			if(in_date.getDate() > out_date.getDate()){
-		     				alert('반납날짜보다 빌린날짜가 먼저여야 합니다');
-		     				return false;
-		     			}
-		    		}else {
-		    			alert('지난 날짜는 선택 할 수 없습니다.');
-		    			return false;
-		    		}
-	       		}else{
-	       			alert('반납날짜를 지정해주세요');
-	       			return false;
-	       		}
-	       	}else{
-	       		alert('빌린날짜를 지정해주세요');
-	       		return false;
-	       	}
-		});
-	});
-</script>
-
-
-			<style>
+<style>
 .search-box {
 	width: fit-content;
 	background-color: 262626;
@@ -134,16 +129,16 @@ function fn_account(val){
 </style>
 
 			<!-- 여기서는 날짜 보내주기만 하고 저장은 구매할때 저장 -->
-			<form name="f" action="myPageCart.myPage" method="post">
-			<input type="hidden" name="prod_num" value="${getProduct.prod_num}">
-			<c:if test="${not empty mem_num}">
-			<input type="hidden" name="mem_num" value="${mem_num}">
-			</c:if>
-			<c:if test="${empty mem_num}">
-			<input type="hidden" name="mem_num" value="0">
-			</c:if>
+			<form name="f_lent" action="myPageCart.myPage" method="post">
+				<input type="hidden" name="prod_num" value="${getProduct.prod_num}">
+				<c:if test="${not empty mem_num}">
+					<input type="hidden" name="mem_num" value="${mem_num}">
+				</c:if>
+				<c:if test="${empty mem_num}">
+					<input type="hidden" name="mem_num" value="0">
+				</c:if>
 				<div style="width: 100%; padding: 50px 0; background: 262626;">
-				
+
 					<div class="row search-box">
 						<div style="margin-bottom: 10px;">
 							빌린날짜 <input type="date" id="indate1" name="cart_from">
@@ -153,20 +148,24 @@ function fn_account(val){
 						</div>
 						<br>
 						<div align="center">
-						빌릴 갯수 입력
-						 <input type="text" name="cart_prodCount"
-						  size="7" value="1" pattern="[0-9]+">
+							빌릴 갯수 입력 <input type="number" name="cart_prodCount" size="7"
+								value="1" pattern="[0-9]+" min="1" max="10">
 						</div>
 						<br>
 						<div>
-						 <input type="submit" value="대여하기"> 
-						<input	type="button" onclick="location.href='javascript:popup1()'" value="문의하기">
+
+							<!-- ---------------수정할 사항-------------------------- -->
+							<!--  <button style="background-color: #0D6EFD; color: white;"
+								onclick="location.href='javascript:dateCheck()'">대여하기</button>-->
+							 <input type="submit" value="대여하기">
+							<input type="button"
+								onclick="location.href='javascript:popup1()'" value="문의하기">
 						</div>
 					</div>
-					
+
 				</div>
 			</form>
-
+			<!-- ---------------수정할 사항-------------------------- -->
 
 		</div>
 		<!-- 용품 상세보기 영역 끝 -->
@@ -185,11 +184,11 @@ function fn_account(val){
 			</div>
 			<div class="row" align="center"
 				style="overflow: scroll; width: 100%; height: 60%">
-				
+
 				<!-- 정렬 기능 -->
 
 				<!-- 정렬기능 끝 -->
-				
+
 				<br>
 				<!-- 본문 -->
 				<c:if test="${empty ReList}">
