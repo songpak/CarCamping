@@ -15,10 +15,12 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900"
 	rel="stylesheet">
-<!-- 	<script
+	
+<!-- 프로필 오프캔버스 -->
+<script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-	crossorigin="anonymous"></script> -->
+	crossorigin="anonymous"></script>
 <!-- CSS only -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
@@ -48,6 +50,8 @@
 
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+				
+
 				
 <script>
 	function field_review(){
@@ -88,37 +92,6 @@ padding-left: 0px;
 }
 
 </style>
-<<<<<<< HEAD
-
-<script>
-	function goods_review(){
-		let signIn = "${signIn}";
-		if (signIn ==""){
-			alert("리뷰 쓰기는 로그인 후 사용하실 수 있습니다.");
-			location.href="login.login";
-			
-		}else{
-			location.href="goods_review.review";
-		}
-	}
-</script>
-
-
-<style>
-.has-sub>.sub-menu>a{
-background: transparent;
-}
-.has-sub>.sub-menu>li{
-border :1px solid black;
-}
-.has-sub>.sub-menu{.
-background: transparent;
-padding-left: 0px;
-}
-
-</style>
-=======
->>>>>>> 신웅(장소)
 
 </head>
 
@@ -144,47 +117,22 @@ padding-left: 0px;
 							<c:if test="${not empty mbdto}">
 							<li><a href="logout.login">로그아웃</a></li>
 							</c:if>
-<<<<<<< HEAD
-
-=======
->>>>>>> 신웅(장소)
 							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
 								<ul class="sub-menu" >
 									<li><a href="goRegion.region"  style="background: transparent;">차박지 메인</a></li>
 									<li><a href="goProduct.product"  style="background: transparent;">용품 대여</a></li>
 								</ul></li>
 							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
-<<<<<<< HEAD
-
-							<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a style="background: #E9EFC0;" onclick="field_review()">장소 리뷰</a></li>
-									<li><a style="background: #E9EFC0;" onclick="goods_review()">용품 리뷰</a></li>
-
-=======
 							<ul class="sub-menu" >
 									<li><a style="background: transparent; " onclick="field_review()">장소 리뷰</a></li>
 									<li><a style="background: transparent;" onclick="goods_review()">용품 리뷰</a></li>
->>>>>>> 신웅(장소)
 								</ul></li>
 							<li class="scroll-to-section">
 								<button class="btn btn-link" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"
 								style="background-color: #091835;  color: #ffffff; text-decoration: none;">
 									프로필
 								</button>
-<<<<<<< HEAD
-								</a>
 							</li>
-							
-
-
-							
-						
-							
-							
-
-=======
-							</li>
->>>>>>> 신웅(장소)
 				                <div class="offcanvas offcanvas-start" tabindex="-1"
 								id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 								<div class="offcanvas-header">
