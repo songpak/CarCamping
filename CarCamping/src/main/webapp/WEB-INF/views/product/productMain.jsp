@@ -22,11 +22,11 @@
 <link rel="stylesheet"
 	href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-
+<link rel="stylesheet" href="resources/css/dropdown.css">
 <style type="text/css">
 .swiper-container {
 	height: 420px;
-	border: 5px solid silver;
+	border: 5px solid silver; 
 	border-radius: 7px;
 	box-shadow: 0 0 20px #ccc inset;
 }
@@ -132,6 +132,15 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 							placeholder="인기용품을 검색해보세요!" aria-label="Search"> <input
 							type="submit" value="검색"
 							style="padding-left: 0px; padding-right: 0px; width: 62px;">
+							<div class="dropdown">
+								<button type="button" class="dropbtn"
+							data-bs-toggle="dropdown" aria-expanded="false" style="width: 66px;height: 40px;">정렬</button>
+							<div class="dropdown-content">
+								<a href="goProduct.product?search=${search }&searchString=${searchString }&mode=listProductNew">최신순</a>
+								<a href="goProduct.product?search=${search }&searchString=${searchString }&mode=listProductPop">인기순</a>
+								<a href="goProduct.product?search=${search }&searchString=${searchString }&mode=listProductPrice">가격순</a>
+							</div>
+						</div>
 					</form>
 					<!-- 검색 form 끝 -->
 
@@ -139,7 +148,7 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 			</nav>
 			<div id="bd">
 				<div id="gm-main" style="text-align: center">
-					<div class="gm-b" class="gm-b" style="padding-left: 250px;">
+					<div class="gm-b" class="gm-b">
 						<div class="gm-gb">
 							<div class="gm-u first">
 								<div class="d-flex p-2">
