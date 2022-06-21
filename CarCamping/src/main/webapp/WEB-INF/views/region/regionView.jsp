@@ -327,7 +327,8 @@ body {
 			<table class="table table-borderless">
 				<tr>
 					<c:if test="${empty reviewList}">
-						<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2></td>
+						<c:if test="${not empty searchString }"><td><h2 align="center">검색 하신 리뷰는 존재하지 않습니다.</h2></td></c:if>
+						<c:if test="${empty searchString }"><td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2></td></c:if>
 					</c:if>
 					<c:forEach var="review_ccr" items="${reviewList }">
 						<td>
