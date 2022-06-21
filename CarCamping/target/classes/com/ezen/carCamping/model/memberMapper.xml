@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="com.ezen.carCamping.model.memberMapper">
+    <select id="searchMemberID" parameterType="java.util.Map" resultType="memberDTO">
+      ${sql}
+   </select>
+   <select id="searchMemberPW" parameterType="java.util.Map" resultType="memberDTO">
+      ${sql}
+   </select>
+   <select id="getMemberId" parameterType="String" resultType="memberDTO">
+      select * from Member where mem_id=#{mem_id}
+   </select>
+   <insert id="insertMember" parameterType="memberDTO">
+      insert into Member(mem_id, mem_email, mem_password, mem_userName, mem_nickName, mem_phone, mem_birthday, mem_gender, region_num, mem_point, mem_rentalCount, mem_sysdate, mem_accept_email, mem_accept_phone, mem_accept_privacy, mem_denied, mem_image, mem_summary, mem_introduce, mem_firstReview)
+      values(#{mem_id}, #{mem_email}, #{mem_password}, #{mem_userName}, #{mem_nickName}, #{mem_phone}, #{mem_birthday}, #{mem_gender}, #{regionDTO.region_num}, 0, 0, now(), #{mem_accept_email},#{mem_accept_phone}, #{mem_accept_privacy}, 0, #{mem_image}, #{mem_summary}, #{mem_introduce},0)
+   </insert>
+   <select id="getMemberNick" parameterType="String" resultType="memberDTO">
+      select * from Member where mem_nickName=#{mem_nickName}
+   </select>
+   <select id="getMemberEmail" parameterType="String" resultType="memberDTO">
+      select * from Member where mem_email=#{mem_email}
+   </select>
+   <update id="updateMember" parameterType= "memberDTO">
+   update Member set mem_email= #{mem_email}, mem_image = #{mem_image}, mem_phone= #{mem_phone}, mem_birthday= #{mem_birthday}, mem_gender= #{mem_gender}, region_num= #{regionDTO.region_num}, mem_point= #{mem_point}, mem_summary= #{mem_summary}, mem_introduce= #{mem_introduce}, mem_accept_email= #{mem_accept_email}, mem_accept_phone= #{mem_accept_phone}, mem_accept_privacy= #{mem_accept_privacy}, mem_password= #{mem_password} where mem_num= #{mem_num}
+   </update>
+   <select id="getMember" resultType="memberDTO" parameterType="int">
+      select * from Member where mem_num = #{mem_num}
+   </select>
+   
+   
+</mapper>

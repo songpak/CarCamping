@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.carCamping.model.regionMapper">
+	<select id="listRegion" resultType="RegionDTO"> 
+		select * from Region 
+	</select>
+	
+	<select id="selectRegion" parameterType="Integer" resultType="RegionDTO"> <!-- xx지역 인기글 -->
+		select * from Region where region_num = #{region_num}
+	</select> 
+	
+	<select id="listCarCampingRegionHotRegion" parameterType="Integer" resultType="CarCampingRegionDTO"> <!-- 지역별 차박지 HOT차박지  -->
+		select c.* from (
+		select a.* from CarCampingRegion a,Region b where b.region_num = #{region_num} and a.region_num = b.region_num)c
+		order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount + c.ccr_score desc limit 4
+	</select>
+	
+	<select id="listHotRegion" resultType="CarCampingRegionDTO"> <!-- HOT 차박지 -->
+	select c.* from (
+	select a.* from CarCampingRegion a where a.ccr_popular = 0)c
+	order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount + c.ccr_score desc limit 10
+	</select>
+	
+	<select id="listRecommandRegion" resultType="CarCampingRegionDTO"> <!-- 추천 차박지 -->
+		SELECT * FROM CarCampingRegion where ccr_popular=1 and ccr_score>=4 order by ccr_score desc limit 10
+	</select>
+	
+	<select id="selectRegionByCcrnum" parameterType="Integer" resultType="CarCampingRegionDTO">
+		select * from CarCampingRegion where ccr_num = #{ccr_num} 
+	</select>
+	
+	<select id="listCcrReview" parameterType="Map" resultType="ReviewRegionDTO">
+	 	<!-- //select * from songsama.ReviewRegion,songsama.CarCampingRegion where ReviewRegion.ccr_num=#{ccr_num} and ReviewRegion.ccr_num=CarCampingRegion.ccr_num and ReviewRegion.review_adminConfirm=0 -->
+		select c.* from
+		(select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b
+		where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by ${orderBy} desc) c limit #{startRow},#{endRow}
+	</select>
+	
+	<select id="countReviewCcrnum" parameterType="Integer" resultType="Integer">
+		select count(*) from ReviewRegion a,CarCampingRegion b where a.ccr_num=#{ccr_num} and a.ccr_num=b.ccr_num and a.review_adminConfirm=0
+	</select>
+
+	<!-- 검색 -->
+	<select id="listCcrReviewSearch" parameterType="Map" resultType="ReviewRegionDTO">
+		select c.* from
+		(select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 and a.${search} like CONCAT('%',#{searchString},'%')
+		order by ${orderBy} desc) c limit #{startRow},#{endRow}
+	</select>
+	
+	<select id="countReviewSearch" parameterType="Map" resultType="Integer">
+		select count(*)
+		from ReviewRegion a,CarCampingRegion b
+		where a.ccr_num=#{ccr_num} and a.ccr_num=b.ccr_num and a.review_adminConfirm=0 and a.${search} like CONCAT('%',#{searchString},'%')
+	</select>
+	
+	<!--작성자 검색  -->
+	<select id="listCcrReviewWriterSearch" parameterType="Map" resultType="ReviewRegionDTO">
+	select * from
+	(select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.*
+	from ReviewRegion as a,(select @ROWNUM:=0) b
+	where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0)c,Member d
+	where c.mem_num = d.mem_num and d.${search} like CONCAT('%',#{searchString},'%') order by c.${orderBy} desc
+ 	limit #{startRow},#{endRow}
+	</select>
+	
+	<select id="countRevieWrietrSearch" parameterType="Map" resultType="Integer">
+	select count(*) from
+	(select a.* from ReviewRegion a,CarCampingRegion b where a.ccr_num=#{ccr_num} and a.ccr_num=b.ccr_num and a.review_adminConfirm=0)c,Member d
+	where c.mem_num = d.mem_num and d.${search} like CONCAT('%',#{searchString},'%')
+	</select>
+	
+	<!-- 리뷰 상세보기 조회수  -->
+	<update id="addReviewReadCount" parameterType="Integer">
+		update ReviewRegion set review_readCount=review_readCount+1 where review_num = #{review_num}
+	</update>
+	<!-- 차박지 : 좋아요 클릭 시 종아요 수 증가-->
+	<update id="addLikeCountRegion" parameterType="Integer">
+		update CarCampingRegion set ccr_likeCount=ccr_likeCount+1 where ccr_num=#{ccr_num}
+	</update>
+	<!-- 차박지 : 좋아요 다시 클릭시 좋아요 수 감소 -->
+	<update id="subLikeCountRegion" parameterType="Integer">
+		update CarCampingRegion set ccr_likeCount=ccr_likeCount-1 where ccr_num=#{ccr_num}
+	</update>
+	
+	<!-- 차박지 리뷰 : 좋아요 클릭 시 종아요 수 증가-->
+	<update id="addLikeCountReview" parameterType="Integer">
+		update ReviewRegion set review_likeCount=review_likeCount+1 where review_num=#{review_num}
+	</update>
+	<!-- 차박지 리뷰: 좋아요 다시 클릭시 좋아요 수 감소 -->
+	<update id="subLikeCountReview" parameterType="Integer" >
+		update ReviewRegion set review_likeCount=review_likeCount-1 where review_num=#{review_num}
+	</update>
+
+	<!--리뷰 상세보기   -->
+	<select id="selectReviewDetail" parameterType="Integer" resultType="ReviewRegionDTO">
+		select * from ReviewRegion where review_num = #{review_num}
+	</select>
+	<!-- 지역  좋아요 -->
+	<!-- 지역 좋아요 수 가져오기  -->
+	<select id="recountRegionLike" parameterType="Integer" resultType="Integer">
+		select a.ccr_likeCount from CarCampingRegion a where ccr_num = #{ccr_num}
+	</select>
+	<!--지역 좋아요 추가 & 삭제  -->
+	<insert id="insertRegionLikeLog" parameterType="Map">
+		insert into RegionLikeLog (mem_num,ccr_num) values
+		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{ccr_num})
+	</insert>
+	<delete id="deleteRegionLikeLog" parameterType="Map">
+		delete from RegionLikeLog a where a.ccr_num=#{ccr_num} and a.mem_num in
+		(select * from
+		(select a.mem_num from RegionLikeLog,Member b where a.mem_num = b.mem_num and b.mem_id =#{mem_id}) as result)
+	</delete>
+	<!-- 지역 좋아요 내역 검사  -->
+	<select id="checkRegionLikeLog" parameterType="Map" resultType="Integer">
+		select count(*) from RegionLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.ccr_num = #{ccr_num}
+	</select>
+	
+	<!-- 리뷰 좋아요  -->
+	<select id="recountReviewLike" parameterType="Integer" resultType="Integer">
+		select a.review_likeCount from ReviewRegion a where review_num = #{review_num}
+	</select>
+	<!--리뷰 좋아요 추가 & 삭제  -->
+	<insert id="insertReviewLikeLog" parameterType="Map">
+		insert into ReviewLikeLog (mem_num,review_num) values
+		((select b.mem_num from Member b where b.mem_id = #{mem_id}),#{review_num})
+	</insert>
+	<delete id="deleteReviewLikeLog" parameterType="Map">
+		delete from ReviewLikeLog a where a.review_num=#{review_num} and a.mem_num in
+		(select * from
+		(select a.mem_num from ReviewLikeLog,Member b where a.mem_num = b.mem_num and b.mem_id =#{mem_id}) as result)
+	</delete>
+	<!-- 리뷰 좋아요 내역 검사  -->
+	<select id="checkReviewLikeLog" parameterType="Map" resultType="Integer">
+		select count(*) from ReviewLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.review_num = #{review_num}
+	</select>
+	
+	<!-- 리뷰 수 가져오기 -->
+	<select id="countReviewCcr" parameterType="Integer" resultType="Integer">
+		SELECT count(*) from ReviewRegion a,CarCampingRegion b 
+		where a.ccr_num = b.ccr_num and b.ccr_num = #{ccr_num} and a.review_adminConfirm=0
+	</select> 	
+<!-- 
+	<select id="test" parameterType="Integer" resultType="HashMap">
+		select d.* from 
+		(select c.region_num region_num ,c.ccr_num ccr_num,c.ccr_name ccr_name,
+		(select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0)reviewCount,c.ccr_likeCount ccr_likeCount ,c.ccr_popular ccr_popular,c.ccr_score ccr_score
+		from (select a.* from CarCampingRegion a)c)d where d.reviewCount>0 and d.region_num =#{region_num}
+	</select>
+	 -->
+	<resultMap type="RegionDTO"	 id="regionMap">
+		<id column="region_num" property="region_num"/>
+		<result column="region_name" property="region_name"/>
+	</resultMap>
+	
+	<resultMap type="CarCampingRegionDTO" id="carCampingRegionMap">
+		<id column="ccr_num" property="ccr_num"/>
+		<result column="ccr_name" property="ccr_name"/>
+		<result column="ccr_car" property="ccr_car"/>
+		<result column="ccr_pricePerDay" property="ccr_pricePerDay"/>
+		<result column="ccr_toilet" property="ccr_toilet"/>
+		<result column="ccr_restroom" property="ccr_restroom"/>
+		<result column="ccr_water" property="ccr_water"/>
+		<result column="ccr_market" property="ccr_market"/>
+		<result column="ccr_river" property="ccr_river"/>
+		<result column="ccr_ground" property="ccr_ground"/>
+		<result column="ccr_likeCount" property="ccr_likeCount"/>
+		<result column="ccr_score" property="ccr_score"/>
+		<result column="ccr_popular" property="ccr_popular"/>
+		<result column="ccr_viewImage1" property="ccr_viewImage1"/>
+		<result column="ccr_viewImage2" property="ccr_viewImage2"/>
+		<result column="ccr_viewImage3" property="ccr_viewImage3"/>
+		<result column="ccr_viewImage4" property="ccr_viewImage4"/>
+		<result column="ccr_viewImage5" property="ccr_viewImage5"/>
+		<result column="ccr_summary" property="ccr_summary"/>
+		<result column="ccr_content" property="ccr_content"/>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
+		</association>
+	</resultMap>
+
+
+<select resultMap="carCampingRegionMap" id="listPopRegion" parameterType="int">
+
+<!-- 목록 전체 -->
+
+ select a.*, b.* from CarCampingRegion a join Region b join ReviewRegion c on a.region_num = b.region_num and a.ccr_num = c.ccr_num where b.region_num=#{region_num} group by a.ccr_num having count(*) >= 1
+</select>
+
+
+<select resultMap="carCampingRegionMap" id="listRegionCount" parameterType="int">
+
+<!-- 카운터 -->
+
+select a.*, b.* from CarCampingRegion a join Region b join ReviewRegion c on a.region_num = b.region_num and a.ccr_num = c.ccr_num where b.region_num=#{region_num} group by a.ccr_num having count(*) >= 1 
+</select> 
+
+	
+	
+</mapper>
