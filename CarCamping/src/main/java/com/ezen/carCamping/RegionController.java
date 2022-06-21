@@ -47,10 +47,10 @@ public class RegionController {
 		 * for(int i=1;i<=9;i++) {
 		 * ht.put(String.valueOf(i),RegionMapper.listCarCampingRegionHotRegion(i)); }
 		 */
-//		임시로그인
-		HttpSession test_session = req.getSession();
-		test_session.setAttribute("id", "qqq");
-		test_session.setAttribute("mem_num",3);
+//		�엫�떆濡쒓렇�씤
+//		HttpSession test_session = req.getSession();
+//		test_session.setAttribute("id", "qqq");
+//		test_session.setAttribute("mem_num",3);
 	
 		return "region/regionMain";
 	}
@@ -80,7 +80,7 @@ public class RegionController {
 		String mode = req.getParameter("mode");
 		if(mode==null) mode="none";
 		
-		//id값을 가져와 로그 내역 체크 후 버튼의 색깔을 결정 
+		//id媛믪쓣 媛��졇�� 濡쒓렇 �궡�뿭 泥댄겕 �썑 踰꾪듉�쓽 �깋源붿쓣 寃곗젙 
 		HttpSession test_session = req.getSession();
 		String id = (String) test_session.getAttribute("id");
 		if (id==null || id.equals("")) req.setAttribute("check", 0);
@@ -167,40 +167,40 @@ public class RegionController {
 		System.out.println(review_num);
 		ReviewRegionDTO dto = RegionMapper.selectReviewDetail(review_num);
 		
-		//새로고침 조회수 막기
+		//�깉濡쒓퀬移� 議고쉶�닔 留됯린
 		Cookie[] cookies = req.getCookies();
-		Cookie viewCookie = null;//비교쿠키
+		Cookie viewCookie = null;//鍮꾧탳荑좏궎
 		
-		// 쿠키가 있을 경우 
+		// 荑좏궎媛� �엳�쓣 寃쎌슦 
         if (cookies != null && cookies.length > 0) { 
         	for (int i = 0; i < cookies.length; i++) {
                 if (cookies[i].getName().equals("cookie"+review_num)) viewCookie = cookies[i];
-                // Cookie의 name이 cookie(revie_num) 와일치하는 쿠키를 viewCookie에 넣어줌 
+                // Cookie�쓽 name�씠 cookie(revie_num) ���씪移섑븯�뒗 荑좏궎瑜� viewCookie�뿉 �꽔�뼱以� 
             }
         }
         
         if (dto != null) {
-            // 만일 viewCookie가 null일 경우  쿠키를 생성해서 조회수 증가 로직을 처리함.->없으면 !처음 들어간것이므로!
+            // 留뚯씪 viewCookie媛� null�씪 寃쎌슦  荑좏궎瑜� �깮�꽦�빐�꽌 議고쉶�닔 利앷� 濡쒖쭅�쓣 泥섎━�븿.->�뾾�쑝硫� !泥섏쓬 �뱾�뼱媛꾧쾬�씠誘�濡�!
             if (viewCookie == null) {    
-                // 쿠키 생성(이름, 값)
+                // 荑좏궎 �깮�꽦(�씠由�, 媛�)
                 Cookie newCookie = new Cookie("cookie"+review_num, "|" + review_num + "|");     
-                // 쿠키 추가
+                // 荑좏궎 異붽�
                 rep.addCookie(newCookie);
-                // 쿠키를 추가 시키고 조회수 증가시킴
+                // 荑좏궎瑜� 異붽� �떆�궎怨� 議고쉶�닔 利앷��떆�궡
                 int result = RegionMapper.addReviewReadCount(review_num);
                 dto.setReview_readCount(dto.getReview_readCount()+1);
                 if(result>0) {
-                    System.out.println("조회수 증가");
+                    System.out.println("議고쉶�닔 利앷�");
                 }else {
-                    System.out.println("조회수 증가 에러");
+                    System.out.println("議고쉶�닔 利앷� �뿉�윭");
                 }
-            }//view 쿠키에 값이 있으면 이미 들어간 리뷰 이므로 조회수 증가하지않음
+            }//view 荑좏궎�뿉 媛믪씠 �엳�쑝硫� �씠誘� �뱾�뼱媛� 由щ럭 �씠誘�濡� 議고쉶�닔 利앷��븯吏��븡�쓬
             	
-        }else { //dto가 null이면 에러페이지로 이동
+        }else { //dto媛� null�씠硫� �뿉�윭�럹�씠吏�濡� �씠�룞
         	return "/region/RegionErrorPage";
         }
         
-		// 해당 리뷰에 있는 이미지 만큼만 슬라이드 생성하기 위함
+		// �빐�떦 由щ럭�뿉 �엳�뒗 �씠誘몄� 留뚰겮留� �뒳�씪�씠�뱶 �깮�꽦�븯湲� �쐞�븿
 		Class<? extends ReviewRegionDTO> cls = dto.getClass();
 		List<String> reviewImages = new java.util.ArrayList<>();
 		for(int i=1;i<=5;i++) {
@@ -218,7 +218,7 @@ public class RegionController {
 			}
 		}
 		
-		//id값을 가져와 로그 내역 체크 후 버튼의 색깔을 결정 
+		//id媛믪쓣 媛��졇�� 濡쒓렇 �궡�뿭 泥댄겕 �썑 踰꾪듉�쓽 �깋源붿쓣 寃곗젙 
 		HttpSession test_session = req.getSession();
 		String id = (String) test_session.getAttribute("id");
 		if (id==null || id.equals("")) req.setAttribute("check", 0);
@@ -229,26 +229,26 @@ public class RegionController {
 		}
 					
 		req.setAttribute("selectedReview", dto);
-		req.setAttribute("reviewImageList", reviewImages); //해당 리뷰의 이미지 이름을 저장
+		req.setAttribute("reviewImageList", reviewImages); //�빐�떦 由щ럭�쓽 �씠誘몄� �씠由꾩쓣 ���옣
 		return "/region/regionReviewView";
 	}
 	
 
-	//지역 좋아요 수를 증가하고 좋아요 내역에 인서트
+	//吏��뿭 醫뗭븘�슂 �닔瑜� 利앷��븯怨� 醫뗭븘�슂 �궡�뿭�뿉 �씤�꽌�듃
 	@RequestMapping(value="updateRegionLike.region",method=RequestMethod.POST)
 	@ResponseBody
 	public String updateRegionLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int ccr_num) {
 		int check = RegionMapper.checkRegionLikeLog(mem_id, ccr_num);
 		int count = 0;
-		if(check==0) { //좋아요 내역에 존재하지 않으면
-			count = RegionMapper.insertRegionLikeLog(mem_id, ccr_num); // 좋아요 내역에 추가
-			System.out.println("insert후 추천은 "+count);
+		if(check==0) { //醫뗭븘�슂 �궡�뿭�뿉 議댁옱�븯吏� �븡�쑝硫�
+			count = RegionMapper.insertRegionLikeLog(mem_id, ccr_num); // 醫뗭븘�슂 �궡�뿭�뿉 異붽�
+			System.out.println("insert�썑 異붿쿇�� "+count);
 			//if(updRes>0) {
-			//	RegionMapper.addLikeCountRegion(ccr_num);//지역 좋아요 수를 증가하고 결과값을
+			//	RegionMapper.addLikeCountRegion(ccr_num);//吏��뿭 醫뗭븘�슂 �닔瑜� 利앷��븯怨� 寃곌낵媛믪쓣
 			//}
-		}else {// 클릭했을 때 좋아요 내역에 이미 존재하면 좋아요 내역에서 삭제하고 좋아요수를 하나 내림
+		}else {// �겢由��뻽�쓣 �븣 醫뗭븘�슂 �궡�뿭�뿉 �씠誘� 議댁옱�븯硫� 醫뗭븘�슂 �궡�뿭�뿉�꽌 �궘�젣�븯怨� 醫뗭븘�슂�닔瑜� �븯�굹 �궡由�
 			count = RegionMapper.deleteRegionLikeLog(mem_id, ccr_num);
-			System.out.println("delete후 추천은 "+count);
+			System.out.println("delete�썑 異붿쿇�� "+count);
 			//if(updRes>0) {
 			//	RegionMapper.subLikeCountRegion(ccr_num);
 			//}
@@ -258,18 +258,18 @@ public class RegionController {
 		return String.valueOf(count);
 	}
 	
-	//리뷰 좋아요 수를 증가하고 좋아요 내역에 인서트
+	//由щ럭 醫뗭븘�슂 �닔瑜� 利앷��븯怨� 醫뗭븘�슂 �궡�뿭�뿉 �씤�꽌�듃
 	@RequestMapping(value="updateReviewLike.region",method=RequestMethod.POST)
 	@ResponseBody
 	public String updateReviewLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int review_num) {
 		int check = RegionMapper.checkReviewLikeLog(mem_id, review_num);
 		int count = 0;
-		if(check==0) { //좋아요 내역에 존재하지 않으면
-			count = RegionMapper.insertReviewLikeLog(mem_id, review_num); // 좋아요 내역에 추
-			System.out.println("insert후 추천은 "+count);
-		}else {// 클릭했을 때 좋아요 내역에 이미 존재하면 좋아요 내역에서 삭제하고 좋아요수를 하나 내림
+		if(check==0) { //醫뗭븘�슂 �궡�뿭�뿉 議댁옱�븯吏� �븡�쑝硫�
+			count = RegionMapper.insertReviewLikeLog(mem_id, review_num); // 醫뗭븘�슂 �궡�뿭�뿉 異�
+			System.out.println("insert�썑 異붿쿇�� "+count);
+		}else {// �겢由��뻽�쓣 �븣 醫뗭븘�슂 �궡�뿭�뿉 �씠誘� 議댁옱�븯硫� 醫뗭븘�슂 �궡�뿭�뿉�꽌 �궘�젣�븯怨� 醫뗭븘�슂�닔瑜� �븯�굹 �궡由�
 			count = RegionMapper.deleteReviewLikeLog(mem_id, review_num);
-			System.out.println("delete후 추천은 "+count);
+			System.out.println("delete�썑 異붿쿇�� "+count);
 		}
 		return String.valueOf(count);
 	}
@@ -283,7 +283,7 @@ public class RegionController {
 	}
 	
 	/*
-	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //오름차순
+	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //�삤由꾩감�닚
 	 * 
 	 * @Override public int compare(ReviewRegionDTO o1, ReviewRegionDTO o2) {
 	 * if(o1.getReview_likeCount()>o2.getReview_likeCount()) return 1; else
@@ -295,7 +295,7 @@ public class RegionController {
 	 * if(o1.getReview_regionScore()<o2.getReview_regionScore()) return -1; else
 	 * return 0; } }
 	 */
-	//테스트 - 삭제 해도됨
+	//�뀒�뒪�듃 - �궘�젣 �빐�룄�맖
 	/*
 	 * @RequestMapping("/test.region")
 	 * 

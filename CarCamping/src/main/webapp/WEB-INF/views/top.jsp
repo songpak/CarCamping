@@ -127,7 +127,7 @@ padding-left: 0px;
 				<div class="col-12">
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
-						<a href="index.html" class="logo" style="height: 90px;"><img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
+						<a href="index.do" class="logo" style="height: 90px;"><img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
 						<ul class="nav">
@@ -141,7 +141,7 @@ padding-left: 0px;
 							<c:if test="${not empty mbdto}">
 							<li><a href="logout.login">로그아웃</a></li>
 							</c:if>
-<<<<<<< HEAD
+
 							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
 								<ul class="sub-menu" >
 									<li><a href="goRegion.region"  style="background: transparent;">차박지 메인</a></li>
@@ -160,64 +160,15 @@ padding-left: 0px;
 									프로필
 								</button>
 								</a>
-							</li></c:if>
-							<c:if test="${not empty mbdto}">
-							
-							<li><a href="logout.login">로그아웃</a></li>
-=======
->>>>>>> 혜성(리뷰)
-							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
-								<ul class="sub-menu" >
-									<li><a href="goRegion.region"  style="background: transparent;">차박지 메인</a></li>
-									<li><a href="goProduct.product"  style="background: transparent;">용품 대여</a></li>
-								</ul></li>
-							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
-<<<<<<< HEAD
-							<ul class="sub-menu" style="background: #e9efc08c;">
-
-									<li><a style="background: #E9EFC0;"  href="field_review.review">장소 리뷰</a></li>
-									<li><a style="background: #E9EFC0;"  href="goods_review.review">용품 리뷰</a></li>
-
-=======
-							<ul class="sub-menu" >
-									<li><a style="background: transparent; " onclick="field_review()">장소 리뷰</a></li>
-									<li><a style="background: transparent;" onclick="goods_review()">용품 리뷰</a></li>
->>>>>>> 혜성(리뷰)
-								</ul></li>
-							<li class="scroll-to-section">
-								<button class="btn btn-link" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"
-								style="background-color: #091835;  color: #ffffff; text-decoration: none;">
-									프로필
-<<<<<<< HEAD
-								</a>
-							</li></c:if>
-
-								</button>
 							</li>
-
-							<c:if test="${not empty mbdto}">
 							
-							<li><a href="logout.login">로그아웃</a></li>
-							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
-								<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a href="goRegion.region"  style="background: #E9EFC0;">차박지 메인</a></li>
-									<li><a href="goProduct.product"  style="background: #E9EFC0;">용품 대여</a></li>
-								</ul></li>
-							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
-							<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a style="background: #E9EFC0;"  href="field_review.review">장소 리뷰</a></li>
-									<li><a style="background: #E9EFC0;"  href="goods_review.review">용품 리뷰</a></li>
-								</ul></li>
-							<li class="scroll-to-section">
-								<a class="btn btn-outline-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" style="padding-top:0px; padding-bottom:0px;">
-									프로필
-								</a>
-							</li></c:if>
 
-=======
-								</button>
-							</li>
->>>>>>> 혜성(리뷰)
+
+							
+						
+							
+							
+
 				                <div class="offcanvas offcanvas-start" tabindex="-1"
 								id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 								<div class="offcanvas-header">

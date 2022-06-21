@@ -37,13 +37,8 @@ public class MemberMapper {
       + "' and mem_email='"+params.get("mem_email") + "'";
          params.put("sql", sql);
       MemberDTO dto = sqlSession.selectOne("searchMemberPW", params);
-<<<<<<< HEAD
-      if (dto == null) return "ÀÔ·ÂµÈ °ª°ú ÀÏÄ¡ÇÏ´Â È¸¿øÀÌ ¾ø½À´Ï´Ù.";
-      return "ºñ¹Ð¹øÈ£´Â."+dto.getMem_password()+"ÀÔ´Ï´Ù.";
-=======
       if (dto == null) return "ìž…ë ¥ëœ ê°’ê³¼ ì¼ì¹˜í•˜ëŠ” íšŒì›ì´ ì—†ìŠµë‹ˆë‹¤.";
       return "ë¹„ë°€ë²ˆí˜¸ëŠ”."+dto.getMem_password()+"ìž…ë‹ˆë‹¤.";
->>>>>>> í˜œì„±(ë¦¬ë·°)
 }
    
    public MemberDTO getMemberId(String mem_id) {
