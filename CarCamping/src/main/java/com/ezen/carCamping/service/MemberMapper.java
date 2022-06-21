@@ -58,7 +58,6 @@ public class MemberMapper {
        MemberDTO dto = sqlSession.selectOne("getMemberEmail", mem_email);
        return dto;
    }
-
    public int updateMember(MemberDTO dto) {
 		int res = sqlSession.update("updateMember", dto);
 		return res;
@@ -67,7 +66,8 @@ public class MemberMapper {
 		MemberDTO dto = sqlSession.selectOne("getMember", mem_num);
 		return dto;
 	}
-   
- 
 
 }
+   
+   
+

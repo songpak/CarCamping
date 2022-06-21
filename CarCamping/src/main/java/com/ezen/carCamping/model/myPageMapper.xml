@@ -20,6 +20,13 @@
 		delete from ProductCart where Prod_num =#{prod_num}
 	</delete>
 	
+	<delete id="deleteMember" parameterType="java.util.Map"> 
+		delete from Member where mem_num=#{mem_num} and mem_password=#{mem_password}
+</delete>
+
+    <select id="getMemberPassword" parameterType="String" resultType="String">
+		select mem_password from Member where mem_num=#{mem_num}
+	</select>
 	
 	
 </mapper>

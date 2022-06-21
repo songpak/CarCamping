@@ -16,6 +16,10 @@
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
 	crossorigin="anonymous"></script> 
 	
+<script language="javascript">
+  function showPopup() { window.open("memberDelete.myPage", "a", "width=700, height=350, left=100, top=50"); }
+  </script>
+	
 </head>
 <body>
 <div class="container">
@@ -43,7 +47,7 @@
                       <tr>
                         <td>이메일</td>
                         <td>
-                        <input type="text" value="${getMember.mem_email}" name="mem_email" class="form-control" disabled>
+                        <input type="text" value="${getMember.mem_email}" name="mem_email" class="form-control">
                         </td>
                       </tr>
                        <tr>
@@ -77,17 +81,17 @@
                     	<tr>
                         <td>관심지역</td>
                         <td>
-                   
-                        <select name="region_num">
-				<c:forTokens items="1,2,3,4,5,6,7,8,9" delims="," var="region_num2">
-					<c:if test="${region_num2 == getProduct.region_num}">
-						<option value="${region_num2}" selected>${fn:toUpperCase(region_num2)}</option>
+                        <input type="text" value="${getMember.regionDTO}" name="region_num" class="form-control">
+                        <!--<select name="region_num">
+				<c:forTokens items="1,2,3,4,5,6,7,8,9" delims="," var="region_num">
+					<c:if test="${region_num == rdto.region_num}">
+						<option value="${region_num}" selected>${fn:toUpperCase(region_num)}</option>
 					</c:if> 
-					<c:if test="${region_num2 != getProduct.region_num}">
-						<option value="${region_num2}">${fn:toUpperCase(region_num2)}</option>
+					<c:if test="${region_num != rdto.region_num}">
+						<option value="${region_num}">${fn:toUpperCase(region_num)}</option>
 					</c:if>
 				</c:forTokens>	
-					</select>
+					</select>-->
                         </td>
                       </tr>
                       
@@ -161,8 +165,9 @@
 
                     <tr>
                         <td colspan="2" class="text-center">
-                         <input type="submit" value="수정" class="btn btn-success">
-                         </td>    
+                         <input type="submit" value="수정" class="btn btn-dark">
+                         <input type="button" value="회원탈퇴" class="btn btn-dark" onclick="showPopup();" />
+                       </td>    
                     </tr>
                            
                     </table>
