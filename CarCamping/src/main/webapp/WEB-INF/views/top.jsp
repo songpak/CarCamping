@@ -88,6 +88,7 @@ padding-left: 0px;
 }
 
 </style>
+<<<<<<< HEAD
 
 <script>
 	function goods_review(){
@@ -116,6 +117,8 @@ padding-left: 0px;
 }
 
 </style>
+=======
+>>>>>>> 신웅(장소)
 
 </head>
 
@@ -141,24 +144,34 @@ padding-left: 0px;
 							<c:if test="${not empty mbdto}">
 							<li><a href="logout.login">로그아웃</a></li>
 							</c:if>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 신웅(장소)
 							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
 								<ul class="sub-menu" >
 									<li><a href="goRegion.region"  style="background: transparent;">차박지 메인</a></li>
 									<li><a href="goProduct.product"  style="background: transparent;">용품 대여</a></li>
 								</ul></li>
 							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
+<<<<<<< HEAD
 
 							<ul class="sub-menu" style="background: #e9efc08c;">
 									<li><a style="background: #E9EFC0;" onclick="field_review()">장소 리뷰</a></li>
 									<li><a style="background: #E9EFC0;" onclick="goods_review()">용품 리뷰</a></li>
 
+=======
+							<ul class="sub-menu" >
+									<li><a style="background: transparent; " onclick="field_review()">장소 리뷰</a></li>
+									<li><a style="background: transparent;" onclick="goods_review()">용품 리뷰</a></li>
+>>>>>>> 신웅(장소)
 								</ul></li>
 							<li class="scroll-to-section">
 								<button class="btn btn-link" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"
 								style="background-color: #091835;  color: #ffffff; text-decoration: none;">
 									프로필
 								</button>
+<<<<<<< HEAD
 								</a>
 							</li>
 							
@@ -169,6 +182,9 @@ padding-left: 0px;
 							
 							
 
+=======
+							</li>
+>>>>>>> 신웅(장소)
 				                <div class="offcanvas offcanvas-start" tabindex="-1"
 								id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 								<div class="offcanvas-header">

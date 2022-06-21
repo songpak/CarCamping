@@ -175,14 +175,6 @@ function fn_account(val){
 			<div class="row" align="center">
 				<div class="row"></div>
 				<h2>용품 리뷰 목록</h2>
-			</div>
-			<div class="row" align="center"
-				style="overflow: scroll; width: 100%; height: 94%">
-				
-				<!-- 정렬 기능 -->
-
-				<!-- 정렬기능 끝 -->
-				
 				<form name="f" method="post">
 					<select name="search">
 						<option selected value="rp_title">리뷰 제목</option>
@@ -190,6 +182,14 @@ function fn_account(val){
 					</select> <input type="text" name="searchString">
 					<button type="submit">검색하기</button>
 				</form>
+			</div>
+			<div class="row" align="center"
+				style="overflow: scroll; width: 100%; height: 60%">
+				
+				<!-- 정렬 기능 -->
+
+				<!-- 정렬기능 끝 -->
+				
 				<br>
 				<!-- 본문 -->
 				<c:if test="${empty ReList}">
