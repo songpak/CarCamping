@@ -40,7 +40,7 @@
 					</a>
 				</td>
 				<td align="center">${dto.question_title}</td>
-				<td align="center">${dto.memberDTO}</td>
+				<td align="center">${dto.memberDTO.mem_num}</td>
 				<td align="center">${dto.question_sysdate}</td>
 			</tr>		
 			</c:forEach>
