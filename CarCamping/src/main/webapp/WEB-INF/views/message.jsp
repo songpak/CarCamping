@@ -4,4 +4,6 @@
 <script type="text/javascript">
 	alert("${msg}")
 	location.href="${url}"
+	opener.parent.location.reload();
+	window.close();
 </script>

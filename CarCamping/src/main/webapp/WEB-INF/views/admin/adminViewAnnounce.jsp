@@ -5,64 +5,43 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>용품 보기</title>
+<title>공지사항 보기</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <script>
 	function con(){
 		var con1 = window.confirm('정말 수정하시겠습니까?')
 		if (con1){
-			document.viewProduct.submit()
+			document.viewAnnounce.submit()
 		}
 	}
 	function con_delete(){
 		var con2 = window.confirm('정말 삭제하시겠습니까?')
 		if (con2){
-			location.href="adminDeleteProduct.admin?prod_num="+${pdto.prod_num}
+			location.href="adminDeleteAnnounce.admin?aa_num="+${adto.aa_num}
 		}
 	}
 </script>
 
 <body>
 	<div align="center">
-		<form name="viewProduct" method="post" action="adminViewProduct.admin" enctype="multipart/form-data"
+		<form name="viewAnnounce" method="post" action="adminViewAnnounce.admin" enctype="multipart/form-data"
 		class="row g-3 needs-validation" novalidate>
-		<input type = "hidden" name="prod_num" value="${pdto.prod_num}">
+		<input type = "hidden" name="aa_num" value="${adto.aa_num}">
 		<table class="table table-sm">
 			<tr>
-				<td colspan="2" align="center">
-					<p class="h3"><strong>${pdto.brandCategoryDTO.brand_name} | ${pdto.productCategoryDTO.pc_name}</strong></p>
+				<td>
+					<div class="form-floating mb-3">
+						<input type="text" name="aa_title" value="${adto.aa_title}" class="form-control" id="validationCustom01" maxlength="20" placeholder="1" required>
+						<label for="validationCustom01">제목</label>
+					</div>
 				</td>	
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td>
 					<div class="form-floating mb-3">
-						<input type="text" name="prod_name" value="${pdto.prod_name}" class="form-control" id="validationCustom01" maxlength="20" placeholder="1" required>
-						<label for="validationCustom01">용품명</label>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div class="form-floating mb-3">
-						<input type="number" name="prod_price" value="${pdto.prod_price}" class="form-control" id="validationCustom02" min="0" placeholder="1" required>
-						<label for="validationCustom02">일일 대여 요금(원)</label>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div class="form-floating mb-3">
-						<input type="text" name="prod_summary" value="${pdto.prod_summary}" class="form-control" id="validationCustom03" maxlength="20" placeholder="1" required>
-						<label for="validationCustom03">용품 요약 설명</label>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div class="form-floating mb-3">
-						<textarea name="prod_viewContent" style="resize: none;" class="form-control" id="validationCustom04" maxlength="1000" placeholder="1" required>${pdto.prod_viewContent}</textarea>
-						<label for="validationCustom04">용품 상세 설명</label>
+						<textarea name="aa_content" style="resize: none;" class="form-control" id="validationCustom02" maxlength="1000" placeholder="1" required>${adto.aa_content}</textarea>
+						<label for="validationCustom02">내용</label>
 					</div>
 				</td>
 			</tr>
@@ -85,29 +64,29 @@
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
 							</div>
 							<div class="carousel-inner">
-								<c:if test="${not empty pdto.prod_viewImage1}">
+								<c:if test="${not empty adto.aa_image1}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/product/${pdto.prod_viewImage1}" class="d-block w-100" alt="...">
+										<img src="${upPath}/images/announce/${adto.aa_image1}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
-								<c:if test="${not empty pdto.prod_viewImage2}">
+								<c:if test="${not empty adto.aa_image2}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/product/${pdto.prod_viewImage2}" class="d-block w-100" alt="...">
+										<img src="${upPath}/images/announce/${adto.aa_image2}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
-								<c:if test="${not empty pdto.prod_viewImage3}">
+								<c:if test="${not empty adto.aa_image3}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/product/${pdto.prod_viewImage3}" class="d-block w-100" alt="...">
+										<img src="${upPath}/images/announce/${adto.aa_image3}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
-								<c:if test="${not empty pdto.prod_viewImage4}">
+								<c:if test="${not empty adto.aa_image4}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/product/${pdto.prod_viewImage4}" class="d-block w-100" alt="...">
+										<img src="${upPath}/images/announce/${adto.aa_image4}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
-								<c:if test="${not empty pdto.prod_viewImage5}">
+								<c:if test="${not empty adto.aa_image5}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/product/${pdto.prod_viewImage5}" class="d-block w-100" alt="...">
+										<img src="${upPath}/images/announce/${adto.aa_image5}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 							</div>
@@ -127,8 +106,9 @@
 			<tr>
 				<td colspan="2">
 					<input class="form-control" id="formFileMultiple-1" type="file"
-							multiple accept="image/*" name="prod_viewImage" class="form-control" id="validationCustom05" required>
-						<div id="validationCustom05" class="form-text">최소 2개, 최대  5개 이미지 업로드 가능합니다</div>
+							multiple accept="image/*" name="aa_image">
+						<div id="passwordHelpBlock" class="form-text">최소 2개 이미지를
+							선택해주세요 (최대 5개)</div>
 						<ul id="file-list-1">
 							<li class="no-items"></li>
 						</ul>
@@ -159,29 +139,6 @@
 							};
 						</script>
 				</td>
-			</tr>
-			<tr>
-				<th>평점</th>
-				<td>${pdto.prod_reviewScore}</td>
-			</tr>
-			<tr>
-				<th>최초등록일</th>
-				<td>${pdto.prod_sysdate}</td>
-			</tr>
-			<tr>
-				<th>최종수정일</th>
-				<td>${pdto.prod_update}</td>
-			</tr>
-			<tr>
-				<th>인기용품</th>
-				<c:choose>
-					<c:when test="${pdto.prod_popular==0}">
-						<td><input type="checkbox" name="prod_popular1" checked>체크시(예)</td>
-					</c:when>
-					<c:otherwise>
-						<td><input type="checkbox" name="prod_popular1">체크시(예)</td>
-					</c:otherwise>
-				</c:choose>
 			</tr>
 			<tr>
 				<td align="center" colspan="2">

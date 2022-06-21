@@ -10,68 +10,32 @@
 </head>
 <body>
 	<div align="center">
-		<form name="registerProduct" method="post" action="adminRegisterProduct.admin" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
+		<form name="registerAnnounce" method="post" action="adminRegisterAnnounce.admin" enctype="multipart/form-data"
+		class="row g-3 needs-validation" novalidate>
 		<table class="table table-sm">
 			<tr>
 				<td>
-					<div class="form-floating">
-						<select name="brand_num" class="form-select" id="floatingSelect1">
-							<c:forEach items="${adminListBrand}" var="dto">
-								<option value="${dto.brand_num}">${dto.brand_name}</option>
-							</c:forEach>
-						</select>
-						<label for="floatingSelect1">브랜드</label>
+					<div class="form-floating mb-3">
+						<input type="text" name="aa_title" class="form-control" id="validationCustom01" maxlength="20" placeholder="1" required>
+						<label for="validationCustom01">제목</label>
 					</div>
 				</td>
+			</tr>
+			<tr>
 				<td>
-					<div class="form-floating">
-						<select name="pc_num" class="form-select" id="floatingSelect2">
-							<c:forEach items="${adminListProductCategory}" var="dto">
-								<option value="${dto.pc_num}">${dto.pc_name}</option>
-							</c:forEach>
-						</select>
-						<label for="floatingSelect2">분류</label>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
 					<div class="form-floating mb-3">
-						<input type="text" name="prod_name" class="form-control" id="validationCustom01" maxlength="20" placeholder="1" required>
-						<label for="validationCustom01">용품명</label>
-						<div id="validationCustom01" class="form-text">예) 벤딕트 차박 텐트 쉘터 도킹 </div>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div class="form-floating mb-3">
-						<input type="number" name="prod_price" class="form-control" id="validationCustom02" min="0" placeholder="1" required>
-						<label for="validationCustom02">일일 대여 요금(원)</label>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div class="form-floating mb-3">
-						<input type="text" name="prod_summary" class="form-control" id="validationCustom03" maxlength="20" placeholder="1" required>
-						<label for="validationCustom03">용품 요약 설명</label>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<div class="form-floating mb-3">
-						<textarea name="prod_viewContent" style="resize: none;" class="form-control" id="validationCustom04" maxlength="1000" placeholder="1" required></textarea>
-						<label for="validationCustom04">용품 상세 설명</label>
+						<textarea name="aa_content" style="resize: none;" class="form-control" id="validationCustom02" maxlength="1000" placeholder="1" required></textarea>
+						<label for="validationCustom02">내용</label>
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
 						<input class="form-control" id="formFileMultiple" type="file"
-							name="prod_viewImage" multiple accept="image/*" class="form-control" id="validationCustom05" required>
-						<div id="validationCustom05" class="form-text">최소 2개, 최대  5개 이미지 업로드 가능합니다</div>
+							name="aa_image" multiple accept="image/*">
+						<div id="passwordHelpBlock" class="form-text">
+							최대 5개 이미지 업로드 가능			
+							</div>
 						<ul id="file-list">
 							<li class="no-items"></li>
 						</ul>

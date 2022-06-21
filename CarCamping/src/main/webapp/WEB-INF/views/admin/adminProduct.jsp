@@ -4,26 +4,17 @@
 <%@ include file="left.jsp"%>   
 <!-- Content Column Grid -->
 <div class="col-md-8 themed-grid-col">
+
 	<div class="row" align="center">
-		<div class="row">
-			<figure class="text-center">
-				<blockquote class="blockquote">
-					<p>A well-known quote, contained in a blockquote element.</p>
-				</blockquote>
-				<figcaption class="blockquote-footer">
-					Someone famous in <cite title="Source Title">Source Title</cite>
-				</figcaption>
-			</figure>
-		</div>
-		<p class="fw-bolder">차박 용품 목록</p>
-	</div>
-	<div class="row">
-		<!-- 검색 버튼 -->
 		<div class="col">
+			<p class="h2"><strong>차박 용품 목록</strong></p>
+		</div>
+	
+	<div class="row justify-content-md-center">
+		<!-- 검색 버튼 -->
+		<div class="col" align="left">
 			<form name="search" action="adminProduct.admin" enctype="multipart/form-data" method="post">
-				용품명 : 
-				<input type="text" name="search">
-				<input type="submit" value="검색">
+				<input type="text" name="search"><input type="submit" value="검색">
 			</form>
 		</div>
 
@@ -34,76 +25,64 @@
 			<!-- 용품 등록 버튼 끝 -->
 		</div>
 	</div>
+</div>
 	<script>
 		function popup(){
 			var url = "adminRegisterProduct.admin"
 			var name = "용품 등록"
-			var option = "width=600,height=800,top=100,left=200,location=no"
+			var option = "width=470,height=700,top=100,left=200,location=no,resizable=no"
 			window.open(url,name,option);
 		}
 		function view(a){
 			var url = "adminViewProduct.admin?prod_num="+a
 			var name = "용품 보기"
-			var option = "width=600,height=800,top=100,left=200,location=no"
+			var option = "width=470,height=700,top=100,left=200,location=no,resizable=no"
 			window.open(url,name,option);
 			}
 	</script>
 	
 	&nbsp;
 	<!-- 본문 -->
-	<table class="table table-borderless">
-		<tr>
-			<c:set var="count" value="0"/>
-			<c:forEach items="${adminListProduct}" var="dto">
-			<td>
-				<div class="card" style="width: 18rem;">
-					<img src="${upPath}/images/product/${dto.prod_viewImage1}" class="card-img-top">
-					<div class="card-body">
-						<h5 class="card-title">${dto.prod_name}</h5>
-						<p class="card-text">
-					<div class="starpoint_wrap">
-  						<div class="starpoint_box">
-						   <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
-						   <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
-						   <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
-						   <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>
-						   <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>
-						   <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>
-						   <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>
-						   <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
-						   <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
-						   <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
-						   <input type="radio" name="starpoint" id="starpoint_1" class="star_radio">
-						   <input type="radio" name="starpoint" id="starpoint_2" class="star_radio">
-						   <input type="radio" name="starpoint" id="starpoint_3" class="star_radio">
-						   <input type="radio" name="starpoint" id="starpoint_4" class="star_radio">
-						   <input type="radio" name="starpoint" id="starpoint_5" class="star_radio">
-						   <input type="radio" name="starpoint" id="starpoint_6" class="star_radio">
-						   <input type="radio" name="starpoint" id="starpoint_7" class="star_radio">
-						   <input type="radio" name="starpoint" id="starpoint_8" class="star_radio">
-						   <input type="radio" name="starpoint" id="starpoint_9" class="star_radio">
-						   <input type="radio" name="starpoint" id="starpoint_10" class="star_radio">
-    						<span class="starpoint_bg">
-    						</span>
-  						</div>
-					</div>
-						(${dto.prod_reviewCount}개의 리뷰)
-						<br>
-							${dto.prod_summary} 
-						</p>
-						<button type="button" class="btn btn-success"
-							data-bs-toggle="modal" data-bs-target="#staticBackdrop-1"
-							onclick="location.href='javascript:view(${dto.prod_num})'">
-							보기</button>
-					</div>
-				</div>
-			</td>
-				<c:set var="count" value="${count+1}"/>
-				<c:if test="${count%4==0}">
-				</tr><tr>
-				</c:if>
-			</c:forEach>
+<div class="row" style="overflow:hidden;">
+	<table class="table table-striped">
+		<tr class="table-info">
+			<th>분류</th>
+			<th>브랜드</th>
+			<th>용품명</th>
+			<th>일일대여요금(원)</th>
+			<th>평점</th>
+			<th> </th>
 		</tr>
+			<c:if test="${not empty adminListProduct}">
+			<c:forEach items="${adminListProduct}" var="dto">
+			<tr>
+				<td>
+					${dto.productCategoryDTO.pc_name}
+				</td>
+				<td>
+					${dto.brandCategoryDTO.brand_name}
+				</td>
+				<td>
+					${dto.prod_name}
+				</td>
+				<td>
+					${dto.prod_price}
+				</td>
+				<td>
+					<button type="button" class="btn btn-info"
+							onclick="location.href='javascript:view(${dto.prod_num})'">
+							보기
+					</button>
+				</td>	
+			
+				</tr>
+			</c:forEach>
+			</c:if>
+			<c:if test="${empty adminListProduct}">
+				<tr>
+					<td colspan="6" align="center">해당하는 용품이 없습니다</td>
+				</tr>
+			</c:if>
 	</table>
 
 	<nav aria-label="Page navigation example">
@@ -116,6 +95,7 @@
 			<li class="page-item"><a class="page-link" href="#">Next</a></li>
 		</ul>
 	</nav>
+</div>
 </div>
 
 <!-- End Content Column Grid -->

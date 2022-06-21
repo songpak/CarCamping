@@ -19,13 +19,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ezen.carCamping.dto.AdminAnnounceDTO;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
+import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.ReviewProductDTO;
+import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.AdminMapper;
 
 @Controller
@@ -549,9 +553,6 @@ public class AdminController {
 		else {
 			adminListMember = adminMapper.adminListMember();
 		}
-		for(MemberDTO dto : adminListMember) {
-			System.out.println(dto.getMem_point());
-		}
 		
 		req.setAttribute("adminListMember", adminListMember);
 		return "admin/adminMember";
@@ -587,25 +588,309 @@ public class AdminController {
 		return mav;
 	}
 	
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////장소 리뷰 관리////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	@RequestMapping("/adminReviewRegion.admin")
-	public String adminReviewRegion() {
+	public String adminReviewRegion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<ReviewRegionDTO> adminListReviewRegion = new ArrayList<ReviewRegionDTO>();
+		
+		if (map.containsKey("sort")) {
+			adminListReviewRegion = adminMapper.adminListReviewRegionSort(map);
+		}else if (map.containsKey("search")) {
+			String search = "%"+map.get("search").trim()+"%";
+			map.put("search", search);
+			adminListReviewRegion = adminMapper.adminListReviewRegionSearch(map);
+		}else {
+			adminListReviewRegion = adminMapper.adminListReviewRegion();
+		}
+		
+		req.setAttribute("adminListReviewRegion", adminListReviewRegion);
 		return "admin/adminReviewRegion";
 	}
 	
+	@RequestMapping(value="/adminViewReviewRegion.admin",method=RequestMethod.GET)
+	public String adminViewReviewRegion(HttpServletRequest req,@RequestParam int review_num) {
+		ReviewRegionDTO dto = adminMapper.adminGetReviewRegion(review_num);
+		req.setAttribute("rdto", dto);
+		return "admin/adminViewReviewRegion";
+	}
+	
+	@RequestMapping(value="/adminViewReviewRegion.admin",method=RequestMethod.POST)
+	public ModelAndView adminViewReviewRegion(@RequestParam(required=false) Map<String,String> map) {
+		
+		if (map.containsKey("review_popular1")) {
+			map.put("review_popular", "0");
+		}else {
+			map.put("review_popular", "1");
+		}
+		
+		if (map.containsKey("review_adminConfirm1")) {
+			map.put("review_adminConfirm", "0");
+		}else {
+			map.put("review_adminConfirm", "1");
+		}
+		
+		int res = adminMapper.adminUpdateReviewRegion(map);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "수정되었습니다.";
+			url = "adminReviewRegion.admin";
+		}else {
+			msg = "수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminReviewRegion.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////용품 리뷰 관리////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	@RequestMapping("/adminReviewProduct.admin")
-	public String adminReviewProduct() {
+	public String adminReviewProduct(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<ReviewProductDTO> adminListReviewProduct = new ArrayList<ReviewProductDTO>();
+		
+		if (map.containsKey("sort")) {
+			adminListReviewProduct = adminMapper.adminListReviewProductSort(map);
+		}else if (map.containsKey("search")) {
+			String search = "%"+map.get("search").trim()+"%";
+			map.put("search", search);
+			adminListReviewProduct = adminMapper.adminListReviewProductSearch(map);
+		}else {
+			adminListReviewProduct = adminMapper.adminListReviewProduct();
+		}
+		
+		req.setAttribute("adminListReviewProduct", adminListReviewProduct);
 		return "admin/adminReviewProduct";
 	}
 	
+	@RequestMapping(value="/adminViewReviewProduct.admin",method=RequestMethod.GET)
+	public String adminViewReviewProduct(HttpServletRequest req,@RequestParam int rp_num) {
+		ReviewProductDTO dto = adminMapper.adminGetReviewProduct(rp_num);
+		req.setAttribute("rdto", dto);
+		return "admin/adminViewReviewProduct";
+	}
+	
+	@RequestMapping(value="/adminViewReviewProduct.admin",method=RequestMethod.POST)
+	public ModelAndView adminViewReviewProduct(@RequestParam(required=false) Map<String,String> map) {
+		
+		if (map.containsKey("rp_popular1")) {
+			map.put("rp_popular", "0");
+		}else {
+			map.put("rp_popular", "1");
+		}
+		
+		if (map.containsKey("rp_adminConfirm1")) {
+			map.put("rp_adminConfirm", "0");
+		}else {
+			map.put("rp_adminConfirm", "1");
+		}
+		
+		int res = adminMapper.adminUpdateReviewProduct(map);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "수정되었습니다.";
+			url = "adminReviewProduct.admin";
+		}else {
+			msg = "수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminReviewProduct.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////공 지 사 항////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+	
 	@RequestMapping("/adminAnnounce.admin")
-	public String adminAnnounce() {
+	public String adminAnnounce(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<AdminAnnounceDTO> list = new ArrayList<AdminAnnounceDTO>();
+		
+		if (map.containsKey("sort")) {
+			list = adminMapper.adminListAnnounceSort(map);
+		}else {
+			list = adminMapper.adminListAnnounce();
+		}
+		
+		req.setAttribute("adminListAnnounce", list);
 		return "admin/adminAnnounce";
 	}
 	
+	@RequestMapping(value="/adminRegisterAnnounce.admin", method=RequestMethod.GET)
+	public String adminInsertAnnounce() {
+		return "admin/adminRegisterAnnounce";
+	}
+	
+	@RequestMapping(value="/adminRegisterAnnounce.admin", method=RequestMethod.POST)
+	public ModelAndView adminInsertAnnounce(HttpServletRequest req,@ModelAttribute AdminAnnounceDTO dto,@RequestParam("aa_image") MultipartFile[] file) {
+		
+		String upPath = (String)req.getSession().getAttribute("upPath");
+		//다중파일 업로드
+		for (MultipartFile f : file) {
+			String filename = f.getOriginalFilename();		
+			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
+			else if (dto.getAa_image2()==null) dto.setAa_image2(filename);
+			else if (dto.getAa_image3()==null) dto.setAa_image3(filename);
+			else if (dto.getAa_image4()==null) dto.setAa_image4(filename);
+			else if (dto.getAa_image5()==null) dto.setAa_image5(filename);
+
+			try {
+				f.transferTo(new File(upPath+"/images/announce/"+filename));
+
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		int res = adminMapper.adminInsertAnnounce(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "등록되었습니다.";
+			url = "adminAnnounce.admin";
+		}else {
+			msg = "등록이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminAnnounce.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping(value="/adminViewAnnounce.admin", method=RequestMethod.GET)
+	public String adminViewAnnounce(HttpServletRequest req,@RequestParam int aa_num) {
+		AdminAnnounceDTO dto = adminMapper.adminGetAnnounce(aa_num);
+		req.setAttribute("adto", dto);
+		
+		return "admin/adminViewAnnounce";
+	}
+	
+	@RequestMapping(value="/adminViewAnnounce.admin", method=RequestMethod.POST)
+	public ModelAndView adminViewAnnounce(HttpServletRequest req,@RequestParam("aa_image") MultipartFile[] file,@ModelAttribute AdminAnnounceDTO dto) {
+		String upPath = (String)req.getSession().getAttribute("upPath");
+		//다중파일 업로드
+		for (MultipartFile f : file) {
+			String filename = f.getOriginalFilename();		
+			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
+			else if (dto.getAa_image2()==null) dto.setAa_image2(filename);
+			else if (dto.getAa_image3()==null) dto.setAa_image3(filename);
+			else if (dto.getAa_image4()==null) dto.setAa_image4(filename);
+			else if (dto.getAa_image5()==null) dto.setAa_image5(filename);
+
+			try {
+				f.transferTo(new File(upPath+"/images/announce/"+filename));
+
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		int res = adminMapper.adminUpdateAnnounce(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "수정되었습니다.";
+			url = "adminAnnounce.admin";
+		}else {
+			msg = "수정이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminAnnounce.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping("/adminDeleteAnnounce.admin")
+	public ModelAndView adminDeleteAnnounce(@RequestParam int aa_num) {
+		int res = adminMapper.adminDeleteAnnounce(aa_num);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "삭제되었습니다.";
+			url = "adminAnnounce.admin";
+		}else {
+			msg = "삭제가 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminAnnounce.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////문 의 사 항////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 	@RequestMapping("/adminQuestion.admin")
-	public String adminQuestion() {
+	public String adminQuestion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+		List<QuestionDTO> adminListQuestion = new ArrayList<QuestionDTO>();
+		
+		if (map.containsKey("sort")) {
+			if (map.get("sort").equals("question_sysdate")) {
+				adminListQuestion = adminMapper.adminListQuestionSys(map);
+			}else {
+				adminListQuestion = adminMapper.adminListQuestionRep(map);
+			}
+		}else {
+			adminListQuestion = adminMapper.adminListQuestion();
+		}
+		
+		req.setAttribute("adminListQuestion", adminListQuestion);
 		return "admin/adminQuestion";
 	}
+	
+	@RequestMapping(value="/adminViewQuestion.admin", method=RequestMethod.GET)
+	public String adminViewQuestion(HttpServletRequest req, @RequestParam int question_num) {
+		QuestionDTO dto = adminMapper.adminGetQuestion(question_num);
+		
+		req.setAttribute("qdto", dto);	
+		return "admin/adminViewQuestion";
+	}
+	
+	@RequestMapping(value="/adminViewQuestion.admin", method=RequestMethod.POST)
+	public ModelAndView adminViewQuestion(@ModelAttribute QuestionDTO dto) {
+		int res = adminMapper.adminUpdateQuestion(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "답글이 작성되었습니다.";
+			url = "adminQuestion.admin";
+		}else {
+			msg = "답글작성이 실패되었습니다. 관리자에게 문의하세요";
+			url = "adminQuestion.admin";
+		}
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////대 여 내 역////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
 	
 	@RequestMapping("/adminRental.admin")
 	public String adminRental() {

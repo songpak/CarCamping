@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -41,7 +42,7 @@ img, svg {
 					<div class="col-12">
 						<nav class="main-nav navbar-expand-lg navbar-dark shadow-5-strong">
 							<!-- ***** Logo Start ***** -->
-							<a href="index.do" class="logo"> 로고들어가요 </a>
+							<a href="index.do" class="logo"> <img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
 							<!-- ***** Logo End ***** -->
 							<!-- ***** Menu Start ***** -->
 							<ul class="nav">
@@ -67,6 +68,7 @@ img, svg {
 								</svg></a>
 
 								</li>
+								<c:if test="${empty mbdto}">	
 								<li class="has-sub"><a href="javascript:void(0)">
 									사용자
 									<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16" style="margin-bottom: 2.5;">
@@ -75,10 +77,27 @@ img, svg {
 									</a>
 									
 									<ul class="sub-menu">
+									
 										<li><a href="login.login">로그인</a></li>
+										<li><a href="sign.login">회원가입</a></li>
+									</ul>
+								</li>
+								</c:if> 
+								<c:if test="${not empty mbdto}">
+									<li class="has-sub"><a href="javascript:void(0)">
+									사용자
+									<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16" style="margin-bottom: 2.5;">
+ 									 <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+									</svg>
+									</a>
+									
+									<ul class="sub-menu">
+									
+										<li><a href="logout.login">로그아웃</a></li>
 										<li><a href="myPageProfile.myPage">마이페이지</a></li>
 									</ul>
-								</li> 
+								</li>
+								</c:if> 		
 							</ul>
 							<!-- ***** Menu End ***** -->
 						</nav>
@@ -144,7 +163,7 @@ img, svg {
 
 	
 	  <div class="footer" style="padding-bottom: 0px;margin-top: 0px;padding-top: 0px;">
-      <p style=" background-color:#E9EFC0; color:#6bbf57;margin-bottom: 0px;">Copyright © 2022 <a href="#">WITHCAR Co.</a> Ltd. All Rights Reserved. 
+      <p style=" background-color:#2c3e50; color:#fff;margin-bottom: 0px;">Copyright © 2022 <a href="#">WITHCAR Co.</a> Ltd. All Rights Reserved. 
           <br>
           Design: <a href="#">WITHCAR DESIGN TEAM</a>
           <br>

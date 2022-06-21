@@ -8,13 +8,18 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ezen.carCamping.dto.AdminAnnounceDTO;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
+import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.RentalLogDTO;
+import com.ezen.carCamping.dto.ReviewProductDTO;
+import com.ezen.carCamping.dto.ReviewRegionDTO;
 
 @Service
 public class AdminMapper {
@@ -195,5 +200,159 @@ public class AdminMapper {
 	public int adminDenyMember(Map<String,String> map) {
 		int res = sqlSession.update("adminDenyMember", map);
 		return res;
+	}
+
+	
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////장 소 리 뷰//////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	public List<ReviewRegionDTO> adminListReviewRegion(){
+		List<ReviewRegionDTO> list = sqlSession.selectList("adminListReviewRegion");
+		return list;
+	}
+	
+	public List<ReviewRegionDTO> adminListReviewRegionSort(Map<String,String> map){
+		List<ReviewRegionDTO> list = sqlSession.selectList("adminListReviewRegionSort",map);
+		return list;
+	}
+	
+	public List<ReviewRegionDTO> adminListReviewRegionSearch(Map<String,String> map){
+		List<ReviewRegionDTO> list = sqlSession.selectList("adminListReviewRegionSearch",map);
+		return list;
+	}
+	
+	public ReviewRegionDTO adminGetReviewRegion(int review_num) {
+		ReviewRegionDTO dto = sqlSession.selectOne("adminGetReviewRegion", review_num);
+		return dto;
+	}
+	
+	public int adminUpdateReviewRegion(Map<String,String> map) {
+		int res = sqlSession.update("adminUpdateReviewRegion", map);
+		return res;
+	}
+	
+	
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////장 소 리 뷰//////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+
+	public List<ReviewProductDTO> adminListReviewProduct(){
+		List<ReviewProductDTO> list = sqlSession.selectList("adminListReviewProduct");
+		return list;
+	}
+
+	public List<ReviewProductDTO> adminListReviewProductSort(Map<String,String> map){
+		List<ReviewProductDTO> list = sqlSession.selectList("adminListReviewProductSort",map);
+		return list;
+	}
+
+	public List<ReviewProductDTO> adminListReviewProductSearch(Map<String,String> map){
+		List<ReviewProductDTO> list = sqlSession.selectList("adminListReviewProductSearch",map);
+		return list;
+	}
+
+	public ReviewProductDTO adminGetReviewProduct(int rp_num) {
+		ReviewProductDTO dto = sqlSession.selectOne("adminGetReviewProduct", rp_num);
+		return dto;
+	}
+
+	public int adminUpdateReviewProduct(Map<String,String> map) {
+		int res = sqlSession.update("adminUpdateReviewProduct", map);
+		return res;
+	}
+	
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////공 지 사 항//////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	public List<AdminAnnounceDTO> adminListAnnounce(){
+		List<AdminAnnounceDTO> list = sqlSession.selectList("adminListAnnounce");
+		return list;
+	}
+	
+	public List<AdminAnnounceDTO> adminListAnnounceSort(Map<String,String> map){
+		List<AdminAnnounceDTO> list = sqlSession.selectList("adminListAnnounceSort",map);
+		return list;
+	}
+	
+	public AdminAnnounceDTO adminGetAnnounce(int aa_num) {
+		AdminAnnounceDTO dto = sqlSession.selectOne("adminGetAnnounce", aa_num);
+		return dto;
+	}
+	
+	public int adminInsertAnnounce(AdminAnnounceDTO dto) {
+		int res = sqlSession.insert("adminInsertAnnounce", dto);
+		return res;
+	}
+	
+	public int adminUpdateAnnounce(AdminAnnounceDTO dto) {
+		int res = sqlSession.update("adminUpdateAnnounce", dto);
+		return res;
+	}
+	
+	public int adminDeleteAnnounce(int aa_num) {
+		int res = sqlSession.delete("adminDeleteAnnounce", aa_num);
+		return res;
+	}
+	
+
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////문 의 사 항//////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	
+	public List<QuestionDTO> adminListQuestion(){
+		List<QuestionDTO> list = sqlSession.selectList("adminListQuestion");
+		return list;
+	}
+	
+	public List<QuestionDTO> adminListQuestionSys(Map<String,String> map){
+		List<QuestionDTO> list = sqlSession.selectList("adminListQuestionSys",map);
+		return list;
+	}
+	
+	public List<QuestionDTO> adminListQuestionRep(Map<String,String> map){
+		List<QuestionDTO> list = sqlSession.selectList("adminListQuestionRep",map);
+		return list;
+	}
+	
+	public QuestionDTO adminGetQuestion(int question_num) {
+		QuestionDTO dto = sqlSession.selectOne("adminGetQuestion", question_num);
+		return dto;
+	}
+	
+	public int adminUpdateQuestion(QuestionDTO dto) {
+		int res = sqlSession.update("adminViewQuestion", dto);
+		return res;
+	}
+	
+	
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////대 여 현 황//////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	public List<RentalLogDTO> adminListRentalLog() {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLog");
+		return list;
 	}
 }

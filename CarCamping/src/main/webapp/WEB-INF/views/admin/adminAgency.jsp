@@ -4,23 +4,14 @@
 <%@ include file="left.jsp"%>   
 <!-- Content Column Grid -->
 <div class="col-md-8 themed-grid-col">
-	<div class="row">
-		<figure class="text-center">
-			<blockquote class="blockquote">
-				<p>A well-known quote, contained in a blockquote element.</p>
-			</blockquote>
-			<figcaption class="blockquote-footer">
-				Someone famous in <cite title="Source Title">Source Title</cite>
-			</figcaption>
-		</figure>
-	</div>
 	<div class="row" align="center">
 		<div class="col">
-			<p class="fw-bolder">대리점 목록</p>
+			<p class="h2"><strong>대리점 목록</strong></p>
 		</div>
-	<div class="row">
+	
+	<div class="row justify-content-md-center">
 		<!-- 정렬 지역 버튼 -->
-		<div class="col">
+		<div class="col" align="left">
 			<form name="searchRegion" method="post" action="adminAgency.admin">
 				<select name="region_num">
 					<c:forEach items="${adminListRegion}" var="dto">
@@ -34,34 +25,33 @@
 		
 		<!-- 대리점 등록 버튼 -->
 			<div class="col" align="right">
-				<button type="button" class="btn btn-primary"
+				<button type="button" class="btn btn-info"
 					onclick="location.href='javascript:popup()'">
 						대리점 등록
 			</button>
 			</div>
 		<!-- 대리점 등록 버튼 끝 -->
 	</div>
-	<div class="row">
-		&nbsp;
 	</div>
-</div>
+	&nbsp;
 	<script>
 		function popup(){
 			var url = "adminRegisterAgency.admin"
 			var name = "대리점 등록"
-			var option = "width=600,height=800,top=100,left=200,location=no"
+			var option = "width=500,height=400,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 	</script>
 	
 	<!-- 본문 -->
+<div class="row" style="overflow:hidden;">
 	<table class="table table-striped">
-		<tr>
+		<tr class="table-info">
 			<th>지역</th>
 			<th>대리점명</th>
 			<th>위치</th>
 			<th>전화번호</th>
-			<th>수정|삭제</th>
+			<th> </th>
 		</tr>
 		<c:if test="${not empty adminListAgency}">
 			<c:forEach items="${adminListAgency}" var="dto">
@@ -71,7 +61,7 @@
 					<td>${dto.agency_location}</td>
 					<td>${dto.agency_phone}</td>
 					<td><button type="button" 
-							class="btn btn-primary"
+							class="btn btn-info"
 							onclick="location.href='javascript:popup2(${dto.agency_num})'">
 								수정
 						</button></td>
@@ -80,7 +70,7 @@
 		</c:if>
 		<c:if test="${empty adminListAgency}">
 			<tr>
-				<td colspan="5">등록된 대리점이 없습니다</td>
+				<td colspan="5" align="center">해당하는 대리점이 없습니다</td>
 			</tr>
 		</c:if>
 	</table>
@@ -89,7 +79,7 @@
 		function popup2(a){
 			var url = "adminViewAgency.admin?agency_num="+a
 			var name = "대리점 수정"
-			var option = "width=600,height=800,top=100,left=200,location=no"
+			var option = "width=500,height=400,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 	</script>
@@ -104,6 +94,7 @@
 			<li class="page-item"><a class="page-link" href="#">Next</a></li>
 		</ul>
 	</nav>
+</div>
 </div>
 <!-- End Content Coulmn Grid -->
 <%@ include file="../bottom.jsp"%>
