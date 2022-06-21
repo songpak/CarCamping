@@ -415,7 +415,7 @@ header
 	position: relative;
 	font-size: 13px;
 	font-weight: 400;
-	border-bottom: 1px solid #eee;
+	/* border-bottom: 1px solid #eee; */
 }
 
 .header-area .main-nav .nav li.has-sub ul li a:hover {
@@ -633,7 +633,7 @@ header
 		color: #191a20 !important;
 	}
 	.header-area .main-nav .nav li a:hover {
-		background: #eee !important;
+		/*background: #eee !important;  */
 		color: #f5a425 !important;
 	}
 	.header-area .main-nav .nav li.has-sub ul.sub-menu {
