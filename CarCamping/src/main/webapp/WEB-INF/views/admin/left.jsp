@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="resources/css/rating.css">
     
 </head>
+<<<<<<< HEAD
 
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
@@ -22,17 +23,22 @@
 	crossorigin="anonymous"></script> -->
 
 <!-- CSS only -->
+=======
+>>>>>>> 신웅(장소)
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
 	crossorigin="anonymous">
+<<<<<<< HEAD
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 <link rel="stylesheet"
 	href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 
+=======
+>>>>>>> 신웅(장소)
 
 <div class="container-fluid themed-container">
 	<!-- Row Grid -->

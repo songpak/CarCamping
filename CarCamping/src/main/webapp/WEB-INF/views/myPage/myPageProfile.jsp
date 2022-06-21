@@ -10,9 +10,9 @@
 <head>
 
   <!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+부가적인 테마
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 
 <style>
@@ -26,11 +26,14 @@
 </style>
 
 </head>
+
+
 <body>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
             <div class="col-sm-2"></div>
+<<<<<<< HEAD
                 <div class="col-sm-9">
 
                     <h2 class="text-center">정보 수정</h2>
@@ -39,6 +42,9 @@
                     <input type="hidden" name="mem_num" value="${getMember.mem_num}"/>
                      
 
+=======
+                <div class="col-sm-9" style=" margin-left: 133px;">
+>>>>>>> 신웅(장소)
                 
                     <h2 class="text-center">정보 상세</h2>
                     <form action="myPageProfileEdit.mypage" method="post">
