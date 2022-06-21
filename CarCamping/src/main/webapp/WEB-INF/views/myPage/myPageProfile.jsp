@@ -18,23 +18,35 @@
         <div class="col-sm-12">
             <div class="col-sm-2"></div>
                 <div class="col-sm-9">
+<<<<<<< HEAD
                     <h2 class="text-center">정보 수정</h2>
                      
                     <form action="myPageProfile.myPage" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="mem_num" value="${getMember.mem_num}"/>
                      
+=======
+                
+                    <h2 class="text-center">정보 상세</h2>
+                    <form action="myPageProfileEdit.mypage" method="post">
+>>>>>>> 신웅(장소)
                     <table class="table table-striped">
+                   
                       <tr>
                         <td>이름</td>
                         <td><input type="text" name="mem_userName" class="box" 
 														value="${getMember.mem_userName}" class="form-control" disabled></td>
                       </tr>
-                      
                        <tr>
                         <td>아이디</td>
+<<<<<<< HEAD
                         <td><input type="text" name="mem_id" class="box" value="${getMember.mem_id}" class="form-control" disabled></td>
+=======
+                        <c:forEach items="${getMember}" var="mdto">
+                        <td>${mdto.mem_id}</td>
+                        </c:forEach>
+>>>>>>> 신웅(장소)
                       </tr>
-                          
+                           
                       <tr>
                         <td>이메일</td>
                         <td>

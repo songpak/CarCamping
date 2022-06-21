@@ -33,14 +33,20 @@
 	<beans:bean
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
 		id="multipartResolver">
+<<<<<<< HEAD
 		<beans:property value="31457280" name="maxUploadSize" />
 
+=======
+      <beans:property value="31457280" name="maxUploadSize" />
+       
+>>>>>>> 신웅(장소)
 		<!--약 10mb 제한 -->
 		<beans:property value="utf-8" name="defaultEncoding" />
 
 		<!-- 인코딩 -->
 	</beans:bean>
 	<beans:bean id="uploadPath" class="java.lang.String">
+<<<<<<< HEAD
 		<beans:constructor-arg
 			value="C:\git\CarCamping\src\main\webapp\resources\images" />
 	</beans:bean>
@@ -72,4 +78,11 @@
 	
 
 
+=======
+      <beans:constructor-arg 
+      value="C:\git\CarCamping (12)\src\main\webapp\resources\images" />
+   </beans:bean>
+   
+   
+>>>>>>> 신웅(장소)
 </beans:beans>

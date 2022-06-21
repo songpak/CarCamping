@@ -1,23 +1,16 @@
 package com.ezen.carCamping;
 
-import java.io.File; 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.service.ProductMapper;
@@ -27,55 +20,56 @@ public class ProductController {
 
 	@Autowired
 	private ProductMapper productMapper;
-	  
+
+	// 용품메인 컨트롤러
 	@RequestMapping("/goProduct.product")
-	public String goProduct(HttpServletRequest req) {
-		List<ProductDTO> list= productMapper.listProduct();
-		req.setAttribute("listProduct", list);
+	public String goProduct(HttpServletRequest req, @RequestParam Map<String, String> params) {
+			List<ProductDTO> list = null;
+			String search = params.get("search");
+			String searchString = params.get("searchString");
+			if (searchString == null) {
+				list = productMapper.listProduct();
+			} else {
+				list = productMapper.findProduct(search, searchString);
+			}
+			List<ProductDTO> popList = productMapper.popularProduct();
+			System.out.println("인기리스트" + popList);
+			req.setAttribute("popList", popList); // 인기용품 리스트 저장시킨겁니다
+			req.setAttribute("listProduct", list);
 		return "product/productMain";
+
 	}
+
+	// 리뷰목록 컨트롤러
 	@RequestMapping("/productView.product")
-	public String productView(HttpServletRequest req, @RequestParam Map<String, String> params) {
-		int pageSize = 5;
-		String pageNum = req.getParameter("pageNum");
-		if(pageNum==null) {
-			pageNum = "1";
-		}
-		int currentPage = Integer.parseInt(pageNum);
-		int startRow = (currentPage)*pageSize +1;
-		int endRow = startRow + pageSize -1;
-		int rowCount = productMapper.getReviewCount();
-		List<ReviewProductDTO> list1 = null;
-		if(rowCount>0) {
-			list1 = productMapper.listReviewProduct(startRow, endRow);
-		}
-		int reviewNum = rowCount - (startRow -1);
-		if (rowCount>0) {
-			int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
-			int pageBlock = 3;
-			int startPage = (currentPage - 1)/pageBlock  * pageBlock + 1;
-			int endPage = startPage + pageBlock - 1;
-			if (endPage > pageCount) endPage = pageCount;
-			req.setAttribute("pageCount", pageCount);
-			req.setAttribute("startPage", startPage);
-			req.setAttribute("endPage", endPage);
-		}
-		List<ReviewProductDTO> list = null;
-		String search = params.get("search");
-		String searchString = params.get("searcString");
-		if(searchString == null) list = productMapper.listProdReview2();
-		else list = productMapper.findReview(search, searchString);
-		
-		
-		req.setAttribute("listProdReview", list);
-		req.setAttribute("rowCount", rowCount);
-		req.setAttribute("boardNum", reviewNum);
-		req.setAttribute("listBoard", list1);
-		
+	public String productView(HttpServletRequest req, @RequestParam Map<String, String> params, int prod_num) {
+			List<ReviewProductDTO> list = null;
+			String search = params.get("search");
+			String searchString = params.get("searchString");
+			if (searchString == null) {
+				list = productMapper.listProdReview(prod_num);
+			} else {
+				list = productMapper.findReview(search, searchString);
+			}
+			req.setAttribute("getProduct", productMapper.getProduct(prod_num));
+			req.setAttribute("ReList", list);
 		return "product/productView";
 	}
+
+	// 용품 리뷰상세보기 컨트롤러
 	@RequestMapping("/productReviewView.product")
-	public String productReviewView() {
+	public String productReviewView(HttpServletRequest req, int rp_num) {
+		HttpSession session = req.getSession();
+		if (session.getAttribute("mem_num") == null) {
+			String msg = "로그인 하셔야 볼 수 있습니다!";
+			String url = "login.login";
+			req.setAttribute("msg", msg);
+			req.setAttribute("url", url);
+			return "message";
+		}else {
+			List<ReviewProductDTO> list = productMapper.getReviewView(rp_num);
+			req.setAttribute("getRv", list);
+		}
 		return "product/productReviewView";
 	}
 }

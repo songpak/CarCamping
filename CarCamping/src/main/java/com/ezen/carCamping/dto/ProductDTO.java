@@ -4,6 +4,7 @@ public class ProductDTO {
 	private int prod_num;
 	private ProductCategoryDTO productCategoryDTO;
 	private BrandCategoryDTO brandCategoryDTO;
+	private String brand_name;
 	private String prod_name;
 	private int prod_popular;
 	private int prod_price;
@@ -19,6 +20,12 @@ public class ProductDTO {
 	private int prod_reviewCount;
 	private float prod_reviewScore;
 	
+	public String getBrand_name() {
+		return brand_name;
+	}
+	public void setBrand_name(String brand_name) {
+		this.brand_name = brand_name;
+	}
 	public int getProd_num() {
 		return prod_num;
 	}

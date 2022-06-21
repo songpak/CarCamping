@@ -3,6 +3,7 @@ package com.ezen.carCamping;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -19,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+<<<<<<< HEAD
+=======
+import org.springframework.web.servlet.ModelAndView;
+>>>>>>> ì‹ ì›…(ìž¥ì†Œ)
 
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.RegionDTO;
@@ -72,13 +77,21 @@ public class MemberController {
    }
 
    
+<<<<<<< HEAD
    
+=======
+   //·Î±×ÀÎ ¹öÆ° ´­·¶À»‹š ÄÁÆ®·Ñ·¯
+>>>>>>> ì‹ ì›…(ìž¥ì†Œ)
    @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
+<<<<<<< HEAD
       
       
+=======
+      int mem_num = dto.getMem_num();
+>>>>>>> ì‹ ì›…(ìž¥ì†Œ)
       String msg = null, url = null;
       if (dto == null){   
          msg = "ÇØ´çÇÏ´Â ¾ÆÀÌµð°¡ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇÏ°í ·Î±×ÀÎÇØ ÁÖ¼¼¿ä!!";
@@ -87,8 +100,13 @@ public class MemberController {
          if (params.get("mem_password").equals(dto.getMem_password())){
         	
             msg = dto.getMem_id()+"´Ô, È¯¿µÇÕ´Ï´Ù!!";
+<<<<<<< HEAD
             url = "index.do";
+=======
+            url = "index.do?mem_num=" + mem_num;
+>>>>>>> ì‹ ì›…(ìž¥ì†Œ)
             HttpSession session = req.getSession();
+            session.setAttribute("mem_num", mem_num);
             session.setAttribute("mbdto", dto);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
@@ -128,14 +146,18 @@ public class MemberController {
 		}
 	  RegionDTO rdto = new RegionDTO();
       rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
+<<<<<<< HEAD
       dto.setRegionDTO(rdto);
+=======
+      dto.setregionDTO(rdto);
+>>>>>>> ì‹ ì›…(ìž¥ì†Œ)
       int res = memberMapper.insertMember(dto);
       
        if (res>0) {
-          req.setAttribute("msg", "È¸¿ø°¡ÀÔ ¼º°ø ^__^");
+          req.setAttribute("msg", "È¸¿ø°¡ÀÔ ¼º°ø!!");
           req.setAttribute("url", "index.do");
        }else {
-          req.setAttribute("msg", "È¸¿ø°¡ÀÔ ½ÇÆÐ¤Ð_¤Ð");
+          req.setAttribute("msg", "È¸¿ø°¡ÀÔ ½ÇÆÐ!!");
           req.setAttribute("url", "sign.login");
           
        }

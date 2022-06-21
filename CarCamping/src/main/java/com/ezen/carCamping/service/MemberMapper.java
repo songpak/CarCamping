@@ -58,6 +58,7 @@ public class MemberMapper {
        MemberDTO dto = sqlSession.selectOne("getMemberEmail", mem_email);
        return dto;
    }
+<<<<<<< HEAD
    public int updateMember(MemberDTO dto) {
 		int res = sqlSession.update("updateMember", dto);
 		return res;
@@ -68,5 +69,7 @@ public class MemberMapper {
 	}
    
    
+=======
+>>>>>>> 신웅(장소)
 
 }
