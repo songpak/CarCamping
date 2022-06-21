@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,10 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-
-import org.springframework.mail.MailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.service.MemberMapper;
@@ -43,10 +37,11 @@ public class MemberController {
    
    @Autowired
    private MemberMapper memberMapper;
-  
+   
    @Autowired
    private JavaMailSenderImpl mailSender;
    
+
    @Resource(name="uploadPath")
 	private String uploadPath;
    
@@ -91,7 +86,7 @@ public class MemberController {
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
-      
+      int mem_num = dto.getMem_num();
       
       String msg = null, url = null;
       if (dto == null){   
@@ -100,11 +95,10 @@ public class MemberController {
       }else {
          if (params.get("mem_password").equals(dto.getMem_password())){
         	
-
             msg = dto.getMem_id()+"님, 환영합니다!!";
-
             url = "index.do";
             HttpSession session = req.getSession();
+            session.setAttribute("mem_num", mem_num);
             session.setAttribute("mbdto", dto);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
@@ -114,7 +108,6 @@ public class MemberController {
             }
             resp.addCookie(ck);
          }else {   
-
             msg = "비밀번호가 틀렸습니다. 다시 확인하고 로그인해 주세요!!";
             url = "login.login";
          }
@@ -163,9 +156,7 @@ public class MemberController {
    public String logout(HttpServletRequest req) {
 	   HttpSession session = req.getSession();
 	   	session.invalidate();
-
 		req.setAttribute("msg", "로그아웃 되었습니다.");
-
 		req.setAttribute("url", "index.do");
 		return "message";
 	   
@@ -197,46 +188,48 @@ public class MemberController {
 	      return "login/checkNick";
 	   }
 	
-
-	@RequestMapping("/checkEmail.login")
-	public String checkEmail(HttpServletRequest req, @RequestParam String mem_email) {	
-		  MemberDTO dto = memberMapper.getMemberEmail(mem_email);
-	      int result = -1;
-		  if (dto == null){   
-	    	  result= 1;
-	      }else {
-	    	  result = 0;
-	      }
-		  req.setAttribute("result", result);
-	      return "login/checkEmail";
-	   }
-	@RequestMapping(value = "/CertifyEmail.login", method = RequestMethod.GET)
-	@ResponseBody
-	public String CertifyEmail(@RequestParam("mem_email") String mem_email) throws Exception{
-	    int serti = (int)((Math.random()* (99999 - 10000 + 1)) + 10000);
-	    
-	    String from = "qkzptjd5440@naver.com";//보내는 이 메일주소
-	    String to = mem_email;
-	    String title = "회원가입시 필요한 인증번호 입니다.";
-	    String content = "[인증번호] "+ serti +" 입니다. <br/> 인증번호 확인란에 기입해주십시오.";
-	    String num = "";
-	    try {
-	    	MimeMessage mail = mailSender.createMimeMessage();
-	        MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
-	        
-	        mailHelper.setFrom(from);
-	        mailHelper.setTo(to);
-	        mailHelper.setSubject(title);
-	        mailHelper.setText(content, true);       
-	        
-	        mailSender.send(mail);
-	        num = Integer.toString(serti);
-	        
-	    } catch(Exception e) {
-	        num = "error";
-	    }
-	    return num;
-	}
+  @RequestMapping("/checkEmail.login")
+  public String checkEmail(HttpServletRequest req, @RequestParam String mem_email) {	
+	  MemberDTO dto = memberMapper.getMemberEmail(mem_email);
+      int result = -1;
+	  if (dto == null){   
+    	  result= 1;
+      }else {
+    	  result = 0;
+      }
+	  req.setAttribute("result", result);
+      return "login/checkEmail";
+   }
+  @RequestMapping(value = "/CertifyEmail.login", method = RequestMethod.GET)
+  @ResponseBody
+  public String CertifyEmail(@RequestParam("mem_email") String mem_email) throws Exception{
+    int serti = (int)((Math.random()* (99999 - 10000 + 1)) + 10000);
+    
+    String from = "qkzptjd5440@naver.com";//보내는 이 메일주소
+    String to = mem_email;
+    String title = "회원가입시 필요한 인증번호 입니다.";
+    String content = "[인증번호] "+ serti +" 입니다. <br/> 인증번호 확인란에 기입해주십시오.";
+    String num = "";
+    try {
+    	MimeMessage mail = mailSender.createMimeMessage();
+        MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+        
+        mailHelper.setFrom(from);
+        mailHelper.setTo(to);
+        mailHelper.setSubject(title);
+        mailHelper.setText(content, true);       
+        
+        mailSender.send(mail);
+        num = Integer.toString(serti);
+        
+    } catch(Exception e) {
+        num = "error";
+    }
+    return num;
+}
+ 
 
 }
 
+	
+   
