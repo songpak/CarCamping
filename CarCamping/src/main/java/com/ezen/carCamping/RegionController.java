@@ -305,4 +305,43 @@ public class RegionController {
 	 * = String.valueOf(ccr_num)+id; return test; }
 	 */
 
+	@RequestMapping(value="/board.region", method=RequestMethod.GET)
+	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params) {
+	String region_num = params.get("region_num"); 
+	List<CarCampingRegionDTO>list =null;
+	int pageSize= 3;
+	String pageNum = params.get("pageNum");
+	int currentpage;
+	if(pageNum==null) {
+		pageNum="1";
+		currentpage=Integer.parseInt(pageNum);
+	}else {
+		double pageNum_db =Double.parseDouble(pageNum);
+		if(pageNum_db<=0)pageNum_db = 0 ;
+		currentpage = (int)(pageNum_db);
+	}
+	int startRow = (currentpage -1) * pageSize +1;
+	int endRow = startRow + pageSize - 1;
+	int rowCount=0;
+	rowCount=RegionMapper.listRegionCount(Integer.parseInt(region_num)).size();
+	if(endRow>rowCount)
+		endRow=rowCount;
+	if(rowCount>0) {
+		list=RegionMapper.listPopRegion(Integer.parseInt(region_num)); 
+	}
+	int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
+	int pageBlock = 3;
+	int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
+	int endPage = startPage + pageBlock - 1;
+	if (endPage > pageCount) endPage = pageCount;
+	req.setAttribute("region_num", region_num);
+	req.setAttribute("rowCount",rowCount);
+	req.setAttribute("list", list);
+	req.setAttribute("pageCount", pageCount);
+	req.setAttribute("startPage", startPage);
+	req.setAttribute("endPage", endPage);
+
+	return "/region/regionBoard";
+	  
+	}
 }

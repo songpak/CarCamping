@@ -152,7 +152,7 @@ CSS only
 		<ul class="list-group list-group-flush rounded-4 ">
 
 			<li class="list-group-item fs-2 text-center"><button
-					class="btn btn-outline-warning btn-lg" type="button"
+					class="btn btn-outline-warning btn-lg" type="button" onclick="location.href='board.region?region_num=${regionDTO.region_num}'"
 					style="-bs-btn-padding-x: 70px; - -bs-btn-padding-y: 15px;">
 					<i class="bi bi-trophy-fill" width="40" height="40"
 						fill="currentColor"></i> ${regionDTO.region_name} 차박지 더 많이 보기 <i

@@ -143,11 +143,60 @@
 		SELECT count(*) from ReviewRegion a,CarCampingRegion b 
 		where a.ccr_num = b.ccr_num and b.ccr_num = #{ccr_num} and a.review_adminConfirm=0
 	</select> 	
-
+<!-- 
 	<select id="test" parameterType="Integer" resultType="HashMap">
 		select d.* from 
 		(select c.region_num region_num ,c.ccr_num ccr_num,c.ccr_name ccr_name,
 		(select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0)reviewCount,c.ccr_likeCount ccr_likeCount ,c.ccr_popular ccr_popular,c.ccr_score ccr_score
-		from (select a.* from CarCampingRegion a)c)d where d.reviewCount>0 and d.region_num =#{region_num};
+		from (select a.* from CarCampingRegion a)c)d where d.reviewCount>0 and d.region_num =#{region_num}
 	</select>
+	 -->
+	<resultMap type="RegionDTO"	 id="regionMap">
+		<id column="region_num" property="region_num"/>
+		<result column="region_name" property="region_name"/>
+	</resultMap>
+	
+	<resultMap type="CarCampingRegionDTO" id="carCampingRegionMap">
+		<id column="ccr_num" property="ccr_num"/>
+		<result column="ccr_name" property="ccr_name"/>
+		<result column="ccr_car" property="ccr_car"/>
+		<result column="ccr_pricePerDay" property="ccr_pricePerDay"/>
+		<result column="ccr_toilet" property="ccr_toilet"/>
+		<result column="ccr_restroom" property="ccr_restroom"/>
+		<result column="ccr_water" property="ccr_water"/>
+		<result column="ccr_market" property="ccr_market"/>
+		<result column="ccr_river" property="ccr_river"/>
+		<result column="ccr_ground" property="ccr_ground"/>
+		<result column="ccr_likeCount" property="ccr_likeCount"/>
+		<result column="ccr_score" property="ccr_score"/>
+		<result column="ccr_popular" property="ccr_popular"/>
+		<result column="ccr_viewImage1" property="ccr_viewImage1"/>
+		<result column="ccr_viewImage2" property="ccr_viewImage2"/>
+		<result column="ccr_viewImage3" property="ccr_viewImage3"/>
+		<result column="ccr_viewImage4" property="ccr_viewImage4"/>
+		<result column="ccr_viewImage5" property="ccr_viewImage5"/>
+		<result column="ccr_summary" property="ccr_summary"/>
+		<result column="ccr_content" property="ccr_content"/>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
+		</association>
+	</resultMap>
+
+
+<select resultMap="carCampingRegionMap" id="listPopRegion" parameterType="int">
+
+<!-- 목록 전체 -->
+
+ select a.*, b.* from CarCampingRegion a join Region b join ReviewRegion c on a.region_num = b.region_num and a.ccr_num = c.ccr_num where b.region_num=#{region_num} group by a.ccr_num having count(*) >= 1
+</select>
+
+
+<select resultMap="carCampingRegionMap" id="listRegionCount" parameterType="int">
+
+<!-- 카운터 -->
+
+select a.*, b.* from CarCampingRegion a join Region b join ReviewRegion c on a.region_num = b.region_num and a.ccr_num = c.ccr_num where b.region_num=#{region_num} group by a.ccr_num having count(*) >= 1 
+</select> 
+
+	
+	
 </mapper>
