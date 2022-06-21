@@ -15,10 +15,12 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900"
 	rel="stylesheet">
-<!-- 	<script
+	
+<!-- 프로필 오프캔버스 -->
+<script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-	crossorigin="anonymous"></script> -->
+	crossorigin="anonymous"></script>
 <!-- CSS only -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
@@ -48,6 +50,8 @@
 
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+				
+
 				
 <script>
 	function field_review(){
@@ -99,7 +103,7 @@ padding-left: 0px;
 				<div class="col-12">
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
-						<a href="index.html" class="logo" style="height: 90px;"><img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
+						<a href="index.do" class="logo" style="height: 90px;"><img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
 						<ul class="nav">
