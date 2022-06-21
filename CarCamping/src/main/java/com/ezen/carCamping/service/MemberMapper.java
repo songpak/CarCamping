@@ -26,8 +26,8 @@ public class MemberMapper {
                + "' and mem_email='"+params.get("mem_email")+"'";
             params.put("sql", sql);
             MemberDTO dto = sqlSession.selectOne("searchMemberID", params);
-            if (dto == null) return "ÀÔ·ÂµÈ °ª°ú ÀÏÄ¡ÇÏ´Â È¸¿øÀÌ ¾ø½À´Ï´Ù.";
-            return "¾ÆÀÌµğ´Â " + dto.getMem_id() +" ÀÔ´Ï´Ù.";
+            if (dto == null) return "ì…ë ¥ëœ ê°’ê³¼ ì¼ì¹˜í•˜ëŠ” íšŒì›ì´ ì—†ìŠµë‹ˆë‹¤.";
+            return "ì•„ì´ë””ëŠ” " + dto.getMem_id() +" ì…ë‹ˆë‹¤.";
          
    }
    
@@ -37,8 +37,13 @@ public class MemberMapper {
       + "' and mem_email='"+params.get("mem_email") + "'";
          params.put("sql", sql);
       MemberDTO dto = sqlSession.selectOne("searchMemberPW", params);
+<<<<<<< HEAD
       if (dto == null) return "ÀÔ·ÂµÈ °ª°ú ÀÏÄ¡ÇÏ´Â È¸¿øÀÌ ¾ø½À´Ï´Ù.";
       return "ºñ¹Ğ¹øÈ£´Â."+dto.getMem_password()+"ÀÔ´Ï´Ù.";
+=======
+      if (dto == null) return "ì…ë ¥ëœ ê°’ê³¼ ì¼ì¹˜í•˜ëŠ” íšŒì›ì´ ì—†ìŠµë‹ˆë‹¤.";
+      return "ë¹„ë°€ë²ˆí˜¸ëŠ”."+dto.getMem_password()+"ì…ë‹ˆë‹¤.";
+>>>>>>> í˜œì„±(ë¦¬ë·°)
 }
    
    public MemberDTO getMemberId(String mem_id) {

@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<<<<<<< HEAD
 <<<<<<< HEAD:CarCamping/src/main/webapp/WEB-INF/views/login/sign2.jsp
+=======
+>>>>>>> 혜성(리뷰)
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -8,6 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>회원가입</title>
         <!-- Bootstrap -->
+<<<<<<< HEAD
 =======
 <<<<<<<< HEAD:CarCamping/src/main/webapp/WEB-INF/views/login/sign.jsp
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -393,6 +397,8 @@ function CertifyEamil_fn(button_id){
 
  <!-- Bootstrap -->
 >>>>>>> 정민(로그인):CarCamping (12)/src/main/webapp/WEB-INF/views/login/sign2.jsp
+=======
+>>>>>>> 혜성(리뷰)
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요한) -->
         <script src="http://code.jquery.com/jquery.js"></script>
@@ -401,6 +407,7 @@ function CertifyEamil_fn(button_id){
         <!-- Respond.js 으로 IE8 에서 반응형 기능을 활성화하세요 (https://github.com/scottjehl/Respond) -->
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
+<<<<<<< HEAD
 <<<<<<< HEAD:CarCamping/src/main/webapp/WEB-INF/views/login/sign2.jsp
 =======
 <<<<<<<< HEAD:CarCamping/src/main/webapp/WEB-INF/views/login/sign.jsp
@@ -653,6 +660,8 @@ function CertifyEamil_fn(button_id){
 </body>
 ========
 >>>>>>> 정민(로그인):CarCamping (12)/src/main/webapp/WEB-INF/views/login/sign2.jsp
+=======
+>>>>>>> 혜성(리뷰)
 		
 </head>
 
@@ -1326,8 +1335,11 @@ e-mail : dd@naver.com
             <hr/>
         </div>
 </body>  
+<<<<<<< HEAD
 <<<<<<< HEAD:CarCamping/src/main/webapp/WEB-INF/views/login/sign2.jsp
 =======
 >>>>>>>> 정민(로그인):CarCamping (12)/src/main/webapp/WEB-INF/views/login/sign2.jsp
 >>>>>>> 정민(로그인):CarCamping (12)/src/main/webapp/WEB-INF/views/login/sign2.jsp
+=======
+>>>>>>> 혜성(리뷰)
 </html>

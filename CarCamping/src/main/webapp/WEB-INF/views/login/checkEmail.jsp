@@ -25,13 +25,19 @@ function sendCheckValue(){
 	}else{
 		openSignCheck.emailDuplication.value="emailCheck";
 		openSignCheck.CheckEmail.disabled=true;
+<<<<<<< HEAD
 <<<<<<< HEAD:CarCamping/src/main/webapp/WEB-INF/views/login/checkEmail.jsp
 =======
+=======
+>>>>>>> 혜성(리뷰)
 		openSignCheck.CertifyEmail.disabled=false;
 		openSignCheck.CertifyEmail_OK.disabled=false;
 		//openSignCheck.CertifyEmailNum.disabled=false;
 		
+<<<<<<< HEAD
 >>>>>>> 정민(로그인):CarCamping (12)/src/main/webapp/WEB-INF/views/login/checkEmail.jsp
+=======
+>>>>>>> 혜성(리뷰)
 		openSignCheck.CheckEmail.style.opacity=0.6;
 		openSignCheck.CheckEmail.style.cursor="default";
 		window.close();
@@ -54,6 +60,7 @@ function sendCheckValue(){
 			<input type="hidden" name="chResult" value="N">
 		</c:when>
 		<c:when test = "${result==1}">
+<<<<<<< HEAD
 <<<<<<< HEAD:CarCamping/src/main/webapp/WEB-INF/views/login/checkEmail.jsp
 			<p style = "color :blue"> 사용 가능한 이메일입니다. </p>
 =======
@@ -61,6 +68,11 @@ function sendCheckValue(){
 			<p style = "color :red;">
 			아이디 비밀번호 분실시 필요한 정보이므로, 정확하게 기입해 주십시오.</p>
 >>>>>>> 정민(로그인):CarCamping (12)/src/main/webapp/WEB-INF/views/login/checkEmail.jsp
+=======
+			<p style = "color :blue;"> 사용 가능한 이메일입니다. </p>
+			<p style = "color :red;">
+			아이디 비밀번호 분실시 필요한 정보이므로, 정확하게 기입해 주십시오.</p>
+>>>>>>> 혜성(리뷰)
 			<input type="hidden" name="chResult" value="Y">
 		</c:when>
 		<c:otherwise>

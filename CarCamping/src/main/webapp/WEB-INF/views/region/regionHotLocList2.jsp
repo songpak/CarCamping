@@ -1,5 +1,4 @@
-<%@include file="../top.jsp"%>
-<%@include file="regionMainTop.jsp"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -19,7 +18,7 @@
 					class="img-responsive rounded-circle"
 					style="width: 107px; height: 107px;">
 					<div class="position-absolute top-50 start-50 translate-middle">
-						<strong>지도에서 마커를 클릭해주세요 ! </strong>
+						<a href="regionView.region">지도에서 마커를 클릭해주세요 ! </a>
 					</div></li>
 			</c:if> <c:forEach var="hl_region" items="${hotList_Region}">
 				<li class="list-group-item position-relative"><img
@@ -36,6 +35,3 @@
 
 </div>
 
-
-<%@include file="regionMainBottom.jsp"%>
-<%@include file="../bottom.jsp"%>

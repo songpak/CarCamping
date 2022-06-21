@@ -80,7 +80,10 @@ img, svg {
 									
 										<li><a href="login.login">로그인</a></li>
 										<li><a href="sign.login">회원가입</a></li>
+<<<<<<< HEAD
 <<<<<<< HEAD:CarCamping/src/main/webapp/WEB-INF/views/index.jsp
+=======
+>>>>>>> 혜성(리뷰)
 									</ul>
 								</li>
 								</c:if> 
@@ -98,6 +101,7 @@ img, svg {
 										<li><a href="myPageProfile.myPage">마이페이지</a></li>
 									</ul>
 								</li>
+<<<<<<< HEAD
 =======
 									</ul>
 								</li>
@@ -118,6 +122,8 @@ img, svg {
 									</ul>
 								</li>
 >>>>>>> 정민(로그인):CarCamping (12)/src/main/webapp/WEB-INF/views/index.jsp
+=======
+>>>>>>> 혜성(리뷰)
 								</c:if> 		
 							</ul>
 							<!-- ***** Menu End ***** -->

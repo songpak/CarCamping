@@ -42,7 +42,11 @@
 	</beans:bean>
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg
+<<<<<<< HEAD
 			value="C:\git\CarCamping (12)\src\main\webapp\resources\images" />
+=======
+			value="C:\git\CarCamping\src\main\webapp\resources\images" />
+>>>>>>> 혜성(리뷰)
 	</beans:bean>
 
 	<!--이메일 인증 : 박혜성 0620 추가 -->
@@ -52,8 +56,13 @@
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<beans:property name="host" value="smtp.naver.com" /> <!-- 메이서버 호스트 -->
 		<beans:property name="port" value="587" /> <!-- 메이서버 포트번호 -->
+<<<<<<< HEAD
 		<beans:property name="username" value="dlwjdals1759@naver.com" /> <!-- 자신의 이메일 아이디 -->
 		<beans:property name="password" value="wnsdn0619!" /> <!-- 자신의 비밀번호 -->
+=======
+		<beans:property name="username" value="" /> <!-- 자신의 이메일 아이디 -->
+		<beans:property name="password" value="" /> <!-- 자신의 비밀번호 -->
+>>>>>>> 혜성(리뷰)
 		<!-- 보안연결 SSL과 관련된 설정 -->
 		<beans:property name="javaMailProperties">
 			<beans:props>
