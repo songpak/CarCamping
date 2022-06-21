@@ -1,14 +1,20 @@
 package com.ezen.carCamping;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
+import com.ezen.carCamping.service.RegionMapper;
 import com.ezen.carCamping.service.ReviewMapper;
 
 @Controller
@@ -17,18 +23,32 @@ public class reviewController {
 	@Autowired
 	private ReviewMapper reviewMapper;
 	
+	@Autowired 
+	private RegionMapper RegionMapper; 
+	
 	@RequestMapping(value="field_review.review", method=RequestMethod.GET )
 	public String field_review() {
 		return "review/field_review";
 	}
-	
+//	selectì—ì„œ ì„ íƒí•œ region_numì— ë”°ë¥¸ ccr_name,ccr_numê°€ì ¸ì˜¤ê¸°
+	@RequestMapping(value = "ccr_list.review", method=RequestMethod.POST)
+	@ResponseBody
+	public String ccr_list(HttpServletRequest req,@RequestParam String region_num) {
+		System.out.println(region_num);
+		//String region_num = Integer.parseInt(region_num);
+		List<CarCampingRegionDTO> list = RegionMapper.listCcr(Integer.parseInt(region_num));
+		String size= String.valueOf(list.size());
+		System.out.println(size);
+		return String.valueOf(list.size());
+		
+	}
 	@RequestMapping(value="field_review.review", method=RequestMethod.POST)
 	public String field_reviewOk(HttpServletRequest req, ReviewRegionDTO dto) {
 		int res = reviewMapper.insertReviewRegion(dto);
 		if(res>0) {
-			req.setAttribute("msg", "¸®ºä µî·Ï ¼º°ø!");
+			req.setAttribute("msg", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 		}else {
-			req.setAttribute("msg", "¸®ºä µî·Ï ½ÇÆĞ¤Ì_¤Ì");
+			req.setAttribute("msg", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ğ¤ï¿½_ï¿½ï¿½");
 			req.setAttribute("url", "field_review.review");
 		}
 		return "message";
@@ -43,9 +63,9 @@ public class reviewController {
 	public String goods_reviewOk(HttpServletRequest req, ReviewProductDTO dto) {
 		int res = reviewMapper.insertReviewProduct(dto);
 		if(res>0) {
-			req.setAttribute("msg", "¸®ºä µî·Ï ¼º°ø!");
+			req.setAttribute("msg", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!");
 		}else {
-			req.setAttribute("msg", "¸®ºä µî·Ï ½ÇÆĞ¤Ì_¤Ì");
+			req.setAttribute("msg", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ğ¤ï¿½_ï¿½ï¿½");
 			req.setAttribute("url", "goods_review.review");
 		}
 		return "message";
