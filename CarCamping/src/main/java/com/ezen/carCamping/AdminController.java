@@ -28,6 +28,7 @@ import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.AdminMapper;
@@ -893,7 +894,10 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminRental.admin")
-	public String adminRental() {
+	public String adminRental(HttpServletRequest req) {
+		List<RentalLogDTO> list = adminMapper.adminListRentalLog();
+		
+		req.setAttribute("adminListRentalLog", list);
 		return "admin/adminRental";
 	}
 }

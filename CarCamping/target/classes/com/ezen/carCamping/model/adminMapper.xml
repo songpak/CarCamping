@@ -467,8 +467,10 @@
 	</resultMap>
 	
 	<select id="adminListRentalLog" resultMap="rentalLogMap">
-		select from RentalLog a join ProductCart b join Member c join Product d join Agency e 
+		select a.*,b.*,c.*,d.*,e.* from RentalLog a join ProductCart b join Member c join Product d join Agency e 
 		on a.cart_num = b.cart_num and b.mem_num = c.mem_num and b.prod_num = d.prod_num and b.agency_num = e.agency_num
 	</select>
+	
+	
 	
 </mapper>

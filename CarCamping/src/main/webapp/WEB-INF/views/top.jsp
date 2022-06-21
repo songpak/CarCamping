@@ -31,7 +31,7 @@
 	href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 
-<title>Education Meeting HTML5 Template</title>
+<title>WithCar HomePage</title>
 
 <!-- Bootstrap core CSS -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
@@ -75,7 +75,19 @@
 	}
 </script>
 
+<style>
+.has-sub>.sub-menu>a{
+background: transparent;
+}
+.has-sub>.sub-menu>li{
+border :1px solid black;
+}
+.has-sub>.sub-menu{.
+background: transparent;
+padding-left: 0px;
+}
 
+</style>
 
 </head>
 
@@ -97,40 +109,26 @@
 							<c:if test="${empty mbdto}">	
 							<li><a href="login.login">로그인</a></li>
 							<li><a href="sign.login">회원가입</a></li>
-							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
-								<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a href="goRegion.region"  style="background: #E9EFC0;">차박지 메인</a></li>
-									<li><a href="goProduct.product"  style="background: #E9EFC0;">용품 대여</a></li>
-								</ul></li>
-							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
-							<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a style="background: #E9EFC0;" onclick="field_review()">장소 리뷰</a></li>
-									<li><a style="background: #E9EFC0;" onclick="goods_review()">용품 리뷰</a></li>
-								</ul></li>
-							<li class="scroll-to-section">
-								<a class="btn btn-outline-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" style="padding-top:0px; padding-bottom:0px;">
-									프로필
-								</a>
-							</li></c:if>
+							</c:if>
 							<c:if test="${not empty mbdto}">
-							
 							<li><a href="logout.login">로그아웃</a></li>
+							</c:if>
 							<li class="has-sub"><a href="javascript:void(0)">바로가기</a>
-								<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a href="goRegion.region"  style="background: #E9EFC0;">차박지 메인</a></li>
-									<li><a href="goProduct.product"  style="background: #E9EFC0;">용품 대여</a></li>
+								<ul class="sub-menu" >
+									<li><a href="goRegion.region"  style="background: transparent;">차박지 메인</a></li>
+									<li><a href="goProduct.product"  style="background: transparent;">용품 대여</a></li>
 								</ul></li>
 							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
-							<ul class="sub-menu" style="background: #e9efc08c;">
-									<li><a style="background: #E9EFC0;"  href="field_review.review">장소 리뷰</a></li>
-									<li><a style="background: #E9EFC0;"  href="goods_review.review">용품 리뷰</a></li>
+							<ul class="sub-menu" >
+									<li><a style="background: transparent; " onclick="field_review()">장소 리뷰</a></li>
+									<li><a style="background: transparent;" onclick="goods_review()">용품 리뷰</a></li>
 								</ul></li>
 							<li class="scroll-to-section">
-								<a class="btn btn-outline-success" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" style="padding-top:0px; padding-bottom:0px;">
+								<button class="btn btn-link" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"
+								style="background-color: #091835;  color: #ffffff; text-decoration: none;">
 									프로필
-								</a>
-							</li></c:if>
-							
+								</button>
+							</li>
 				                <div class="offcanvas offcanvas-start" tabindex="-1"
 								id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 								<div class="offcanvas-header">
@@ -157,7 +155,7 @@
 											class="list-group-item list-group-item-action list-group-item-light p-3">
 											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
 											내가 좋아한 리뷰</a> 
-										<a href="myPageCart.myPage"
+										<a href="myPageCart2.myPage"
 											class="list-group-item list-group-item-action list-group-item-light p-3">
 											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
 											장바구니</a> 

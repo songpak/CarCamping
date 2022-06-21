@@ -28,8 +28,8 @@
 	&nbsp;
 	<script>
 		function popup(a){
-			var url = "adminViewMember.admin?mem_num="+a
-			var name = "회원 정보"
+			var url = "adminViewRentalLog.admin?rental_num="+a
+			var name = "대여 정보"
 			var option = "width=600,height=800,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
@@ -39,35 +39,48 @@
 <div class="row" style="overflow:hidden;">	
 	<table class="table table-striped">
 		<tr class="table-info">
-			<th>ID</th>
-			<th>닉네임</th>
-			<th>EMAIL</th>
-			<th>실명</th>
-			<th>포인트</th>
-			<th>대여건수</th>
-			<th>회원등록일</th>
-			<th>이용제한</th>
-			<th>정보</th>
+			<th>회원ID</th>
+			<th>용품명</th>
+			<th>수량</th>
+			<th>대리점명</th>
+			<th>대여시작일</th>
+			<th>대여종료일</th>
+			<th>대여요금</th>
+			<th>포인트 사용 요금</th>
+			<th>반납상태</th>
+			<th> </th>
 		</tr>
-		<c:forEach items="${adminListMember}" var="dto">
+		<c:if test="${not empty adminListRentalLog}">
+		<c:forEach items="${adminListRentalLog}" var="dto">
 			<tr>
-				<td>${dto.mem_id}</td>
-				<td>${dto.mem_nickName}</td>
-				<td>${dto.mem_email}</td>
-				<td>${dto.mem_userName}</td>
-				<td>${dto.mem_point}</td>
-				<td>${dto.mem_rentalCount}</td>
-				<td>${dto.mem_sysdate}</td>
-				<c:if test="${dto.mem_denied==0}">
-					<td>제한</td>
+				<td>${dto.productCartDTO.memberDTO.mem_id}</td>
+				<td>${dto.productCartDTO.productDTO.prod_name}</td>
+				<td>${dto.productCartDTO.cart_prodCount}</td>
+				<td>${dto.productCartDTO.agencyDTO.agency_name}</td>
+				<td>${dto.rental_from}</td>
+				<td>${dto.rental_to}</td>
+				<td>${dto.rental_price}</td>
+				<td>${dto.rental_usePoint}</td>
+				<c:if test="${dto.rentalReturn==0}">
+					<td>대여중</td>
 				</c:if>
-				<c:if test="${dto.mem_denied==1}">
-					<td>일반</td>
+				<c:if test="${dto.rentalReturn==1}">
+					<td>반납완료</td>
 				</c:if>
-				<td><button type="button" class="btn btn-primary"
-				onclick="location.href='javascript:popup(${dto.mem_num})'">정보</button></td>
+				<c:if test="${dto.rentalReturn==2}">
+					<td>연장중</td>
+				</c:if>
+				<c:if test="${dto.rentalReturn==3}">
+					<td>미납</td>
+				</c:if>					
+				<td><button type="button" class="btn btn-info"
+				onclick="location.href='javascript:popup(${dto.rental_num})'">정보</button></td>
 			</tr>
 		</c:forEach>
+		</c:if>
+		<c:if test="${empty adminListRentalLog}">
+			<td colspan="10" align="center">해당하는 대여내역이 없습니다</td>
+		</c:if>
 	</table>
 	
 	<nav aria-label="Page navigation example">
