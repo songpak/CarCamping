@@ -33,22 +33,16 @@
 	<beans:bean
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
 		id="multipartResolver">
-<<<<<<< HEAD
 		<beans:property value="31457280" name="maxUploadSize" />
 
-=======
-      <beans:property value="31457280" name="maxUploadSize" />
-       
->>>>>>> 신웅(장소)
 		<!--약 10mb 제한 -->
 		<beans:property value="utf-8" name="defaultEncoding" />
 
 		<!-- 인코딩 -->
 	</beans:bean>
 	<beans:bean id="uploadPath" class="java.lang.String">
-<<<<<<< HEAD
 		<beans:constructor-arg
-			value="C:\git\CarCamping\src\main\webapp\resources\images" />
+			value="C:\git\CarCamping (12)\src\main\webapp\resources\images" />
 	</beans:bean>
 
 	<!--이메일 인증 : 박혜성 0620 추가 -->
@@ -58,8 +52,8 @@
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<beans:property name="host" value="smtp.naver.com" /> <!-- 메이서버 호스트 -->
 		<beans:property name="port" value="587" /> <!-- 메이서버 포트번호 -->
-		<beans:property name="username" value="" /> <!-- 자신의 이메일 아이디 -->
-		<beans:property name="password" value="" /> <!-- 자신의 비밀번호 -->
+		<beans:property name="username" value="dlwjdals1759@naver.com" /> <!-- 자신의 이메일 아이디 -->
+		<beans:property name="password" value="wnsdn0619!" /> <!-- 자신의 비밀번호 -->
 		<!-- 보안연결 SSL과 관련된 설정 -->
 		<beans:property name="javaMailProperties">
 			<beans:props>
@@ -78,11 +72,4 @@
 	
 
 
-=======
-      <beans:constructor-arg 
-      value="C:\git\CarCamping (12)\src\main\webapp\resources\images" />
-   </beans:bean>
-   
-   
->>>>>>> 신웅(장소)
 </beans:beans>

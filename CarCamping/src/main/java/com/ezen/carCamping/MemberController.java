@@ -6,24 +6,25 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-<<<<<<< HEAD
-=======
 import org.springframework.web.servlet.ModelAndView;
->>>>>>> ì‹ ì›…(ìž¥ì†Œ)
 
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.RegionDTO;
@@ -36,6 +37,9 @@ public class MemberController {
    
    @Autowired
    private MemberMapper memberMapper;
+   
+   @Autowired
+   private JavaMailSenderImpl mailSender;
    
 
    @Resource(name="uploadPath")
@@ -77,21 +81,13 @@ public class MemberController {
    }
 
    
-<<<<<<< HEAD
    
-=======
-   //·Î±×ÀÎ ¹öÆ° ´­·¶À»‹š ÄÁÆ®·Ñ·¯
->>>>>>> ì‹ ì›…(ìž¥ì†Œ)
    @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
-<<<<<<< HEAD
       
       
-=======
-      int mem_num = dto.getMem_num();
->>>>>>> ì‹ ì›…(ìž¥ì†Œ)
       String msg = null, url = null;
       if (dto == null){   
          msg = "ÇØ´çÇÏ´Â ¾ÆÀÌµð°¡ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇÏ°í ·Î±×ÀÎÇØ ÁÖ¼¼¿ä!!";
@@ -100,13 +96,8 @@ public class MemberController {
          if (params.get("mem_password").equals(dto.getMem_password())){
         	
             msg = dto.getMem_id()+"´Ô, È¯¿µÇÕ´Ï´Ù!!";
-<<<<<<< HEAD
             url = "index.do";
-=======
-            url = "index.do?mem_num=" + mem_num;
->>>>>>> ì‹ ì›…(ìž¥ì†Œ)
             HttpSession session = req.getSession();
-            session.setAttribute("mem_num", mem_num);
             session.setAttribute("mbdto", dto);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
@@ -146,18 +137,14 @@ public class MemberController {
 		}
 	  RegionDTO rdto = new RegionDTO();
       rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
-<<<<<<< HEAD
       dto.setRegionDTO(rdto);
-=======
-      dto.setregionDTO(rdto);
->>>>>>> ì‹ ì›…(ìž¥ì†Œ)
       int res = memberMapper.insertMember(dto);
       
        if (res>0) {
-          req.setAttribute("msg", "È¸¿ø°¡ÀÔ ¼º°ø!!");
+          req.setAttribute("msg", "È¸¿ø°¡ÀÔ ¼º°ø ^__^");
           req.setAttribute("url", "index.do");
        }else {
-          req.setAttribute("msg", "È¸¿ø°¡ÀÔ ½ÇÆÐ!!");
+          req.setAttribute("msg", "È¸¿ø°¡ÀÔ ½ÇÆÐ¤Ð_¤Ð");
           req.setAttribute("url", "sign.login");
           
        }
@@ -200,18 +187,46 @@ public class MemberController {
 	      return "login/checkNick";
 	   }
 	
-	@RequestMapping("/checkEmail.login")
-	public String checkEmail(HttpServletRequest req, @RequestParam String mem_email) {	
-		  MemberDTO dto = memberMapper.getMemberEmail(mem_email);
-	      int result = -1;
-		  if (dto == null){   
-	    	  result= 1;
-	      }else {
-	    	  result = 0;
-	      }
-		  req.setAttribute("result", result);
-	      return "login/checkEmail";
-	   }
+  @RequestMapping("/checkEmail.login")
+  public String checkEmail(HttpServletRequest req, @RequestParam String mem_email) {	
+	  MemberDTO dto = memberMapper.getMemberEmail(mem_email);
+      int result = -1;
+	  if (dto == null){   
+    	  result= 1;
+      }else {
+    	  result = 0;
+      }
+	  req.setAttribute("result", result);
+      return "login/checkEmail";
+   }
+  @RequestMapping(value = "/CertifyEmail.login", method = RequestMethod.GET)
+  @ResponseBody
+  public String CertifyEmail(@RequestParam("mem_email") String mem_email) throws Exception{
+    int serti = (int)((Math.random()* (99999 - 10000 + 1)) + 10000);
+    
+    String from = "qkzptjd5440@naver.com";//º¸³»´Â ÀÌ ¸ÞÀÏÁÖ¼Ò
+    String to = mem_email;
+    String title = "È¸¿ø°¡ÀÔ½Ã ÇÊ¿äÇÑ ÀÎÁõ¹øÈ£ ÀÔ´Ï´Ù.";
+    String content = "[ÀÎÁõ¹øÈ£] "+ serti +" ÀÔ´Ï´Ù. <br/> ÀÎÁõ¹øÈ£ È®ÀÎ¶õ¿¡ ±âÀÔÇØÁÖ½Ê½Ã¿À.";
+    String num = "";
+    try {
+    	MimeMessage mail = mailSender.createMimeMessage();
+        MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+        
+        mailHelper.setFrom(from);
+        mailHelper.setTo(to);
+        mailHelper.setSubject(title);
+        mailHelper.setText(content, true);       
+        
+        mailSender.send(mail);
+        num = Integer.toString(serti);
+        
+    } catch(Exception e) {
+        num = "error";
+    }
+    return num;
+}
+ 
 
 }
 

@@ -40,11 +40,8 @@
          <p>
          <p>
          </div>
-<<<<<<< HEAD
          
          
-=======
->>>>>>> 신웅(장소)
               <div class="form-label-group">
                 <input type="password" id="pwd" name="mem_password" class="form-control" placeholder="Password" required>
               </div>

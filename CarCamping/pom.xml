@@ -15,7 +15,7 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
-		<!-- jackson : 諛뺥삙??0617 異붽? - ajax?ъ슜 -->
+		<!-- jackson : 박혜성 0617 추가 - ajax사용 -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
@@ -26,9 +26,9 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-		<!-- ?대찓???몄쬆 : 諛뺥삙??0620 異붽? -->
+		<!-- 이메일 인증 : 박혜성 0620 추가 -->
 
-		<!-- STMP 硫붿씪 ?꾩넚 愿???쇱씠釉뚮윭由?-->
+		<!-- STMP 메일 전송 관련 라이브러리 -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
