@@ -141,9 +141,13 @@
 
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 재영(관리자)
+=======
+
+>>>>>>> 정민(로그인)
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->
         <!--
@@ -155,7 +159,11 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
+<<<<<<< HEAD
       <Context docBase="CarCamping" path="/carCamping" reloadable="true" source="org.eclipse.jst.jee.server:CarCamping"/></Host>
+=======
+      <Context docBase="CarCamping (12)" path="/carCamping" reloadable="true" source="org.eclipse.jst.jee.server:CarCamping (12)"/></Host>
+>>>>>>> 정민(로그인)
     </Engine>
   </Service>
 </Server>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 	
+<mapper namespace="com.ezen.carCamping.model.reviewMapper">
+<insert id="insertReviewRegion" parameterType="reviewRegionDTO">
+insert into ReviewRegion values(#{mem_num},#{ccr_num},#{review_title},now(),#{review_summaryContent},#{review_regionContent},#{review_regionScore},#{review_regionImage1},#{review_regionImage2},#{review_regionImage3},#{review_regionImage4},#{review_regionImage5},#{review_popular},#{review_readCount},#{review_likeCount},#{review_adminConfirm})
+</insert>
+
+<insert id="insertReviewProduct" parameterType="reviewProductDTO">
+insert into ReviewRegion values(#{prod_num},#{mem_num},#{rp_title},now(),#{rp_summaryContent},#{rp_score},#{rp_Content},#{rp_Image1},#{rp_Image2},#{rp_Image3},#{rp_Image4},#{rp_Image5},#{rp_popular},#{rp_readCount},#{rp_likeCount},#{rp_adminConfirm})
+</insert>
+</mapper>

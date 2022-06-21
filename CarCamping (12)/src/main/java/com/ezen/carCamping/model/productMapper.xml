@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 	
+ 	
+<mapper namespace="com.ezen.carCamping.model.productMapper"> 
+
+	<select id="listProduct" resultType="ProductDTO">
+	select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num
+	</select>
+	 
+	<select id="findProduct" parameterType="java.util.Map" resultType="ProductDTO">
+	select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} or prod_name like concat('%',#{searchString},'%')
+	</select>
+	
+	<select id="popularProd" resultType="ProductDTO">
+	select * from Product where prod_popular = 0
+	</select>
+	
+	<select id="getProduct" parameterType="int" resultType="ProductDTO">
+		select * from Product where prod_num = #{prod_num}
+	</select>
+	
+	<select id="listProdReview" resultType="ReviewProductDTO">
+		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num
+	</select>
+	
+	<select id="findProdReview" parameterType="java.util.Map" resultType="ReviewProductDTO">
+		select * from ReviewProduct where ${search} = #{searchString} or rp_title like concat('%',#{searchString},'%')
+	</select>
+	
+	<select id="getReviewView" resultType="ReviewProductDTO">
+		select a.*,b.mem_nickName,mem_image from ReviewProduct as a left join Member as b on a.mem_num = b.mem_num where a.rp_num = #{rp_num}
+	</select>
+	
+	<select id ="R_orderByScore" parameterType="String" resultType="ReviewProductDTO"> 
+		select * from ReviewProduct order by rp_score
+	</select>
+	
+	<select id ="R_orderByRead" parameterType="String" resultType="ReviewProductDTO"> 
+		select * from ReviewProduct order by rp_readCount
+	</select>
+	
+</mapper>
+
