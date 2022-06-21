@@ -228,13 +228,18 @@ public class RegionMapper{
 	}
 	
 	public List<CarCampingRegionDTO> listPopRegion(int region_num){
-		
-		
 		List<CarCampingRegionDTO>listPopRegion=sqlSession.selectList("listPopRegion",region_num);
 		return listPopRegion;
 	}
-	public List<CarCampingRegionDTO> listRegionCount(int region_num) {
+	/*public List<CarCampingRegionDTO> listRegionCount(int region_num) {
 		List<CarCampingRegionDTO> list = sqlSession.selectList("listRegionCount",region_num);
 		return list;
 	}
+	*/
+	
+	public int listRegionCount(String region_num) {
+		int count =sqlSession.selectOne("listRegionCount",region_num);
+		return count;
+		
+} 
 }

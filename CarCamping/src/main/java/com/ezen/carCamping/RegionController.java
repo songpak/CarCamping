@@ -308,22 +308,29 @@ public class RegionController {
 	@RequestMapping(value="/board.region", method=RequestMethod.GET)
 	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params) {
 	String region_num = params.get("region_num"); 
+	
+	System.out.println("리즌넘:"+region_num);
 	List<CarCampingRegionDTO>list =null;
 	int pageSize= 3;
+	System.out.println("페이지 사이즈:"+pageSize);
 	String pageNum = params.get("pageNum");
 	int currentpage;
+	
 	if(pageNum==null) {
 		pageNum="1";
 		currentpage=Integer.parseInt(pageNum);
+		System.out.println("커렌트페이지:"+currentpage);
 	}else {
 		double pageNum_db =Double.parseDouble(pageNum);
 		if(pageNum_db<=0)pageNum_db = 0 ;
 		currentpage = (int)(pageNum_db);
 	}
 	int startRow = (currentpage -1) * pageSize +1;
+	System.out.println("스타트로우:"+startRow);
 	int endRow = startRow + pageSize - 1;
-	int rowCount=0;
-	rowCount=RegionMapper.listRegionCount(Integer.parseInt(region_num)).size();
+	System.out.println("앤드로우:"+endRow);
+	int rowCount=RegionMapper.listRegionCount(region_num);
+	System.out.println("로우카운:"+rowCount);
 	if(endRow>rowCount)
 		endRow=rowCount;
 	if(rowCount>0) {

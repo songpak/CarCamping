@@ -40,7 +40,6 @@ public class ProductController {
 		String searchString=params.get("searchString");
 		System.out.println("search : "+search);
 		System.out.println("searchString : "+searchString);
-		
 		if(mode==null||mode.equals("")) {
 			if(searchString!=null) {
 				  list = productMapper.findProduct(search, searchString);

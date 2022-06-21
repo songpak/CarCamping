@@ -17,11 +17,12 @@
 			<th width="10%">좋아요</th>
 			<th width="20%">인기장소여부</th>
 			<th width="10%">평점</th>
-		</tr>
+		</tr>  
 		<c:forEach items="${list}" var="bdto">
 			<tr>
 				<th width="15%">${bdto.ccr_num}</th>
 				<th width="15%">${bdto.ccr_name }</th>
+				<th width="15%">${bdto.reviewCount}</th>
 				<th width="10%">${bdto.ccr_likeCount}</th>
 				<th width="20%">${bdto.ccr_popular}</th>
 				<th width="10%">${bdto.ccr_score}</th>

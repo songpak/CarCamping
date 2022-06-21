@@ -125,6 +125,19 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 					<!-- 검색 form -->
 					<form class="d-flex" action="goProduct.product"
 						style="width: 500px; height: 40px;" method="post">
+					
+							<select name="search2">
+										<option>용품명</option>
+										<option>박혜성</option>
+										<option>박혜성</option>
+										<option>박혜성</option>
+							</select>
+							<select name="search3">
+										<option>브랜드</option>
+										<option>박혜성</option>
+										<option>박혜성</option>
+							</select>
+						
 						<select name="search">
 							<option value="prod_name">상품명</option>
 							<option value="brand_name">브랜드명</option>
@@ -136,9 +149,9 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 								<button type="button" class="dropbtn"
 							data-bs-toggle="dropdown" aria-expanded="false" style="width: 66px;height: 40px;">정렬</button>
 							<div class="dropdown-content">
-								<a href="goProduct.product?search=${search }&searchString=${searchString }&mode=listProductNew">최신순</a>
-								<a href="goProduct.product?search=${search }&searchString=${searchString }&mode=listProductPop">인기순</a>
-								<a href="goProduct.product?search=${search }&searchString=${searchString }&mode=listProductPrice">가격순</a>
+								<a href="goProduct.product?search=${search}&searchString=${searchString }&mode=listProductNew">최신순</a>
+								<a href="goProduct.product?search=${search}&searchString=${searchString }&mode=listProductPop">인기순</a>
+								<a href="goProduct.product?search=${search}&searchString=${searchString }&mode=listProductPrice">가격순</a>
 							</div>
 						</div>
 					</form>
@@ -152,7 +165,6 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 						<div class="gm-gb">
 							<div class="gm-u first">
 								<div class="d-flex p-2">
-
 									<c:forEach items="${listProduct}" var="pdto">
 										<div class="card" style="width: 18rem;">
 											<a href="productView.product?prod_num=${pdto.prod_num}"><img src="${pdto.prod_viewImage1}"></a>
