@@ -18,6 +18,8 @@ public class ProductDTO {
 	private String prod_sysdate;
 	private String prod_update;
 	private float prod_reviewScore;
+	private int prod_reviewCount;
+	
 	
 	public String getBrand_name() {
 		return brand_name;
@@ -121,5 +123,11 @@ public class ProductDTO {
 	}
 	public void setProd_reviewScore(float prod_reviewScore) {
 		this.prod_reviewScore = prod_reviewScore;
+	}
+	public int getProd_reviewCount() {
+		return prod_reviewCount;
+	}
+	public void setProd_reviewCount(int prod_reviewCount) {
+		this.prod_reviewCount = prod_reviewCount;
 	}
 }

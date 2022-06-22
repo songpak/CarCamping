@@ -14,13 +14,13 @@
 		<!-- 검색 버튼 -->
 		<div class="col" align="left">
 			<form name="search" action="adminProduct.admin" enctype="multipart/form-data" method="post">
-				<input type="text" name="search"><input type="submit" value="검색">
+				<input type="text" name="search">&nbsp;<button type="submit" class="btn btn-info">검색</button>
 			</form>
 		</div>
 
 		<div class="col" align="right">
 			<!-- 용품 등록 버튼 -->
-			<button type="button" class="btn btn-primary" onclick="location.href='javascript:popup()'">
+			<button type="button" class="btn btn-info" onclick="location.href='javascript:popup()'">
 			용품 등록</button>
 			<!-- 용품 등록 버튼 끝 -->
 		</div>

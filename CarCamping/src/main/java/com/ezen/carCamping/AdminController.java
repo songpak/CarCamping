@@ -49,15 +49,22 @@ public class AdminController {
 		session.setAttribute("upPath", upPath);
 		return "admin/main";
 	}
+
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////장 소////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@RequestMapping("/adminRegion.admin")
 	public String adminRegion(HttpServletRequest req,@RequestParam(required=false) String region_num) {
 		List<CarCampingRegionDTO> adminListCarCampingRegion = new ArrayList<CarCampingRegionDTO>();
+		
 		if (region_num==null) {
 			adminListCarCampingRegion = adminMapper.adminListCarCampingRegion();
 		}else {
 			adminListCarCampingRegion = adminMapper.adminListCarCampingRegionSelectRegion(Integer.parseInt(region_num));
 		}
+		
 		
 		req.setAttribute("adminListCarCampingRegion", adminListCarCampingRegion);
 		return "admin/adminRegion";
@@ -914,5 +921,30 @@ public class AdminController {
 		
 		req.setAttribute("adminListRentalLog", list);
 		return "admin/adminRental";
+	}
+	
+	@RequestMapping(value="/adminViewRentalLog.admin",method=RequestMethod.GET)
+	public String adminViewRentalLog(HttpServletRequest req,@RequestParam int rental_num) {
+		RentalLogDTO dto = adminMapper.adminGetRentalLog(rental_num);
+		
+		req.setAttribute("rdto", dto);
+		return "admin/adminViewRentalLog";
+	}
+	
+	@RequestMapping(value="/adminViewRentalLog.admin",method=RequestMethod.POST)
+	public ModelAndView adminViewRentalLog(@RequestParam Map<String,String> map) {
+		int res = adminMapper.adminUpdateRentalLog(map);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "수정되었습니다";
+			url = "adminRental.admin";
+		}else {
+			msg = "수정이 실패되었습니다. 서비스 센터에 문의하세요";
+			url = "adminRental.admin";
+		}
+		ModelAndView mav = new ModelAndView("admin/message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
 	}
 }
