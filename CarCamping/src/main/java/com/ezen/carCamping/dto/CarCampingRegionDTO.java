@@ -22,7 +22,7 @@ public class CarCampingRegionDTO {
 	private String ccr_viewImage5;
 	private String ccr_summary;
 	private String ccr_content;
-	private int reviewCount;
+	private int ccr_reviewCount;
 	
 	public int getCcr_num() {
 		return ccr_num;
@@ -152,11 +152,12 @@ public class CarCampingRegionDTO {
 	public void setCcr_content(String ccr_content) {
 		this.ccr_content = ccr_content;
 	}
-	public int getReviewCount() {
-		return reviewCount;
+	public int getCcr_reviewCount() {
+		return ccr_reviewCount;
 	}
-	public void setReviewCount(int reviewCount) {
-		this.reviewCount = reviewCount;
+	public void setCcr_reviewCount(int ccr_reviewCount) {
+		this.ccr_reviewCount = ccr_reviewCount;
 	}
+
 	
 }

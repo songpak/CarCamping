@@ -1,9 +1,6 @@
 package com.ezen.carCamping;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +56,7 @@ public class RegionController {
 	public String goRegionHOT(HttpServletRequest req, @RequestParam int region_num) {
 		RegionDTO dto = RegionMapper.selectRegion(region_num);
 		List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(region_num);
+		System.out.print(region_num);
 		req.setAttribute("regionDTO", dto);
 		// req.setAttribute("hotList_Region",ht.get(String.valueOf(region_num)));
 		req.setAttribute("hotList_Region", list);
@@ -102,7 +100,6 @@ public class RegionController {
 			double pageNum_db = Double.parseDouble(pageNum);
 			if(pageNum_db<=0) pageNum_db = 0;
 			currentPage = (int) (pageNum_db);
-			
 		}
 		int startRow = (currentPage - 1) * pageSize + 1;//3-1 4 8
 		int endRow = startRow + pageSize - 1;
@@ -125,7 +122,7 @@ public class RegionController {
 				System.out.println(searchString);
 				if(search.equals("mem_nickName")) {
 				rowCount = RegionMapper.countRevieWrietrSearch(ccr_num, search, searchString);
-				list = RegionMapper.listCcrReviewWriterSearch(ccr_num, startRow-1, 3, orderBy, search, searchString);	
+				list = RegionMapper.listCcrReviewWriterSearch(ccr_num,  startRow-1, 3, orderBy, search, searchString);	
 				}else {
 				rowCount = RegionMapper.countReviewSearch(ccr_num, search, searchString);
 				list = RegionMapper.listCcrReviewSearch(ccr_num, startRow-1, 3, orderBy, search, searchString);
@@ -150,10 +147,8 @@ public class RegionController {
 			req.setAttribute("pageCount", pageCount);
 			req.setAttribute("startPage", startPage);
 			req.setAttribute("endPage", endPage);
-			req.setAttribute("orderBy", orderBy);
-			
+			req.setAttribute("orderBy", orderBy);	
 		}
-		
 		req.setAttribute("pageNum", pageNum);
 		req.setAttribute("rowCount", rowCount);
 		req.setAttribute("reviewList", list);
@@ -305,17 +300,37 @@ public class RegionController {
 	 * = String.valueOf(ccr_num)+id; return test; }
 	 */
 
-	@RequestMapping(value="/board.region", method=RequestMethod.GET)
-	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params) {
-	String region_num = params.get("region_num"); 
-	
-	System.out.println("리즌넘:"+region_num);
+	@RequestMapping(value="/board.region", method = RequestMethod.GET)
+	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params,
+			@RequestParam (required = false) String mode) {
 	List<CarCampingRegionDTO>list =null;
-	int pageSize= 3;
-	System.out.println("페이지 사이즈:"+pageSize);
+	int region_num = Integer.parseInt(params.get("region_num"));
+	int startRow =0;
+	int endRow = 0;
 	String pageNum = params.get("pageNum");
-	int currentpage;
+	System.out.println("페이지 남바:"+pageNum);
+	mode=params.get("mode");
+	System.out.println("모드값:"+mode);
+	//List<CarCampingRegionDTO>listCount =null;
+	System.out.println("리즌넘:"+region_num);
+	if(mode==null || mode.equals("")) {
+		list=RegionMapper.listPopRegion(region_num, startRow, endRow);
+	}else if(mode.equals("listRegionReviewCount")) {
+		list=RegionMapper.listRegionReviewCount(region_num, startRow, endRow);
+	}else if(mode.equals("listRegionLikeCount")) {
+		list=RegionMapper.listRegionLikeCount(region_num, startRow, endRow);
+	}else if(mode.equals("listRegionscore")) {
+		list=RegionMapper.listRegionscore(region_num, startRow, endRow);
+	}
+	System.out.println("리스트카운트1:"+list.size());
+	req.setAttribute("mode", mode);
+	//int region_num = Integer.parseInt(params.get("region_num"));
+	System.out.println("리즌넘:"+region_num);
+	//List<CarCampingRegionDTO>list =null;
+	int pageSize= 10;
+	System.out.println("페이지 사이즈:"+pageSize);
 	
+	int currentpage;
 	if(pageNum==null) {
 		pageNum="1";
 		currentpage=Integer.parseInt(pageNum);
@@ -325,17 +340,18 @@ public class RegionController {
 		if(pageNum_db<=0)pageNum_db = 0 ;
 		currentpage = (int)(pageNum_db);
 	}
-	int startRow = (currentpage -1) * pageSize +1;
+	startRow = (currentpage -1) * pageSize +1;
 	System.out.println("스타트로우:"+startRow);
-	int endRow = startRow + pageSize - 1;
+	endRow = startRow + pageSize - 1;
 	System.out.println("앤드로우:"+endRow);
 	int rowCount=RegionMapper.listRegionCount(region_num);
 	System.out.println("로우카운:"+rowCount);
 	if(endRow>rowCount)
 		endRow=rowCount;
 	if(rowCount>0) {
-		list=RegionMapper.listPopRegion(Integer.parseInt(region_num)); 
-	}
+		list=RegionMapper.listPopRegion(region_num,startRow-1,endRow);
+		System.out.println(list.size());
+	} 
 	int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
 	int pageBlock = 3;
 	int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
