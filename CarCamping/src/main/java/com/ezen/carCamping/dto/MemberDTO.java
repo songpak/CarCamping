@@ -21,8 +21,7 @@ public class MemberDTO {
 	private String mem_image;
 	private String mem_summary;
 	private String mem_introduce;
-	private int mem_firstReview;
-	
+	private int mem_reviewCount;
 	
 	public int getMem_num() {
 		return mem_num;
@@ -144,11 +143,12 @@ public class MemberDTO {
 	public void setMem_introduce(String mem_introduce) {
 		this.mem_introduce = mem_introduce;
 	}
-	public int getMem_firstReview() {
-		return mem_firstReview;
+
+	public int getMem_reviewCount() {
+		return mem_reviewCount;
 	}
-	public void setMem_firstReview(int mem_firstReview) {
-		this.mem_firstReview = mem_firstReview;
+	public void setMem_reviewCount(int mem_reviewCount) {
+		this.mem_reviewCount = mem_reviewCount;
 	}
 	
 }
