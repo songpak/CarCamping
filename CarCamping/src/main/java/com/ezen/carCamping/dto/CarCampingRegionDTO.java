@@ -22,8 +22,7 @@ public class CarCampingRegionDTO {
 	private String ccr_viewImage5;
 	private String ccr_summary;
 	private String ccr_content;
-	
-	
+	private int ccr_reviewCount;
 	public int getCcr_num() {
 		return ccr_num;
 	}
@@ -90,7 +89,6 @@ public class CarCampingRegionDTO {
 	public void setCcr_ground(String ccr_ground) {
 		this.ccr_ground = ccr_ground;
 	}
-
 	public int getCcr_likeCount() {
 		return ccr_likeCount;
 	}
@@ -109,7 +107,6 @@ public class CarCampingRegionDTO {
 	public void setCcr_popular(int ccr_popular) {
 		this.ccr_popular = ccr_popular;
 	}
-	
 	public String getCcr_viewImage1() {
 		return ccr_viewImage1;
 	}
@@ -152,5 +149,10 @@ public class CarCampingRegionDTO {
 	public void setCcr_content(String ccr_content) {
 		this.ccr_content = ccr_content;
 	}
-	
-}
+	public int getCcr_reviewCount() {
+		return ccr_reviewCount;
+	}
+	public void setCcr_reviewCount(int ccr_reviewCount) {
+		this.ccr_reviewCount = ccr_reviewCount;
+	}
+}	

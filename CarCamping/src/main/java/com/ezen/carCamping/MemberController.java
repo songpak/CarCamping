@@ -87,7 +87,9 @@ public class MemberController {
          @RequestParam Map<String, String> params) {
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
       int mem_num = dto.getMem_num();
-      
+		HttpSession session = req.getSession();
+	      MemberDTO mdto = (MemberDTO)session.getAttribute("mbdto"); 
+	      req.setAttribute("getMember", mdto);
       String msg = null, url = null;
       if (dto == null){   
          msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
@@ -97,7 +99,7 @@ public class MemberController {
         	
             msg = dto.getMem_id()+"님, 환영합니다!!";
             url = "index.do";
-            HttpSession session = req.getSession();
+          
             session.setAttribute("mem_num", mem_num);
             session.setAttribute("mbdto", dto);
             Cookie ck = new Cookie("saveId", dto.getMem_id());

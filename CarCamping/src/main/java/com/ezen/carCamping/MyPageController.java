@@ -1,32 +1,43 @@
 package com.ezen.carCamping;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import java.util.List;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
-import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
+import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
-import com.ezen.carCamping.service.ProductMapper;
+
 
 @Controller
 public class MyPageController {
 
 	@Autowired
 	private MyPageMapper myPageMapper;
+	@Autowired
+	private MemberMapper memberMapper;
+	@Resource(name="uploadPath")
+	private String uploadPath;	
 
 	@RequestMapping("/myPageCart.myPage") // 카트에 추가
 	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from, String cart_to, int mem_num) {
@@ -138,28 +149,75 @@ public class MyPageController {
 	public String myPageCheckOut() {
 		return "myPage/myPageCheckOut";
 	}
-
-	@RequestMapping("/myPageContactUs.myPage")//마이페이지 컨텍어스
-	public String myPageContactUs(HttpServletRequest req) {
-		return "myPage/myPageContactUs";
-	}
-
-	@RequestMapping("/myPageProfile.myPage")//마이페이지 프로필 보기
-	public String myPageProfile() {
+	@RequestMapping(value="myPageProfile.myPage", method=RequestMethod.GET)
+	 public String memberUpdate(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto"); 
+		req.setAttribute("getMember", dto);
 		return "myPage/myPageProfile";
-	}
+	   }
+
+	@RequestMapping(value="myPageProfile.myPage", method=RequestMethod.POST)
+	   public String memberUpdateOk(HttpServletRequest req, @ModelAttribute MemberDTO dto, BindingResult result) {
+	      MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+	      MultipartFile mf = mr.getFile("mem_image");
+	      String filename = mf.getOriginalFilename();
+	      dto.setMem_image(filename);
+	      if (filename != null && !(filename.trim().equals(""))) {
+	         File file = new File(uploadPath, filename);
+	         try {
+	            mf.transferTo(file);
+	         }catch(IOException e) {}
+	         }else {
+	            filename = req.getParameter("mem_image2"); 
+	         }      
+	         dto.setMem_image(filename);
+	     RegionDTO rdto = new RegionDTO();
+	      rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
+	      dto.setRegionDTO(rdto);
+	      
+	      int res = memberMapper.updateMember(dto);
+	      String msg = null, url = null;
+	      if (res>0) {
+	         msg = "내정보 수정 성공!";
+	         url = "myPageProfile.myPage";
+	      }else {
+	         msg = "내정보 수정 실패! 다시 시도해 주세요.";
+	         url = "myPageProfile.myPage?mem_num=" + dto.getMem_num();
+	      }
+	      req.setAttribute("msg", msg);
+	      req.setAttribute("url", url);
+	      return "message";
+	   }
+
 	
-	@RequestMapping("/myPageQuestion.myPage")
+	@RequestMapping("/myPageQuestion.myPage")//마이페이지 문의목록
 	public String myPageQuestion(HttpServletRequest req, int mem_num) {
-		List<QuestionDTO> myPageGetQuestionMember =  new ArrayList<QuestionDTO>();
-		myPageGetQuestionMember = myPageMapper.myPageGetQuestionSelectMember(mem_num);
-		req.setAttribute("listBoard", myPageGetQuestionMember);
+		List<QuestionDTO> qdto =  new ArrayList<QuestionDTO>();
+		qdto = myPageMapper.myPageGetQuestionSelectMember(mem_num);
+		req.setAttribute("listBoard", qdto);
 		return "myPage/myPageQuestion";
 	}
 
 	@RequestMapping("/myPageRental.myPage")
 	public String myPageRental() {
 		return "myPage/myPageRental";
+	}
+	@RequestMapping(value="/myPageContactUs.myPage", method=RequestMethod.GET)//마이페이지 컨텍어스
+	public String myPageContactUs() {
+		return "myPage/myPageContactUs";
+	}
+	@RequestMapping(value="/myPageContactUs.myPage", method=RequestMethod.POST)
+	public String myPageContactUsOk(HttpServletRequest req, QuestionDTO qdto, String mem_num) {
+		HttpSession session = req.getSession();
+		session.getAttribute(mem_num);
+		int res = myPageMapper.insertQuestion(qdto);
+		if (res>0) {
+			req.setAttribute("msg", "문의사항을 접수했습니다.");
+		}else {
+			req.setAttribute("msg", "문의사항을 접수하지 못했습니다. 다시 입력해 주세요.");
+		}
+		return "message";
 	}
 
 	@RequestMapping("/myPageWriteReview.myPage")
