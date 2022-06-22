@@ -35,8 +35,12 @@ public class RegionMapper{
 	}
 	public RegionDTO selectRegion(int region_num) {
 		RegionDTO dto = sqlSession.selectOne("selectRegion", region_num);
-		//System.out.println("Asd");
 		return dto;
+	}
+	
+	public List<CarCampingRegionDTO> listCcr(int region_num){
+		List<CarCampingRegionDTO> list = sqlSession.selectList("listCcr", region_num);
+		return list;
 	}
 	public List<CarCampingRegionDTO> listCarCampingRegionHotRegion(int region_num){
 			List<CarCampingRegionDTO> list = sqlSession.selectList("listCarCampingRegionHotRegion", region_num);
@@ -220,16 +224,14 @@ public class RegionMapper{
 	}
 	
 	//test
-	public List<Map<String,Object>> test() {
-		List<Map<String,Object>> list = sqlSession.selectList("test");
-		System.out.println(list.size());
-		
-		return list;
-	}
+	/*
+	 * public List<Map<String,Object>> test() { List<Map<String,Object>> list =
+	 * sqlSession.selectList("test"); System.out.println(list.size());
+	 * 
+	 * return list; }
+	 */
 	
 	public List<CarCampingRegionDTO> listPopRegion(int region_num){
-		
-		
 		List<CarCampingRegionDTO>listPopRegion=sqlSession.selectList("listPopRegion",region_num);
 		return listPopRegion;
 	}

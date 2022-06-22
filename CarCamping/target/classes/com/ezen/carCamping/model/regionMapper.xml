@@ -11,6 +11,9 @@
 		select * from Region where region_num = #{region_num}
 	</select> 
 	
+	<select id="listCcr" parameterType="Integer" resultType ="CarCampingRegionDTO">
+		select a.* from CarCampingRegion a, Region b where a.region_num = b.region_num and b.region_num =#{region_num}
+	</select>
 	<select id="listCarCampingRegionHotRegion" parameterType="Integer" resultType="CarCampingRegionDTO"> <!-- 지역별 차박지 HOT차박지  -->
 		select c.* from (
 		select a.* from CarCampingRegion a,Region b where b.region_num = #{region_num} and a.region_num = b.region_num)c
@@ -143,14 +146,14 @@
 		SELECT count(*) from ReviewRegion a,CarCampingRegion b 
 		where a.ccr_num = b.ccr_num and b.ccr_num = #{ccr_num} and a.review_adminConfirm=0
 	</select> 	
-<!-- 
-	<select id="test" parameterType="Integer" resultType="HashMap">
+
+<!-- 	<select id="test" parameterType="Integer" resultType="HashMap">
 		select d.* from 
 		(select c.region_num region_num ,c.ccr_num ccr_num,c.ccr_name ccr_name,
 		(select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0)reviewCount,c.ccr_likeCount ccr_likeCount ,c.ccr_popular ccr_popular,c.ccr_score ccr_score
 		from (select a.* from CarCampingRegion a)c)d where d.reviewCount>0 and d.region_num =#{region_num}
-	</select>
-	 -->
+	</select> -->
+
 	<resultMap type="RegionDTO"	 id="regionMap">
 		<id column="region_num" property="region_num"/>
 		<result column="region_name" property="region_name"/>
