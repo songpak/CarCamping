@@ -150,9 +150,9 @@ public class MyPageController {
 	}
 	
 	@RequestMapping("/myPageQuestion.myPage")
-	public String adminRegion(HttpServletRequest req, @RequestParam(required=false)String mem_num) {
-		List<QuestionDTO> myPageGetQuestionMember = new ArrayList<QuestionDTO>();
-		myPageGetQuestionMember = myPageMapper.myPageGetQuestionSelectMember(Integer.parseInt(mem_num));
+	public String myPageQuestion(HttpServletRequest req, int mem_num) {
+		List<QuestionDTO> myPageGetQuestionMember =  new ArrayList<QuestionDTO>();
+		myPageGetQuestionMember = myPageMapper.myPageGetQuestionSelectMember(mem_num);
 		req.setAttribute("listBoard", myPageGetQuestionMember);
 		return "myPage/myPageQuestion";
 	}

@@ -167,7 +167,7 @@ padding-left: 0px;
 											class="list-group-item list-group-item-action list-group-item-light p-3">
 											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
 											대여내역</a>
-										<a href="myPageContactUs.myPage"
+										<a href="myPageQuestion.myPage"
 											class="list-group-item list-group-item-action list-group-item-light p-3">
 											<svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
 											문의하기</a>	 
