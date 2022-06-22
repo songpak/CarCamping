@@ -266,6 +266,10 @@
 				<td>${cdto.ccr_likeCount}</td>
 			</tr>
 			<tr>
+				<th>리뷰 수</th>
+				<td>${cdto.ccr_reviewCount}</td>
+			</tr>
+			<tr>
 				<th>장소 평점</th>
 				<td>${cdto.ccr_score}</td>
 			</tr>
@@ -282,7 +286,7 @@
 			</tr>
 			<tr>
 				<td align="center" colspan="2">
-					<button type="reset" class="btn btn-info">취소</button>
+					<button type="reset" class="btn btn-primary">취소</button>
 					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">수정</button>
 					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con_delete()'">삭제</button>
 				</td>
