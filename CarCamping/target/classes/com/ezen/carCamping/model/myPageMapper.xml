@@ -39,7 +39,7 @@
 		<result column="mem_image" property="mem_image"/>
 		<result column="mem_summary" property="mem_summary"/>
 		<result column="mem_introduce" property="mem_introduce"/>
-		<result column="mem_firstReview" property="mem_firstReview"/>
+		<result column="mem_reviewCount" property="mem_reviewCount"/>
 		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
 		</association>
 	</resultMap>
@@ -57,12 +57,14 @@
 		<result column="question_replySysdate" property="question_replySysdate"/>
 		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
 	</resultMap>
-	<select id="myPageGetQuestionMember" resultMap="questionMap">
-		select a.*,b.* from Question a join Member b on a.mem_num=b.mem_num
+	<select id="myPageGetQuestion" resultMap="questionMap">
+		select a.*,b.mem_id from Question a join Member b on a.mem_num=b.mem_num
 	</select>
-	<select id="myPageGetQuestionSelectMember" parameterType="int" resultMap="questionMap">
-		select a.*,b.* from Question a join Member b on a.mem_num=b.mem_num where question_num = #{question_num}
+	<select id="myPageGetQuestionSelectMember"  resultMap="questionMap">
+		select a.*,b.mem_id from Question a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
 	</select>
-	
-	
+	<insert id="insertQuestion" parameterType="questionDTO">
+		insert into Question (mem_num, question_title, question_content, question_sysdate, question_reply, question_replySysdate)
+		values (#{memberDTO.mem_num}, #{question_title},#{question_content},now(),null,null)
+	</insert>
 </mapper>

@@ -38,14 +38,18 @@ public class MyPageMapper {
 		 int res = sqlSession.delete("deleteCart", prod_num);
 		 return res;
 	 }
-	 public List<QuestionDTO> myPageGetQuestionMember(){
-		 List<QuestionDTO> myPageGetQuestionMember = sqlSession.selectList("myPageGetQuestionMember");
-		 return myPageGetQuestionMember;
+	 public List<QuestionDTO> myPageGetQuestion(){
+		 List<QuestionDTO> myPageGetQuestion = sqlSession.selectList("myPageGetQuestion");
+		 return myPageGetQuestion;
 	 }
 	 public List<QuestionDTO> myPageGetQuestionSelectMember(int mem_num){
-			List<QuestionDTO> myPageGetQuestionMember = sqlSession.selectList("myPageGetQuestionSelectMember",mem_num);
-			return myPageGetQuestionMember;
+			List<QuestionDTO> qdto = sqlSession.selectList("myPageGetQuestionSelectMember",mem_num);
+			return qdto;
 		}
+	public int insertQuestion(QuestionDTO dto) {
+		int res = sqlSession.insert("insertQuestion", dto);
+		return res;
+		}	 
 }
 
 

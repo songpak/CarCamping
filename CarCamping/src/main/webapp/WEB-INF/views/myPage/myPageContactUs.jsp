@@ -15,15 +15,13 @@
   		<!-- Font Awesome -->
   		<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
   		<!-- Style -->
-  		<link href='contectUs.css' rel='stylesheet' type='text/css'>
+  		<link href='contactUs.css' rel='stylesheet' type='text/css'>
  		<style>
  			textarea {
     			resize: none;
   			}
  		</style>
-  	
-  
-  		
+	  		
   	</head>
   	<body>	
 
@@ -33,24 +31,17 @@
   				<div class="row">
   					<div class="col-md-12 text-center">
   						<h2 class="section-title">Contact Us</h2>
-  						<p class="section-description">문의사항을 보내주시면 메일로 전달 드립니다(수정예정)</p>
+  						<p class="section-description">문의사항을 보내주세요.</p>
   					</div>
   					<div class="col-md-8 col-md-offset-2">
-  						<form id="contact" method="post" class="form" role="form">
-							<div class="row">
-								<div class="col-md-6 form-group">
-									<input class="form-control" id="name" name="name" placeholder="닉네임" type="text" required />
-								</div>
-								<div class="col-md-6 form-group">
-									<input class="form-control" id="email" name="email" placeholder="Email" type="email" required />
-								</div>
-							</div>
-							<textarea class="form-control" id="message" name="message" placeholder="문의사항" rows="5"></textarea>
+  						<form id="contact" name="contact" action="myPageContactUs.myPage" method="post" class="form" role="form" >	
+							<input class="form-control" id="question_title" name="question_title" placeholder="제목" type="text" required />
+							<textarea class="form-control" id="question_content" name="question_content" placeholder="문의사항" rows="5" required></textarea>
 							<br />
 							<div class="row">
-								<div class="col-md-12 form-group">
+								
 									<button class="btn btn-success mb-3" type="submit" style="width: 756px;">Submit</button>
-								</div>
+							
 							</div>
 						</form>
   					</div>
