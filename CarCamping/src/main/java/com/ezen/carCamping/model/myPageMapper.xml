@@ -67,4 +67,7 @@
 		insert into Question (mem_num, question_title, question_content, question_sysdate, question_reply, question_replySysdate)
 		values (#{memberDTO.mem_num}, #{question_title},#{question_content},now(),null,null)
 	</insert>
+	<select id="getQuestion" parameterType="int" resultType="questionDTO">
+		select * from Question where question_num = #{question_num}
+	</select>
 </mapper>

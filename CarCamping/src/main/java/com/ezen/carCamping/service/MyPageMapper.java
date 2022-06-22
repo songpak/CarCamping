@@ -49,7 +49,11 @@ public class MyPageMapper {
 	public int insertQuestion(QuestionDTO dto) {
 		int res = sqlSession.insert("insertQuestion", dto);
 		return res;
-		}	 
+		}
+	public QuestionDTO getQuestion(int question_num){
+		QuestionDTO qdto = sqlSession.selectOne("getQuestion", question_num);
+		return qdto;
+	}
 }
 
 
