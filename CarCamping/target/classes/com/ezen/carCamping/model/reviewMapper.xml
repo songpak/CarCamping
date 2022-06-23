@@ -85,7 +85,7 @@ insert into ReviewRegion(mem_num,ccr_num,review_title,review_sysdate,review_summ
 ,review_regionScore,review_regionImage1,review_regionImage2,review_regionImage3,review_regionImage4,review_regionImage5
 ,review_popular,review_readCount,review_likeCount,review_adminConfirm)
 values(#{memberDTO.mem_num},#{carCampingRegionDTO.ccr_num},#{review_title},now(),#{review_summaryContent},#{review_regionContent},#{review_regionScore},
-#{review_regionImage1},#{review_regionImage2},#{review_regionImage3},#{review_regionImage4},#{review_regionImage5},1,0,0,1)
+#{review_regionImage2},#{review_regionImage2},#{review_regionImage3},#{review_regionImage4},#{review_regionImage5},1,0,0,1)
 </insert>
 
 <insert id="insertReviewProduct" parameterType="ReviewProductDTO">
