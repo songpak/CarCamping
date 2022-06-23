@@ -38,7 +38,7 @@
                                 <div class="col-md-9 text-left mt-sm-2">
                                 
                                     <h4>용품명 : ${mdto.prod_name}</h4>
-                                    <p class="font-weight-light">대여하실 날짜는 ${indate} ~ ${outdate} 까지 입니다.</p><br>
+                                    <p class="font-weight-light">대여하실 날짜는 ${mdto.cart_from} ~ ${mdto.cart_to} 까지 입니다.</p><br>
                                 </div>
                             </div>
                             
@@ -49,12 +49,14 @@
                              <form action="mall_cartEdit.myPage" method="post">
                              	<input type="number" min="1" max="10" name= "cart_prodCount" value="${mdto.cart_prodCount}">
                              	<input type="hidden" name= "prod_num" value="${mdto.prod_num }">
+                             	<input type="hidden" name= "cart_from" value="${mdto.cart_from }">
+                             	<input type="hidden" name= "cart_to" value="${mdto.cart_to }">
                              	<br><br>
                                 <button type="submit" class="btn btn-white border-secondary bg-white btn-md mb-2">
                                   		  수정
                                 </button>
                                </form>
-                            <a  href="mall_cartDel.myPage?prod_num=${mdto.prod_num }">
+                            <a  href="mall_cartDel.myPage?prod_num=${mdto.prod_num }&cart_from=${mdto.cart_from}&cart_to=${mdto.cart_to }">
                             <button class="btn btn-white border-secondary bg-white btn-md mb-2" >
                                    		삭제
                                 </button></a> 

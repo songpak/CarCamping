@@ -68,14 +68,9 @@ public class MyPageController {
 			} else {
 				System.err.println("등록실패");
 			}
-			//회원넘버로 저장된 DTO를 하나 더 불러야 할듯
 			HttpSession session = req.getSession();
 			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
-			//List<ProductCartDTO> cart = (List)session.getAttribute("cartList");
-			//System.out.println("용품 번호 : " + list.get(2)); 
 			session.setAttribute("cartList", list);
-			session.setAttribute("indate", cart_from);
-			session.setAttribute("outdate", cart_to);
 		}
 		return "myPage/myPageCart";
 	}
@@ -97,13 +92,9 @@ public class MyPageController {
 	}
 
 	@RequestMapping("mall_cartEdit.myPage") // 카트수정
-	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num, ProductCartDTO dto) {
-		int res = myPageMapper.updateCart(dto);
-		if (res > 0) {
-			System.out.println("수정성공");
-		} else {
-			System.out.println("수정실패");
-		}
+	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num, ProductCartDTO dto, String cart_from, String cart_to) {
+		System.out.println("cart_from" + cart_from);
+		System.out.println("cart_from" + cart_to);
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		if (cart_prodCount <= 0) {
@@ -112,32 +103,37 @@ public class MyPageController {
 			return "message";
 		} else {
 			for (ProductCartDTO cartDTO : cart) {
-				if (prod_num == cartDTO.getProd_num()) {
+				if (prod_num == cartDTO.getProd_num() && cart_from.equals(cartDTO.getCart_from()) && cart_to.equals(cartDTO.getCart_to())) {
 					cartDTO.setCart_prodCount(cart_prodCount);
+					break;
 				}
 			}
+			/*
+			 * int res = myPageMapper.updateCart(dto); if (res > 0) {
+			 * System.out.println("수정성공"); } else { System.out.println("수정실패"); }
+			 */
+			
 		}
-		//System.out.println("����" + cart_prodCount);
-		//System.out.println("�ѹ�" + prod_num);
 		return "myPage/myPageCart";
 	}
 
 	@RequestMapping("mall_cartDel.myPage") // 카트삭제
-	public String mall_cartDel(HttpServletRequest req, @RequestParam int prod_num) {
-		int res = myPageMapper.deleteCart(prod_num);
-		if (res > 0) {
-			System.out.println("삭제성공");
-		} else {
-			System.out.println("삭제 실패");
-		}
+	public String mall_cartDel(HttpServletRequest req, @RequestParam int prod_num, String cart_from, String cart_to) {
+		System.out.println("cart_from" + cart_from);
+		System.out.println("cart_from" + cart_to);
+		
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		for (ProductCartDTO cartDTO : cart) {
-			if (prod_num == cartDTO.getProd_num()) {
+			if (prod_num == cartDTO.getProd_num() && cart_from.equals(cartDTO.getCart_from()) && cart_to.equals(cartDTO.getCart_to())) {
 				cart.remove(cartDTO);
 				break;
 			}
 		}
+		/*
+		 * int res = myPageMapper.deleteCart(prod_num); if (res > 0) {
+		 * System.out.println("삭제성공"); } else { System.out.println("삭제 실패"); }
+		 */
 		return "myPage/myPageCart";
 	}
 
