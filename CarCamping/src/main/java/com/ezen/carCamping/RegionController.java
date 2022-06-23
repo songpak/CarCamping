@@ -177,7 +177,8 @@ public class RegionController {
 			  session.setAttribute("mem_num", mdto.getMem_num());
 			  session.setAttribute("mem_id", mdto.getMem_id());
 		  }else if(mdto == null){
-			  req.setAttribute("message", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
+			  System.out.println("로그인안해쓴ㄴ데여?");
+			  req.setAttribute("msg", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
 			  req.setAttribute("url","login.login");
 			  return "message";
 		  }
@@ -262,7 +263,7 @@ public class RegionController {
 			  session.setAttribute("mem_num", mdto.getMem_num());
 			  session.setAttribute("mem_id", mdto.getMem_id());
 		  }else if(mdto == null){
-			  req.setAttribute("message", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
+			  req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
 			  req.setAttribute("url","login.login");
 			  return "message";
 		  }
@@ -298,7 +299,7 @@ public class RegionController {
 			  session.setAttribute("mem_num", mdto.getMem_num());
 			  session.setAttribute("mem_id", mdto.getMem_id());
 		  }else if(mdto == null){
-			  req.setAttribute("message", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
+			  req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
 			  req.setAttribute("url","login.login");
 			  return "message";
 		  }

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="../top.jsp" %>
-<c:set var="mem_num" value="3" />
+<c:set var="mem_num" value="${ mem_num}"/>
  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -88,8 +88,7 @@ function SelectRegion(){
 
 
 <script>
-$(document).ready(function()
-		// input file 파일 첨부시 fileCheck 함수 실행
+$(document).ready(function()// input file 파일 첨부시 fileCheck 함수 실행
 		{
 			$("#input_file").on("change", fileCheck);
 		});
@@ -111,7 +110,7 @@ function fileCheck(e) {
     var files = e.target.files;
     var filesArr = Array.prototype.slice.call(files);  // 파일 배열 담기
     if (fileCount + filesArr.length > totalCount) {   // 파일 개수 확인 및 제한
-      $.alert('파일은 최대 '+totalCount+'개까지 업로드 할 수 있습니다.');
+      $.alert('이미지 파일은 최대 '+totalCount+'개까지 업로드 할 수 있습니다.');
       return;
     } else {
     	 fileCount = fileCount + filesArr.length;
@@ -169,7 +168,7 @@ function fileDelete(fileNum){
 	$.ajax({
    	      type: "POST",
    	   	  enctype: "multipart/form-data",
-   	      url: "review_upload.review",
+   	      url: "fieldReview_upload.review",
        	  data : formData,
        	  processData: false,
    	      contentType: false,
@@ -198,34 +197,6 @@ function fileDelete(fileNum){
     height: 35px;
 }
 
-.insert {
-    padding: 20px 30px;
-    display: block;
-    width: 600px;
-    margin: ;
-    height: 100px;
-    border: 1px solid #dbdbdb;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.insert .file-list {
-    height: 50px;
-    overflow: auto;
-    border: 1px solid #989898;
-    padding: 10px;
-}
-.insert .file-list .filebox p {
-    font-size: 14px;
-    margin-top: 10px;
-    display: inline-block;
-}
-.insert .file-list .filebox .delete i{
-    color: #ff5353;
-    margin-left: 5px;
-}
-
-
 </style>
 
 <form name="dataForm" id="dataForm" onsubmit="return registerAction()">
@@ -234,7 +205,7 @@ function fileDelete(fileNum){
   <div class="container">
   		<div class="row">
   			<div class="col-md-12 text-center">
-  				<h2 class="section-title">리뷰쓰기</h2>
+  				<h2 class="section-title">장소 리뷰쓰기</h2>
   				<div id= "myform" >
              	<fieldset name= "review_regionScore">
       		 		<input type="radio" name="review_regionScore" value="5" id="rate1"><label for="rate1">⭐</label>
@@ -278,11 +249,11 @@ function fileDelete(fileNum){
 		 	<label for="review_regionContent">리뷰 상세</label>
             	<textarea class="form-control" id="review_regionContent" name="review_regionContent" placeholder="리뷰 상세" rows="18" required  style="resize:none;"></textarea>
        	 		<br>	
-			<button id="btn-upload" type="button" style="border: 1px solid #ddd; outline: none;">파일 추가</button>
-  			<input id="input_file" multiple="multiple" type="file" style="display:none;">
-  			<span style="font-size:10px; color: gray;">※첨부파일은 최대 5개까지 등록이 가능합니다.</span>
+			<button id="btn-upload" type="button" style="border: 1px solid #ddd; outline: none;">이미지 파일 추가</button>
+  			<input id="input_file" multiple="multiple" type="file" style="display:none;" accept="image/*">
+  			<span style="font-size:10px; color: gray;">※이미지 파일은 최대 5개까지 등록이 가능합니다.</span>
   			<div class="data_file_txt" id="data_file_txt" style="margin:40px;">
-			<span>첨부 파일</span>
+			<span>이미지 파일</span>
 			<br/>
 			<div id="reviewImageBox"><!-- //articlefileChange -->
 			</div>

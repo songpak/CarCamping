@@ -4,9 +4,18 @@
  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ezen.carCamping.model.reviewMapper">
 
-	<resultMap type="RegionDTO"	 id="regionMap">
+	<resultMap 	id="regionMap" type="RegionDTO">
 		<id column="region_num" property="region_num"/>
 		<result column="region_name" property="region_name"/>
+	</resultMap>
+	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
+		<id column="brand_num" property="brand_num"/>
+		<result column="brand_name" property="brand_name"/>
+	</resultMap>
+	
+	<resultMap id="productCategoryMap" type="ProductCategoryDTO">
+		<id column="pc_num" property="pc_num"/>
+		<result column="pc_name" property="pc_name"/>
 	</resultMap>
 	
 		<resultMap type="MemberDTO" id="memberMap">
@@ -34,8 +43,7 @@
 		</association>
 	</resultMap>
 	
-	
-		<resultMap type="CarCampingRegionDTO" id="carCampingRegionMap">
+	<resultMap type="CarCampingRegionDTO" id="carCampingRegionMap">
 		<id column="ccr_num" property="ccr_num"/>
 		<result column="ccr_name" property="ccr_name"/>
 		<result column="ccr_car" property="ccr_car"/>
@@ -61,7 +69,6 @@
 		</association>
 	</resultMap>
 
-	
 	<resultMap id="reviewRegionMap" type="ReviewRegionDTO">
 		<id column="review_num" property="review_num"/>
 		<result column="review_title" property="review_title"/>
@@ -138,9 +145,23 @@ values(#{memberDTO.mem_num},#{carCampingRegionDTO.ccr_num},#{review_title},now()
 </insert>
 
 <insert id="insertReviewProduct" parameterType="ReviewProductDTO">
-insert into ReviewProduct(rp_num,prod_num,mem_num,rp_title,rp_sysdate,rp_summaryContent,rp_content
+insert into ReviewProduct(prod_num,mem_num,rp_title,rp_sysdate,rp_summaryContent,rp_content,
 rp_score,rp_image1,rp_image2,rp_image3,rp_image4,rp_image5,rp_popular,rp_readCount,rp_likeCount,rp_adminConfirm) 
 values(#{productDTO.prod_num},#{memberDTO.mem_num},#{rp_title},now(),#{rp_summaryContent},#{rp_content},
 #{rp_score},#{rp_image1},#{rp_image2},#{rp_image3},#{rp_image4},#{rp_image5},1,0,0,1)
 </insert> 
+
+<!-- 용품 리뷰 전체 카테고리 가져오기-->
+<select id="listAllProdCate" resultType="ProductCategoryDTO">
+	select * from ProductCategory
+</select>
+<!-- 용품 리뷰 전체 브랜드 가져오기  -->
+<select id = "listAllBrandCate" resultType="BrandCategoryDTO">
+	select * from BrandCategory
+</select>
+<!-- 카테고리와 브랜드로 상품리스트 가져오기 -->
+<select id = "listProdByCategory" parameterType="Map" resultType="ProductDTO">
+	select a.* from Product a join ProductCategory b , BrandCategory c 
+	where a.pc_num=b.pc_num and a.brand_num=c.brand_num and b.pc_num=#{pc_num} and c.brand_num=#{brand_num}
+</select>
 </mapper>
