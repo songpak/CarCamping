@@ -28,14 +28,16 @@ public class MyPageMapper {
 		 return res; 
 	 }
 	 
-	 public int updateCart(ProductCartDTO dto) {
-		 int res = sqlSession.update("updateCart", dto);
+	 public int updateCart(ProductCartDTO cartDTO) {
+		 int res = sqlSession.update("updateCart", cartDTO);
 		return res;
 	 }
-	 public int deleteCart(int prod_num) {
-		 int res = sqlSession.delete("deleteCart", prod_num);
-		 return res;
-	 }
+	
+	public int deleteCart(int cart_num) {
+		int res = sqlSession.delete("deleteCart",cart_num );
+		return res;
+	}
+	 
 	 
 }
 

@@ -13,11 +13,11 @@
 	</insert>
 	
 	  <update id="updateCart" parameterType="ProductCartDTO">
-		update ProductCart set cart_prodCount=#{cart_prodCount} where prod_num = #{prod_num}
+		update ProductCart set cart_prodCount = #{cart_prodCount} where cart_from = #{cart_from} and cart_to = #{cart_to}
 	</update>  
 	
 	<delete id="deleteCart" parameterType="int">
-		delete from ProductCart where Prod_num =#{prod_num}
+		delete from ProductCart where cart_num = #{cart_num}
 	</delete>
 	
 </mapper>

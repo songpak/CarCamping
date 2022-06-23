@@ -56,7 +56,7 @@
                                   		  수정
                                 </button>
                                </form>
-                            <a  href="mall_cartDel.myPage?prod_num=${mdto.prod_num }&cart_from=${mdto.cart_from}&cart_to=${mdto.cart_to }">
+                            <a  href="mall_cartDel.myPage?prod_num=${mdto.prod_num }&cart_from=${mdto.cart_from}&cart_to=${mdto.cart_to}&cart_num=${mdto.cart_num}">
                             <button class="btn btn-white border-secondary bg-white btn-md mb-2" >
                                    		삭제
                                 </button></a> 
