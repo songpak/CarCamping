@@ -43,7 +43,7 @@
 		<c:forEach var="dto" items="${listBoard}">
 			<tr>
 				<td align="center">${dto.question_num}</td>		
-				<td align="center"><a href="contentQuestion.myPage?question_num=${dto.question_num}">
+				<td align="center"><a href="myPageContactUsView.myPage?question_num=${dto.question_num}">
 						${dto.question_title}
 					</a></td>
 				<td align="center">${dto.memberDTO.mem_id}</td>

@@ -208,9 +208,7 @@ public class MyPageController {
 		return "myPage/myPageContactUs";
 	}
 	@RequestMapping(value="/myPageContactUs.myPage", method=RequestMethod.POST)
-	public String myPageContactUsOk(HttpServletRequest req, QuestionDTO qdto, String mem_num) {
-		HttpSession session = req.getSession();
-		session.getAttribute(mem_num);
+	public String myPageContactUsOk(HttpServletRequest req, QuestionDTO qdto, @RequestParam int mem_num) {
 		int res = myPageMapper.insertQuestion(qdto);
 		if (res>0) {
 			req.setAttribute("msg", "문의사항을 접수했습니다.");
@@ -219,7 +217,12 @@ public class MyPageController {
 		}
 		return "message";
 	}
-
+	@RequestMapping("/myPageContactUsView.myPage")
+	public String myPageContactUsView(HttpServletRequest req, @RequestParam int question_num) {
+		QuestionDTO qdto = myPageMapper.getQuestion(question_num);
+		req.setAttribute("getQuestion", qdto);
+		return "myPage/myPageContactUsView";
+	}
 	@RequestMapping("/myPageWriteReview.myPage")
 	public String myPagaWriteReview() {
 		return "myPage/myPageWriteReview";

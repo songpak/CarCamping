@@ -6,7 +6,7 @@
   		<meta charset="utf-8">
   		<meta http-equiv="X-UA-Compatible" content="IE=edge">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
-  		<title>Indigo</title>
+  		<title>접수한 문의사항</title>
   
   		<!-- Bootstrap CSS -->
   		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -31,18 +31,22 @@
   				<div class="row">
   					<div class="col-md-12 text-center">
   						<h2 class="section-title">Contact Us</h2>
-  						<p class="section-description">문의사항을 보내주세요.</p>
+  						<p class="section-description">접수한 문의사항 </p>
   					</div>
   					<div class="col-md-8 col-md-offset-2">
-  						<form id="contact" name="contact" action="myPageContactUs.myPage" method="post" class="form" role="form" >	
-							<input class="form-control" id="question_title" name="question_title" placeholder="제목" type="text" required />
-							<input type="hidden" name="mem_num" value="${mem_num}"/>
-							<br />
-							<textarea class="form-control" id="question_content" name="question_content" placeholder="문의사항" rows="5" required></textarea>
+  						<form id="contact" name="contact" action="myPageContactUs.myPage" method="post" class="form" role="form" >
+  							<div class="row">
+								<div class="col-md-6 form-group">
+							<p>제목</p> <input class="form-control" id="question_title" type="text" value="${getQuestion.question_title}" />
+							</div>
+							<div class="col-md-6 form-group">
+								<p>문의일</p> <input class="form-control" type="text" id="question_sysdate" value="${getQuestion.question_sysdate}" />
+								</div>
+							</div>
+							<p>문의내용</p>	
+							<textarea class="form-control" id="question_content" rows="5" >${getQuestion.question_content}</textarea>
 							<br />
 							<div class="row">
-								
-									<button class="btn btn-success mb-3" type="submit" style="width: 756px;">Submit</button>
 							
 							</div>
 						</form>
