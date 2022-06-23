@@ -444,18 +444,19 @@
 	
 	
 	
-	<resultMap id="productCartMap" type="ProductCartDTO">
-		<id column="cart_num" property="car_num"/>
+<!-- 	<resultMap id="productCartMap" type="ProductCartDTO">
+		<id column="cart_num" property="cart_num"/>
 		<result column="cart_prodCount" property="cart_prodCount"/>
 		<result column="cart_from" property="cart_from"/>
 		<result column="cart_to" property="cart_to"/>
 		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
 		<association property="productDTO" javaType="ProductDTO" resultMap="productMap"/>
 		<association property="agencyDTO" javaType="AgencyDTO" resultMap="agencyMap"/>
-	</resultMap>
+	</resultMap> -->
 	
 	<resultMap id="rentalLogMap" type="RentalLogDTO">
 		<id column="rental_num" property="rental_num"/>
+		<result column="rental_productCount" property="rental_productCount"/>
 		<result column="rental_from" property="rental_from"/>
 		<result column="rental_to" property="rental_to"/>
 		<result column="rental_return" property="rental_return"/>
@@ -465,17 +466,19 @@
 		<result column="rental_usePoint" property="rental_usePoint"/>
 		<result column="rental_extendPrice" property="rental_extendPrice"/>
 		<result column="rental_notReturnPrice" property="rental_notReturnPrice"/>
-		<association property="productCartDTO" javaType="ProductCartDTO" resultMap="productCartMap"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
+		<association property="productDTO" javaType="ProductDTO" resultMap="productMap"/>
+		<association property="agencyDTO" javaType="AgencyDTO" resultMap="agencyMap"/>
 	</resultMap>
 	
 	<select id="adminListRentalLog" resultMap="rentalLogMap">
-		select a.*,b.*,c.*,d.*,e.* from RentalLog a join ProductCart b join Member c join Product d join Agency e 
-		on a.cart_num = b.cart_num and b.mem_num = c.mem_num and b.prod_num = d.prod_num and b.agency_num = e.agency_num
+		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
+		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
 	</select>
 	
 	<select id="adminGetRentalLog" resultMap="rentalLogMap" parameterType="int">
-		select a.*,b.*,c.*,d.*,e.* from RentalLog a join ProductCart b join Member c join Product d join Agency e 
-		on a.cart_num = b.cart_num and b.mem_num = c.mem_num and b.prod_num = d.prod_num and b.agency_num = e.agency_num
+		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
+		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
 		where a.rental_num = #{rental_num}
 	</select>
 	

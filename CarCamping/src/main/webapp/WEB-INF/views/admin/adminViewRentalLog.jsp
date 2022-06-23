@@ -24,19 +24,19 @@
 		<table class="table table-sm">
 			<tr>
 				<th>ID</th>
-				<td>${rdto.productCartDTO.memberDTO.mem_id}</td>	
+				<td>${rdto.memberDTO.mem_id}</td>	
 			</tr>
 			<tr>
 				<th>용품명</th>
-				<td>${rdto.productCartDTO.productDTO.prod_name}</td>
+				<td>${rdto.productDTO.prod_name}</td>
 			</tr>
 			<tr>
 				<th>수량</th>
-				<td>${rdto.productCartDTO.cart_prodCount}</td>
+				<td>${rdto.rental_productCount}</td>
 			</tr>
 			<tr>
 				<th>대리점명</th>
-				<td>${rdto.productCartDTO.agencyDTO.agency_name}</td>
+				<td>${rdto.agencyDTO.agency_name}</td>
 			</tr>
 			<tr>
 				<th>대여시작일</th>
@@ -52,16 +52,16 @@
 			</tr>
 			<tr>
 				<th>반납상태</th>
-				<c:if test="${rdto.rentalReturn==0}">
+				<c:if test="${rdto.rental_return==0}">
 					<td>대여중</td>
 				</c:if>
-				<c:if test="${rdto.rentalReturn==1}">
+				<c:if test="${rdto.rental_return==1}">
 					<td>반납완료</td>
 				</c:if>
-				<c:if test="${rdto.rentalReturn==2}">
+				<c:if test="${rdto.rental_return==2}">
 					<td>연장중</td>
 				</c:if>
-				<c:if test="${rdto.rentalReturn==3}">
+				<c:if test="${rdto.rental_return==3}">
 					<td>미납</td>
 				</c:if>	
 			</tr>
@@ -100,7 +100,7 @@
 										<option value="1">반납완료</option>
 									</c:otherwise>
 								</c:choose>
-								<c:choose>
+								<%-- <c:choose>
 									<c:when test="${rdto.rental_return==2}">
 										<option value="2" selected>연장중</option>
 									</c:when>
@@ -115,9 +115,9 @@
 									<c:otherwise>
 										<option value="3">미납</option>
 									</c:otherwise>
-								</c:choose>
+								</c:choose> --%>
 							  </select>
-					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">체크시 제한</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">수정</button>
 				</td>
 			</tr>
 		</table>

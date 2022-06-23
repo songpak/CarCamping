@@ -1,6 +1,7 @@
 package com.ezen.carCamping;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class AdminController {
 	@Autowired
 	private AdminMapper adminMapper;
 	
+	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
 		HttpSession session = req.getSession();
@@ -51,12 +53,15 @@ public class AdminController {
 	}
 
 	
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////장 소////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	
+	
 	@RequestMapping("/adminRegion.admin")
-	public String adminRegion(HttpServletRequest req,@RequestParam(required=false) String region_num) {
+	public String adminRegion(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,@RequestParam(required=false) String region_num) {
 		List<CarCampingRegionDTO> adminListCarCampingRegion = new ArrayList<CarCampingRegionDTO>();
 		
 		if (region_num==null) {
@@ -65,7 +70,7 @@ public class AdminController {
 			adminListCarCampingRegion = adminMapper.adminListCarCampingRegionSelectRegion(Integer.parseInt(region_num));
 		}
 		
-		
+	
 		req.setAttribute("adminListCarCampingRegion", adminListCarCampingRegion);
 		return "admin/adminRegion";
 	}
