@@ -2,15 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- 
-1. 로그인 했을떄 안했을때 넘어가는 페이지 분리
-2.리스트 다음페이지로 넘기기
-3.리뷰 검색
-4.대여날짜 넘기기
-5.정렬
-※일단 페이지 내에서 할 수 있는 기능부터 구현할것!!
- -->
-
 <script type="text/javascript">
 function fn_account(val){
 	window.open("<c:url value='productReviewView.product?rp_num="+val+"'/>",  
@@ -24,38 +15,6 @@ function fn_account(val){
 			window.open(url, name, option);
 		}
 		
- 	/* $("f_lent").submit(function(){
-			var indate2 = $("indate1").val();
-			var outdate2 = $("outdate1").val();
-			var date1 = indate2.split('-');
-			var in_date = new Date(indate2);
-			var date2 = outdate2.split('-');
-			var out_date = new Date(outdate2);
-			
-   			var date = new Date();
-   			
-	   		if(indate2 != ''){
-	       		if(outdate2 != ''){
-		    		if(date.getDate() <= in_date.getDate()){
-		    			if(in_date.getDate() > out_date.getDate()){
-		     				alert('반납날짜보다 빌린날짜가 먼저여야 합니다');
-		     				return false;
-		     			}
-		    		}else {
-		    			alert('지난 날짜는 선택 할 수 없습니다.');
-		    			return false;
-		    		}
-	       		}else{
-	       			alert('반납날짜를 지정해주세요');
-	       			return false;
-	       		}
-	       	}else{
-	       		alert('빌린날짜를 지정해주세요');
-	       		return false;
-	       	}
-		});
-	});  */
-
     </script>
 
 <!-- 부트스트랩 영역 -->
@@ -65,10 +24,10 @@ function fn_account(val){
 	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
 	crossorigin="anonymous">
 
-<script
+<!-- <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-	crossorigin="anonymous"></script>
+	crossorigin="anonymous"></script> -->
 
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
@@ -86,7 +45,7 @@ function fn_account(val){
 	<div class="row mb-3">
 		<!-- List Column Grid -->
 		<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
-			style="width: 280px;">
+			style="width: 280px; height: 850px;">
 			<a href="/"
 				class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 				<svg class="bi me-2" width="40" height="32">
@@ -98,7 +57,10 @@ function fn_account(val){
 			<div align="center">
 				<h4>
 					<img src="${getProduct.prod_viewImage1}" />
-				</h4>
+				</h4> <br>
+					상품명 : ${getProduct.prod_name }<br>
+					일일대여 요금 : ${getProduct.prod_price }원<br>
+					용품 요약설명 : ${getProduct.prod_summary }
 			</div>
 			<!-- 이미지 영역 끝 -->
 <style>
@@ -184,7 +146,7 @@ function fn_account(val){
 		<div class="col-md-8 themed-grid-col">
 			<div class="row" align="center">
 				<div class="row"></div>
-				<h2>용품 리뷰 목록</h2>
+				<h1>용품 리뷰 목록</h1>
 				<form name="f" method="post">
 					<select name="search">
 						<option selected value="rp_title">리뷰 제목</option>
@@ -194,7 +156,7 @@ function fn_account(val){
 				</form>
 			</div>
 			<div class="row" align="center"
-				style="overflow: scroll; width: 100%; height: 60%">
+				style="overflow: scroll; width: 100%; height: 100%%">
 
 				<!-- 정렬 기능 -->
 
@@ -203,25 +165,14 @@ function fn_account(val){
 				<br>
 				<!-- 본문 -->
 				<c:if test="${empty ReList}">
-					<table class="table table-borderless">
-						<tr>
-							<td>
-								<div class="card" style="width: 18rem;">
-									<!-- 리뷰리스트 이미지 영역 -->
-									<img src="resources/images/carbak4.jpg" class="card-img-top">
-									<!-- 리뷰리스트 이미지 영역 끝 -->
-									<div class="card-body">
-										<h5 class="card-title">리뷰 없음</h5>
-										<p class="card-text">
-											<label for="disabledRange" class="form-label">없음</label> <input
-												type="range" class="form-range" id="disabledRange" disabled>
-											등록된 리뷰가 없어요!!!<br>작성일
-										</p>
-										<a href="javascript:popup()"><button type="button"
-												class="btn btn-primary" data-bs-toggle="modal">없음</button></a>
-									</div>
-								</div>
-							</td>
+					<table class="table table-borderless" >
+					<tr>
+					<td></td>
+					</tr>
+						<tr align = "center">
+							<th >
+								<h1>아직 등록된 리뷰가 없어요!</h1>
+							</th>
 						</tr>
 					</table>
 				</c:if>
