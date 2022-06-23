@@ -38,7 +38,10 @@
                                 <div class="col-md-9 text-left mt-sm-2">
                                 
                                     <h4>용품명 : ${mdto.prod_name}</h4>
-                                    <p class="font-weight-light">대여하실 날짜는 ${mdto.cart_from} ~ ${mdto.cart_to} 까지 입니다.</p><br>
+                                    <p class="font-weight-light">대여하실 날짜는 ${mdto.cart_from} ~ ${mdto.cart_to} 까지 입니다.<br>
+                                     	대리점명 : ${mdto.agency_name}
+                                    </p><br>
+                                  			
                                 </div>
                             </div>
                             

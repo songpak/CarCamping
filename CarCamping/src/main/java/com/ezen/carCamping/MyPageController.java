@@ -2,10 +2,8 @@ package com.ezen.carCamping;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,11 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
-import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.service.MyPageMapper;
-import com.ezen.carCamping.service.ProductMapper;
 
 @Controller
 public class MyPageController {
@@ -28,8 +23,10 @@ public class MyPageController {
 	private MyPageMapper myPageMapper;
 
 	@RequestMapping("/myPageCart.myPage")
-	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from, String cart_to, int mem_num)
+	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from,
+			String cart_to, int mem_num, int agency_num)
 			throws ParseException {
+		System.out.println(agency_num);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date indate = sdf.parse(cart_from);
 		Date outdate = sdf.parse(cart_to);
@@ -71,6 +68,7 @@ public class MyPageController {
 			}
 			HttpSession session = req.getSession();
 			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
+			
 			session.setAttribute("cartList", list);
 		}
 		return "myPage/myPageCart";

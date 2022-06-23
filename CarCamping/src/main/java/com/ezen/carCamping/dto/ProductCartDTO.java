@@ -17,7 +17,22 @@ public class ProductCartDTO {
 	private String prod_viewImage5;
 	private String prod_name;
 	private int prod_price;
+	private String agency_name;
+	private String agency_num;
 	
+	
+	public String getAgency_num() {
+		return agency_num;
+	}
+	public void setAgency_num(String agency_num) {
+		this.agency_num = agency_num;
+	}
+	public String getAgency_name() {
+		return agency_name;
+	}
+	public void setAgency_name(String agency_name) {
+		this.agency_name = agency_name;
+	}
 	public int getMem_num() {
 		return mem_num;
 	}

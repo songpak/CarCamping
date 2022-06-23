@@ -1,11 +1,13 @@
 package com.ezen.carCamping.service;
 
 
-import java.util.*;
+import java.util.*; 
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 
@@ -29,7 +31,7 @@ public class ProductMapper {
 		return list;
 	}
 	
-	public List<ProductDTO> popularProduct() {//ÀÎ±â¿ëÇ° ¸®½ºÆ®
+	public List<ProductDTO> popularProduct() {//ï¿½Î±ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½Æ®
 		List<ProductDTO> popList = sqlSession.selectList("popularProd");
 		return popList;
 	}
@@ -68,6 +70,11 @@ public class ProductMapper {
 	public List<ReviewProductDTO> R_orderByRead() {
 		List<ReviewProductDTO>list= sqlSession.selectList("R_orderByRead");
 		return list;
+	}
+	
+	public List<AgencyDTO> getAgency() {
+		List<AgencyDTO> dto = sqlSession.selectList("getAgency");
+		return dto;
 	}
 	
 }

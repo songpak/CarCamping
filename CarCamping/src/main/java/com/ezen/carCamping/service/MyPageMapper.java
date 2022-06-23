@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
@@ -37,8 +38,8 @@ public class MyPageMapper {
 		int res = sqlSession.delete("deleteCart",cart_num );
 		return res;
 	}
-	 
-	 
+	
+	
 }
 
 

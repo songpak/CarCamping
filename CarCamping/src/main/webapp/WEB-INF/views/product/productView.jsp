@@ -152,6 +152,17 @@ function fn_account(val){
 								value="1" pattern="[0-9]+" min="1" max="10">
 						</div>
 						<br>
+						
+						<div>
+						대리점 선택
+						<select name="agency_num">
+						<c:forEach items="${getAgency}" var="dto">
+							<option value="${dto.agency_num}">${dto.agency_name}</option>
+							</c:forEach>
+						</select>
+						
+							</div>
+						<br>
 						<div>
 
 							<!-- ---------------수정할 사항-------------------------- -->

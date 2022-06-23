@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.service.ProductMapper;
@@ -57,6 +58,8 @@ public class ProductController {
 			} else {
 				list = productMapper.findReview(search, searchString);
 			}
+			List<AgencyDTO> Alist = productMapper.getAgency();
+			req.setAttribute("getAgency", Alist);
 			req.setAttribute("getProduct", productMapper.getProduct(prod_num));
 			req.setAttribute("ReList", list);
 		return "product/productView";

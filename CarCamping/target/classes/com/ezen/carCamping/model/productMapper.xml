@@ -42,5 +42,9 @@
 		select * from ReviewProduct order by rp_readCount
 	</select>
 	
+	<select id="getAgency" resultType="AgencyDTO">
+		select * from Agency
+	</select>
+	
 </mapper>
 
