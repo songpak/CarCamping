@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
   <!DOCTYPE html>
-  <html lang="ko">
+  <html>
   	<head>
-  		<meta charset="utf-8">
-  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  		<meta charset="UTF-8">
+  		<meta http-equiv="X-UA-Compatible" content="IE=Edge; chrome=1" />
   		<meta name="viewport" content="width=device-width, initial-scale=1">
   		<title>접수한 문의사항</title>
   
@@ -15,7 +15,7 @@
   		<!-- Font Awesome -->
   		<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
   		<!-- Style -->
-  		<link href='contactUs.css' rel='stylesheet' type='text/css'>
+  		<link href='/resources/contactUs.css' rel='stylesheet' type='text/css'>
  		<style>
  			textarea {
     			resize: none;

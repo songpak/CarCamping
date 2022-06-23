@@ -3,12 +3,14 @@ package com.ezen.carCamping;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,12 +205,16 @@ public class MyPageController {
 	public String myPageRental() {
 		return "myPage/myPageRental";
 	}
-	@RequestMapping(value="/myPageContactUs.myPage", method=RequestMethod.GET)//마이페이지 컨텍어스
+	@RequestMapping(value="myPageContactUs.myPage", method=RequestMethod.GET)//마이페이지 컨텍어스
 	public String myPageContactUs() {
 		return "myPage/myPageContactUs";
 	}
-	@RequestMapping(value="/myPageContactUs.myPage", method=RequestMethod.POST)
+	@RequestMapping(value="myPageContactUs.myPage", method=RequestMethod.POST)
 	public String myPageContactUsOk(HttpServletRequest req, QuestionDTO qdto, @RequestParam int mem_num) {
+		MemberDTO dto = new MemberDTO();
+		dto.setMem_num(Integer.parseInt(req.getParameter("mem_num")));
+	    qdto.setMemberDTO(dto);
+	    req.setAttribute("mem_num", mem_num);
 		int res = myPageMapper.insertQuestion(qdto);
 		if (res>0) {
 			req.setAttribute("msg", "문의사항을 접수했습니다.");
@@ -223,6 +229,13 @@ public class MyPageController {
 		req.setAttribute("getQuestion", qdto);
 		return "myPage/myPageContactUsView";
 	}
+	@RequestMapping("/myPageQuestionReply.myPage")
+	public String myPageQuestionReply(HttpServletRequest req, @RequestParam int question_num) {
+		QuestionDTO qdto = myPageMapper.getQuestion(question_num);
+		req.setAttribute("getQuestion", qdto);
+		return "myPage/myPageQuestionReply";
+	}
+	
 	@RequestMapping("/myPageWriteReview.myPage")
 	public String myPagaWriteReview() {
 		return "myPage/myPageWriteReview";
