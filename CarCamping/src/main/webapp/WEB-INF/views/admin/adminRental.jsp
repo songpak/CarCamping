@@ -41,8 +41,8 @@
 		<tr class="table-info">
 			<th>회원ID</th>
 			<th>용품명</th>
-			<th>수량</th>
 			<th>대리점명</th>
+			<th>수량</th>
 			<th>대여시작일</th>
 			<th>대여종료일</th>
 			<th>대여요금</th>
@@ -53,24 +53,24 @@
 		<c:if test="${not empty adminListRentalLog}">
 		<c:forEach items="${adminListRentalLog}" var="dto">
 			<tr>
-				<td>${dto.productCartDTO.memberDTO.mem_id}</td>
-				<td>${dto.productCartDTO.productDTO.prod_name}</td>
-				<td>${dto.productCartDTO.cart_prodCount}</td>
-				<td>${dto.productCartDTO.agencyDTO.agency_name}</td>
+				<td>${dto.memberDTO.mem_id}</td>
+				<td>${dto.productDTO.prod_name}</td>
+				<td>${dto.agencyDTO.agency_name}</td>
+				<td>${dto.rental_productCount}</td>
 				<td>${dto.rental_from}</td>
 				<td>${dto.rental_to}</td>
 				<td>${dto.rental_price}</td>
 				<td>${dto.rental_usePoint}</td>
-				<c:if test="${dto.rentalReturn==0}">
+				<c:if test="${dto.rental_return==0}">
 					<td>대여중</td>
 				</c:if>
-				<c:if test="${dto.rentalReturn==1}">
+				<c:if test="${dto.rental_return==1}">
 					<td>반납완료</td>
 				</c:if>
-				<c:if test="${dto.rentalReturn==2}">
+				<c:if test="${dto.rental_return==2}">
 					<td>연장중</td>
 				</c:if>
-				<c:if test="${dto.rentalReturn==3}">
+				<c:if test="${dto.rental_return==3}">
 					<td>미납</td>
 				</c:if>					
 				<td><button type="button" class="btn btn-info"
