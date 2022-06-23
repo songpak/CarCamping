@@ -112,11 +112,6 @@ public class MyPageController {
 					} else {
 						System.out.println("업데이트 실패");
 					}
-					// 여기를 쿼리문으로 교체한다면?
-					/*
-					 * int res = myPageMapper.updateCart(cartDTO); if (res > 0) {
-					 * System.out.println("업데이트성공"); } else { System.out.println("업데이트 실패"); }
-					 */
 					break;
 				}
 			}

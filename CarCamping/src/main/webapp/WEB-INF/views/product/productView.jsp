@@ -238,8 +238,41 @@ function fn_account(val){
 										<h5 class="card-title">${pdto.rp_title}</h5>
 										<p class="card-text">
 											<label for="disabledRange" class="form-label">평점 :
-												${pdto.rp_score}</label> <input type="range" class="form-range"
-												id="disabledRange" disabled> 조회수 :
+												${pdto.rp_score}</label> <br>
+											별점 : 	
+													<c:choose>
+				 				<c:when test="${pdto.rp_score >= 1 && pdto.rp_score < 2 }">
+				  							<label for="rate1">⭐</label>
+				 				</c:when>
+				 				<c:when test="${pdto.rp_score >= 2 && pdto.rp_score < 3 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				 				</c:when>
+								 <c:when test="${pdto.rp_score >= 3 && pdto.rp_score < 4 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				 				</c:when>
+				 				<c:when test="${pdto.rp_score >= 4 && pdto.rp_score < 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						 <label for="rate4">⭐</label>
+				 				</c:when>
+				 				<c:when test="${pdto.rp_score eq 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						 <label for="rate4">⭐</label>
+				  						 <label for="rate5">⭐</label> 
+				 				</c:when>
+								 <c:otherwise>
+								  아직 별점이 없습니다.
+								 </c:otherwise>
+								</c:choose> <br>
+												<!-- 이부분 별점으로 수정 -->
+												
+												 조회수 :
 											${pdto.rp_readCount}&nbsp;&nbsp; | &nbsp;&nbsp;좋아요 :
 											${pdto.rp_likeCount}<br>작성일 : ${pdto.rp_sysdate}
 										</p>
