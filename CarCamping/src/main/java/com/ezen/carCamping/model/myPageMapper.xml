@@ -70,4 +70,5 @@
 	<select id="getQuestion" parameterType="int" resultType="questionDTO">
 		select * from Question where question_num = #{question_num}
 	</select>
+	
 </mapper>

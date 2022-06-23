@@ -32,24 +32,23 @@
   				<div class="row">
   					<div class="col-md-12 text-center">
   						<h2 class="section-title">Contact Us</h2>
-  						<p class="section-description">문의사항을 보내주세요.</p>
+  						<p class="section-description">보내주신 문의사항에 답변 드립니다.</p>
   					</div>
   					<div class="col-md-8 col-md-offset-2">
   						<form id="contact" name="contact" action="myPageContactUs.myPage" method="post" class="form" role="form" enctype="multipart/form-data">	
 							<div class="row">
-							<label>제목</label>
-							<input class="form-control" id="question_title" name="question_title" placeholder="제목을 입력해 주세요" type="text" required />
+							<label>답변일시</label>
+							<input class="form-control" id="question_title" name="question_title"  type="text" value="${getQuestion.question_replySysdate}" />
 							</div>
-							<input type="hidden" name="mem_num" value="${mem_num}"/>
 							<br />
 							<div class="row">
-							<label>문의사항</label>
-							<textarea class="form-control" id="question_content" name="question_content" placeholder="문의사항을 입력해 주세요" rows="5" required></textarea>
+							<label>답변내용</label>
+							<textarea class="form-control" id="question_content" name="question_content" rows="5" required>${getQuestion.question_reply}</textarea>
 							</div>
 							<br />
 							<div class="row">
 								
-									<button class="btn btn-dark mb-3" type="submit" style="width: 756px;">Submit</button>
+									<button class="btn btn-dark mb-3" type="submit" style="width: 756px" onClick="window.close()">확인</button>
 							
 							</div>
 						</form>

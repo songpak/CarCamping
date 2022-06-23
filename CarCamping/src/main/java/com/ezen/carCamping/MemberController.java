@@ -85,37 +85,47 @@ public class MemberController {
    @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
+	  int login_success = 1;
+      String msg = null, url = null;
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
       int mem_num = dto.getMem_num();
-		HttpSession session = req.getSession();
-	      MemberDTO mdto = (MemberDTO)session.getAttribute("mbdto"); 
-	      req.setAttribute("getMember", mdto);
-      String msg = null, url = null;
-      if (dto == null){   
-         msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
-         url = "login.login";
-      }else {
-         if (params.get("mem_password").equals(dto.getMem_password())){
-        	
+
+
+      if (dto != null &&params.get("mem_password").equals(dto.getMem_password())){   
             msg = dto.getMem_id()+"님, 환영합니다!!";
             url = "index.do";
-          
+            login_success = 0;
+    		HttpSession session = req.getSession();
             session.setAttribute("mem_num", mem_num);
             session.setAttribute("mbdto", dto);
+            MemberDTO mdto = (MemberDTO)session.getAttribute("mbdto"); 
+            req.setAttribute("getMember", mdto);
+            
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
-               ck.setMaxAge(0);
-            }else {
                ck.setMaxAge(24*60*60);
+            }else {
+               ck.setMaxAge(0);
             }
             resp.addCookie(ck);
+      	 }else if(dto==null) {
+      		 msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
+             url = "login.login";
          }else {   
             msg = "비밀번호가 틀렸습니다. 다시 확인하고 로그인해 주세요!!";
             url = "login.login";
          }
-      }
       req.setAttribute("msg", msg);
       req.setAttribute("url", url);
+
+	  //Cookie ck2 = new Cookie("stopId", dto.getMem_id());
+      // ck2.setMaxAge(24*60*60);
+     // resp.addCookie(ck2);
+	 // url="index.do";
+	 // msg ="5번 이상 로그인에 실패하여 하루동안 로그인이 불가능합니다.";
+	  
+	  
+
       return "message";
    }
    
