@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -44,6 +45,16 @@ public class HomeController {
 	
 	@RequestMapping("/index.do")
 	public String goIndex(HttpServletRequest req) {
+		HttpSession session =  req.getSession();
+		Cookie[] remember = req.getCookies();
+		if (remember != null) {
+			for (Cookie cf : remember) {
+				if (cf.getName().equals("mem_id")){
+					String ids = cf.getValue();
+					session.setAttribute("id", ids);
+				}
+			}
+		}
 		return "index";
 	}
 	

@@ -46,9 +46,20 @@ public class MemberController {
 	private String uploadPath;
    
    @RequestMapping(value="login.login", method=RequestMethod.GET)
-   public String login(HttpServletRequest req) {
-      return "login/login";
+   public String login(HttpServletRequest req, HttpServletResponse resp) {
+		Cookie[] remember = req.getCookies();
+		if (remember != null) {
+			for (Cookie cf : remember) {
+				if (cf.getName().equals("mem_id")) {
+					return "index";
+				}
+			}
+		}else {
+	   return "login/login";
+		}
+		return null; 
    }
+
    
 @RequestMapping(value="findID.login", method=RequestMethod.GET)
    public String searchMemberID() {
@@ -108,6 +119,13 @@ public class MemberController {
                ck.setMaxAge(0);
             }
             resp.addCookie(ck);
+            Cookie remember = new Cookie("remember", dto.getMem_id());
+            String loginChk = req.getParameter("loginChk");
+            if (loginChk != null) {
+            	remember.setMaxAge(24*60*60);
+            	remember.setPath("/");
+    			resp.addCookie(remember);
+            	
       	 }else if(dto==null) {
       		 msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
              url = "login.login";
@@ -117,14 +135,7 @@ public class MemberController {
          }
       req.setAttribute("msg", msg);
       req.setAttribute("url", url);
-
-	  //Cookie ck2 = new Cookie("stopId", dto.getMem_id());
-      // ck2.setMaxAge(24*60*60);
-     // resp.addCookie(ck2);
-	 // url="index.do";
-	 // msg ="5번 이상 로그인에 실패하여 하루동안 로그인이 불가능합니다.";
-	  
-	  
+      }
 
       return "message";
    }

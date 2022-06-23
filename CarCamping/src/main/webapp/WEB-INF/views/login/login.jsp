@@ -35,7 +35,7 @@
                <input type="checkbox" name="remember">
          </c:if>
          <c:if test="${not empty cookie.remember}">
-               <input type="checkbox" name="remember" checked>
+               <input type="checkbox" name="loginChk" checked>
          </c:if>               
                <font face="굴림" size="2">자동로그인하기</font>
             </nobr>
