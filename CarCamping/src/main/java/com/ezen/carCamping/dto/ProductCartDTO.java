@@ -18,13 +18,13 @@ public class ProductCartDTO {
 	private String prod_name;
 	private int prod_price;
 	private String agency_name;
-	private String agency_num;
+	private int agency_num;
 	
 	
-	public String getAgency_num() {
+	public int getAgency_num() {
 		return agency_num;
 	}
-	public void setAgency_num(String agency_num) {
+	public void setAgency_num(int agency_num) {
 		this.agency_num = agency_num;
 	}
 	public String getAgency_name() {

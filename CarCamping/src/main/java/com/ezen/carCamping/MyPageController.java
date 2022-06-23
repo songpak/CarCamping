@@ -68,7 +68,6 @@ public class MyPageController {
 			}
 			HttpSession session = req.getSession();
 			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
-			
 			session.setAttribute("cartList", list);
 		}
 		return "myPage/myPageCart";
@@ -84,8 +83,9 @@ public class MyPageController {
 			req.setAttribute("url", url);
 			return "message";
 		} else {
-			List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
-			session.setAttribute("cartList", cart);
+			int mem_num = (int) session.getAttribute("mem_num");
+			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
+			session.setAttribute("cartList", list);
 		}
 		return "myPage/myPageCart";
 	}
@@ -169,6 +169,23 @@ public class MyPageController {
 	public String myPageCheckOut() {
 		return "myPage/myPageCheckOut";
 	}
+	
+	@RequestMapping("/myPageRental.myPage")
+	public String myPageRental(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		if (session.getAttribute("mem_num") == null) {
+			String msg = "로그인 하셔야 합니다";
+			String url = "login.login";
+			req.setAttribute("msg", msg);
+			req.setAttribute("url", url);
+			return "message";
+		} else {
+			int mem_num = (int) session.getAttribute("mem_num");
+			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
+			session.setAttribute("cartList", list);
+		}
+		return "myPage/myPageRental";
+	}
 
 	@RequestMapping("/myPageContactUs.myPage") // 컨텍어스
 	public String myPageContactUs(HttpServletRequest req) {
@@ -183,11 +200,6 @@ public class MyPageController {
 	@RequestMapping("/myPageQuestion.myPage")
 	public String myPageQuestion() {
 		return "myPage/myPageQuestion";
-	}
-
-	@RequestMapping("/myPageRental.myPage")
-	public String myPageRental() {
-		return "myPage/myPageRental";
 	}
 
 	@RequestMapping("/myPageWriteReview.myPage")
