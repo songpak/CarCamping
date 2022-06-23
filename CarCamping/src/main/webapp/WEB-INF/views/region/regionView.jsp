@@ -3,7 +3,8 @@
 <%@ include file="../top.jsp"%>
 
  <c:set var="ccr_num" value="${regionSelected.ccr_num }"/>
- <c:set var="mem_id" value="${sessionScope.id}"/>
+ <c:set var="mem_id" value="${sessionScope.mem_id}"/>
+ 
 <div class="modal modal-center fade" id="regionContent" tabindex="-1"
 	role="dialog" aria-labelledby="regionContentLabel">
 	<div class="modal-dialog modal-center modal-lg" role="document">
@@ -80,12 +81,14 @@ body {
 .border .border-4 {
 	border-color : red;
 }
+
+
 </style>
-<script
+<!-- <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
 	crossorigin="anonymous">
-</script>
+</script> -->
  
 <div class="container-fluid themed-container" style="margin-left: 55px;" id="test">
 	<div class="row mb-3">
@@ -299,9 +302,7 @@ body {
 					<button type="button" class="btn btn-success" style=" margin-left: 15px; background-color: #00205b; border-color: #00205b;" onclick="show_allList()">
 							전체보기
 					</button>
-					<button type="button" class="btn btn-success" style=" margin-left: 15px; " onclick="location.href='test.region'">
-							테스트
-					</button>
+				
 				</div>
 				
 					<%-- regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${i} --%>
@@ -328,8 +329,14 @@ body {
 				<tr>
 					<c:if test="${empty reviewList}">
 						<c:if test="${not empty searchString }"><td><h2 align="center">검색 하신 리뷰는 존재하지 않습니다.</h2></td></c:if>
-						<c:if test="${empty searchString }"><td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2></td></c:if>
-					</c:if>
+						<c:if test="${empty searchString }">
+						<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
+						<button type="button" class="btn btn-success" style="margin-left: 431px;align: center;
+						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
+							onclick="location.href=#">
+							리뷰 등록 하기 
+						</button></td></c:if>
+						</c:if>
 					<c:forEach var="review_ccr" items="${reviewList }">
 						<td>
 							<div class="card border-success" style="width: 18rem;">

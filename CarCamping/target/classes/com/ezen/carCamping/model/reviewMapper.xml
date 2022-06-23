@@ -8,6 +8,33 @@
 		<id column="region_num" property="region_num"/>
 		<result column="region_name" property="region_name"/>
 	</resultMap>
+	
+		<resultMap type="MemberDTO" id="memberMap">
+		<id column="mem_num" property="mem_num"/>
+		<result column="mem_id" property="mem_id"/>
+		<result column="mem_email" property="mem_email"/>
+		<result column="mem_password" property="mem_password"/>
+		<result column="mem_userName" property="mem_userName"/>
+		<result column="mem_nickName" property="mem_nickName"/>
+		<result column="mem_phone" property="mem_phone"/>
+		<result column="mem_birthday" property="mem_birthday"/>
+		<result column="mem_gender" property="mem_gender"/>
+		<result column="mem_point" property="mem_point"/>
+		<result column="mem_rentalCount" property="mem_rentalCount"/>
+		<result column="mem_sysdate" property="mem_sysdate"/>
+		<result column="mem_accept_email" property="mem_accept_email"/>
+		<result column="mem_accept_phone" property="mem_accept_phone"/>
+		<result column="mem_accept_privacy" property="mem_accept_privacy"/>
+		<result column="mem_denied" property="mem_denied"/>
+		<result column="mem_image" property="mem_image"/>
+		<result column="mem_summary" property="mem_summary"/>
+		<result column="mem_introduce" property="mem_introduce"/>
+		<result column="mem_reviewCount" property="mem_reviewCount"/>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
+		</association>
+	</resultMap>
+	
+	
 		<resultMap type="CarCampingRegionDTO" id="carCampingRegionMap">
 		<id column="ccr_num" property="ccr_num"/>
 		<result column="ccr_name" property="ccr_name"/>
@@ -33,30 +60,7 @@
 		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
 		</association>
 	</resultMap>
-	<resultMap type="MemberDTO" id="memberMap">
-		<id column="mem_num" property="mem_num"/>
-		<result column="mem_id" property="mem_id"/>
-		<result column="mem_email" property="mem_email"/>
-		<result column="mem_password" property="mem_password"/>
-		<result column="mem_userName" property="mem_userName"/>
-		<result column="mem_nickName" property="mem_nickName"/>
-		<result column="mem_phone" property="mem_phone"/>
-		<result column="mem_birthday" property="mem_birthday"/>
-		<result column="mem_gender" property="mem_gender"/>
-		<result column="mem_point" property="mem_point"/>
-		<result column="mem_rentalCount" property="mem_rentalCount"/>
-		<result column="mem_sysdate" property="mem_sysdate"/>
-		<result column="mem_accept_email" property="mem_accept_email"/>
-		<result column="mem_accept_phone" property="mem_accept_phone"/>
-		<result column="mem_accept_privacy" property="mem_accept_privacy"/>
-		<result column="mem_denied" property="mem_denied"/>
-		<result column="mem_image" property="mem_image"/>
-		<result column="mem_summary" property="mem_summary"/>
-		<result column="mem_introduce" property="mem_introduce"/>
-		<result column="mem_reviewCount" property="mem_reviewCount"/>
-		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
-		</association>
-	</resultMap>
+
 	
 	<resultMap id="reviewRegionMap" type="ReviewRegionDTO">
 		<id column="review_num" property="review_num"/>
@@ -80,15 +84,63 @@
 		</association>
 	</resultMap>
 	
+	<resultMap id="productMap" type="ProductDTO">
+		<id column="prod_num" property="prod_num"/>
+		<result column="prod_name" property="prod_name"/>
+		<result column="prod_popular" property="prod_popular"/>
+		<result column="prod_price" property="prod_price"/>
+		<result column="prod_viewImage1" property="prod_viewImage1"/>
+		<result column="prod_viewImage2" property="prod_viewImage2"/>
+		<result column="prod_viewImage3" property="prod_viewImage3"/>
+		<result column="prod_viewImage4" property="prod_viewImage4"/>
+		<result column="prod_viewImage5" property="prod_viewImage5"/>
+		<result column="prod_summary" property="prod_summary"/>
+		<result column="prod_viewContent" property="prod_viewContent"/>
+		<result column="prod_sysdate" property="prod_sysdate"/>
+		<result column="prod_update" property="prod_update"/>
+		<result column="prod_reviewScore" property="prod_reviewScore"/>
+		<association property="brandCategoryDTO" javaType="BrandCategoryDTO" resultMap="brandCategoryMap">
+		</association>
+		<association property="productCategoryDTO" javaType="ProductCategoryDTO" resultMap="productCategoryMap">
+		</association>
+	</resultMap>
+	
+	<resultMap id="reviewProductMap" type="ReviewProductDTO">
+		<id column="rp_num" property="rp_num"/>
+		<result column="rp_title" property="rp_title"/>
+		<result column="rp_sysdate" property="rp_sysdate"/>
+		<result column="rp_summaryContent" property="rp_summaryContent"/>
+		<result column="rp_content" property="rp_content"/>
+		<result column="rp_score" property="rp_score"/>
+		<result column="rp_image1" property="rp_image1"/>
+		<result column="rp_image2" property="rp_image2"/>
+		<result column="rp_image3" property="rp_image3"/>
+		<result column="rp_image4" property="rp_image4"/>
+		<result column="rp_image5" property="rp_image5"/>
+		<result column="rp_popular" property="rp_popular"/>
+		<result column="rp_readCount" property="rp_readCount"/>
+		<result column="rp_likeCount" property="rp_likeCount"/>
+		<result column="rp_adminConfirm" property="rp_adminConfirm"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
+		</association>
+		<association property="productDTO" javaType="ProductDTO" resultMap="productMap">
+		</association>
+	</resultMap>
+	
+	
 <insert id="insertReviewRegion" parameterType="ReviewRegionDTO">
 insert into ReviewRegion(mem_num,ccr_num,review_title,review_sysdate,review_summaryContent,review_regionContent
 ,review_regionScore,review_regionImage1,review_regionImage2,review_regionImage3,review_regionImage4,review_regionImage5
 ,review_popular,review_readCount,review_likeCount,review_adminConfirm)
-values(#{memberDTO.mem_num},#{carCampingRegionDTO.ccr_num},#{review_title},now(),#{review_summaryContent},#{review_regionContent},#{review_regionScore},
-#{review_regionImage2},#{review_regionImage2},#{review_regionImage3},#{review_regionImage4},#{review_regionImage5},1,0,0,1)
+values(#{memberDTO.mem_num},#{carCampingRegionDTO.ccr_num},#{review_title},now(),#{review_summaryContent},#{review_regionContent},
+#{review_regionScore},#{review_regionImage1},#{review_regionImage2},#{review_regionImage3},
+#{review_regionImage4},#{review_regionImage5},1,0,0,1)
 </insert>
 
 <insert id="insertReviewProduct" parameterType="ReviewProductDTO">
-insert into ReviewRegion values(#{prod_num},#{mem_num},#{rp_title},now(),#{rp_summaryContent},#{rp_score},#{rp_Content},#{rp_Image1},#{rp_Image2},#{rp_Image3},#{rp_Image4},#{rp_Image5},#{rp_popular},#{rp_readCount},#{rp_likeCount},#{rp_adminConfirm})
-</insert>
+insert into ReviewProduct(rp_num,prod_num,mem_num,rp_title,rp_sysdate,rp_summaryContent,rp_content
+rp_score,rp_image1,rp_image2,rp_image3,rp_image4,rp_image5,rp_popular,rp_readCount,rp_likeCount,rp_adminConfirm) 
+values(#{productDTO.prod_num},#{memberDTO.mem_num},#{rp_title},now(),#{rp_summaryContent},#{rp_content},
+#{rp_score},#{rp_image1},#{rp_image2},#{rp_image3},#{rp_image4},#{rp_image5},1,0,0,1)
+</insert> 
 </mapper>

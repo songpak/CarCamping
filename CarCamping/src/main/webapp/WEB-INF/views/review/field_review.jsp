@@ -23,7 +23,7 @@
 <script type="text/javascript">
 document.getElementById("review_regionContent").scrollTop = document.getElementById("review_regionContent").scrollHeight;
 
-function reviewContentChk(){
+//function reviewContentChk(){
 	/*  var fieldReview = document.fieldReview;
 	 var fileList = document.getElementById("review_ImageList");
 	 
@@ -34,9 +34,9 @@ function reviewContentChk(){
 	 }else if(!fileList.textContent){
 		 alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
 		 return false;
-	 } */
-	return false;
-}
+	 }  */
+	//return false;
+//}
 </script>
 
 
@@ -85,6 +85,111 @@ function SelectRegion(){
 
 
 </script>
+
+
+<script>
+$(document).ready(function()
+		// input file 파일 첨부시 fileCheck 함수 실행
+		{
+			$("#input_file").on("change", fileCheck);
+		});
+
+// 첨부파일로직
+$(function () {
+    $('#btn-upload').click(function (e) {
+        e.preventDefault();
+        $('#input_file').click();
+    });
+});
+
+var fileCount = 0;// 파일 현재 필드 숫자 totalCount랑 비교값
+var totalCount = 5;// 해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
+var fileNum = 0;// 파일 고유넘버
+var content_files = new Array();// 첨부파일 배열
+
+function fileCheck(e) {
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);  // 파일 배열 담기
+    if (fileCount + filesArr.length > totalCount) {   // 파일 개수 확인 및 제한
+      $.alert('파일은 최대 '+totalCount+'개까지 업로드 할 수 있습니다.');
+      return;
+    } else {
+    	 fileCount = fileCount + filesArr.length;
+    }
+    // 각각의 파일 배열담기 및 기타
+    filesArr.forEach(function (f) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        content_files.push(f);
+        $('#reviewImageBox').append(
+       		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
+       		+ '<font style="font-size:12px">' + f.name + '</font>'  
+       		+ '💣' 
+       		+ '<div/>'
+		);
+        fileNum ++;
+      };
+      reader.readAsDataURL(f);
+    });
+    console.log(content_files);
+    //초기화 한다.
+    $("#input_file").val("");
+  }
+// 파일 부분 삭제 함수
+function fileDelete(fileNum){
+    var no = fileNum.replace(/[^0-9]/g, "");
+    content_files[no].is_delete = true;
+	$('#' + fileNum).remove();
+	fileCount --;
+    console.log(content_files);
+}
+
+//폼 submit 로직
+	function registerAction(){
+	var form = $("form")[0];        
+ 	var formData = new FormData(form);
+	for (var x = 0; x < content_files.length; x++) { 
+		if(!content_files[x].is_delete){ // 삭제 안한것만 담아 준다
+			 formData.append("review_Image", content_files[x]);/*//article_file  */
+		}
+	}
+
+	 var fieldReview = document.dataForm;
+	 var fileList = document.getElementById("reviewImageBox");
+	 
+	 if(fieldReview.review_regionContent.value.length<30){
+		 alert("리뷰 내용은 30자 이상 입력해주세요 😅");
+		 fieldReview.review_regionContent.focus();
+		 return false;
+	 }else if(!reviewImageBox.textContent){
+		 alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
+		 return false;
+	 } 
+ //파일업로드 multiple ajax처리  
+	$.ajax({
+   	      type: "POST",
+   	   	  enctype: "multipart/form-data",
+   	      url: "review_upload.review",
+       	  data : formData,
+       	  processData: false,
+   	      contentType: false,
+   	      success: function (data) {
+   	    	if(JSON.parse(data)['result'] == "OK"){
+   	    		alert("리뷰 업로드 성공");
+   	    		history.back();
+			} else
+				alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
+   	      },
+   	      error: function (xhr, status, error) {
+   	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+   	     return false;
+   	      }
+   	    });
+   	    return false;
+	}
+</script>
+
+
 <style>
 .select2-container .select2-selection--single .select2-selection__rendered {
 	padding-top: 2.5px;
@@ -104,25 +209,26 @@ function SelectRegion(){
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-.insert .review_ImageList {
+.insert .file-list {
     height: 50px;
     overflow: auto;
     border: 1px solid #989898;
     padding: 10px;
 }
-.insert .review_ImageList .filebox p {
+.insert .file-list .filebox p {
     font-size: 14px;
     margin-top: 10px;
     display: inline-block;
 }
-.insert .review_ImageList .filebox .delete i{
+.insert .file-list .filebox .delete i{
     color: #ff5353;
     margin-left: 5px;
 }
 
 
 </style>
-<form name="fieldReview" onsubmit="return reviewContentChk()" id="fieldReview" method="post" enctype="multipart/form-data">
+
+<form name="dataForm" id="dataForm" onsubmit="return registerAction()">
 
   <input type="hidden" name="memberDTO.mem_num" value="${mem_num}"/>
   <div class="container">
@@ -155,7 +261,7 @@ function SelectRegion(){
            		<option value="7">전라북도</option>
            		<option value="8">전라남도</option>
            		<option value="9">제주도</option>
-           		</select>
+           		</select>	
            	
            	<label for="review_ccr" style="padding-top: 9px;margin-right: 10px;">장소</label>
            		<select class="form-control" name="carCampingRegionDTO.ccr_num"  id="review_ccr" required  style="width: 357px;">
@@ -172,133 +278,22 @@ function SelectRegion(){
 		 	<label for="review_regionContent">리뷰 상세</label>
             	<textarea class="form-control" id="review_regionContent" name="review_regionContent" placeholder="리뷰 상세" rows="18" required  style="resize:none;"></textarea>
        	 		<br>	
-			<div class="insert">
-      			<input type="file"  onchange="addFile(this);" multiple />
-        		<div class="review_ImageList"></div>
+			<button id="btn-upload" type="button" style="border: 1px solid #ddd; outline: none;">파일 추가</button>
+  			<input id="input_file" multiple="multiple" type="file" style="display:none;">
+  			<span style="font-size:10px; color: gray;">※첨부파일은 최대 5개까지 등록이 가능합니다.</span>
+  			<div class="data_file_txt" id="data_file_txt" style="margin:40px;">
+			<span>첨부 파일</span>
+			<br/>
+			<div id="reviewImageBox"><!-- //articlefileChange -->
 			</div>
+	</div>
       	</div>
    </div>
 </div>
 <div style="text-align: center;">
-	 <button class="btn btn-warning mb-3" onclick="submitForm();" style="margin-right: 60px;">리뷰 작성</button> 
-	<!-- <input class="btn btn-warning mb-3" value="리뷰 작성" type="submit" style="margin-right: 60px;"/> -->
- 	<button class="btn btn-danger mb-3" type="reset">취소</button>
+	  <button class="btn btn-warning mb-3" type="submit" style="margin-right: 60px;">리뷰 작성</button>
+ 		<button class="btn btn-danger mb-3" type="reset">취소</button>
 </div>
 </form>
-
-<script>
-
-var fileNo = 0;
-var filesArr = new Array();
-
-/* 첨부파일 추가 */
-function addFile(obj){
-    var maxFileCnt = 5;   // 첨부파일 최대 개수
-    var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-    var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-    var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-
-    // 첨부파일 개수 확인
-    if (curFileCnt > remainFileCnt) {
-        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
-    } else {
-        for (const file of obj.files) {
-            // 첨부파일 검증
-            if (validation(file)) {
-                // 파일 배열에 담기
-                var reader = new FileReader();
-                reader.onload = function () {
-                    filesArr.push(file);
-                };
-                reader.readAsDataURL(file);
-
-                // 목록 추가
-                let htmlData = '';
-                htmlData += '<div id="file' + fileNo + '" class="filebox">';
-                htmlData += '   <p class="name">' + file.name + '</p>';
-                htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
-                htmlData += '</div>';
-                $('.review_ImageList').append(htmlData);
-                fileNo++;
-            } else {
-                continue;
-            }
-        }
-    }
-    // 초기화
-   	document.querySelector("input[type=file]").value = "";
-}
-
-/* 첨부파일 검증 */
-function validation(obj){
-    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
-    if (obj.name.length > 100) {
-        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
-        return false;
-    } else if (obj.size > (100 * 1024 * 1024)) {
-        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
-        return false;
-    } else if (obj.name.lastIndexOf('.') == -1) {
-        alert("확장자가 없는 파일은 제외되었습니다.");
-        return false;
-    } else if (!fileTypes.includes(obj.type)) {
-        alert("첨부가 불가능한 파일은 제외되었습니다.");
-        return false;
-    } else {
-        return true;
-    }
-}
-
-/* 첨부파일 삭제 */
-function deleteFile(num) {
-    document.querySelector("#file" + num).remove();
-    filesArr[num].is_delete = true;
-    alert(filesArr.length);
-}
-
-/* 폼 전송 */
-function submitForm() {
-    // 폼데이터 담기
-    var form = document.querySelector("#fieldReview");
-    var formData = new FormData(form);
-    for (var i = 0; i < filesArr.length; i++) {
-        // 삭제되지 않은 파일만 폼데이터에 담기
-        if (!filesArr[i].is_delete) {
-            formData.append("review_regionImage", filesArr[i]);
-           	
-        }
-    }
-   	/* formData.getAll('review_regionImage'); 
-    for (let values of formData.values()) {
-        console.log(values); // 이미지 객체의 정보
-      } */
-      
-      for (let key of formData.keys()) {
-   	   console.log(key);
-   }
-      for (let value of formData.values()) {
-          console.log(value);
-    }	
-      $.ajax({
-   	      type: "POST",
-   	   	  enctype: "multipart/form-data",
-   	      url: "/field_review.review",
-       	  data : formData,
-       	  processData: false,
-   	      contentType: false,
-   	      success: function (data) {
-   	    	if(JSON.parse(data)['result'] == "OK"){
-   	    		alert("파일업로드 성공");
-			} else
-				alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
-   	      },
-   	      error: function (xhr, status, error) {
-   	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
-   	     return false;
-   	      }
-   	    });
-    
-}
-</script>
 
 <%@ include file="../bottom.jsp"%>
