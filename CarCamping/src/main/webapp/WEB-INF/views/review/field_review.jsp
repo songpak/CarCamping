@@ -175,7 +175,15 @@ function fileDelete(fileNum){
    	      success: function (data) {
    	    	if(JSON.parse(data)['result'] == "OK"){
    	    		alert("리뷰 업로드 성공");
-   	    		history.back();
+   	    		
+   	    		var referrer = document.referrer;
+   	    		
+   	    		if(referrer.indexOf("login.login")>0){ // 이전 페이지가 로그인이라면 메인페이지로 이동
+   	    			location.href="goRegion.region";
+   	    		}
+   	    		else{
+   	    			location.href = referrer;
+   	    		}
 			} else
 				alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
    	      },

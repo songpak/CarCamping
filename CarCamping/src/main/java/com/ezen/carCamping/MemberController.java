@@ -52,6 +52,7 @@ public class MemberController {
    @RequestMapping(value="login.login", method=RequestMethod.GET)
    public String login(HttpServletRequest req) {
 	   HttpSession session = req.getSession();
+<<<<<<< HEAD
 	   String referer = req.getHeader("Referer");
 	      String re_url = null;
 	      if(referer.indexOf("index.do")>0) {
@@ -61,6 +62,19 @@ public class MemberController {
 	          System.out.println("이전 페이지 : "+referer); //메인페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 메인페이지가 아닌 다른 페이지
 	          session.setAttribute("re_url", referer);
 	      } 
+=======
+	  
+	   //refererr에서 이전 페이지 저장
+	   String referer = req.getHeader("Referer");
+	   
+	   if(referer.indexOf("index.do")>0) {
+		   System.out.println("이전 페이지 : "+referer); // 메인페이지 -> 로그인페이지 -> 메인페이지
+		   session.setAttribute("re_url", referer);
+	   }else {
+	    	System.out.println("이전 페이지 : "+referer); //메인페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 메인페이지가 아닌 다른 페이지
+	    	session.setAttribute("re_url", referer);
+	   }
+>>>>>>> 박혜성
       return "login/login";
    }
    
@@ -100,12 +114,18 @@ public class MemberController {
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	  int login_success = 1;
 =======
 	  
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
      //int mem_num = dto.getMem_num();
       
+>>>>>>> 박혜성
+=======
+	  HttpSession session = req.getSession();
+      MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
+     //int mem_num = dto.getMem_num();
 >>>>>>> 박혜성
       String msg = null, url = null;
       HttpSession session = req.getSession();
@@ -145,11 +165,13 @@ public class MemberController {
          if (params.get("mem_password").equals(dto.getMem_password())){
         	
             msg = dto.getMem_id()+"님, 환영합니다!!";
-            url = "index.do";
-            HttpSession session = req.getSession();
-           //session.setAttribute("mem_num", mem_num);
+            url = (String) session.getAttribute("re_url");
+           
             session.setAttribute("mbdto", dto);
+<<<<<<< HEAD
             session.setAttribute("signIn", true);
+>>>>>>> 박혜성
+=======
 >>>>>>> 박혜성
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
