@@ -33,20 +33,20 @@
                        
                             <div class="row">
                                 <div class="col-md-3 text-left">
-                                    <img src="${mdto.prod_viewImage1}" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                    <img src="${mdto.productDTO.prod_viewImage1}" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                 </div>
                                 <div class="col-md-9 text-left mt-sm-2">
                                 
-                                    <h4>용품명 : ${mdto.prod_name}</h4>
+                                    <h4>용품명 : ${mdto.productDTO.prod_name}</h4>
                                     <p class="font-weight-light">대여하실 날짜는 ${mdto.cart_from} ~ ${mdto.cart_to} 까지 입니다.<br>
-                                     	대리점명 : ${mdto.agency_name}
+                                     	대리점명 : ${mdto.agencyDTO.agency_name}
                                     </p><br>
                                   			
                                 </div>
                             </div>
                             
                         </td>
-                        <td data-th="Price">${mdto.prod_price}원</td>
+                        <td data-th="Price">${mdto.productDTO.prod_price}원</td>
                         
                         <td>
                              <form action="mall_cartEdit.myPage" method="post">
@@ -72,7 +72,7 @@
             <div style="float:right">
           	<c:set var ="cartTotalPrice" value="0"/>
          <c:forEach items="${cartList}" var="mdto">
-        <c:set var="cartTotalPrice" value="${cartTotalPrice + mdto.prod_price * mdto.cart_prodCount}"/>
+        <c:set var="cartTotalPrice" value="${cartTotalPrice + mdto.productDTO.prod_price * mdto.cart_prodCount}"/>
          </c:forEach>
                 <h4>합계</h4>
                 <h1>${cartTotalPrice}원</h1>
