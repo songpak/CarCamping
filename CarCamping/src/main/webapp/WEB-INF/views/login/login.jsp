@@ -29,6 +29,15 @@
          </c:if>               
                <font face="굴림" size="2">아이디 기억하기</font>
             </nobr>
+              <nobr>
+         <c:if test="${empty cookie.loginCookie}">         
+               <input type="checkbox" name="loginCookie">
+         </c:if>
+         <c:if test="${not empty cookie.loginCookie}">
+               <input type="checkbox" name="loginCookie" checked>
+         </c:if>               
+               <font face="굴림" size="2">자동로그인하기</font>
+            </nobr>
             
               <c:if test="${empty cookie.saveId}">
                 <input type="text" id="id" name="mem_id" class="form-control" placeholder="ID" required autofocus>
