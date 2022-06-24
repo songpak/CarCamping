@@ -1,9 +1,9 @@
 package com.ezen.carCamping;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.Map;
-import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
@@ -24,8 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+<<<<<<< HEAD
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
+=======
+>>>>>>> 송재영
 
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.RegionDTO;

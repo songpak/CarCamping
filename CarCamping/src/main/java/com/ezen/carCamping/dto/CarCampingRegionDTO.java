@@ -23,6 +23,11 @@ public class CarCampingRegionDTO {
 	private String ccr_summary;
 	private String ccr_content;
 	private int ccr_reviewCount;
+<<<<<<< HEAD
+=======
+	
+	
+>>>>>>> 송재영
 	public int getCcr_num() {
 		return ccr_num;
 	}
@@ -155,4 +160,9 @@ public class CarCampingRegionDTO {
 	public void setCcr_reviewCount(int ccr_reviewCount) {
 		this.ccr_reviewCount = ccr_reviewCount;
 	}
+<<<<<<< HEAD
 }	
+=======
+	
+}
+>>>>>>> 송재영
