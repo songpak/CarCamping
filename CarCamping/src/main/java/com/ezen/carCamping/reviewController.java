@@ -25,8 +25,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
+import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
+import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.RegionMapper;
 import com.ezen.carCamping.service.ReviewMapper;
 
@@ -39,14 +41,20 @@ public class reviewController {
 	@Autowired 
 	private RegionMapper RegionMapper; 
 	
+	
 	@RequestMapping(value="field_review.review", method=RequestMethod.GET )
 	public String field_review(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		String upPath = session.getServletContext().getRealPath("/resources");
 		session.setAttribute("upPath", upPath);
-		//MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
-		//System.out.println(dto.getMem_id());
-		//session.setAttribute(", value);
+		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
+		if(dto==null) {
+			req.setAttribute("msg","리뷰 등록을 위해서는 로그인이 필요합니다");
+			req.setAttribute("url", "login.login");
+			return "message";
+		}else {
+			req.setAttribute("mem_num", dto.getMem_num());
+		}
 		return "review/field_review";
 	}
 
@@ -63,11 +71,10 @@ public class reviewController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/review_upload.review", method = RequestMethod.POST)
-	public String fileUpload(
+	@RequestMapping(value = "/fieldReview_upload.review", method = RequestMethod.POST)
+	public String fileUploadFiled(
 			@RequestParam("review_Image") List<MultipartFile> multipartFile
 			, HttpServletRequest request,ReviewRegionDTO dto) {
-		
 		String strResult = "{ \"result\":\"FAIL\" }";
 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
 		String fileRoot;
@@ -111,42 +118,85 @@ public class reviewController {
 	}	
 	
 	///////////////////////////////////////////product////////////////////////////////////////
-	@RequestMapping(value="prod_review.review", method=RequestMethod.GET )
+	@RequestMapping(value="goods_review.review", method=RequestMethod.GET )
 	public String prod_review(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		String upPath = session.getServletContext().getRealPath("/resources");
 		session.setAttribute("upPath", upPath);
-		//MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
-		//System.out.println(dto.getMem_id());
-		//session.setAttribute(", value);
-		return "review/prod_review";
+		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
+		if(dto==null) {
+			req.setAttribute("msg","리뷰 등록을 위해서는 로그인이 필요합니다");
+			req.setAttribute("url", "login.login");
+			return "message";
+		}else {
+			req.setAttribute("mem_num", dto.getMem_num());
+			req.setAttribute("prodCateList", reviewMapper.listAllProdCate());
+			req.setAttribute("brandCateList", reviewMapper.listAllBrandCate());
+		}
+		return "review/goods_review";
 	}
 
-	@RequestMapping(value = "pc_list.review", method=RequestMethod.POST,produces = "application/text; charset=UTF-8")
+	@RequestMapping(value = "prod_list.review", method=RequestMethod.POST,produces = "application/text; charset=UTF-8")
 	@ResponseBody
-	public String pc_list(HttpServletRequest req,HttpServletResponse res ,@RequestParam String region_num) {
-		/*List<CarCampingRegionDTO> list = RegionMapper.listCcr(Integer.parseInt(region_num));
+	public String prod_list(HttpServletRequest req,HttpServletResponse res ,@RequestParam String pc_num,@RequestParam String brand_num) {
+		List<ProductDTO> list = reviewMapper.listProdByCategory(Integer.parseInt(pc_num),Integer.parseInt(brand_num));
+		System.out.println(list.size());
 		String ccrListHtml ="";
 		for(int i=0;i<list.size();i++) {
-			CarCampingRegionDTO dto = list.get(i);
-			ccrListHtml += "<option value='"+dto.getCcr_num()+"'>"+dto.getCcr_name()+"</option>";
-		}*/
-		//return ccrListHtml;
-		return null;
+			ProductDTO dto = list.get(i);
+			ccrListHtml += "<option value='"+dto.getProd_num()+"'>"+dto.getProd_name()+"</option>";
+		}
+		return ccrListHtml;
 	}
 	
-	@RequestMapping(value = "brand_list.review", method=RequestMethod.POST,produces = "application/text; charset=UTF-8")
 	@ResponseBody
-	public String brand_list(HttpServletRequest req,HttpServletResponse res ,@RequestParam String region_num) {
-		/*List<CarCampingRegionDTO> list = RegionMapper.listCcr(Integer.parseInt(region_num));
-		String ccrListHtml ="";
-		for(int i=0;i<list.size();i++) {
-			CarCampingRegionDTO dto = list.get(i);
-			ccrListHtml += "<option value='"+dto.getCcr_num()+"'>"+dto.getCcr_name()+"</option>";
-		}*/
-		//return ccrListHtml;
-		return null;
-	}
+	@RequestMapping(value = "/goodsReview_upload.review", method = RequestMethod.POST)
+	public String fileUploadGoods(
+			@RequestParam("review_Image") List<MultipartFile> multipartFile
+			, HttpServletRequest request,ReviewProductDTO dto) {
+		String strResult = "{ \"result\":\"FAIL\" }";
+		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
+		String fileRoot;
+		try {
+			// 파일이 있을때 
+			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
+				for(MultipartFile file:multipartFile) {
+					fileRoot = contextRoot + "resources/images/";
+					System.out.println(fileRoot);
+					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
+					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+				
+					//dto image setting
+					if (dto.getRp_image1()==null) dto.setRp_image1(savedFileName);
+					else if (dto.getRp_image2()==null) dto.setRp_image2(savedFileName);
+					else if (dto.getRp_image3()==null) dto.setRp_image3(savedFileName);
+					else if (dto.getRp_image4()==null) dto.setRp_image4(savedFileName);
+					else if (dto.getRp_image5()==null) dto.setRp_image5(savedFileName);
+					System.out.println("dto의 1번이미지 : "+dto.getRp_image1());
+					File targetFile = new File(fileRoot + savedFileName);	
+					try {
+						InputStream fileStream = file.getInputStream();
+						FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
+						
+					} catch (Exception e) {//파일삭제
+						FileUtils.deleteQuietly(targetFile);//저장된 현재 파일 삭제
+						e.printStackTrace();
+						break;
+					}
+				}
+				int res = reviewMapper.insertReviewProduct(dto);	
+				strResult = "{ \"result\":\"OK\" }";
+			}
+			// 파일 아무것도 첨부 안했을때 
+			else
+				strResult = "{ \"result\":\"OK\" }";
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return strResult;
+	}	
+	
 	
 	/*
 	 * @ResponseBody

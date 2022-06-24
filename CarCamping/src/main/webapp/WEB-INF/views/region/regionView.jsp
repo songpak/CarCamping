@@ -491,13 +491,24 @@ body {
 			}	
 		}
 		function popup(review_num) {
+			var isEmpty = function(value){//빈값체크
+	            if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
+	              return true
+	            }else{
+	              return false
+	            }
+	          };
+			var mid = '${mem_id}';
+			if(!isEmpty(mid)){
 			var url = "regionReviewView.region?review_num="+review_num;
 			var name = "popup";
 		    var _left = Math.ceil(( window.screen.width - 800 )/2);
 			var _top = Math.ceil(( window.screen.height - 1000 )/2); 
-			
 			var option = "width = 800, height = 900, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
 			window.open(url, name, option);
+			}else{
+				alert("리뷰를 보기위해서는 로그인이 필요합니다 !");
+			}
 		}
 		
 		function search_function(){
