@@ -249,14 +249,18 @@ public class RegionMapper{
 		return count; 	
 }
 	
-	public List<CarCampingRegionDTO>listRegionMainCount(int region_num ,int startRow , int endRow){
+
+	public List<CarCampingRegionDTO>listRegionMain(int region_num ,int startRow , int endRow){
 		Map<String,Object> map = new Hashtable<>();
 		map.put("region_num",region_num);
 		map.put("startRow",startRow); 
 		map.put("endRow",endRow);
-		List<CarCampingRegionDTO>listRegionMainCount = sqlSession.selectList("listRegionMainCount");
-		return listRegionMainCount;
+		List<CarCampingRegionDTO>listRegionMain = sqlSession.selectList("listRegionMain",map);
+		System.out.println("매퍼의 listRegionMainCount : " + listRegionMain);
+		return listRegionMain;
 	}
+	
+	
 	
 	public List<CarCampingRegionDTO> listRegionReviewCount(int region_num ,int startRow , int endRow){
 		Map<String,Object> map = new Hashtable<>();
@@ -264,6 +268,7 @@ public class RegionMapper{
 		map.put("startRow",startRow);
 		map.put("endRow",endRow);
 		List<CarCampingRegionDTO> listRegionReviewCount = sqlSession.selectList("listRegionReviewCount",map);
+		System.out.println("매퍼의listRegionReviewCount : " + listRegionReviewCount);
 		return listRegionReviewCount;
 	}
 	public List<CarCampingRegionDTO>listRegionLikeCount(int region_num ,int startRow , int endRow){
@@ -271,7 +276,9 @@ public class RegionMapper{
 		map.put("region_num",region_num);
 		map.put("startRow",startRow);
 		map.put("endRow",endRow);
-		List<CarCampingRegionDTO>listRegionLikeCount = sqlSession.selectList("listRegionLikeCount");
+		System.out.println("쿼리 날리기전 map : " + map);
+		List<CarCampingRegionDTO>listRegionLikeCount = sqlSession.selectList("listRegionLikeCount",map);
+		System.out.println("매퍼의listRegionLikeCount : " + listRegionLikeCount);
 		return listRegionLikeCount;
 	}
 	public List<CarCampingRegionDTO>listRegionscore(int region_num ,int startRow , int endRow){
@@ -279,7 +286,9 @@ public class RegionMapper{
 		map.put("region_num",region_num);
 		map.put("startRow",startRow);
 		map.put("endRow",endRow);
-		List<CarCampingRegionDTO>listRegionscore =sqlSession.selectList("listRegionscore");
+		System.out.println("쿼리 날리기전 map : " + map);
+		List<CarCampingRegionDTO>listRegionscore =sqlSession.selectList("listRegionscore",map);
+		System.out.println("매퍼의listRegionscore : " + listRegionscore);
 		return listRegionscore;
 	}
 }

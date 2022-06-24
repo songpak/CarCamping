@@ -8,68 +8,123 @@
 
 
 	
-	<select id="listProdReview" resultType="ReviewProductDTO">
+	<select id="listProdReview" resultMap="productMap">
 		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num
 	</select>
 	
-	<select id="findProdReview" parameterType="java.util.Map" resultType="ReviewProductDTO">
+	<select id="findProdReview" parameterType="java.util.Map" resultMap="productMap">
 		select * from ReviewProduct where ${search} = #{searchString} or rp_title like concat('%',#{searchString},'%')
 	</select>
 	
-	<select id="getReviewView" resultType="ReviewProductDTO">
+	<select id="getReviewView" resultMap="productMap">
 		select a.*,b.mem_nickName,mem_image from ReviewProduct as a left join Member as b on a.mem_num = b.mem_num where a.rp_num = #{rp_num}
 	</select>
 	
-	<select id ="R_orderByScore" parameterType="String" resultType="ReviewProductDTO"> 
+	<select id ="R_orderByScore" parameterType="String" resultMap="productMap"> 
 		select * from ReviewProduct order by rp_score
 	</select>
 	
-	<select id ="R_orderByRead" parameterType="String" resultType="ReviewProductDTO"> 
+	<select id ="R_orderByRead" parameterType="String" resultMap="productMap"> 
 		select * from ReviewProduct order by rp_readCount
 	</select>
 	
 	<!-- 시작 -->
+
+
+	<select id="findProduct" parameterType="java.util.Map" resultMap="productMap">
+	<!--  select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString}-->
+	 select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%')
+	</select> 
 	
-	<select id="listProduct" resultType="ProductDTO">
-	select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num
-	</select>
-	 
-	<select id="findProduct" parameterType="java.util.Map" resultType="ProductDTO">
-	select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} or prod_name like concat('%',#{searchString},'%')
-	</select>
 	
-	<select id="popularProd" resultType="ProductDTO">
+	<select id="popularProd" resultMap="productMap">
 	select * from Product where prod_popular = 0
 	</select>
 	
-	<select id="getProduct" parameterType="int" resultType="ProductDTO">
+	<select id="getProduct" parameterType="int" resultMap="productMap">
 		select * from Product where prod_num = #{prod_num}
 	</select>
-	<select id="listProductPrice" resultType="ProductDTO">
+	
+	<select id="listProductPrice" resultMap="productMap">
 		select * from Product order by prod_price asc;
 	</select>
 	
-	<select id="listProductNew" resultType="ProductDTO">
+	<select id="listProductNew" resultMap="productMap">
 		select * from Product order by prod_num desc;
 	</select>
 	
-	<select id="listProductPop" resultType="ProductDTO">
+	<select id="listProductPop" resultMap="productMap">
 		select * from Product order by prod_popular desc; 
 	</select>
 	
-	<select id="listProductsearchPrice" resultType="ProductDTO">
+	<select id="listProductsearchPrice" resultMap="productMap">
 		<!-- select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} order by prod_price asc; -->
-		select a.*, b.brand_name from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%') order by prod_price asc;
+		select a.*, b.brand_name from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%') order by prod_price desc;
 	</select>
 	
-	<select id="listProductsearchNew" resultType="ProductDTO">
+	<select id="listProductsearchNew" resultMap="productMap">
 		<!--  select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} order by prod_num desc;-->
 		select a.*, b.brand_name from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%') order by prod_num desc;
 	</select>
 	
-	<select id="listProductsearchPop" resultType="ProductDTO">
+	<select id="listProductsearchPop" resultMap="productMap">
 		<!--  select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} order by prod_popular desc;-->
 	select a.*, b.brand_name from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%') order by prod_popular desc;
 	</select>
+	
+	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
+      <id column="brand_num" property="brand_num"/>
+      <result column="brand_name" property="brand_name"/>
+   </resultMap>
+   
+   <resultMap id="productCategoryMap" type="ProductCategoryDTO">
+      <id column="pc_num" property="pc_num"/>
+      <result column="pc_name" property="pc_name"/>
+   </resultMap>
+   
+   <resultMap id="productMap" type="ProductDTO">
+      <id column="prod_num" property="prod_num"/>
+      <result column="prod_name" property="prod_name"/>
+      <result column="prod_popular" property="prod_popular"/>
+      <result column="prod_price" property="prod_price"/>
+      <result column="prod_viewImage1" property="prod_viewImage1"/>
+      <result column="prod_viewImage2" property="prod_viewImage2"/>
+      <result column="prod_viewImage3" property="prod_viewImage3"/>
+      <result column="prod_viewImage4" property="prod_viewImage4"/>
+      <result column="prod_viewImage5" property="prod_viewImage5"/>
+      <result column="prod_summary" property="prod_summary"/>
+      <result column="prod_viewContent" property="prod_viewContent"/>
+      <result column="prod_sysdate" property="prod_sysdate"/>
+      <result column="prod_update" property="prod_update"/>
+      <result column="prod_reviewCount" property="prod_reviewCount"/>
+      <result column="prod_reviewScore" property="prod_reviewScore"/>
+      <association property="brandCategoryDTO" javaType="BrandCategoryDTO" resultMap="brandCategoryMap">
+      </association>
+      <association property="productCategoryDTO" javaType="ProductCategoryDTO" resultMap="productCategoryMap">
+      </association>
+   </resultMap>
+   
+   <select id="adminListProduct" resultMap="productMap">
+      select a.*,b.*,c.pc_name from Product a join BrandCategory b join ProductCategory c 
+      on a.brand_num = b.brand_num and a.pc_num = c.pc_num;
+   </select>
+	
+	<!-- 전체 리스트 -->
+	<select id="listProduct" resultMap="productMap" parameterType="string">
+		select a.*, b.* from Product as a left join
+		 BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%') limit #{startRow},#{endRow}
+	</select>
+
+	<select id="listProductMain" resultMap="productMap">
+		 SELECT * FROM Product 
+	</select>
+	
+	<!-- 페이지 카운트 -->
+	<select resultType="int" id="listProductMainCount" parameterType="int">
+		select count(*) from Product
+	</select>
+	
+	
+	
 </mapper>
 
