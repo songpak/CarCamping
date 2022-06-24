@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: jungm
 Build-Jdk: 1.8.0_331
+=======
+Built-By: i7C-04
+Build-Jdk: 1.8.0_321
+>>>>>>> 박다슬
 Created-By: Maven Integration for Eclipse
 

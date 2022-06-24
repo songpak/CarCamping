@@ -12,18 +12,33 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 
 <script
+<<<<<<< HEAD
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
 	crossorigin="anonymous"></script> 
 	
+=======
+   src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+   crossorigin="anonymous"></script> 
+   
+>>>>>>> 박다슬
 <script language="javascript">
   function showPopup() { window.open("memberDelete.myPage", "a", "width=700, height=350, left=100, top=50"); }
   
   </script>
+<<<<<<< HEAD
   
 <script type="text/javascript">
 var right = 0;
 function regChk(){
+=======
+<script type="text/javascript">
+var right = 0;
+function regChk(){
+   var signCheck = document.signCheck;
+   
+>>>>>>> 박다슬
    var mem_password = document.signCheck.mem_password.value;
    var num = mem_password.search(/[0-9]/g);
    var eng = mem_password.search(/[a-z]/ig);
@@ -36,7 +51,11 @@ function regChk(){
       signCheck.mem_password.focus();
       return false;   
     }else if( (num < 0 && eng < 0) || (eng < 0 && spe < 0) || (spe < 0 && num < 0) ){
+<<<<<<< HEAD
      alert("비밀번호는 영문,숫자, 특수문자 중 2가지 이상을 혼합하여 입력해 주세요.");
+=======
+     alert("영문,숫자, 특수문자 중 2가지 이상을 혼합하여 입력해 주세요.");
+>>>>>>> 박다슬
      signCheck.mem_password.focus();
      return false;
     }
@@ -45,7 +64,10 @@ function regChk(){
        signCheck.mem_password.focus();
        return false;
     }
+<<<<<<< HEAD
   
+=======
+>>>>>>> 박다슬
  
   
    var telRegExp = /^01+[016789]+[0-9]{7,8}$/;
@@ -78,6 +100,7 @@ function regChk(){
 
  
   <!-- 비밀번호 확인 -->
+<<<<<<< HEAD
    <script>
     function passchk(){
        var signCheck = document.signCheck;
@@ -98,6 +121,30 @@ function regChk(){
  
    </script>
 	
+=======
+      <script>
+    function passchk(){
+       var f = document.f;
+        var mem_password = document.f.mem_password.value;
+        var mem_password2 = document.f.mem_password2.value;
+        if (mem_password2.length == 0 || mem_password2 == null) {
+         document.f.chk.value = "비밀번호를 입력하세요";
+         right=0;
+        } else if (mem_password != mem_password2) {
+         document.f.chk.value = "비밀번호가 다릅니다.";
+         right=0;
+        } else {   
+         document.f.chk.value = "비밀번호가 동일합니다.";
+         right=1;
+        }
+        return;
+   
+       }
+    
+ 
+   </script>
+   
+>>>>>>> 박다슬
 </head>
 <body>
 <div class="container">
@@ -114,7 +161,7 @@ function regChk(){
                       <tr>
                         <td>이름</td>
                         <td><input type="text" name="mem_userName" class="box" 
-														value="${getMember.mem_userName}" class="form-control" disabled></td>
+                                          value="${getMember.mem_userName}" class="form-control" disabled></td>
                       </tr>
                       
                        <tr>
@@ -132,20 +179,33 @@ function regChk(){
                         <td>프로필 사진</td>
                         <td>
                         <img src="${uploadPath}/${getMember.mem_image}" width="150" height="150">
+<<<<<<< HEAD
 							<input type="file" id="mem_image" name="mem_image">
 							<input type="hidden" id="mem_image2" name="mem_image2" value="${getMember.mem_image}">
+=======
+                     <input type="file" name="mem_image">
+                     <input type="hidden" name="mem_image2" value="${getMember.mem_image}">
+>>>>>>> 박다슬
                         </td>
                       </tr>
                       <tr>
                         <td>전화번호</td>
                         <td>
+<<<<<<< HEAD
                         <input type="text" value="${getMember.mem_phone}" id="mem_phone" name="mem_phone" class="form-control" required>
+=======
+                        <input type="text" value="${getMember.mem_phone}" name="mem_phone" class="form-control" required>
+>>>>>>> 박다슬
                         </td>
                       </tr>
                       <tr>
                         <td>생년월일</td>
                         <td>
+<<<<<<< HEAD
                         <input type="text" value="${getMember.mem_birthday}" id="mem_birthday" name="mem_birthday" class="form-control" required>
+=======
+                        <input type="text" value="${getMember.mem_birthday}" name="mem_birthday" class="form-control" required>
+>>>>>>> 박다슬
                         </td>
                       </tr>
                      
@@ -166,7 +226,7 @@ function regChk(){
                         </td>
                       </tr>
                       
-                    	<tr>
+                       <tr>
                         <td>관심지역</td>
                         <td>
                        <!--   <input type="text" value="${getMember.regionDTO.region_num}" name="region_num" class="form-control" required> -->
@@ -283,14 +343,22 @@ function regChk(){
                       <tr>
                         <td>자기소개 요약</td>
                         <td>
+<<<<<<< HEAD
                         <input type="text" value="${getMember.mem_summary}" id="mem_summary" name="mem_summary" class="form-control" required>
+=======
+                        <input type="text" value="${getMember.mem_summary}" name="mem_summary" class="form-control" required>
+>>>>>>> 박다슬
                         </td>
                       </tr>
                       <tr>
                         <td>자기소개</td>
                         <td>
+<<<<<<< HEAD
                        
                         <textarea style="resize:none;" class="form-control" id="mem_introduce" name="mem_introduce" data-rule-required="true" rows="5" required>${getMember.mem_introduce}</textarea>
+=======
+                        <input type="text" value="${getMember.mem_introduce}" name="mem_introduce" class="form-control" required>
+>>>>>>> 박다슬
                         </td>
                       </tr>
                        <tr>
@@ -363,16 +431,26 @@ function regChk(){
                       </tr>
                        
                       <tr>
+<<<<<<< HEAD
                         <td>비밀번호(변경)</td>
                         <td>
                         <input type="password"  id="mem_password" name="mem_password" class="form-control" placeholder="비밀번호를 변경하지 않을 시, 기존의 비밀번호를 입력하세요." required>
+=======
+                        <td>비밀번호</td>
+                        <td>
+                        <input type="password" value="${getMember.mem_password}" name="mem_password" class="form-control" required>
+>>>>>>> 박다슬
                         </td>
                       </tr>
                       
                       <tr>
                         <td>비밀번호 확인</td>
                         <td>
+<<<<<<< HEAD
                         <input type="password"  id="mem_password2" name="mem_password2" class="form-control" onblur="passchk()" required>
+=======
+                        <input type="password" value="${getMember.mem_password}" name="mem_password2" class="form-control" onblur="passchk()" required>
+>>>>>>> 박다슬
                         <input type="text" style="border-width: 0px" size="20" name="chk" value="비밀번호를 입력하세요" readonly="readonly">
                          <br><br>
                         </td>

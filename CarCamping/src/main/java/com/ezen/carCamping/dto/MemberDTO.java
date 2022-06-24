@@ -22,6 +22,11 @@ public class MemberDTO {
 	private String mem_summary;
 	private String mem_introduce;
 	private int mem_reviewCount;
+<<<<<<< HEAD
+=======
+	
+	
+>>>>>>> 박다슬
 	public int getMem_num() {
 		return mem_num;
 	}
@@ -147,10 +152,13 @@ public class MemberDTO {
 	}
 	public void setMem_reviewCount(int mem_reviewCount) {
 		this.mem_reviewCount = mem_reviewCount;
+<<<<<<< HEAD
 	}  
 	
 	
 	
+=======
+>>>>>>> 박다슬
 	}
 	
 

@@ -9,9 +9,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
+import com.ezen.carCamping.dto.QuestionDTO;
 
 @Service
 public class MyPageMapper {
@@ -39,6 +41,7 @@ public class MyPageMapper {
 		 int res = sqlSession.delete("deleteCart", prod_num);
 		 return res;
 	 }
+<<<<<<< HEAD
 	 public String getMemberPassword(int mem_num) {
 
 		 String res = sqlSession.selectOne("getMemberPassword", mem_num);
@@ -50,6 +53,25 @@ public class MyPageMapper {
 	
 	 
 
+=======
+	 public List<QuestionDTO> myPageGetQuestion(){
+		 List<QuestionDTO> myPageGetQuestion = sqlSession.selectList("myPageGetQuestion");
+		 return myPageGetQuestion;
+	 }
+	 public List<QuestionDTO> myPageGetQuestionSelectMember(int mem_num){
+			List<QuestionDTO> qdto = sqlSession.selectList("myPageGetQuestionSelectMember",mem_num);
+			return qdto;
+		}
+	public int insertQuestion(QuestionDTO dto) {
+		int res = sqlSession.insert("insertQuestion", dto);
+		return res;
+		}
+	public QuestionDTO getQuestion(int question_num){
+		QuestionDTO qdto = sqlSession.selectOne("getQuestion", question_num);
+		return qdto;
+	}
+}
+>>>>>>> 박다슬
 
 
 

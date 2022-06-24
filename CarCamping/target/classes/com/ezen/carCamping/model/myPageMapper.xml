@@ -19,5 +19,59 @@
 	<delete id="deleteCart" parameterType="int">
 		delete from ProductCart where Prod_num =#{prod_num}
 	</delete>
+<resultMap type="MemberDTO" id="memberMap">
+		<id column="mem_num" property="mem_num"/>
+		<result column="mem_id" property="mem_id"/>
+		<result column="mem_email" property="mem_email"/>
+		<result column="mem_password" property="mem_password"/>
+		<result column="mem_userName" property="mem_userName"/>
+		<result column="mem_nickName" property="mem_nickName"/>
+		<result column="mem_phone" property="mem_phone"/>
+		<result column="mem_birthday" property="mem_birthday"/>
+		<result column="mem_gender" property="mem_gender"/>
+		<result column="mem_point" property="mem_point"/>
+		<result column="mem_rentalCount" property="mem_rentalCount"/>
+		<result column="mem_sysdate" property="mem_sysdate"/>
+		<result column="mem_accept_email" property="mem_accept_email"/>
+		<result column="mem_accept_phone" property="mem_accept_phone"/>
+		<result column="mem_accept_privacy" property="mem_accept_privacy"/>
+		<result column="mem_denied" property="mem_denied"/>
+		<result column="mem_image" property="mem_image"/>
+		<result column="mem_summary" property="mem_summary"/>
+		<result column="mem_introduce" property="mem_introduce"/>
+		<result column="mem_reviewCount" property="mem_reviewCount"/>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
+		</association>
+	</resultMap>
+		<resultMap type="RegionDTO"	 id="regionMap">
+		<id column="region_num" property="region_num"/>
+		<result column="region_name" property="region_name"/>
+	</resultMap>
 	
+<<<<<<< HEAD
+=======
+ 	<resultMap id="questionMap" type="QuestionDTO">
+		<id column="question_num" property="question_num"/>
+		<result column="question_title" property="question_title"/>
+		<result column="question_content" property="question_content"/>
+		<result column="question_sysdate" property="question_sysdate"/>
+		<result column="question_reply" property="question_reply"/>
+		<result column="question_replySysdate" property="question_replySysdate"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
+	</resultMap>
+	<select id="myPageGetQuestion" resultMap="questionMap">
+		select a.*,b.mem_id from Question a join Member b on a.mem_num=b.mem_num
+	</select>
+	<select id="myPageGetQuestionSelectMember"  resultMap="questionMap">
+		select a.*,b.mem_id from Question a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
+	</select>
+	<insert id="insertQuestion" parameterType="questionDTO">
+		insert into Question (mem_num, question_title, question_content, question_sysdate, question_reply, question_replySysdate)
+		values (#{memberDTO.mem_num}, #{question_title},#{question_content},now(),null,null)
+	</insert>
+	<select id="getQuestion" parameterType="int" resultType="questionDTO">
+		select * from Question where question_num = #{question_num}
+	</select>
+	
+>>>>>>> 박다슬
 </mapper>

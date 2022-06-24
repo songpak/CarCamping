@@ -18,13 +18,7 @@ public class ProductDTO {
 	private String prod_sysdate;
 	private String prod_update;
 	private float prod_reviewScore;
-	
-	public String getBrand_name() {
-		return brand_name;
-	}
-	public void setBrand_name(String brand_name) {
-		this.brand_name = brand_name;
-	}
+	private int prod_reviewCount;
 	public int getProd_num() {
 		return prod_num;
 	}
@@ -42,6 +36,12 @@ public class ProductDTO {
 	}
 	public void setBrandCategoryDTO(BrandCategoryDTO brandCategoryDTO) {
 		this.brandCategoryDTO = brandCategoryDTO;
+	}
+	public String getBrand_name() {
+		return brand_name;
+	}
+	public void setBrand_name(String brand_name) {
+		this.brand_name = brand_name;
 	}
 	public String getProd_name() {
 		return prod_name;
@@ -61,7 +61,6 @@ public class ProductDTO {
 	public void setProd_price(int prod_price) {
 		this.prod_price = prod_price;
 	}
-	
 	public String getProd_viewImage1() {
 		return prod_viewImage1;
 	}
@@ -122,4 +121,11 @@ public class ProductDTO {
 	public void setProd_reviewScore(float prod_reviewScore) {
 		this.prod_reviewScore = prod_reviewScore;
 	}
+	public int getProd_reviewCount() {
+		return prod_reviewCount;
+	}
+	public void setProd_reviewCount(int prod_reviewCount) {
+		this.prod_reviewCount = prod_reviewCount;
+	}
+	
 }
