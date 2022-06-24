@@ -65,7 +65,8 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminRegion.admin")
-	public String adminRegion(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,@RequestParam(required=false) String region_num) {
+	public String adminRegion(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
+			@RequestParam(required=false) String region_num) {
 		List<CarCampingRegionDTO> adminListCarCampingRegion = new ArrayList<CarCampingRegionDTO>();
 		
 		if (region_num==null) {
@@ -93,78 +94,78 @@ public class AdminController {
 	@RequestMapping(value="/adminRegisterRegion.admin", method=RequestMethod.POST)
 	public ModelAndView adminRegisterRegionPro(HttpServletRequest req,@ModelAttribute CarCampingRegionDTO dto,@RequestParam("ccr_viewImage") MultipartFile[] file, @RequestParam Map<String,String> map) {
 		
-				RegionDTO regionDTO = new RegionDTO();
-				regionDTO.setRegion_num(Integer.parseInt(map.get("region_num")));
-				dto.setRegionDTO(regionDTO);
-				
-				//차량접근
-				String ccr_car = "";
-				if (map.containsKey("ccr_car1")) ccr_car += "승용차  ";
-				if (map.containsKey("ccr_car2")) ccr_car += "소형 트레일러  ";
-				if (map.containsKey("ccr_car3")) ccr_car += "카라반  ";
-				if (map.containsKey("ccr_car4")) ccr_car += "루프탑  ";
-				if (map.containsKey("ccr_car5")) ccr_car += "캠핑카  ";
-				dto.setCcr_car(ccr_car.trim());
-				
-				//바닥종류
-				String ccr_ground = "";
-				if (map.containsKey("ccr_ground1")) ccr_ground += "맨흙  ";
-				if (map.containsKey("ccr_ground2")) ccr_ground += "자갈  ";
-				if (map.containsKey("ccr_ground3")) ccr_ground += "모래  ";
-				if (map.containsKey("ccr_ground4")) ccr_ground += "데크  ";
-				if (map.containsKey("ccr_ground5")) ccr_ground += "잔디 ";
-				dto.setCcr_ground(ccr_ground.trim());
-				
-				//편의시설
-				if (map.containsKey("ccr_amenity1")) dto.setCcr_toilet(0);
-				else dto.setCcr_toilet(1);
-				
-				if (map.containsKey("ccr_amenity2")) dto.setCcr_restroom(0);
-				else dto.setCcr_restroom(1);
-				
-				if (map.containsKey("ccr_amenity3")) dto.setCcr_water(0);
-				else dto.setCcr_water(1);
-				
-				if (map.containsKey("ccr_amenity4")) dto.setCcr_market(0);
-				else dto.setCcr_market(1);
-				
-				if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
-				else dto.setCcr_river(1);
-				
-				String upPath = (String)req.getSession().getAttribute("upPath");
-				
-				//다중 파일 전송
-				for (MultipartFile f : file) {
-					String filename = f.getOriginalFilename();		
-					if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
-					else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
-					else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
-					else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
-					else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
-					
-					try {
-						f.transferTo(new File(upPath+"/images/region/"+filename));
-						
-						
+		RegionDTO regionDTO = new RegionDTO();
+		regionDTO.setRegion_num(Integer.parseInt(map.get("region_num")));
+		dto.setRegionDTO(regionDTO);
 		
-					}catch(IOException e) {
-						e.printStackTrace();
-					}
-				}
+		//차량접근
+		String ccr_car = "";
+		if (map.containsKey("ccr_car1")) ccr_car += "승용차  ";
+		if (map.containsKey("ccr_car2")) ccr_car += "소형 트레일러  ";
+		if (map.containsKey("ccr_car3")) ccr_car += "카라반  ";
+		if (map.containsKey("ccr_car4")) ccr_car += "루프탑  ";
+		if (map.containsKey("ccr_car5")) ccr_car += "캠핑카  ";
+		dto.setCcr_car(ccr_car.trim());
+		
+		//바닥종류
+		String ccr_ground = "";
+		if (map.containsKey("ccr_ground1")) ccr_ground += "맨흙  ";
+		if (map.containsKey("ccr_ground2")) ccr_ground += "자갈  ";
+		if (map.containsKey("ccr_ground3")) ccr_ground += "모래  ";
+		if (map.containsKey("ccr_ground4")) ccr_ground += "데크  ";
+		if (map.containsKey("ccr_ground5")) ccr_ground += "잔디 ";
+		dto.setCcr_ground(ccr_ground.trim());
+		
+		//편의시설
+		if (map.containsKey("ccr_amenity1")) dto.setCcr_toilet(0);
+		else dto.setCcr_toilet(1);
+		
+		if (map.containsKey("ccr_amenity2")) dto.setCcr_restroom(0);
+		else dto.setCcr_restroom(1);
+		
+		if (map.containsKey("ccr_amenity3")) dto.setCcr_water(0);
+		else dto.setCcr_water(1);
+		
+		if (map.containsKey("ccr_amenity4")) dto.setCcr_market(0);
+		else dto.setCcr_market(1);
+		
+		if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
+		else dto.setCcr_river(1);
+		
+		String upPath = (String)req.getSession().getAttribute("upPath");
+		
+		//다중 파일 전송
+		for (MultipartFile f : file) {
+			String filename = f.getOriginalFilename();		
+			if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
+			else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
+			else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
+			else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
+			else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
+			
+			try {
+				f.transferTo(new File(upPath+"/images/region/"+filename));
 				
-				int res = adminMapper.adminInsertRegion(dto);
-				String msg =null, url = null;
-				if (res>0) {
-					msg = "장소가 등록되었습니다";
-					url = "adminRegion.admin";
-				}else {
-					msg = "장소등록이 실패되었습니다. 서비스 센터에 문의하세요";
-					url = "adminRegion.admin";
-				}
-				ModelAndView mav = new ModelAndView("admin/message");
-				mav.addObject("msg", msg);
-				mav.addObject("url", url);
-				return mav;
+				
+
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+			
+			int res = adminMapper.adminInsertRegion(dto);
+			String msg =null, url = null;
+			if (res>0) {
+				msg = "장소가 등록되었습니다";
+				url = "adminRegion.admin";
+			}else {
+				msg = "장소등록이 실패되었습니다. 서비스 센터에 문의하세요";
+				url = "adminRegion.admin";
+			}
+			ModelAndView mav = new ModelAndView("admin/message");
+			mav.addObject("msg", msg);
+			mav.addObject("url", url);
+			return mav;
 		}
 	
 	@RequestMapping("/adminViewRegion.admin")
