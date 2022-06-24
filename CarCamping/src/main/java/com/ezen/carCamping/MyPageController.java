@@ -154,13 +154,6 @@ public class MyPageController {
 			msg = "장바구니가 비었습니다!";
 			url = "productView.product";
 		} else {
-			int mem_num = (int) session.getAttribute("mem_num");
-			int res= myPageMapper.payCart(mem_num);
-			if (res > 0) {
-				System.out.println("결제 성공");
-			} else {
-				System.out.println("결제 실패");
-			}
 			msg = "결제 페이지로 이동합니다!";
 			url = "Pay.myPage";
 		}
@@ -170,8 +163,25 @@ public class MyPageController {
 	}
 
 	@RequestMapping("Pay.myPage") 
-	public String myPageCheckOut() {
-		return "myPage/myPageCheckOut";// 결제완료 페이지
+	public String myPageCheckOut1(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		int mem_num = (int) session.getAttribute("mem_num");
+		List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
+		session.setAttribute("cartList", list);
+		return "myPage/myPagePay";// 결제폼
+	}
+	
+	@RequestMapping("myPageCheckOut.myPage")
+	public String myPageCheckOut2(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		int mem_num = (int) session.getAttribute("mem_num");
+		int res= myPageMapper.payCart(mem_num);//장바구니 비우기
+		if (res > 0) {
+			System.out.println("결제 성공");
+		} else {
+			System.out.println("결제 실패");
+		}
+		return "myPage/myPageCheckOut";
 	}
 	
 	@RequestMapping("/myPageRental.myPage")

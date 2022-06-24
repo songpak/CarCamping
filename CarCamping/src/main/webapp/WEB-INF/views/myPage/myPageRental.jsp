@@ -35,17 +35,18 @@
 	<!-- 본문 -->
 	<table class="table table-striped">
 		<tr>
+			<th>용품명</th>
 			<th>대리점명</th>
 			<th>대여기간</th>
 			<th>대여금</th>
-			<th>반납상태</th>
+			
 		</tr>
 		 <c:forEach items="${cartList}" var="mdto">
 		<tr>
+			<td>${mdto.prod_name}</td>
 			<td>${mdto.agency_name}</td>
 			<td>${mdto.cart_from} ~ ${mdto.cart_to}</td>
-			<td>${mdto.prod_price}</td>
-			<td>수정예정</td>
+			<td>${mdto.prod_price}원</td>
 		</tr>
 		</c:forEach>
 		

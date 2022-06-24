@@ -7,16 +7,13 @@ function fn_account(val){
 	window.open("<c:url value='productReviewView.product?rp_num="+val+"'/>",  
 				"soyoInfoPop" ,"height=1000,width=700,top=100,left=200,scrollbars=yes,resizable=yes");
 }
-        
 		function popup1() {
 			var url = "myPageContactUs.myPage";
 			var name = "popup test";
 			var option = "width = 600, height = 500, top = 100, left = 200, location = no"
 			window.open(url, name, option);
 		}
-		
     </script>
-
 <!-- 부트스트랩 영역 -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
@@ -45,7 +42,7 @@ function fn_account(val){
 	<div class="row mb-3">
 		<!-- List Column Grid -->
 		<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
-			style="width: 280px; height: 850px;">
+			style="width: 280px; height: 1000px;">
 			<a href="/"
 				class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 				<svg class="bi me-2" width="40" height="32">
@@ -110,7 +107,7 @@ function fn_account(val){
 						</div>
 						<br>
 						<div align="center">
-							빌릴 갯수 입력 <input type="number" name="cart_prodCount" size="7"
+							빌릴 갯수 입력 <input type="number" name="cart_prodCount" "
 								value="1" pattern="[0-9]+" min="1" max="10">
 						</div>
 						<br>
@@ -156,7 +153,7 @@ function fn_account(val){
 				</form>
 			</div>
 			<div class="row" align="center"
-				style="overflow: scroll; width: 100%; height: 100%%">
+				style="overflow: scroll; width: 100%; height: 85%">
 
 				<!-- 정렬 기능 -->
 
@@ -218,7 +215,7 @@ function fn_account(val){
 				  						 <label for="rate5">⭐</label> 
 				 				</c:when>
 								 <c:otherwise>
-								  아직 별점이 없습니다.
+								  ☆☆☆☆☆
 								 </c:otherwise>
 								</c:choose> <br>
 												<!-- 이부분 별점으로 수정 -->

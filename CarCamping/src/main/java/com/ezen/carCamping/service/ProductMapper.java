@@ -77,5 +77,17 @@ public class ProductMapper {
 		return dto;
 	}
 	
+	public int plusReviewReadCount(int rp_num) {
+		return sqlSession.update("plusReviewReadCount", rp_num);
+	}
+	
+	public int minReviewReadCount(int rp_num) {
+		return sqlSession.update("minReviewReadCount", rp_num);
+	}
+	
+	public int plusLikeCount(int rp_num) {
+		return sqlSession.update("plusLikeCount", rp_num);
+	}
+	
 }
  
