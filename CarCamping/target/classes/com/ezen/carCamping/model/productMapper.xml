@@ -53,7 +53,7 @@
 		select * from ReviewProduct where ${search} = #{searchString} or rp_title like concat('%',#{searchString},'%')
 	</select>
 	
-	<select id="getReviewView" resultMap="productMap">
+	<select id="getReviewView" resultType="ReviewProductDTO">
 		select a.*,b.mem_nickName,mem_image from ReviewProduct as a left join Member as b on a.mem_num = b.mem_num where a.rp_num = #{rp_num}
 	</select>
 	
