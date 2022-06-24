@@ -1,6 +1,9 @@
 package com.ezen.carCamping.service;
 
+import java.util.Hashtable;
+
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,19 @@ public class MyPageMapper {
 		 int res = sqlSession.delete("deleteCart", prod_num);
 		 return res;
 	 }
+<<<<<<< HEAD
+	 public String getMemberPassword(int mem_num) {
+
+		 String res = sqlSession.selectOne("getMemberPassword", mem_num);
+		 return res;
+		}	
+	
+		}
+		
+	
+	 
+
+=======
 	 public List<QuestionDTO> myPageGetQuestion(){
 		 List<QuestionDTO> myPageGetQuestion = sqlSession.selectList("myPageGetQuestion");
 		 return myPageGetQuestion;
@@ -55,6 +71,7 @@ public class MyPageMapper {
 		return qdto;
 	}
 }
+>>>>>>> 박다슬
 
 
 

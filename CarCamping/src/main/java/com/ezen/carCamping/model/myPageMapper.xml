@@ -48,6 +48,8 @@
 		<result column="region_name" property="region_name"/>
 	</resultMap>
 	
+<<<<<<< HEAD
+=======
  	<resultMap id="questionMap" type="QuestionDTO">
 		<id column="question_num" property="question_num"/>
 		<result column="question_title" property="question_title"/>
@@ -71,4 +73,5 @@
 		select * from Question where question_num = #{question_num}
 	</select>
 	
+>>>>>>> 박다슬
 </mapper>

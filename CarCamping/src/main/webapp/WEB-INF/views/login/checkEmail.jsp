@@ -25,10 +25,17 @@ function sendCheckValue(){
 	}else{
 		openSignCheck.emailDuplication.value="emailCheck";
 		openSignCheck.CheckEmail.disabled=true;
+<<<<<<< HEAD
+		openSignCheck.CertifyEmail.disabled=false;
+		openSignCheck.CertifyEmail_OK.disabled=false;
+		//openSignCheck.CertifyEmailNum.disabled=false;
+		
+=======
 
 		openSignCheck.CertifyEmail.disabled=false;
 		openSignCheck.CertifyEmail_OK.disabled=false;
 		//openSignCheck.CertifyEmailNum.disabled=false;
+>>>>>>> 박다슬
 		openSignCheck.CheckEmail.style.opacity=0.6;
 		openSignCheck.CheckEmail.style.cursor="default";
 		window.close();
