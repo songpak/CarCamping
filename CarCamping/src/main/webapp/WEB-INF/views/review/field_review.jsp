@@ -22,25 +22,7 @@
 <!-- 유효성 검사 js -->
 <script type="text/javascript">
 document.getElementById("review_regionContent").scrollTop = document.getElementById("review_regionContent").scrollHeight;
-
-//function reviewContentChk(){
-	/*  var fieldReview = document.fieldReview;
-	 var fileList = document.getElementById("review_ImageList");
-	 
-	 if(fieldReview.review_regionContent.value.length<30){
-		 alert("리뷰 내용은 30자 이상 입력해주세요 😅");
-		 fieldReview.review_regionContent.focus();
-		 return false;
-	 }else if(!fileList.textContent){
-		 alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
-		 return false;
-	 }  */
-	//return false;
-//}
 </script>
-
-
-
 <!-- 기타 js -->
 <script type="text/javascript">
 
@@ -82,10 +64,7 @@ function SelectRegion(){
 	});
 	
 }
-
-
 </script>
-
 
 <script>
 $(document).ready(function()// input file 파일 첨부시 fileCheck 함수 실행
@@ -122,10 +101,10 @@ function fileCheck(e) {
         content_files.push(f);
         $('#reviewImageBox').append(
        		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
-       		+ '<font style="font-size:12px">' + f.name + '</font>'  
-       		+ '💣' 
-       		+ '<div/>'
-		);
+       		+ '<p style="font-size:12px">' + f.name + '💣</p>' 
+       		+ '<img src="'+e.target.result+'"style="width: 25%; display: inline;"/>'
+       		+ '</div>'
+        );
         fileNum ++;
       };
       reader.readAsDataURL(f);
@@ -256,23 +235,24 @@ function fileDelete(fileNum){
          		<br>
 		 	<label for="review_regionContent">리뷰 상세</label>
             	<textarea class="form-control" id="review_regionContent" name="review_regionContent" placeholder="리뷰 상세" rows="18" required  style="resize:none;"></textarea>
-       	 		<br>	
+       	 		<br>
+       	 		<div style="text-align: center;">
+	  		<button class="btn btn-warning mb-3" type="submit" style="margin-right: 60px;">리뷰 작성</button>
+ 			<button class="btn btn-danger mb-3" type="reset">취소</button>
+			</div>	
 			<button id="btn-upload" type="button" style="border: 1px solid #ddd; outline: none;">이미지 파일 추가</button>
   			<input id="input_file" multiple="multiple" type="file" style="display:none;" accept="image/*">
   			<span style="font-size:10px; color: gray;">※이미지 파일은 최대 5개까지 등록이 가능합니다.</span>
   			<div class="data_file_txt" id="data_file_txt" style="margin:40px;">
 			<span>이미지 파일</span>
 			<br/>
-			<div id="reviewImageBox"><!-- //articlefileChange -->
+			<div id="reviewImageBox"  style="overflow-x:hidden; width:100%; height:200px;"><!-- //articlefileChange -->
 			</div>
 	</div>
       	</div>
    </div>
 </div>
-<div style="text-align: center;">
-	  <button class="btn btn-warning mb-3" type="submit" style="margin-right: 60px;">리뷰 작성</button>
- 		<button class="btn btn-danger mb-3" type="reset">취소</button>
-</div>
+
 </form>
 
 <%@ include file="../bottom.jsp"%>

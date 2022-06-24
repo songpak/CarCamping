@@ -6,7 +6,7 @@
   		<meta charset="utf-8">
   		<meta http-equiv="X-UA-Compatible" content="IE=edge">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
-  		<title>Indigo</title>
+  		<title>비밀번호 찾기</title>
   
   		<!-- Bootstrap CSS -->
   		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -16,14 +16,7 @@
   		<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
   		<!-- Style -->
   		<link href='css/contactUs.css' rel='stylesheet' type='text/css'>
- 		<style>
- 			textarea {
-    			resize: none;
-  			}
- 		</style>
-  	
-  
-  		
+
   	</head>
   	<body>	
 
@@ -37,21 +30,21 @@
   						<p>이메일에서 임시 비밀번호를 확인하고 내 정보 수정에서 비밀번호를 변경해주세요</p>
   					</div>
   					<div class="col-md-8 col-md-offset-3">
-  						<form id="contact" method="post" class="form" role="form">
+  						<form id="contact" name="f" method="post" class="form" role="form">
 							<div class="row">
 								<div class="col-md-6 form-group">
-									<input class="form-control" id="name" name="mem_id" placeholder="아이디" type="text" required />
+									<input class="form-control" id="mem_id" name="mem_id" placeholder="아이디" type="text" required />
 								</div>
 								</div>
 								<div class="row">
 								<div class="col-md-6 form-group">
-									<input class="form-control" id="email" name="mem_email" placeholder="Email" type="email" required />
+									<input class="form-control" id="mem_email" name="mem_email" placeholder="Email" type="email" required />
 								</div>
 							</div>
 							<br />
 							<div class="row">
 								<div class="col-md-12 form-group">
-									<button class="btn btn-success mb-3" type="submit" style="width: 100%;" onclick="sendTempPW();">임시 비밀번호 발급</button>
+									<button class="btn btn-success mb-3" type="submit" style="width: 100%;">임시 비밀번호 발급</button>
 								</div>
 							</div>
 						</form>
@@ -67,21 +60,8 @@
   		<script src="//code.jquery.com/jquery.js"></script>
   		<!-- Bootstrap JavaScript -->
   		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  		<script>
-  			function sendTempPW(){
-  				var mem_id = $("#mem_id").val();
-  				var mem_email = $("#mem_email").val();
-  				
-  				$.ajax({
-  				type:"GET",
-  				url:"sendTempPW.login?mem_email=" + mem_email+"&mem_id="+mem_id,
-  				cache : false,
-  				success:function(data){ 
-  					alert(data);
-  					self.close();	          
-  				     }
-  				  });
-  			}
-  		</script>
+  		 <script>
+  		
+  		</script> 
   	</body>
   </html>

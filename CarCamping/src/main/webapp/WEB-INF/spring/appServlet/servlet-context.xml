@@ -1,4 +1,4 @@
-	<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <beans:beans
 	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -53,8 +53,8 @@
 		<beans:property name="host" value="smtp.naver.com" /> <!-- 메이서버 호스트 -->
 		<beans:property name="port" value="587" /> <!-- 메이서버 포트번호 -->
 
-		<beans:property name="username" value="dlwjdals1759" /> <!-- 자신의 이메일 아이디 -->
-		<beans:property name="password" value="wnsdn0619!" /> <!-- 자신의 비밀번호 -->
+		<beans:property name="username" value="qkzptjd5440" /> <!-- 자신의 이메일 아이디 -->
+		<beans:property name="password" value="love34145440!" /> <!-- 자신의 비밀번호 -->
 
 		<!-- 보안연결 SSL과 관련된 설정 -->
 		<beans:property name="javaMailProperties">

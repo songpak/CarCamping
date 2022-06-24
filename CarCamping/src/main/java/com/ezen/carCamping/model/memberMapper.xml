@@ -67,6 +67,11 @@
 	<delete id="deleteMember" parameterType="java.util.Map"> 
 		delete from Member where mem_num=#{mem_num} and mem_password=#{mem_password}
 	</delete>
-   
-
+   <!-- 박혜성 : 임시비밀번호 발급 -->
+	<select id = "getMemberByIdNEmail" parameterType="java.util.Map" resultType="MemberDTO">
+		select * from Member where mem_id = #{mem_id} and mem_email = #{mem_email}
+	</select>
+	<update id="updatePassword" parameterType = "java.util.Map" >
+		update Member set mem_password=#{mem_password} where mem_num = #{mem_num}
+	</update>
 </mapper>

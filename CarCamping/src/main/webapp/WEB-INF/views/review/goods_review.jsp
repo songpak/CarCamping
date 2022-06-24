@@ -103,11 +103,11 @@ function fileCheck(e) {
       reader.onload = function (e) {
         content_files.push(f);
         $('#reviewImageBox').append(
-       		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
-       		+ '<font style="font-size:12px">' + f.name + '</font>'  
-       		+ '💣' 
-       		+ '<div/>'
-		);
+           		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
+           		+ '<p style="font-size:12px">' + f.name + '💣</p>' 
+           		+ '<img src="'+e.target.result+'"style="width: 25%; display: inline;"/>'
+           		+ '</div>'
+            );
         fileNum ++;
       };
       reader.readAsDataURL(f);
@@ -249,23 +249,24 @@ margin-right : 0px;
          		<br>
 		 	<label for="rp_content">리뷰 상세</label>
             	<textarea class="form-control" id="rp_content" name="rp_content" placeholder="리뷰 상세" rows="18" required  style="resize:none;"></textarea>
-       	 		<br>	
+       	 		<br>
+       	 	<div style="text-align: center;">
+	  		<button class="btn btn-warning mb-3" type="submit" style="margin-right: 60px;">리뷰 작성</button>
+ 			<button class="btn btn-danger mb-3" type="reset">취소</button>
+			</div>	
 			<button id="btn-upload" type="button" style="border: 1px solid #ddd; outline: none;">이미지 파일 추가</button>
   			<input id="input_file" multiple="multiple" type="file" style="display:none;" accept="image/*">
   			<span style="font-size:10px; color: gray;">※이미지 파일은 최대 5개까지 등록이 가능합니다.</span>
   			<div class="data_file_txt" id="data_file_txt" style="margin:40px;">
 			<span>이미지 파일</span>
 			<br/>
-			<div id="reviewImageBox"><!-- //articlefileChange -->
+			<div id="reviewImageBox"  style="overflow-x:hidden; width:100%; height:200px;"><!-- //articlefileChange -->
 			</div>
 	</div>
       	</div>
    </div>
 </div>
-<div style="text-align: center;">
-	  <button class="btn btn-warning mb-3" type="submit" style="margin-right: 60px;">리뷰 작성</button>
- 		<button class="btn btn-danger mb-3" type="reset">취소</button>
-</div>
+
 </form>
 <script>
 $(document).ready(function() {

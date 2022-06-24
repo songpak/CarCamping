@@ -84,11 +84,45 @@ public class MemberController {
    @RequestMapping(value="findPW.login", method=RequestMethod.POST)
    public String checkMemberPW(HttpServletRequest req, 
                            @RequestParam Map<String, String> params) {
-      String msg = memberMapper.searchMemberPW(params);
-      String url = "login.login";
-      req.setAttribute("msg", msg);
-      req.setAttribute("url", url);
-      return "message";
+	   String mem_id = params.get("mem_id");
+	   String mem_email = params.get("mem_email");
+	   MemberDTO dto = memberMapper.getMemberByIdNEmail(mem_id,mem_email);
+	   
+	   if(dto!=null) {
+	    int leftLimit = 48; // numeral '0'
+	    int rightLimit = 122; // letter 'z'
+	    int targetStringLength = 10;
+	    Random random = new Random();
+
+	    String generatedString = random.ints(leftLimit,rightLimit + 1)
+	      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+	      .limit(targetStringLength)
+	      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	      .toString();
+	    		
+	    String from = "qkzptjd5440@naver.com";//보내는 이 메일주소
+	    String to = mem_email;
+	    String title = "[임시 비빌번호]를 확인해주세요";
+	    String content = "[임시 비밀번호]는 ["+ generatedString +"] 입니다.<br/> 발급받으신 임시 비밀번호로 로그인 하시고, [프로필 ]- [내 정보] 에서 비밀번호를 변경해주세요.";
+	   
+	    try {
+	    	MimeMessage mail = mailSender.createMimeMessage();
+	        MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");	        
+	        mailHelper.setFrom(from);
+	        mailHelper.setTo(to);
+	        mailHelper.setSubject(title);
+	        mailHelper.setText(content, true);       	        
+	        mailSender.send(mail);
+	        int mem_num = dto.getMem_num();
+	        memberMapper.updatePassword(mem_num,generatedString);
+	    } catch(Exception e) {
+	    	req.setAttribute("msg", "임시비밀번호를 발급하는 중, 오류가 발생했습니다. 다시 시도해주세요");
+	    }
+	   }
+	    req.setAttribute("msg", "임시비밀 번호 발송이 완료되었습니다.\\n입력한 이메일에서 임시 비밀번호를 확인 해주십시오.");
+	    req.setAttribute("mode","selfClose");
+	    
+	    return "message";
    }
 
    
@@ -310,7 +344,27 @@ public class MemberController {
     }
     return "임시비밀 번호 발송이 완료되었습니다.\n입력한 이메일에서 임시 비밀번호를 확인 해주십시오.";  
   }
+  
+  //임시비밀번호 제한 쿠키 만들기
+  /*
+  public void set_findPwCookie(HttpServletResponse response,String ip) {
+		String findPw_count = String.valueOf(mem_num)+"/fpc";
+	  	Cookie cookie = new Cookie(findPw_count,"1");
+		cookie.setMaxAge(1*60*60*24);
+		cookie.setSecure(true);
+		response.addCookie(cookie);
+	}
  }
+ //임시비밀번호 제한 쿠키 가져오기
+public String get_findPwCookie(HttpServletRequest request,int mem_num) {
+	Cookie[] list = request.getCookies();
+	for(Cookie cookie:list) {
+		if(cookie.getName().equals("useremail")) {
+			logger.info(cookie.getValue());
+		}
+	}
+	return "redirect:/ch05/content";*/
+  
+}
 
-	
    
