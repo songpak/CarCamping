@@ -2,6 +2,7 @@ package com.ezen.carCamping;
 
 import java.io.File;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
+import com.ezen.carCamping.pagination.Pagination;
 import com.ezen.carCamping.service.AdminMapper;
 
 @Controller
@@ -40,6 +42,8 @@ public class AdminController {
 	@Autowired
 	private AdminMapper adminMapper;
 	
+	//Pagination Singleton Instance
+	private Pagination pagination = Pagination.getInstance();
 	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
@@ -70,10 +74,16 @@ public class AdminController {
 			adminListCarCampingRegion = adminMapper.adminListCarCampingRegionSelectRegion(Integer.parseInt(region_num));
 		}
 		
-	
-		req.setAttribute("adminListCarCampingRegion", adminListCarCampingRegion);
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListCarCampingRegion));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListCarCampingRegion", pagination.getListRegion(page, adminListCarCampingRegion));
 		return "admin/adminRegion";
 	}
+	
+	
 	@RequestMapping(value="/adminRegisterRegion.admin", method=RequestMethod.GET)
 	public String adminRegisterRegion(HttpServletRequest req) {
 		

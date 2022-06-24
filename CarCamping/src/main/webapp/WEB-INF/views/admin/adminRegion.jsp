@@ -89,14 +89,20 @@
 	</script>
 	
 	
+	<!-- 페이지 블록 -->
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
+		
+			<c:if test="${page > 1}">
+				<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+			</c:if>
+		<c:forEach var="i" begin="1" end="${pageCount}">
+				<li class="page-item"><a class="page-link" href="adminRegion.admin?page=${i}">${i}</a></li>
+		</c:forEach>
+			<c:if test="${page < pageCount}">
+				<li class="page-item"><a class="page-link" href="#">Next</a></li>
+			</c:if>
 			
-			<li class="page-item disabled"><a class="page-link">Previous</a></li>
-			<li class="page-item"><a class="page-link" href="adminRegion.admin?page=1">1</a></li>
-			<li class="page-item"><a class="page-link" href="adminRegion.admin?page=2">2</a></li>
-			<li class="page-item"><a class="page-link" href="adminRegion.admin?page=3">3</a></li>
-			<li class="page-item"><a class="page-link" href="#">Next</a></li>
 		</ul>
 	</nav>
 </div>
