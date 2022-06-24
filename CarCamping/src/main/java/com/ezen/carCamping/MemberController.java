@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.RegionDTO;
@@ -46,20 +47,19 @@ public class MemberController {
 	private String uploadPath;
    
    @RequestMapping(value="login.login", method=RequestMethod.GET)
-   public String login(HttpServletRequest req, HttpServletResponse resp) {
-		Cookie[] remember = req.getCookies();
-		if (remember != null) {
-			for (Cookie cf : remember) {
-				if (cf.getName().equals("mem_id")) {
-					return "index";
-				}
-			}
-		}else {
-	   return "login/login";
-		}
-		return null; 
+   public String login(HttpServletRequest req) {
+	   HttpSession session = req.getSession();
+	   String referer = req.getHeader("Referer");
+	      String re_url = null;
+	      if(referer.indexOf("index.do")>0) {
+	         System.out.println("이전 페이지 : "+referer); // 메인페이지 -> 로그인페이지 -> 메인페이지
+	         session.setAttribute("re_url", referer);
+	      }else {
+	          System.out.println("이전 페이지 : "+referer); //메인페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 메인페이지가 아닌 다른 페이지
+	          session.setAttribute("re_url", referer);
+	      } 
+      return "login/login";
    }
-
    
 @RequestMapping(value="findID.login", method=RequestMethod.GET)
    public String searchMemberID() {
@@ -98,44 +98,58 @@ public class MemberController {
          @RequestParam Map<String, String> params) {
 	  int login_success = 1;
       String msg = null, url = null;
+      HttpSession session = req.getSession();
+      if ( session.getAttribute("mbdto") != null ){// 기존에 login이란 세션 값이 존재한다면            
+    	   session.removeAttribute("mbdto"); // 기존값을 제거함
+      }
+
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
-      int mem_num = dto.getMem_num();
+      
 
-
-      if (dto != null &&params.get("mem_password").equals(dto.getMem_password())){   
-            msg = dto.getMem_id()+"님, 환영합니다!!";
-            url = "index.do";
+      if (dto == null){   
+          msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
+          url = "login.login";
+       }else { 
+    	   if (params.get("mem_password").equals(dto.getMem_password())){
+    		msg = dto.getMem_id()+"님, 환영합니다!!";
+    		url = (String) session.getAttribute("re_url");
             login_success = 0;
-    		HttpSession session = req.getSession();
-            session.setAttribute("mem_num", mem_num);
+            session.setAttribute("mem_num",  dto.getMem_num());
             session.setAttribute("mbdto", dto);
             MemberDTO mdto = (MemberDTO)session.getAttribute("mbdto"); 
             req.setAttribute("getMember", mdto);
             
+    	  	Cookie loginCookie = new Cookie("loginCookie", dto.getMem_id());
+    	  	if (params.containsKey("loginCookie") ){
+          	loginCookie.setPath("/");
+          	loginCookie.setMaxAge(60*60*24*3000); // 유효시간 3일                    
+          	resp.addCookie(loginCookie);
+    	  	}else {
+          	loginCookie.setMaxAge(0);
+    	  	}
+    	  	
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
-               ck.setMaxAge(24*60*60);
+               ck.setMaxAge(60*60*24);
             }else {
                ck.setMaxAge(0);
             }
             resp.addCookie(ck);
-            Cookie remember = new Cookie("remember", dto.getMem_id());
-            String loginChk = req.getParameter("loginChk");
-            if (loginChk != null) {
-            	remember.setMaxAge(24*60*60);
-            	remember.setPath("/");
-    			resp.addCookie(remember);
-            	
-      	 }else if(dto==null) {
-      		 msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
-             url = "login.login";
          }else {   
             msg = "비밀번호가 틀렸습니다. 다시 확인하고 로그인해 주세요!!";
             url = "login.login";
          }
+       }	   
       req.setAttribute("msg", msg);
       req.setAttribute("url", url);
-      }
+
+	  //Cookie ck2 = new Cookie("stopId", dto.getMem_id());
+      // ck2.setMaxAge(24*60*60);
+     // resp.addCookie(ck2);
+	 // url="index.do";
+	 // msg ="5번 이상 로그인에 실패하여 하루동안 로그인이 불가능합니다.";
+	  
+	  
 
       return "message";
    }
@@ -176,9 +190,16 @@ public class MemberController {
    }
    
    @RequestMapping("/logout.login")
-   public String logout(HttpServletRequest req) {
+   public String logout(HttpServletRequest req, HttpServletResponse resp, @RequestParam Map<String, String> params) {
 	   HttpSession session = req.getSession();
-	   	session.invalidate();
+       session.invalidate();
+	   	Cookie[] cookie = req.getCookies();
+	    for(int i=0; i < cookie.length; i++){
+	         if(cookie[i].getName().equals("loginCookie")){
+	        	 cookie[i].setMaxAge(0);
+	             resp.addCookie(cookie[i]);
+	         }
+	    }
 		req.setAttribute("msg", "로그아웃 되었습니다.");
 		req.setAttribute("url", "index.do");
 		return "message";

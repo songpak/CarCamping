@@ -20,7 +20,6 @@
             <h3 class="card-title text-center"><font color="green"><b>Log in</b></font></h3>
             <form class="form-signin" method="post" action="login.login">
               <div class="form-label-group">
-                
             <nobr>
          <c:if test="${empty cookie.saveId}">         
                <input type="checkbox" name="saveId">
@@ -30,12 +29,12 @@
          </c:if>               
                <font face="굴림" size="2">아이디 기억하기</font>
             </nobr>
-         <nobr>
-         <c:if test="${empty cookie.remember}">         
-               <input type="checkbox" name="remember">
+              <nobr>
+         <c:if test="${empty cookie.loginCookie}">         
+               <input type="checkbox" name="loginCookie">
          </c:if>
-         <c:if test="${not empty cookie.remember}">
-               <input type="checkbox" name="loginChk" checked>
+         <c:if test="${not empty cookie.loginCookie}">
+               <input type="checkbox" name="loginCookie" checked>
          </c:if>               
                <font face="굴림" size="2">자동로그인하기</font>
             </nobr>

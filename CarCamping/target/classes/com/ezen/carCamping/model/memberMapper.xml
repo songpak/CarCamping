@@ -29,4 +29,5 @@
    <select id="getMember" resultType="memberDTO" parameterType="int">
       select * from Member where mem_num = #{mem_num}
    </select>
+
 </mapper>
