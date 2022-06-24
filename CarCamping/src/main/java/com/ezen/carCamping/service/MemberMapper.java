@@ -1,10 +1,10 @@
 package com.ezen.carCamping.service;
 
-<<<<<<< HEAD
+
 import java.util.Hashtable;
-=======
+
+
 import java.util.HashMap;
->>>>>>> 박다슬
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -71,8 +71,7 @@ public class MemberMapper {
 		MemberDTO dto = sqlSession.selectOne("getMember", mem_num);
 		return dto;
 	}
-   
-<<<<<<< HEAD
+
    public String getMemberPassword(int mem_num) {
 	   return sqlSession.selectOne("getMemberPassword", mem_num);
 	   
@@ -93,10 +92,4 @@ public class MemberMapper {
    
    
 
-
-
-   
-   
-=======
->>>>>>> 박다슬
 

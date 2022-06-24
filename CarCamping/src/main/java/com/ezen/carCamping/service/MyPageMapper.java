@@ -2,6 +2,7 @@ package com.ezen.carCamping.service;
 
 import java.util.Hashtable;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,11 +10,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
+
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
-=======
+
 import com.ezen.carCamping.dto.AgencyDTO;
->>>>>>> 오신웅
+
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
@@ -41,24 +42,21 @@ public class MyPageMapper {
 		 int res = sqlSession.update("updateCart", cartDTO);
 		return res;
 	 }
-<<<<<<< HEAD
+
 	 public int deleteCart(int prod_num) {
 		 int res = sqlSession.delete("deleteCart", prod_num);
 		 return res;
 	 }
-<<<<<<< HEAD
+
 	 public String getMemberPassword(int mem_num) {
 
 		 String res = sqlSession.selectOne("getMemberPassword", mem_num);
 		 return res;
 		}	
 	
-		}
 		
-	
-	 
+		
 
-=======
 	 public List<QuestionDTO> myPageGetQuestion(){
 		 List<QuestionDTO> myPageGetQuestion = sqlSession.selectList("myPageGetQuestion");
 		 return myPageGetQuestion;
@@ -75,22 +73,14 @@ public class MyPageMapper {
 		QuestionDTO qdto = sqlSession.selectOne("getQuestion", question_num);
 		return qdto;
 	}
-=======
-	
-	public int deleteCart(int cart_num) {
-		int res = sqlSession.delete("deleteCart",cart_num );
-		return res;
-	}
+
 	
 	public int payCart(int mem_num) {
 		int res = sqlSession.delete("payCart",mem_num );
 		return res;
 	}
 	
-	
->>>>>>> 오신웅
 }
->>>>>>> 박다슬
 
 
 

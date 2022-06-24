@@ -160,7 +160,6 @@
             </div>
          </nav>
 
-<<<<<<< HEAD
 			<nav class="navbar bg-light rounded-pill"
 				style="margin-top: 20px; margin-bottom: 10px;">
 				<div class="container-fluid">
@@ -177,19 +176,6 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 					<!-- 검색 form -->
 					<form class="d-flex" action="goProduct.product"
 						style="width: 500px; height: 40px;" method="post">
-					
-					<!--  		<select name="search2">
-										<option>용품명</option>
-										<option>박혜성</option>
-										<option>박혜성</option>
-										<option>박혜성</option>
-							</select>
-							<select name="search3">
-										<option>브랜드</option>
-										<option>박혜성</option>
-										<option>박혜성</option>
-							</select>
-						-->
 						<select name="search">
 							<option value="prod_name">상품명</option>
 							<option value="brand_name">브랜드명</option>
@@ -212,12 +198,9 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 			</nav>
 			<div id="bd">
 				<div id="gm-main" style="text-align: center">
-<<<<<<< HEAD
 					<div class="gm-b" class="gm-b">
-=======
 				<!-- 용품 전체목록  -->
 					<div class="gm-b" class="gm-b" style="padding-left: 250px;">
->>>>>>> 오신웅
 						<div class="gm-gb">
 							<div class="gm-u first">
 								<div class="d-flex p-2">
@@ -231,8 +214,6 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 											</div>
 										</div>
 									</c:forEach>
-									<c:if test="${empty listProduct}">
-=======
          <c:set var="i" value="0" />
          <c:set var="j" value="4" />
          <table border="1" align="center" >
@@ -260,7 +241,6 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
                <c:set var="i" value="${i+1 }" />
             </c:forEach>
            				 <c:if test="${empty listProduct}">
->>>>>>> 전용재
 										<div class="card" style="width: 20rem;">
 											<h4>등록된 상품이 없습니다!</h4>
 											<br>

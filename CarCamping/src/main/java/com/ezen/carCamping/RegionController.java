@@ -341,9 +341,7 @@ public class RegionController {
 	 * req.setAttribute("ccr_num", ccr_num); req.setAttribute("id", id); String test
 	 * = String.valueOf(ccr_num)+id; return test; }
 	 */
-<<<<<<< HEAD
 
-<<<<<<< HEAD
 	/*
 	 * @RequestMapping(value="/board.region", method=RequestMethod.GET) public
 	 * String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam
@@ -369,12 +367,8 @@ public class RegionController {
 	 * 
 	 * }
 	 */
-=======
-=======
-	
-		
-	
->>>>>>> 전용재
+
+
 	@RequestMapping(value="/board.region", method = RequestMethod.GET)
 	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params,
 			@RequestParam (required = false) String mode) {
@@ -461,5 +455,4 @@ public class RegionController {
 	req.setAttribute("endPage", endPage);
 	return "/region/regionBoard";
 	}
->>>>>>> 전용재
 }

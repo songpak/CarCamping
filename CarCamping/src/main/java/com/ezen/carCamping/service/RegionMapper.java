@@ -223,24 +223,7 @@ public class RegionMapper{
 		return count;
 	}
 	
-	//test
-<<<<<<< HEAD
-	/*
-	 * public List<Map<String,Object>> test() { List<Map<String,Object>> list =
-	 * sqlSession.selectList("test"); System.out.println(list.size());
-	 * 
-	 * return list; }
-	 */
 	
-	public List<CarCampingRegionDTO> listPopRegion(int region_num){
-		List<CarCampingRegionDTO>listPopRegion=sqlSession.selectList("listPopRegion",region_num);
-=======
-	public List<Map<String,Object>> test() {
-		List<Map<String,Object>> list = sqlSession.selectList("test");
-		System.out.println("리스트 사이즈"+list.size());
-		
-		return list;
-	}
 	//페이지의 전체 목록
 	public List<CarCampingRegionDTO> listPopRegion(int region_num ,int startRow , int endRow){
 		Map<String,Object> map = new Hashtable<>();
@@ -248,7 +231,7 @@ public class RegionMapper{
 		map.put("startRow",startRow);
 		map.put("endRow",endRow);
 		List<CarCampingRegionDTO>listPopRegion=sqlSession.selectList("listPopRegion",map);
->>>>>>> 전용재
+
 		return listPopRegion;
 	}
 	

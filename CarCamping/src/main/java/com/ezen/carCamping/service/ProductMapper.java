@@ -18,25 +18,20 @@ public class ProductMapper {
 	@Autowired
 	private SqlSession sqlSession;
 	
-
-
 	
 	public List<ProductDTO> popularProduct() {//인기용품 리스트
 		List<ProductDTO> popList = sqlSession.selectList("popularProd");
 		return popList;
 	}
 	
-/*	
-	public ProductDTO getProduct(int prod_num,String select) {
-		List<ProductDTO>list = ht.get(select);
-		for(ProductDTO dto: list) {
-			if(dto.getProd_num()==prod_num) {
-				return dto;
-			}
-		}
-		return null;
-}
-*/
+	public ProductDTO getProduct(int prod_num) {
+		ProductDTO dto = sqlSession.selectOne("getProduct", prod_num);
+		if(dto != null)
+			return dto;
+		else
+			return null;
+	}
+	
 	public List<ProductDTO> listProductPrice(){
 		List<ProductDTO> listProductPrice = sqlSession.selectList("listProductPrice");
 		return listProductPrice;
@@ -98,7 +93,7 @@ public class ProductMapper {
 		return list;
 	}
 	
-<<<<<<< HEAD
+
 	public List<AgencyDTO> getAgency() {
 		List<AgencyDTO> dto = sqlSession.selectList("getAgency");
 		return dto;
@@ -115,7 +110,7 @@ public class ProductMapper {
 	public int plusLikeCount(int rp_num) {
 		return sqlSession.update("plusLikeCount", rp_num);
 	}
-=======
+
 	public List<ProductDTO> findProduct( String search, String searchString, int startRow , int endRow){
 		Map<String,Object> map = new Hashtable<>();
 		System.out.println(map);
@@ -127,11 +122,8 @@ public class ProductMapper {
 		return list;
 	}
 	
-	public List<ProductDTO> listProduct(String search, String searchString, int startRow , int endRow){
+	public List<ProductDTO> listProduct(int startRow , int endRow){
 		Map<String,Object> map = new Hashtable<>();
-		map.put("search", search);
-		System.out.println("매퍼의 서치:"+search);
-		map.put("searchString", searchString);
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
 		System.out.println("매퍼의 map:"+map);
@@ -145,8 +137,6 @@ public class ProductMapper {
 		return count;
 	}
 
-	
->>>>>>> 전용재
 	
 }
  

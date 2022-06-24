@@ -1,9 +1,9 @@
 package com.ezen.carCamping;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
@@ -24,11 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-<<<<<<< HEAD
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
-=======
->>>>>>> 송재영
 
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.RegionDTO;
@@ -52,7 +49,6 @@ public class MemberController {
    @RequestMapping(value="login.login", method=RequestMethod.GET)
    public String login(HttpServletRequest req) {
 	   HttpSession session = req.getSession();
-<<<<<<< HEAD
 	   String referer = req.getHeader("Referer");
 	      String re_url = null;
 	      if(referer.indexOf("index.do")>0) {
@@ -62,19 +58,6 @@ public class MemberController {
 	          System.out.println("이전 페이지 : "+referer); //메인페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 메인페이지가 아닌 다른 페이지
 	          session.setAttribute("re_url", referer);
 	      } 
-=======
-	  
-	   //refererr에서 이전 페이지 저장
-	   String referer = req.getHeader("Referer");
-	   
-	   if(referer.indexOf("index.do")>0) {
-		   System.out.println("이전 페이지 : "+referer); // 메인페이지 -> 로그인페이지 -> 메인페이지
-		   session.setAttribute("re_url", referer);
-	   }else {
-	    	System.out.println("이전 페이지 : "+referer); //메인페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 메인페이지가 아닌 다른 페이지
-	    	session.setAttribute("re_url", referer);
-	   }
->>>>>>> 박혜성
       return "login/login";
    }
    
@@ -113,20 +96,7 @@ public class MemberController {
    @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
-<<<<<<< HEAD
-<<<<<<< HEAD
 	  int login_success = 1;
-=======
-	  
-      MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
-     //int mem_num = dto.getMem_num();
-      
->>>>>>> 박혜성
-=======
-	  HttpSession session = req.getSession();
-      MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
-     //int mem_num = dto.getMem_num();
->>>>>>> 박혜성
       String msg = null, url = null;
       HttpSession session = req.getSession();
       if ( session.getAttribute("mbdto") != null ){// 기존에 login이란 세션 값이 존재한다면            
@@ -139,7 +109,6 @@ public class MemberController {
       if (dto == null){   
           msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
           url = "login.login";
-<<<<<<< HEAD
        }else { 
     	   if (params.get("mem_password").equals(dto.getMem_password())){
     		msg = dto.getMem_id()+"님, 환영합니다!!";
@@ -159,20 +128,6 @@ public class MemberController {
           	loginCookie.setMaxAge(0);
     	  	}
     	  	
-=======
-       }
-      else {
-         if (params.get("mem_password").equals(dto.getMem_password())){
-        	
-            msg = dto.getMem_id()+"님, 환영합니다!!";
-            url = (String) session.getAttribute("re_url");
-           
-            session.setAttribute("mbdto", dto);
-<<<<<<< HEAD
-            session.setAttribute("signIn", true);
->>>>>>> 박혜성
-=======
->>>>>>> 박혜성
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
                ck.setMaxAge(60*60*24);
@@ -294,7 +249,7 @@ public class MemberController {
   public String CertifyEmail(@RequestParam("mem_email") String mem_email) throws Exception{
     int serti = (int)((Math.random()* (99999 - 10000 + 1)) + 10000);
     
-    String from = "dlwjdals1759@naver.com";//보내는 이 메일주소
+    String from = "qkzptjd5440@naver.com";//보내는 이 메일주소
     String to = mem_email;
     String title = "회원가입시 필요한 인증번호 입니다.";
     String content = "[인증번호] "+ serti +" 입니다. <br/> 인증번호 확인란에 기입해주십시오.";
@@ -316,15 +271,9 @@ public class MemberController {
     }
     return num;
 }
-<<<<<<< HEAD
-
-  }
- 
-=======
  
  
 }
->>>>>>> 박다슬
 
 	
    
