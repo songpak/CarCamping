@@ -141,12 +141,12 @@ public class reviewController {
 	public String prod_list(HttpServletRequest req,HttpServletResponse res ,@RequestParam String pc_num,@RequestParam String brand_num) {
 		List<ProductDTO> list = reviewMapper.listProdByCategory(Integer.parseInt(pc_num),Integer.parseInt(brand_num));
 		System.out.println(list.size());
-		String ccrListHtml ="";
+		String prodListHtml ="";
 		for(int i=0;i<list.size();i++) {
 			ProductDTO dto = list.get(i);
-			ccrListHtml += "<option value='"+dto.getProd_num()+"'>"+dto.getProd_name()+"</option>";
+			prodListHtml += "<option value='"+dto.getProd_num()+"'>"+dto.getProd_name()+"</option>";
 		}
-		return ccrListHtml;
+		return prodListHtml;
 	}
 	
 	@ResponseBody
@@ -197,6 +197,12 @@ public class reviewController {
 		return strResult;
 	}	
 	
+	@RequestMapping("message.review")
+	public String messageReview(String msg,String url,HttpServletRequest req) {
+		req.setAttribute("msg",msg);
+		req.setAttribute("url",url);
+		return "message";
+	}
 	
 	/*
 	 * @ResponseBody

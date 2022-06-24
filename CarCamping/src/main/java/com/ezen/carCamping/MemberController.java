@@ -47,6 +47,18 @@ public class MemberController {
    
    @RequestMapping(value="login.login", method=RequestMethod.GET)
    public String login(HttpServletRequest req) {
+	   HttpSession session = req.getSession();
+	  
+	   //refererr에서 이전 페이지 저장
+	   String referer = req.getHeader("Referer");
+	   
+	   if(referer.indexOf("index.do")>0) {
+		   System.out.println("이전 페이지 : "+referer); // 메인페이지 -> 로그인페이지 -> 메인페이지
+		   session.setAttribute("re_url", referer);
+	   }else {
+	    	System.out.println("이전 페이지 : "+referer); //메인페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 메인페이지가 아닌 다른 페이지
+	    	session.setAttribute("re_url", referer);
+	   }
       return "login/login";
    }
    
@@ -85,10 +97,9 @@ public class MemberController {
    @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
-	  
+	  HttpSession session = req.getSession();
       MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
      //int mem_num = dto.getMem_num();
-      
       String msg = null, url = null;
       if (dto == null){   
           msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
@@ -98,11 +109,9 @@ public class MemberController {
          if (params.get("mem_password").equals(dto.getMem_password())){
         	
             msg = dto.getMem_id()+"님, 환영합니다!!";
-            url = "index.do";
-            HttpSession session = req.getSession();
-           //session.setAttribute("mem_num", mem_num);
+            url = (String) session.getAttribute("re_url");
+           
             session.setAttribute("mbdto", dto);
-            session.setAttribute("signIn", true);
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
                ck.setMaxAge(0);
