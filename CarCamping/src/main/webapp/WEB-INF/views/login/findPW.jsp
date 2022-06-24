@@ -32,15 +32,15 @@
   			<div class="container">
   				<div class="row">
   					<div class="col-md-9 text-center">
-  						<h2 class="section-title">임시 비밀번호 발급</h2>
-  						<p class="section-description">가입하신 아이디+이메일을 통해 이메일로 임시 비밀번호를 보내드립니다. 
-  						<br>로그인 후 반드시 비밀번호를 변경하시기 바랍니다.</p>
+  						<h2 class="section-title">비밀번호 찾기</h2>
+  						<p class="section-description">아이디와 이메일이 맞지 않을 경우, 이메일이 발송되지 않습니다<br>아이디와 이메일을 확인해주세요</p>
+  						<p>이메일에서 임시 비밀번호를 확인하고 내 정보 수정에서 비밀번호를 변경해주세요</p>
   					</div>
   					<div class="col-md-8 col-md-offset-3">
-  						<form id="contact" method="post" class="form" role="form" action="pw_auth.login"> 
+  						<form id="contact" method="post" class="form" role="form">
 							<div class="row">
 								<div class="col-md-6 form-group">
-									<input class="form-control" id="id" name="mem_id" placeholder="ID" type="text" required />
+									<input class="form-control" id="name" name="mem_id" placeholder="아이디" type="text" required />
 								</div>
 								</div>
 								<div class="row">
@@ -51,8 +51,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-12 form-group">
-									<button class="btn btn-success mb-3" type="submit" style="width: 150px;">비밀번호 발급</button>
-									<button class="btn btn-success mb-3" type="submit" style="width: 150px;">로그인</button>
+									<button class="btn btn-success mb-3" type="submit" style="width: 100%;" onclick="sendTempPW();">임시 비밀번호 발급</button>
 								</div>
 							</div>
 						</form>
@@ -69,7 +68,20 @@
   		<!-- Bootstrap JavaScript -->
   		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   		<script>
-  			document.getElementById("message").scrollTop = document.getElementById("message").scrollHeight;
+  			function sendTempPW(){
+  				var mem_id = $("#mem_id").val();
+  				var mem_email = $("#mem_email").val();
+  				
+  				$.ajax({
+  				type:"GET",
+  				url:"sendTempPW.login?mem_email=" + mem_email+"&mem_id="+mem_id,
+  				cache : false,
+  				success:function(data){ 
+  					alert(data);
+  					self.close();	          
+  				     }
+  				  });
+  			}
   		</script>
   	</body>
   </html>

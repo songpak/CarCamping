@@ -149,8 +149,6 @@ public class MemberController {
 	 // url="index.do";
 	 // msg ="5번 이상 로그인에 실패하여 하루동안 로그인이 불가능합니다.";
 	  
-	  
-
       return "message";
    }
    
@@ -269,11 +267,50 @@ public class MemberController {
     } catch(Exception e) {
         num = "error";
     }
-    return num;
-}
+    return num;  
+  }
  
- 
-}
+
+  @RequestMapping(value = "/sendTempPW.login", method = RequestMethod.GET)
+  @ResponseBody
+  public String sendTempPW(@RequestParam("mem_id") String mem_id,@RequestParam("mem_email") String mem_email) throws Exception{
+   // int serti = (int)((Math.random()* (99999 - 10000 + 1)) + 10000);
+    //랜덤 문자열 생성
+    
+    int leftLimit = 48; // numeral '0'
+    int rightLimit = 122; // letter 'z'
+    int targetStringLength = 10;
+    Random random = new Random();
+
+    String generatedString = random.ints(leftLimit,rightLimit + 1)
+      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+      .limit(targetStringLength)
+      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+      .toString();
+    		
+    String from = "qkzptjd5440@naver.com";//보내는 이 메일주소
+    String to = mem_email;
+    String title = "[임시 비빌번호]를 확인해주세요";
+    String content = "[임시 비밀번호]는 "+ generatedString +" 입니다. <br/> 발급받으신 임시 비밀번호로 로그인 하시고, 프로필 - 내 정보 에서 비밀번호를 변경해주세요.";
+   
+    try {
+    	MimeMessage mail = mailSender.createMimeMessage();
+        MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+        
+        mailHelper.setFrom(from);
+        mailHelper.setTo(to);
+        mailHelper.setSubject(title);
+        mailHelper.setText(content, true);       
+        
+        mailSender.send(mail);
+     
+        
+    } catch(Exception e) {
+        return "errror";
+    }
+    return "임시비밀 번호 발송이 완료되었습니다.\n입력한 이메일에서 임시 비밀번호를 확인 해주십시오.";  
+  }
+ }
 
 	
    

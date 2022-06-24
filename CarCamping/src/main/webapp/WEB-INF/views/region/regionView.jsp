@@ -35,16 +35,12 @@ body {
 }
 
 .row mb-3 {
-	margin-left: 0px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
+
+    margin-left: 25px;
+    margin-top: 60px;
+
 }
 
-/* section {
-	margin-top: 30px;
-	margin-bottom: 50px;
-} */
 #regionInfo li {
 	width: 100%;
 	hegiht: 20px;
@@ -90,7 +86,7 @@ body {
 	crossorigin="anonymous">
 </script> -->
  
-<div class="container-fluid themed-container" style="margin-left: 55px;" id="test">
+<div class="container-fluid themed-container" style="margin-left: 90px;" id="test">
 	<div class="row mb-3">
 		<div class="d-flex flex-column flex-shrink-0 p-3 text-white border border-4 border-dark"
 			style="width: 332px; padding-left: 0px; padding-bottom: 0px; padding-right: 0px; padding-top: 0px; height: 632px; margin-right: 86px; margin-top: 50px;">
@@ -333,7 +329,7 @@ body {
 						<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
 						<button type="button" class="btn btn-success" style="margin-left: 431px;align: center;
 						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
-							onclick="location.href=#">
+							onclick="location.href='field_review.review'">
 							리뷰 등록 하기 
 						</button></td></c:if>
 						</c:if>
