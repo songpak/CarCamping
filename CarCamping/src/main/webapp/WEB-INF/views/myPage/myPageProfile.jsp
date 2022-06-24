@@ -363,9 +363,9 @@ function regChk(){
                       </tr>
                        
                       <tr>
-                        <td>비밀번호</td>
+                        <td>비밀번호(변경)</td>
                         <td>
-                        <input type="password"  id="mem_password" name="mem_password" class="form-control" required>
+                        <input type="password"  id="mem_password" name="mem_password" class="form-control" placeholder="비밀번호를 변경하지 않을 시, 기존의 비밀번호를 입력하세요." required>
                         </td>
                       </tr>
                       
