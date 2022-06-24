@@ -9,7 +9,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
+=======
+import com.ezen.carCamping.dto.AgencyDTO;
+>>>>>>> 오신웅
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
@@ -33,10 +37,11 @@ public class MyPageMapper {
 		 return res; 
 	 }
 	 
-	 public int updateCart(ProductCartDTO dto) {
-		 int res = sqlSession.update("updateCart", dto);
+	 public int updateCart(ProductCartDTO cartDTO) {
+		 int res = sqlSession.update("updateCart", cartDTO);
 		return res;
 	 }
+<<<<<<< HEAD
 	 public int deleteCart(int prod_num) {
 		 int res = sqlSession.delete("deleteCart", prod_num);
 		 return res;
@@ -70,6 +75,20 @@ public class MyPageMapper {
 		QuestionDTO qdto = sqlSession.selectOne("getQuestion", question_num);
 		return qdto;
 	}
+=======
+	
+	public int deleteCart(int cart_num) {
+		int res = sqlSession.delete("deleteCart",cart_num );
+		return res;
+	}
+	
+	public int payCart(int mem_num) {
+		int res = sqlSession.delete("payCart",mem_num );
+		return res;
+	}
+	
+	
+>>>>>>> 오신웅
 }
 >>>>>>> 박다슬
 

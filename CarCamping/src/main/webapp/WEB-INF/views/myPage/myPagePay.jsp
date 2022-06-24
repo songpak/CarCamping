@@ -16,22 +16,61 @@
 	crossorigin="anonymous"></script> 
 <div class="container" align="center" class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
 <h2 class="text-left"><b>기본 정보</b></h2>
+<<<<<<< HEAD
 <table class="table table-bordered">
     <tr>
       <th scope="col" width="30%" class="text-center">상점명</th>
       <td width="70%">WithCar</td>
+=======
+
+
+     <c:forEach items="${cartList}" var="mdto">
+<table class="table table-bordered">
+    <tr>
+      <th scope="col" width="30%" class="text-center">상점명</th>
+      <td width="70%">WithCar(${mdto.agency_name})</td>
+>>>>>>> 오신웅
     </tr>
   
     <tr>
       <th scope="col" width="30%" class="text-center">용품명</th>
+<<<<<<< HEAD
       <td width="200" width="70%">"여기"</td>
+=======
+      <td width="200" width="70%">${mdto.prod_name }</td>
+     
+    </tr>
+    <tr>
+      <th scope="col" width="30%" class="text-center">대여기간</th>
+      <td width="200" width="70%">${mdto.cart_from } ~ ${mdto.cart_to }</td>
+     
+    </tr>
+    <tr>
+      <th scope="col" width="30%" class="text-center">물품갯수</th>
+      <td width="200" width="70%">${mdto.cart_prodCount}개</td>
+>>>>>>> 오신웅
      
     </tr>
     <tr>
       <th scope="col" width="30%" class="text-center">결제금액</th>
+<<<<<<< HEAD
       <td width="200" width="70%" class="text-danger">"여기"원</td>
     </tr>
 </table>
+=======
+      <td width="200" width="70%" class="text-danger">${mdto.prod_price}원</td>
+    </tr>
+</table>
+</c:forEach>
+  <div style="float:right">
+          	<c:set var ="cartTotalPrice" value="0"/>
+         <c:forEach items="${cartList}" var="mdto">
+        <c:set var="cartTotalPrice" value="${cartTotalPrice + mdto.prod_price * mdto.cart_prodCount}"/>
+         </c:forEach>
+                <h3>총 결제금액</h3>
+                <h1>${cartTotalPrice}원</h1>
+            </div>
+>>>>>>> 오신웅
 
 <h2 class="text-left"><b>결제 정보</b></h2>
 <table class="table table-bordered">
@@ -74,22 +113,36 @@
     <tr>
       <th align="center" scope="col" width="30%" class="text-center">카드번호</th>
       <td width="70%">
+<<<<<<< HEAD
       <input type="text" name="카드번호" placeholder="예)1234567890123456" style="width:300px;height:30px;font-size:13px;" maxlength="16">
+=======
+      <input type="text" name="카드번호" placeholder="예)1234567890123456" style="width:300px;height:30px;font-size:13px;">
+>>>>>>> 오신웅
       </td>
     </tr>
      <tr>
       <th scope="col" width="30%" class="text-center">CVC 입력</th>
       <td width="70%">
+<<<<<<< HEAD
       <input type="password" name="CVC" placeholder="***" style="width:100px;height:25px;" maxlength="3">
+=======
+      <input type="password" name="CVC" placeholder="***" style="width:100px;height:25px;">
+>>>>>>> 오신웅
       </td>
     </tr>
      <tr>
       <th scope="col" width="30%" class="text-center">유효기간 입력</th>
       <td width="70%">
            월 (Month)
+<<<<<<< HEAD
       <input type="password" name="월" placeholder="**" style="width:70px;height:25px;" maxlength="2">
            년 (Year)
       <input type="password" name="년" placeholder="**" style="width:70px;height:25px;" maxlength="2">
+=======
+      <input type="password" name="월" placeholder="**" style="width:70px;height:25px;">
+           년 (Year)
+      <input type="password" name="년" placeholder="**" style="width:70px;height:25px;">
+>>>>>>> 오신웅
       </td>
     </tr>
 </table>

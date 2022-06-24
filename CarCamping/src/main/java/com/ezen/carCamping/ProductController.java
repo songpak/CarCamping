@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.service.ProductMapper;
@@ -91,6 +92,8 @@ public class ProductController {
 			} else {
 				list = productMapper.findReview(search, searchString);
 			}
+			List<AgencyDTO> Alist = productMapper.getAgency();
+			req.setAttribute("getAgency", Alist);
 			req.setAttribute("getProduct", productMapper.getProduct(prod_num));
 			req.setAttribute("ReList", list);
 		return "product/productView";
@@ -107,9 +110,50 @@ public class ProductController {
 			req.setAttribute("url", url);
 			return "message";
 		}else {
+			int res = productMapper.plusReviewReadCount(rp_num);
+			if (res > 0) {
+				System.out.println("조회수상승성공");
+			} else {
+				System.err.println("조회수상승실패");
+			}
 			List<ReviewProductDTO> list = productMapper.getReviewView(rp_num);
 			req.setAttribute("getRv", list);
 		}
 		return "product/productReviewView";
 	}
+	
+	@RequestMapping("likeButton.product")
+	public String likeButton(HttpServletRequest req, int rp_num) {
+		int res = productMapper.plusLikeCount(rp_num);
+		String url =null; String msg = null;
+		if (res > 0) {
+			int res2 =productMapper.minReviewReadCount(rp_num);
+			if (res2 > 0) {
+				System.out.println("조회수바로잡기성공");
+			} else {
+				System.err.println("조회수바로잡기실패");
+			}
+			msg = "좋아요가 추가되었습니다!";
+			url="productReviewView.product?rp_num="+rp_num;
+			System.out.println("좋아요상승성공");
+		} else {
+			msg = "관리자에게 문의하세요!";
+			url= "goProduct.product";
+			System.err.println("좋아요상승실패");
+		}
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+

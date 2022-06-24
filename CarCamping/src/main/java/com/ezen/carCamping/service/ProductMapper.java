@@ -1,11 +1,13 @@
 package com.ezen.carCamping.service;
 
 
-import java.util.*;
+import java.util.*; 
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 
@@ -101,6 +103,23 @@ public class ProductMapper {
 	public List<ReviewProductDTO> R_orderByRead() {
 		List<ReviewProductDTO>list= sqlSession.selectList("R_orderByRead");
 		return list;
+	}
+	
+	public List<AgencyDTO> getAgency() {
+		List<AgencyDTO> dto = sqlSession.selectList("getAgency");
+		return dto;
+	}
+	
+	public int plusReviewReadCount(int rp_num) {
+		return sqlSession.update("plusReviewReadCount", rp_num);
+	}
+	
+	public int minReviewReadCount(int rp_num) {
+		return sqlSession.update("minReviewReadCount", rp_num);
+	}
+	
+	public int plusLikeCount(int rp_num) {
+		return sqlSession.update("plusLikeCount", rp_num);
 	}
 	
 }

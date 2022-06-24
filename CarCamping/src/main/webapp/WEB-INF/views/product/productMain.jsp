@@ -160,7 +160,12 @@ d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.12
 			</nav>
 			<div id="bd">
 				<div id="gm-main" style="text-align: center">
+<<<<<<< HEAD
 					<div class="gm-b" class="gm-b">
+=======
+				<!-- 용품 전체목록  -->
+					<div class="gm-b" class="gm-b" style="padding-left: 250px;">
+>>>>>>> 오신웅
 						<div class="gm-gb">
 							<div class="gm-u first">
 								<div class="d-flex p-2">

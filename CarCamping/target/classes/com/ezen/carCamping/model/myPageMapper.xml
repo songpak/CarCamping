@@ -3,21 +3,31 @@
  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
  	
-<mapper namespace="com.ezen.carCamping.model.myPageMapper"> 
+<mapper namespace="com.ezen.carCamping.model.myPageMapper">
+<resultMap id="productCartMap" type="ProductCartDTO">
+		<id column="cart_num" property="car_num"/>
+		<result column="cart_prodCount" property="cart_prodCount"/>
+		<result column="cart_from" property="cart_from"/>
+		<result column="cart_to" property="cart_to"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
+		<association property="productDTO" javaType="ProductDTO" resultMap="productMap"/>
+		<association property="agencyDTO" javaType="AgencyDTO" resultMap="agencyMap"/>
+	</resultMap>
+ 
 	<select id="cartProduct" parameterType="int" resultType="ProductCartDTO"><!-- 용품을 장바구니에 추가만 하는 쿼리문 -->
-	select a.*,b.prod_name,prod_price from ProductCart as a left join Product as b on a.prod_num = b.prod_num where a.mem_num = #{mem_num}
+	select a.*,b.prod_name,prod_price, c.agency_name from ProductCart as a left join Product as b on a.prod_num = b.prod_num left join Agency as c on a.agency_num = c.agency_num where a.mem_num = #{mem_num}
 	</select>
-
+	
 	<insert id="insertCart" parameterType="ProductCartDTO">
-		insert into ProductCart values(null, #{mem_num}, #{prod_num}, 1, #{cart_prodCount}, #{cart_from}, #{cart_to})
+		insert into ProductCart values(null, #{mem_num}, #{prod_num}, #{agency_num}, #{cart_prodCount}, #{cart_from}, #{cart_to})
 	</insert>
 	
 	  <update id="updateCart" parameterType="ProductCartDTO">
-		update ProductCart set cart_prodCount=#{cart_prodCount} where prod_num = #{prod_num} and mem_num = #{mem_num}
+		update ProductCart set cart_prodCount = #{cart_prodCount} where cart_from = #{cart_from} and cart_to = #{cart_to}
 	</update>  
 	
 	<delete id="deleteCart" parameterType="int">
-		delete from ProductCart where Prod_num =#{prod_num}
+		delete from ProductCart where cart_num = #{cart_num}
 	</delete>
 <resultMap type="MemberDTO" id="memberMap">
 		<id column="mem_num" property="mem_num"/>
@@ -49,6 +59,7 @@
 	</resultMap>
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
  	<resultMap id="questionMap" type="QuestionDTO">
 		<id column="question_num" property="question_num"/>
@@ -75,3 +86,22 @@
 	
 >>>>>>> 박다슬
 </mapper>
+=======
+	<delete id="payCart" parameterType="int" >
+		delete from ProductCart where mem_num = #{mem_num}
+	</delete>
+	
+	<!-- <select id="sendRentLog" parameterType="int" >
+		select 	
+	</select> -->
+	
+</mapper>
+
+
+
+
+
+
+
+
+>>>>>>> 오신웅

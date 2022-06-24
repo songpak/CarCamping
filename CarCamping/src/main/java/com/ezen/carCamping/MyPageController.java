@@ -2,6 +2,7 @@ package com.ezen.carCamping;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.io.File;
 
 
@@ -12,9 +13,12 @@ import java.text.SimpleDateFormat;
 import java.text.SimpleDateFormat; 
 >>>>>>> 전용재
 import java.util.ArrayList;
+=======
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+>>>>>>> 오신웅
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 =======
 
@@ -41,8 +45,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
+<<<<<<< HEAD
 <<<<<<< HEAD
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
@@ -54,6 +58,9 @@ import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
 
+=======
+import com.ezen.carCamping.service.MyPageMapper;
+>>>>>>> 오신웅
 
 @Controller
 public class MyPageController {
@@ -74,21 +81,58 @@ public class MyPageController {
 	private String uploadPath;	
 >>>>>>> 박다슬
 
+<<<<<<< HEAD
 	@RequestMapping("/myPageCart.myPage") // 移댄듃�뿉 異붽�
 	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from, String cart_to, int mem_num) {
 		if (mem_num == 0) {
 			String msg = "濡쒓렇�씤�쓣 �빐�빞 ���뿬 �븷 �닔 �엳�뒿�땲�떎!";
+=======
+	@RequestMapping("/myPageCart.myPage")
+	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from,
+			String cart_to, int mem_num, int agency_num)
+			throws ParseException {
+		//System.out.println(agency_num);
+		//System.out.println(sdf.format(indate));
+		//System.out.println(sdf.format(outdate));
+		if (mem_num == 0) {
+			String msg = ".로그인 하셔야 합니다!";
+>>>>>>> 오신웅
 			String url = "login.login";
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
 			return "message";
+<<<<<<< HEAD
 		} else if(cart_to == "" && cart_from == "") {
 			String msg = "���뿬 �궇吏쒕�� �꽑�깮 �븯�뀛�빞 �빀�땲�떎!";
+=======
+		} 
+		if (cart_from == "" || cart_to =="") {
+			String msg = "대여날짜를 선택해 주세요!";
+>>>>>>> 오신웅
 			String url = "goProduct.product";
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
 			return "message";
-		}else {
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date indate = sdf.parse(cart_from);
+		Date outdate = sdf.parse(cart_to);
+		Date time = new Date();
+		String time1 = sdf.format(time);
+		Date now = sdf.parse(time1);
+			if (indate.compareTo(outdate) > 0) {
+			String msg = "반납날짜보다 빌린날짜가 먼저여야 합니다!";
+			String url = "goProduct.product";
+			req.setAttribute("msg", msg);
+			req.setAttribute("url", url);
+			return "message";
+		} else if (indate.compareTo(now) < 0) {
+			String msg = "지난 날짜는 선택 할 수 없습니다.!";
+			String url = "goProduct.product";
+			req.setAttribute("msg", msg);
+			req.setAttribute("url", url);
+			return "message";
+		} else {
 			int res = myPageMapper.insertCart(dto);
 			if (res > 0) {
 				System.out.println("�벑濡앹꽦怨�");
@@ -102,22 +146,32 @@ public class MyPageController {
 		return "myPage/myPageCart";
 	}
 
+<<<<<<< HEAD
 	@RequestMapping("/myPageCart2.myPage") // �굹以묒뿉 �쉶�썝踰덊샇 異붽��빐�꽌 �꽆寃⑥＜湲�!
 	public String myPageCart2(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		if (session.getAttribute("mem_num") == null) {
 			String msg = "濡쒓렇�씤�쓣 �빐�빞 ���뿬 �븷 �닔 �엳�뒿�땲�떎!";
+=======
+	@RequestMapping("/myPageCart2.myPage") // 탑에서 장바구니 갈때
+	public String myPageCart2(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		if (session.getAttribute("mem_num") == null) {
+			String msg = "로그인 하셔야 합니다";
+>>>>>>> 오신웅
 			String url = "login.login";
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
 			return "message";
-		}else {
-		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
-		session.setAttribute("cartList", cart);
+		} else {
+			int mem_num = (int) session.getAttribute("mem_num");
+			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
+			session.setAttribute("cartList", list);
 		}
 		return "myPage/myPageCart";
 	}
 
+<<<<<<< HEAD
 	@RequestMapping("mall_cartEdit.myPage") // 臾쇨굔 媛��닔 �닔�젙
 	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num, ProductCartDTO dto) {
 		int res = myPageMapper.updateCart(dto);
@@ -130,15 +184,35 @@ public class MyPageController {
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		if (cart_prodCount <= 0) {
 			session.setAttribute("msg", "�긽�뭹�닔�웾 : 0媛� ! �옣諛붽뎄�땲�뿉�꽌 �궘�젣�빀�땲�떎.");
+=======
+	@RequestMapping("mall_cartEdit.myPage") // 카트수정
+	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num, String cart_from,
+			String cart_to) {
+		//System.out.println("cart_from" + cart_from);
+		//System.out.println("cart_from" + cart_to);
+		HttpSession session = req.getSession();
+		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+		if (cart_prodCount <= 0) {
+			session.setAttribute("msg", "등록된 상품을 삭제 했습니다.");
+>>>>>>> 오신웅
 			session.setAttribute("url", "mall_cartDel.myPage?prod_num=" + prod_num);
 			return "message";
 		} else {
 			for (ProductCartDTO cartDTO : cart) {
-				if (prod_num == cartDTO.getProd_num()) {
+				if (prod_num == cartDTO.getProd_num() && cart_from.equals(cartDTO.getCart_from())
+						&& cart_to.equals(cartDTO.getCart_to())) {
 					cartDTO.setCart_prodCount(cart_prodCount);
+					int res = myPageMapper.updateCart(cartDTO);
+					if (res > 0) {
+						System.out.println("업데이트성공");
+					} else {
+						System.out.println("업데이트 실패");
+					}
+					break;
 				}
 			}
 		}
+<<<<<<< HEAD
 		System.out.println("媛��닔" + cart_prodCount);
 		System.out.println("�꽆踰�" + prod_num);
 		return "myPage/myPageCart";
@@ -152,11 +226,28 @@ public class MyPageController {
 		} else {
 			System.out.println("�궘�젣�떎�뙣");
 		}
+=======
+		return "myPage/myPageCart";
+	}
+
+	@RequestMapping("mall_cartDel.myPage") // 카트삭제
+	public String mall_cartDel(HttpServletRequest req, @RequestParam int prod_num, int cart_num, String cart_from,
+			String cart_to) {
+		//System.out.println("cart_from" + cart_from);
+		//System.out.println("cart_from" + cart_to);
+>>>>>>> 오신웅
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		for (ProductCartDTO cartDTO : cart) {
-			if (prod_num == cartDTO.getProd_num()) {
+			if (prod_num == cartDTO.getProd_num() && cart_from.equals(cartDTO.getCart_from())
+					&& cart_to.equals(cartDTO.getCart_to())) {
 				cart.remove(cartDTO);
+				int res = myPageMapper.deleteCart(cart_num);
+				if (res > 0) {
+					System.out.println("삭제 성공");
+				} else {
+					System.out.println("삭제 실패");
+				}
 				break;
 			}
 		}
@@ -169,8 +260,13 @@ public class MyPageController {
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		String msg = null, url = null;
 		if (cart == null) {
+<<<<<<< HEAD
 			msg = "寃곗젣�븯�떎 �긽�뭹�씠 �뾾�뒿�땲�떎. �옣諛붽뎄�땲�뿉 異붽��빐 二쇱꽭�슂!";
 			url = "";
+=======
+			msg = "장바구니가 비었습니다!";
+			url = "productView.product";
+>>>>>>> 오신웅
 		} else {
 			msg = "寃곗젣 �럹�씠吏�濡� �씠�룞�빀�땲�떎!";
 			url = "Pay.myPage";
@@ -180,6 +276,7 @@ public class MyPageController {
 		return "message";
 	}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 	@RequestMapping("Pay.myPage") // 결제완료 페이지
 	public String Pay() {
@@ -196,10 +293,53 @@ public class MyPageController {
 <<<<<<< HEAD
 
 	@RequestMapping("/myPageContactUs.myPage")//留덉씠�럹�씠吏� 而⑦뀓�뼱�뒪
+=======
+	@RequestMapping("Pay.myPage") 
+	public String myPageCheckOut1(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		int mem_num = (int) session.getAttribute("mem_num");
+		List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
+		session.setAttribute("cartList", list);
+		return "myPage/myPagePay";// 결제폼
+	}
+	
+	@RequestMapping("myPageCheckOut.myPage")
+	public String myPageCheckOut2(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		int mem_num = (int) session.getAttribute("mem_num");
+		int res= myPageMapper.payCart(mem_num);//장바구니 비우기
+		if (res > 0) {
+			System.out.println("결제 성공");
+		} else {
+			System.out.println("결제 실패");
+		}
+		return "myPage/myPageCheckOut";
+	}
+	
+	@RequestMapping("/myPageRental.myPage")
+	public String myPageRental(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		if (session.getAttribute("mem_num") == null) {
+			String msg = "로그인 하셔야 합니다";
+			String url = "login.login";
+			req.setAttribute("msg", msg);
+			req.setAttribute("url", url);
+			return "message";
+		} else {
+			int mem_num = (int) session.getAttribute("mem_num");
+			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
+			session.setAttribute("cartList", list);
+		}
+		return "myPage/myPageRental";
+	}
+
+	@RequestMapping("/myPageContactUs.myPage") // 컨텍어스
+>>>>>>> 오신웅
 	public String myPageContactUs(HttpServletRequest req) {
 		return "myPage/myPageContactUs";
 	}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 	@RequestMapping(value="myPageProfile.myPage", method=RequestMethod.GET)
 	public String memberUpdate(HttpServletRequest req) {
@@ -209,6 +349,9 @@ public class MyPageController {
 		
 =======
 	@RequestMapping("/myPageProfile.myPage")//留덉씠�럹�씠吏� �봽濡쒗븘 蹂닿린
+=======
+	@RequestMapping("/myPageProfile.myPage") // 프로필 상세보기
+>>>>>>> 오신웅
 	public String myPageProfile() {
 >>>>>>> 전용재
 		return "myPage/myPageProfile";
@@ -297,6 +440,7 @@ public class MyPageController {
 		return "myPage/myPageQuestion";
 	}
 
+<<<<<<< HEAD
 	@RequestMapping("/myPageRental.myPage")
 	public String myPageRental() {
 		return "myPage/myPageRental";
@@ -332,6 +476,8 @@ public class MyPageController {
 		return "myPage/myPageQuestionReply";
 	}
 	
+=======
+>>>>>>> 오신웅
 	@RequestMapping("/myPageWriteReview.myPage")
 	public String myPagaWriteReview() {
 		return "myPage/myPageWriteReview";
