@@ -24,10 +24,13 @@ public class MemberDTO {
 	private int mem_reviewCount;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	
 =======
 >>>>>>> 송재영
+=======
+>>>>>>> 박혜성
 	
 >>>>>>> 박다슬
 	public int getMem_num() {
@@ -150,11 +153,16 @@ public class MemberDTO {
 	public void setMem_introduce(String mem_introduce) {
 		this.mem_introduce = mem_introduce;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 박혜성
 	public int getMem_reviewCount() {
 		return mem_reviewCount;
 	}
 	public void setMem_reviewCount(int mem_reviewCount) {
 		this.mem_reviewCount = mem_reviewCount;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 	}  
@@ -165,6 +173,8 @@ public class MemberDTO {
 >>>>>>> 박다슬
 =======
 >>>>>>> 송재영
+=======
+>>>>>>> 박혜성
 	}
 	
 

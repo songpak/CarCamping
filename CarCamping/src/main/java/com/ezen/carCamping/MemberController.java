@@ -99,7 +99,14 @@ public class MemberController {
    @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
+<<<<<<< HEAD
 	  int login_success = 1;
+=======
+	  
+      MemberDTO dto = memberMapper.getMemberId(params.get("mem_id"));
+     //int mem_num = dto.getMem_num();
+      
+>>>>>>> 박혜성
       String msg = null, url = null;
       HttpSession session = req.getSession();
       if ( session.getAttribute("mbdto") != null ){// 기존에 login이란 세션 값이 존재한다면            
@@ -112,6 +119,7 @@ public class MemberController {
       if (dto == null){   
           msg = "해당하는 아이디가 없습니다. 다시 확인하고 로그인해 주세요!!";
           url = "login.login";
+<<<<<<< HEAD
        }else { 
     	   if (params.get("mem_password").equals(dto.getMem_password())){
     		msg = dto.getMem_id()+"님, 환영합니다!!";
@@ -131,6 +139,18 @@ public class MemberController {
           	loginCookie.setMaxAge(0);
     	  	}
     	  	
+=======
+       }
+      else {
+         if (params.get("mem_password").equals(dto.getMem_password())){
+        	
+            msg = dto.getMem_id()+"님, 환영합니다!!";
+            url = "index.do";
+            HttpSession session = req.getSession();
+           //session.setAttribute("mem_num", mem_num);
+            session.setAttribute("mbdto", dto);
+            session.setAttribute("signIn", true);
+>>>>>>> 박혜성
             Cookie ck = new Cookie("saveId", dto.getMem_id());
             if (params.containsKey("saveId")){
                ck.setMaxAge(60*60*24);

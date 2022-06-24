@@ -20,9 +20,12 @@ public class ProductDTO {
 	private float prod_reviewScore;
 	private int prod_reviewCount;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	
 	
+=======
+>>>>>>> 박혜성
 	public String getBrand_name() {
 		return brand_name;
 	}
@@ -139,7 +142,11 @@ public class ProductDTO {
 		this.prod_reviewCount = prod_reviewCount;
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
 =======
 >>>>>>> 송재영
+=======
+	
+>>>>>>> 박혜성
 }

@@ -43,7 +43,7 @@
 <body>
 
 	<c:set var="review_num" value="${selectedReview.review_num }"/>
- 	<c:set var="mem_id" value="${sessionScope.id}"/>
+ 	<c:set var="mem_id" value="${sessionScope.mem_id}"/>
 	<div id="wrapper">
 		<!-- Begin Header -->
 		<div align="center" id="header">

@@ -41,6 +41,6 @@
 	<select id ="R_orderByRead" parameterType="String" resultType="ReviewProductDTO"> 
 		select * from ReviewProduct order by rp_readCount
 	</select>
-	
+
 </mapper>
 

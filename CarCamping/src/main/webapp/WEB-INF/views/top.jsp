@@ -52,7 +52,36 @@
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 				
 
+<<<<<<< HEAD
 
+=======
+				
+<script>
+	function field_review(){
+		var signIn = "${sessionScope.signIn}";		
+		if (signIn ==""){
+			alert("리뷰 쓰기는 로그인 후 사용하실 수 있습니다.");
+			location.href="login.login";
+			
+		}else if(signIn=="true"){
+			location.href="field_review.review";
+		}
+	}
+</script>
+
+<script>
+	function goods_review(){
+		var signIn = "${sessionScope.signIn}";
+		if (signIn ==""){
+			alert("리뷰 쓰기는 로그인 후 사용하실 수 있습니다.");
+			location.href="login.login";
+			
+		}else if(signIn=="true"){
+			location.href="goods_review.review";
+		}
+	}
+</script>
+>>>>>>> 박혜성
 
 <style>
 .has-sub>.sub-menu>a{
@@ -99,8 +128,13 @@ padding-left: 0px;
 								</ul></li>
 							<li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
 							<ul class="sub-menu" >
+<<<<<<< HEAD
 									<li><a style="background: transparent; " onclick="location.href='field_review.review'">장소 리뷰</a></li>
                           			 <li><a style="background: transparent;" onclick="location.href='goods_review.review'">용품 리뷰</a></li>
+=======
+									<li><a style="background: transparent; " onclick="field_review();">장소 리뷰</a></li>
+									<li><a style="background: transparent;" onclick="goods_review();">용품 리뷰</a></li>
+>>>>>>> 박혜성
 								</ul></li>
 							<li class="scroll-to-section">
 								<button class="btn btn-link" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
+import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.RegionMapper;
@@ -33,6 +34,7 @@ public class RegionController {
 	private RegionMapper RegionMapper;
 
 	private Hashtable<String, Object> ht = RegionMapper.getInstance();
+
 
 
 	@RequestMapping(value = "goRegion.region", method = RequestMethod.GET)
@@ -48,10 +50,13 @@ public class RegionController {
 		 * ht.put(String.valueOf(i),RegionMapper.listCarCampingRegionHotRegion(i)); }
 		 */
 //		�엫�떆濡쒓렇�씤
-//		HttpSession test_session = req.getSession();
-//		test_session.setAttribute("id", "qqq");
-//		test_session.setAttribute("mem_num",3);
-	
+		
+		  HttpSession session = req.getSession();
+		  MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
+		  if(session.getAttribute("mbdto")!=null) {
+			  session.setAttribute("mem_num", dto.getMem_num());
+			  session.setAttribute("mem_id", dto.getMem_id());
+		  }
 		return "region/regionMain";
 	}
 
@@ -81,12 +86,12 @@ public class RegionController {
 		if(mode==null) mode="none";
 		
 		//id媛믪쓣 媛��졇�� 濡쒓렇 �궡�뿭 泥댄겕 �썑 踰꾪듉�쓽 �깋源붿쓣 寃곗젙 
-		HttpSession test_session = req.getSession();
-		String id = (String) test_session.getAttribute("id");
+		HttpSession session = req.getSession();
+		String id = (String) session.getAttribute("mem_id");
 		if (id==null || id.equals("")) req.setAttribute("check", 0);
 		else{
 			int check = RegionMapper.checkRegionLikeLog(id, ccr_num);
-			System.out.println("check = "+ check);
+			//System.out.println("check = "+ check);
 			req.setAttribute("check", check);
 		}
 		
@@ -164,7 +169,20 @@ public class RegionController {
 	
 	@RequestMapping("/regionReviewView.region")
 	public String regionReviewView(HttpServletRequest req,HttpServletResponse rep, @RequestParam int review_num) {
-		System.out.println(review_num);
+		//System.out.println(review_num);
+		
+		  HttpSession session = req.getSession();
+		  MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
+		  if(mdto!=null) {
+			  session.setAttribute("mem_num", mdto.getMem_num());
+			  session.setAttribute("mem_id", mdto.getMem_id());
+		  }else if(mdto == null){
+			  System.out.println("로그인안해쓴ㄴ데여?");
+			  req.setAttribute("msg", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
+			  req.setAttribute("url","login.login");
+			  return "message";
+		  }
+		  
 		ReviewRegionDTO dto = RegionMapper.selectReviewDetail(review_num);
 		
 		//�깉濡쒓퀬移� 議고쉶�닔 留됯린
@@ -219,8 +237,8 @@ public class RegionController {
 		}
 		
 		//id媛믪쓣 媛��졇�� 濡쒓렇 �궡�뿭 泥댄겕 �썑 踰꾪듉�쓽 �깋源붿쓣 寃곗젙 
-		HttpSession test_session = req.getSession();
-		String id = (String) test_session.getAttribute("id");
+		//HttpSession session = req.getSession();
+		String id = (String) session.getAttribute("mem_id");
 		if (id==null || id.equals("")) req.setAttribute("check", 0);
 		else{
 			int check = RegionMapper.checkReviewLikeLog(id, review_num);
@@ -238,6 +256,18 @@ public class RegionController {
 	@RequestMapping(value="updateRegionLike.region",method=RequestMethod.POST)
 	@ResponseBody
 	public String updateRegionLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int ccr_num) {
+		
+		HttpSession session = req.getSession();
+		  MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
+		  if(mdto!=null) {
+			  session.setAttribute("mem_num", mdto.getMem_num());
+			  session.setAttribute("mem_id", mdto.getMem_id());
+		  }else if(mdto == null){
+			  req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
+			  req.setAttribute("url","login.login");
+			  return "message";
+		  }
+		  
 		int check = RegionMapper.checkRegionLikeLog(mem_id, ccr_num);
 		int count = 0;
 		if(check==0) { //醫뗭븘�슂 �궡�뿭�뿉 議댁옱�븯吏� �븡�쑝硫�
@@ -262,6 +292,19 @@ public class RegionController {
 	@RequestMapping(value="updateReviewLike.region",method=RequestMethod.POST)
 	@ResponseBody
 	public String updateReviewLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int review_num) {
+		
+		HttpSession session = req.getSession();
+		  MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
+		  if(mdto!=null) {
+			  session.setAttribute("mem_num", mdto.getMem_num());
+			  session.setAttribute("mem_id", mdto.getMem_id());
+		  }else if(mdto == null){
+			  req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
+			  req.setAttribute("url","login.login");
+			  return "message";
+		  }
+		  
+		  
 		int check = RegionMapper.checkReviewLikeLog(mem_id, review_num);
 		int count = 0;
 		if(check==0) { //醫뗭븘�슂 �궡�뿭�뿉 議댁옱�븯吏� �븡�쑝硫�
@@ -275,12 +318,11 @@ public class RegionController {
 	}
 	
 	
-	@RequestMapping("/test.region")
-	public String test(HttpServletRequest req,HttpServletResponse rep) {
-		List<Map<String,Object>> list = RegionMapper.test();
-		req.setAttribute("list", list);
-		return "/region/test";
-	}
+	/*
+	 * @RequestMapping("/test.region") public String test(HttpServletRequest
+	 * req,HttpServletResponse rep) { List<Map<String,Object>> list =
+	 * RegionMapper.test(); req.setAttribute("list", list); return "/region/test"; }
+	 */
 	
 	/*
 	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //�삤由꾩감�닚
@@ -305,43 +347,29 @@ public class RegionController {
 	 * = String.valueOf(ccr_num)+id; return test; }
 	 */
 
-	@RequestMapping(value="/board.region", method=RequestMethod.GET)
-	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params) {
-	String region_num = params.get("region_num"); 
-	List<CarCampingRegionDTO>list =null;
-	int pageSize= 3;
-	String pageNum = params.get("pageNum");
-	int currentpage;
-	if(pageNum==null) {
-		pageNum="1";
-		currentpage=Integer.parseInt(pageNum);
-	}else {
-		double pageNum_db =Double.parseDouble(pageNum);
-		if(pageNum_db<=0)pageNum_db = 0 ;
-		currentpage = (int)(pageNum_db);
-	}
-	int startRow = (currentpage -1) * pageSize +1;
-	int endRow = startRow + pageSize - 1;
-	int rowCount=0;
-	rowCount=RegionMapper.listRegionCount(Integer.parseInt(region_num)).size();
-	if(endRow>rowCount)
-		endRow=rowCount;
-	if(rowCount>0) {
-		list=RegionMapper.listPopRegion(Integer.parseInt(region_num)); 
-	}
-	int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
-	int pageBlock = 3;
-	int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
-	int endPage = startPage + pageBlock - 1;
-	if (endPage > pageCount) endPage = pageCount;
-	req.setAttribute("region_num", region_num);
-	req.setAttribute("rowCount",rowCount);
-	req.setAttribute("list", list);
-	req.setAttribute("pageCount", pageCount);
-	req.setAttribute("startPage", startPage);
-	req.setAttribute("endPage", endPage);
-
-	return "/region/regionBoard";
-	  
-	}
+	/*
+	 * @RequestMapping(value="/board.region", method=RequestMethod.GET) public
+	 * String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam
+	 * Map<String,String> params) { String region_num = params.get("region_num");
+	 * List<CarCampingRegionDTO>list =null; int pageSize= 3; String pageNum =
+	 * params.get("pageNum"); int currentpage; if(pageNum==null) { pageNum="1";
+	 * currentpage=Integer.parseInt(pageNum); }else { double pageNum_db
+	 * =Double.parseDouble(pageNum); if(pageNum_db<=0)pageNum_db = 0 ; currentpage =
+	 * (int)(pageNum_db); } int startRow = (currentpage -1) * pageSize +1; int
+	 * endRow = startRow + pageSize - 1; int rowCount=0;
+	 * rowCount=RegionMapper.listRegionCount(Integer.parseInt(region_num)).size();
+	 * if(endRow>rowCount) endRow=rowCount; if(rowCount>0) {
+	 * list=RegionMapper.listPopRegion(Integer.parseInt(region_num)); } int
+	 * pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1); int pageBlock
+	 * = 3; int startPage = (currentpage - 1)/pageBlock * pageBlock + 1; int endPage
+	 * = startPage + pageBlock - 1; if (endPage > pageCount) endPage = pageCount;
+	 * req.setAttribute("region_num", region_num);
+	 * req.setAttribute("rowCount",rowCount); req.setAttribute("list", list);
+	 * req.setAttribute("pageCount", pageCount); req.setAttribute("startPage",
+	 * startPage); req.setAttribute("endPage", endPage);
+	 * 
+	 * return "/region/regionBoard";
+	 * 
+	 * }
+	 */
 }
