@@ -1,5 +1,6 @@
 package com.ezen.carCamping.service;
 
+import java.util.Hashtable;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -62,12 +63,33 @@ public class MemberMapper {
 		int res = sqlSession.update("updateMember", dto);
 		return res;
 	}
-   public MemberDTO getMember(int mem_num){
+   public MemberDTO getMember(int mem_num, String string){
 		MemberDTO dto = sqlSession.selectOne("getMember", mem_num);
 		return dto;
 	}
+   
+   public String getMemberPassword(int mem_num) {
+	   return sqlSession.selectOne("getMemberPassword", mem_num);
+	   
+	   
+   }
+   
+   public int deleteMember(int mem_num, String mem_password) {
+	   Map<String, Object> map = new Hashtable<String, Object>();
+		map.put("mem_num", mem_num);
+		map.put("mem_password", mem_password);
+		System.out.println(mem_password);
+		return sqlSession.delete("deleteMember", map);
+		
+	}
+   
 
 }
+   
+   
+
+
+
    
    
 

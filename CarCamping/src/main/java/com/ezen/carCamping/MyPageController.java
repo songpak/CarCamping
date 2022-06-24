@@ -2,6 +2,8 @@ package com.ezen.carCamping;
 
 import java.io.File;
 
+
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,12 +24,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
 import com.ezen.carCamping.service.ProductMapper;
@@ -40,10 +42,7 @@ public class MyPageController {
 	
 	@Autowired
 	private MemberMapper memberMapper;
-	
-	@Autowired
-	private BCryptPasswordEncoder pwdEncoder;
-	
+		
 	@Resource(name="uploadPath")
 			private String uploadPath;
 
@@ -154,6 +153,11 @@ public class MyPageController {
 	}
 
 	@RequestMapping("Pay.myPage") // 결제완료 페이지
+	public String Pay() {
+		return "myPage/myPagePay";
+	}
+	
+	@RequestMapping("myPageCheckOut.myPage")
 	public String myPageCheckOut() {
 		return "myPage/myPageCheckOut";
 	}
@@ -168,7 +172,6 @@ public class MyPageController {
 		HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");  
 		req.setAttribute("getMember", dto);
-	
 		
 		return "myPage/myPageProfile";
 	}
@@ -229,38 +232,46 @@ public class MyPageController {
 	public String myPageTest() {
 		return "myPage/myPageTest";
 	}
-
-	 @RequestMapping("/memberDelete.myPage")
-	  public String memberDelete(HttpServletRequest req, String raw_password) {
-         HttpSession session = req.getSession();
-         MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");  
- 		
-        
-         int mem_num = dto.getMem_num();
+  
+	@RequestMapping(value="memberDelete.myPage", method=RequestMethod.GET)
+	public String memberDelete() {
+	return "myPage/memberDelete";
+	}
+	
+	@RequestMapping(value="memberDelete.myPage", method=RequestMethod.POST)
+	public String memberDeleteOK(HttpServletRequest req, String raw_password) {
+		HttpSession session = req.getSession();
+		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
+		int mem_num = dto.getMem_num();
+		
+		
+		String mem_password = memberMapper.getMemberPassword(mem_num);
+		
+		System.out.println(mem_password);
+		System.out.println(raw_password);
+		if(mem_password.equals(raw_password)) {
+			System.out.println(mem_password);
+         int res = memberMapper.deleteMember(mem_num, mem_password);
+ 		System.out.println(raw_password);
          
-         String mem_password = myPageMapper.getMemberPassword(mem_num);
-         
-         if(pwdEncoder.matches(raw_password,mem_password)) {
-        	 int res = myPageMapper.deleteMember(mem_num, mem_password);
-        	 
-        	 if(res>0) {
-        		 session.invalidate();
-        		 
-        		 req.setAttribute("msg", "회원 탈퇴되었습니다.");
-        		 req.setAttribute("url", "index.do");
-        	 }else {
-        		 req.setAttribute("msg", "회원 탈퇴에 실패하였습니다. 다시 시도해주세요.");
-        		 req.setAttribute("url", "memberDelete.myPage");
-        	 }
-         }else {
-        	 req.setAttribute("msg", "비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
-        	 req.setAttribute("url", "memberDelete.myPage");
-        		 
-        	 }
-         return "message";
-         }
-         
+         if(res>0){
+				session.invalidate();
+				
+				req.setAttribute("msg", "회원 탈퇴되었습니다.");
+				req.setAttribute("url", "index.do");
+			}else { 
+				req.setAttribute("msg", "회원 탈퇴에 실패하였습니다. 다시 시도해주세요.");
+				req.setAttribute("url", "memberDelete.myPage");
+			}
+		}else {
+			req.setAttribute("msg", "비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+			req.setAttribute("url", "memberDelete.myPage");
+		}
+		
+		return "message"; 
+	}
+}
 		 
 
-}
+
 

@@ -13,6 +13,7 @@
 	crossorigin="anonymous"></script> 
 	
 <form name="memberDelete" method="Post" action="memberDelete.myPage">
+
 	<table align="center" align="top">
 		<caption style="line-height:60px;font-size:25px;"><b>회원탈퇴</b></caption>
 		<tr>
@@ -28,7 +29,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" align="center">
-			<button type="button" class="btn btn-dark" name="memberdelete" onclick="check()">회원 탈퇴</button>
+			<button type="button" class="btn btn-dark" name="memberDelete" onclick="check()">회원 탈퇴</button>
 			</td>
 		</tr>
 	</table>

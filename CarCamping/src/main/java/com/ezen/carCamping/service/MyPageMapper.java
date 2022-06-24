@@ -1,6 +1,7 @@
 package com.ezen.carCamping.service;
 
 import java.util.Hashtable;
+
 import java.util.List;
 import java.util.Map;
 
@@ -38,18 +39,17 @@ public class MyPageMapper {
 		 int res = sqlSession.delete("deleteCart", prod_num);
 		 return res;
 	 }
-	 public int deleteMember(int mem_num, String mem_password) {
-			Map<String, String> map = new Hashtable<String, String>();
-			map.put("mem_num", String.valueOf(mem_num));
-			map.put("mem_password", mem_password);
-			return sqlSession.update("deleteMember", map);
-		}
+	 public String getMemberPassword(int mem_num) {
 
-	public String getMemberPassword(int mem_num) {
-		return sqlSession.selectOne("getMemberPassword", mem_num);
-	}	
+		 String res = sqlSession.selectOne("getMemberPassword", mem_num);
+		 return res;
+		}	
+	
+		}
+		
+	
 	 
-}
+
 
 
 
