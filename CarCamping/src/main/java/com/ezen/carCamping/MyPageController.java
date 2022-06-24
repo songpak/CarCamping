@@ -49,7 +49,6 @@ public class MyPageController {
 		Date time = new Date();
 		String time1 = sdf.format(time);
 		Date now = sdf.parse(time1);
-		
 			if (indate.compareTo(outdate) > 0) {
 			String msg = "반납날짜보다 빌린날짜가 먼저여야 합니다!";
 			String url = "goProduct.product";

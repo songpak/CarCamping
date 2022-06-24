@@ -127,9 +127,9 @@ function fn_account(val){
 							<!-- ---------------수정할 사항-------------------------- -->
 							<!--  <button style="background-color: #0D6EFD; color: white;"
 								onclick="location.href='javascript:dateCheck()'">대여하기</button>-->
-							 <input type="submit" value="대여하기">
-							<input type="button"
-								onclick="location.href='javascript:popup1()'" value="문의하기">
+							 <input type="submit" value="대여하기"  style="background-color: #0D6EFD; color: white;">
+							<input type="button" style="background-color: #0D6EFD; color: white;"
+								onclick="location.href='javascript:popup1()'" value="문의하기" >
 						</div>
 					</div>
 
