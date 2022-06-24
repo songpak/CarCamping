@@ -180,26 +180,40 @@
 		<result column="ccr_viewImage5" property="ccr_viewImage5"/>
 		<result column="ccr_summary" property="ccr_summary"/>
 		<result column="ccr_content" property="ccr_content"/>
+		<result column="ccr_reviewCount" property="ccr_reviewCount"/>
 		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
 		</association>
 	</resultMap>
 
 
+
+
 <select resultMap="carCampingRegionMap" id="listPopRegion" parameterType="int">
-
-<!-- 목록 전체 -->
-
- select a.*, b.* from CarCampingRegion a join Region b join ReviewRegion c on a.region_num = b.region_num and a.ccr_num = c.ccr_num where b.region_num=#{region_num} group by a.ccr_num having count(*) >= 1
+ select a.*,b.* from CarCampingRegion a join Region b on a.region_num = b.region_num and a.region_num = #{region_num} where a.region_num = #{region_num} limit #{startRow},#{endRow}
 </select>
 
 
-<select resultMap="carCampingRegionMap" id="listRegionCount" parameterType="int">
-
-<!-- 카운터 -->
-
-select a.*, b.* from CarCampingRegion a join Region b join ReviewRegion c on a.region_num = b.region_num and a.ccr_num = c.ccr_num where b.region_num=#{region_num} group by a.ccr_num having count(*) >= 1 
+<select resultType="int" id="listRegionCount" parameterType="int">
+ select count(*) from CarCampingRegion where region_num = #{region_num} 
 </select> 
 
+<select id ="findRegionReview" parameterType="String" resultMap="carCampingRegionMap">
+	select * from CarCampingRegion where ${search} = #{searchString} like concat('%',#{searchString},'%')
+</select>
 	
+
+	
+	<select id="listRegionReviewCount" resultMap="carCampingRegionMap" parameterType="int">
+		 SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ccr_reviewCount DESC
+	</select>
+	
+	<select id="listRegionLikeCount" resultMap="carCampingRegionMap" parameterType="int">
+		 SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ccr_likeCount DESC
+	</select>
+	
+	<select id="listRegionscore" resultMap="carCampingRegionMap" parameterType="int">
+		 SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ccr_score DESC
+	</select>
+	 
 	
 </mapper>

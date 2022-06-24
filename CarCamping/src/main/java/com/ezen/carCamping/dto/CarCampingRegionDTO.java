@@ -25,10 +25,13 @@ public class CarCampingRegionDTO {
 	private int ccr_reviewCount;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	
 =======
 >>>>>>> 박혜성
+=======
+>>>>>>> 전용재
 	
 >>>>>>> 송재영
 	public int getCcr_num() {
@@ -165,10 +168,14 @@ public class CarCampingRegionDTO {
 	}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 }	
 =======
 =======
 >>>>>>> 박혜성
+=======
+
+>>>>>>> 전용재
 	
 }
 >>>>>>> 송재영

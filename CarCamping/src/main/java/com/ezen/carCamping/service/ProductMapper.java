@@ -29,7 +29,7 @@ public class ProductMapper {
 		return list;
 	}
 	
-	public List<ProductDTO> popularProduct() {//ÀÎ±â¿ëÇ° ¸®½ºÆ®
+	public List<ProductDTO> popularProduct() {//ï¿½Î±ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½Æ®
 		List<ProductDTO> popList = sqlSession.selectList("popularProd");
 		return popList;
 	}
@@ -42,6 +42,39 @@ public class ProductMapper {
 			return null;
 	}
 	
+	public List<ProductDTO> listProductPrice(){
+		List<ProductDTO> listProductPrice = sqlSession.selectList("listProductPrice");
+		return listProductPrice;
+	}
+	public List<ProductDTO> listProductNew(){
+		List<ProductDTO>listProductNew = sqlSession.selectList("listProductNew");
+		return listProductNew;
+	}
+	public List<ProductDTO> listProductPop(){
+		List<ProductDTO> listProductPop= sqlSession.selectList("listProductPop");
+		return listProductPop;
+	}
+	public List<ProductDTO> listProductsearchPrice(String search,String searchString){
+		java.util.Map<String,String> map = new Hashtable<String, String>();
+		map.put("search", search);
+		map.put("searchString", searchString);
+		List<ProductDTO>listProductsearchPrice=sqlSession.selectList("listProductsearchPrice",map);
+		return listProductsearchPrice;
+	}
+	public List<ProductDTO> listProductsearchNew(String search,String searchString){
+		java.util.Map<String,String> map = new Hashtable<String, String>();
+		map.put("search", search);
+		map.put("searchString", searchString);
+		List<ProductDTO>listProductsearchNew=sqlSession.selectList("listProductsearchNew",map);
+		return listProductsearchNew;
+	}
+	public List<ProductDTO> listProductsearchPop(String search,String searchString){
+		java.util.Map<String,String> map = new Hashtable<String, String>();
+		map.put("search", search);
+		map.put("searchString", searchString);
+		List<ProductDTO>listProductsearchPop=sqlSession.selectList("listProductsearchPop",map);
+		return listProductsearchPop;
+	}
 	public List<ReviewProductDTO> listProdReview(int prod_num){
 		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview", prod_num);
 		return list; 

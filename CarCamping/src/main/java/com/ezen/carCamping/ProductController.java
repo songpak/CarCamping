@@ -29,19 +29,53 @@ public class ProductController {
 
 	// 용품메인 컨트롤러
 	@RequestMapping("/goProduct.product")
-	public String goProduct(HttpServletRequest req, @RequestParam Map<String, String> params) {
-			List<ProductDTO> list = null;
-			String search = params.get("search");
-			String searchString = params.get("searchString");
-			if (searchString == null) {
-				list = productMapper.listProduct();
-			} else {
-				list = productMapper.findProduct(search, searchString);
+	public String goProduct(HttpServletRequest req,
+			@RequestParam (required = false) String mode,
+			@RequestParam Map<String,String>params) {
+	
+	
+		List<ProductDTO> list=null;
+		mode=params.get("mode");
+		String search=params.get("search");
+		String searchString=params.get("searchString");
+		System.out.println("search : "+search);
+		System.out.println("searchString : "+searchString);
+		if(mode==null||mode.equals("")) {
+			if(searchString!=null) {
+				  list = productMapper.findProduct(search, searchString);
+				  System.out.println("mode : "+ mode);
+			}else { 
+				list=productMapper.listProduct();
+				 System.out.println(mode);
+			} 
+		}else if(mode.equals("listProductNew")) {
+			if(search!=null&&searchString!=null) {
+				list=productMapper.listProductsearchNew(search,searchString);
+			}else {
+				list=productMapper.listProductNew();
 			}
-			List<ProductDTO> popList = productMapper.popularProduct();
-			System.out.println("인기리스트" + popList);
-			req.setAttribute("popList", popList); // 인기용품 리스트 저장시킨겁니다
-			req.setAttribute("listProduct", list);
+		}else if(mode.equals("listProductPop")) {
+			if(search!=null&&searchString!=null) {
+				list=productMapper.listProductsearchPop(search, searchString);
+			}else {
+				list=productMapper.listProductPop();
+			}
+		}else if(mode.equals("listProductPrice")){
+			if(search!=null&&searchString!=null) {
+				list=productMapper.listProductsearchPrice(search, searchString);
+			}else {
+				list=productMapper.listProductPrice();
+			}
+		}
+
+		System.out.println("list : "+list);
+		List<ProductDTO> popList = productMapper.popularProduct();
+		req.setAttribute("mode", mode);
+		req.setAttribute("search", search);
+		req.setAttribute("searchString", searchString);
+		req.setAttribute("popList", popList); 
+		req.setAttribute("listProduct", list);
+		
 		return "product/productMain";
 
 	}
