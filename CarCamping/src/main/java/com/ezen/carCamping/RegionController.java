@@ -341,6 +341,7 @@ public class RegionController {
 	 * req.setAttribute("ccr_num", ccr_num); req.setAttribute("id", id); String test
 	 * = String.valueOf(ccr_num)+id; return test; }
 	 */
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 	/*
@@ -369,36 +370,43 @@ public class RegionController {
 	 * }
 	 */
 =======
+=======
+	
+		
+	
+>>>>>>> 전용재
 	@RequestMapping(value="/board.region", method = RequestMethod.GET)
 	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params,
 			@RequestParam (required = false) String mode) {
 	List<CarCampingRegionDTO>list =null;
 	int region_num = Integer.parseInt(params.get("region_num"));
-	int startRow =0;
-	int endRow = 0;
+	
 	String pageNum = params.get("pageNum");
 	System.out.println("페이지 남바:"+pageNum);
 	mode=params.get("mode");
 	System.out.println("모드값:"+mode);
 	//List<CarCampingRegionDTO>listCount =null;
 	System.out.println("리즌넘:"+region_num);
-	if(mode==null || mode.equals("")) {
-		list=RegionMapper.listPopRegion(region_num, startRow, endRow);
+	/*if(mode==null || mode.equals("")) {
+		list=RegionMapper.listRegionMain(region_num, startRow, endRow);
+		System.out.println("모드가 빈 값일때 list : " + list);
 	}else if(mode.equals("listRegionReviewCount")) {
 		list=RegionMapper.listRegionReviewCount(region_num, startRow, endRow);
+		System.out.println("리뷰순서 일때 list : " + list);
 	}else if(mode.equals("listRegionLikeCount")) {
 		list=RegionMapper.listRegionLikeCount(region_num, startRow, endRow);
+		System.out.println("조와요순서 일때 list : " + list);
 	}else if(mode.equals("listRegionscore")) {
 		list=RegionMapper.listRegionscore(region_num, startRow, endRow);
+		System.out.println("평점순서 일때 list : " + list);
 	}
 	System.out.println("리스트카운트1:"+list.size());
 	req.setAttribute("mode", mode);
 	//int region_num = Integer.parseInt(params.get("region_num"));
 	System.out.println("리즌넘:"+region_num);
-	//List<CarCampingRegionDTO>list =null;
-	int pageSize= 10;
+	//List<CarCampingRegionDTO>list =null;*/
+	int pageSize= 2;
 	System.out.println("페이지 사이즈:"+pageSize);
-	
 	int currentpage;
 	if(pageNum==null) {
 		pageNum="1";
@@ -409,32 +417,49 @@ public class RegionController {
 		if(pageNum_db<=0)pageNum_db = 0 ;
 		currentpage = (int)(pageNum_db);
 	}
-	startRow = (currentpage -1) * pageSize +1;
+	int startRow = (currentpage -1) * pageSize +1;
 	System.out.println("스타트로우:"+startRow);
-	endRow = startRow + pageSize - 1;
+	int endRow = startRow + pageSize - 1;
 	System.out.println("앤드로우:"+endRow);
 	int rowCount=RegionMapper.listRegionCount(region_num);
 	System.out.println("로우카운:"+rowCount);
 	if(endRow>rowCount)
 		endRow=rowCount;
-	if(rowCount>0) {
+	if(mode==null || mode.equals("")) {
+		list=RegionMapper.listRegionMain(region_num, startRow-1, pageSize);
+		System.out.println("모드가 빈 값일때 list : " + list);
+	}else if(mode.equals("listRegionReviewCount")) {
+		list=RegionMapper.listRegionReviewCount(region_num, startRow-1, pageSize);
+		System.out.println("리뷰순서 일때 list : " + list);
+	}else if(mode.equals("listRegionLikeCount")) {
+		list=RegionMapper.listRegionLikeCount(region_num, startRow-1, pageSize);
+		System.out.println("조와요순서 일때 list : " + list);
+	}else if(mode.equals("listRegionscore")) {
+		list=RegionMapper.listRegionscore(region_num, startRow-1, pageSize);
+		System.out.println("평점순서 일때 list : " + list);
+	}
+	System.out.println("리스트카운트1:"+list.size());
+
+	//int region_num = Integer.parseInt(params.get("region_num"));
+	//System.out.println("리즌넘:"+region_num);
+	//List<CarCampingRegionDTO>list =null;
+	/*if(rowCount>0) {
 		list=RegionMapper.listPopRegion(region_num,startRow-1,endRow);
 		System.out.println(list.size());
-	} 
+	}*/
 	int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
-	int pageBlock = 3;
+	int pageBlock = 2;
 	int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
 	int endPage = startPage + pageBlock - 1;
 	if (endPage > pageCount) endPage = pageCount;
+	req.setAttribute("mode", mode);
 	req.setAttribute("region_num", region_num);
 	req.setAttribute("rowCount",rowCount);
 	req.setAttribute("list", list);
 	req.setAttribute("pageCount", pageCount);
 	req.setAttribute("startPage", startPage);
 	req.setAttribute("endPage", endPage);
-
 	return "/region/regionBoard";
-	  
 	}
 >>>>>>> 전용재
 }

@@ -5,7 +5,7 @@
 <c:set var="region_num" value="${region_num}"/>
 
 
-<form class="d-flex" action="goProduct.product" method="post">
+<form class="d-flex" action="board.region" method="post">
 <div align="center">
 	<table border="1" width="800" bgcolor="white" style=" margin-left: 270px;">
 
@@ -15,7 +15,7 @@
 						<button type="button" class="btn btn-primary dropdown-toggle"
 							data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #00205b; border-color: #00205b;">정렬</button>
 						<ul class="dropdown-menu" style="margin-right: 13px;">
-							<c:forEach var="i" begin="${startPage}" end="${endPage}">
+
 							<li><a class="dropdown-item"
 								href="board.region?region_num=${region_num}&mode=listRegionReviewCount&pageNum=1">
 								리뷰순</a></li>
@@ -25,15 +25,13 @@
 							<li><a class="dropdown-item"
 								href="board.region?region_num=${region_num}&mode=listRegionscore&pageNum=1">
 								별점순</a></li>
-								</c:forEach>
+							
 							</ul>
 				</div>
 			</td>
-					
 			<td>	
 			<select name="search2">
 				<option>제목</option>
-				<option>내용</option>
 			</select>
 			</td>
 			<td>
@@ -68,19 +66,19 @@
 					<c:if test="${rowCount>0 }">
 						<c:if test="${startPage>1}">
 								<li class="page-item">
-								<a class="page-link" onclick="location.href='board.region?region_num=${region_num}&pageNum=${startPage-1}'">
+								<a class="page-link" onclick="location.href='board.region?region_num=${region_num}&pageNum=${startPage-1}&mode=${mode }'">
 									Previous</a>
 								</li> 
 						</c:if>
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
 							<li class="page-item">
-							<a class="page-link" onclick="location.href='board.region?region_num=${region_num}&pageNum=${i}'">
+							<a class="page-link" onclick="location.href='board.region?region_num=${region_num}&pageNum=${i}&mode=${mode}'">
 									<c:out value="${i}" /></a>
 							</li>						
  						</c:forEach>
 						<c:if test="${endPage < pageCount }">
 							<li class="page-item">
-							<a class="page-link" onclick="location.href='board.region?region_num=${region_num}&pageNum=${endPage+1}'">
+							<a class="page-link" onclick="location.href='board.region?region_num=${region_num}&pageNum=${endPage+1}&mode=${mode }'">
 									Next</a>							
 							</li>
 						</c:if>

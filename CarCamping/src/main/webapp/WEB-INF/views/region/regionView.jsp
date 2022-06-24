@@ -410,7 +410,8 @@ body {
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 					<c:if test="${rowCount>0 }">
-						<c:if test="${startPage>1}">
+						<c:if test="${
+Page>1}">
 								<li class="page-item">
 								<a class="page-link" href="#" onclick="location.href='regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${startPage-1}'">
 									Previous</a>
