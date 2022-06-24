@@ -63,7 +63,7 @@ public class ProductController {
 		System.out.println("앤드로우:"+endRow);
 		int rowCount=productMapper.listProductMainCount();
 		System.out.println("로우카운:"+rowCount);
-		if(endRow>rowCount) 
+		if(endRow>rowCount)   
 			endRow=rowCount; 
 		int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
 		int pageBlock = 2;
@@ -71,6 +71,12 @@ public class ProductController {
 		int endPage = startPage + pageBlock - 1;
 		if (endPage > pageCount) endPage = pageCount;
 	
+		
+		
+		
+		
+		
+		
 		
 		if(mode==null||mode.equals("")) {
 			if(searchString!=null) {

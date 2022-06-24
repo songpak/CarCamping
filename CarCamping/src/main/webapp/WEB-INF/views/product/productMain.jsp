@@ -126,10 +126,8 @@
                   <select name="search">
                      <option value="prod_name">상품명</option>
                      <option value="brand_name">브랜드명</option>
-                  </select> <input class="form-control me-2" type="text" name="searchString"
-                     placeholder="인기용품을 검색해보세요!" aria-label="Search"> <input
-                     type="submit" value="검색"
-                     style="padding-left: 0px; padding-right: 0px; width: 62px;">
+                  </select> <input class="form-control me-2" type="text" name="searchString" placeholder="인기용품을 검색해보세요!" aria-label="Search">
+                      <input type="submit" value="검색" style="padding-left: 0px; padding-right: 0px; width: 62px;">
                   <div class="dropdown">
                      <button type="button" class="dropbtn" data-bs-toggle="dropdown"
                         aria-expanded="false" style="width: 66px; height: 40px;">정렬</button>
