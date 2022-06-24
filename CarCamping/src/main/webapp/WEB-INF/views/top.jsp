@@ -158,7 +158,7 @@ padding-left: 0px;
 			</div>
 		</div>
 	</header>
-	<section>
+	
 	
 	
 	<!-- ***** Header Area End ***** -->
