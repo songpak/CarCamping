@@ -26,28 +26,31 @@ public class MyPageController {
 	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from,
 			String cart_to, int mem_num, int agency_num)
 			throws ParseException {
-		System.out.println(agency_num);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date indate = sdf.parse(cart_from);
-		Date outdate = sdf.parse(cart_to);
-		Date time = new Date();
-		String time1 = sdf.format(time);
-		Date now = sdf.parse(time1);
-		System.out.println(sdf.format(indate));
-		System.out.println(sdf.format(outdate));
+		//System.out.println(agency_num);
+		//System.out.println(sdf.format(indate));
+		//System.out.println(sdf.format(outdate));
 		if (mem_num == 0) {
 			String msg = ".로그인 하셔야 합니다!";
 			String url = "login.login";
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
 			return "message";
-		} else if (cart_to == "" && cart_from == "") {
+		} 
+		if (cart_from == "" || cart_to =="") {
 			String msg = "대여날짜를 선택해 주세요!";
 			String url = "goProduct.product";
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
 			return "message";
-		} else if (indate.compareTo(outdate) > 0) {
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date indate = sdf.parse(cart_from);
+		Date outdate = sdf.parse(cart_to);
+		Date time = new Date();
+		String time1 = sdf.format(time);
+		Date now = sdf.parse(time1);
+		
+			if (indate.compareTo(outdate) > 0) {
 			String msg = "반납날짜보다 빌린날짜가 먼저여야 합니다!";
 			String url = "goProduct.product";
 			req.setAttribute("msg", msg);
@@ -93,8 +96,8 @@ public class MyPageController {
 	@RequestMapping("mall_cartEdit.myPage") // 카트수정
 	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num, String cart_from,
 			String cart_to) {
-		System.out.println("cart_from" + cart_from);
-		System.out.println("cart_from" + cart_to);
+		//System.out.println("cart_from" + cart_from);
+		//System.out.println("cart_from" + cart_to);
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		if (cart_prodCount <= 0) {
@@ -122,9 +125,8 @@ public class MyPageController {
 	@RequestMapping("mall_cartDel.myPage") // 카트삭제
 	public String mall_cartDel(HttpServletRequest req, @RequestParam int prod_num, int cart_num, String cart_from,
 			String cart_to) {
-		System.out.println("cart_from" + cart_from);
-		System.out.println("cart_from" + cart_to);
-
+		//System.out.println("cart_from" + cart_from);
+		//System.out.println("cart_from" + cart_to);
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		for (ProductCartDTO cartDTO : cart) {
@@ -150,8 +152,15 @@ public class MyPageController {
 		String msg = null, url = null;
 		if (cart == null) {
 			msg = "장바구니가 비었습니다!";
-			url = "";
+			url = "productView.product";
 		} else {
+			int mem_num = (int) session.getAttribute("mem_num");
+			int res= myPageMapper.payCart(mem_num);
+			if (res > 0) {
+				System.out.println("결제 성공");
+			} else {
+				System.out.println("결제 실패");
+			}
 			msg = "결제 페이지로 이동합니다!";
 			url = "Pay.myPage";
 		}
@@ -160,9 +169,9 @@ public class MyPageController {
 		return "message";
 	}
 
-	@RequestMapping("Pay.myPage") // 결제완료 페이지
+	@RequestMapping("Pay.myPage") 
 	public String myPageCheckOut() {
-		return "myPage/myPageCheckOut";
+		return "myPage/myPageCheckOut";// 결제완료 페이지
 	}
 	
 	@RequestMapping("/myPageRental.myPage")

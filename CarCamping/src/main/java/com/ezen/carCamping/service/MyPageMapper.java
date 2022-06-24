@@ -39,6 +39,11 @@ public class MyPageMapper {
 		return res;
 	}
 	
+	public int payCart(int mem_num) {
+		int res = sqlSession.delete("payCart",mem_num );
+		return res;
+	}
+	
 	
 }
 

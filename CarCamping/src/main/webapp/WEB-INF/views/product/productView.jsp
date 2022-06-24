@@ -59,8 +59,8 @@ function fn_account(val){
 					<img src="${getProduct.prod_viewImage1}" />
 				</h4> <br>
 					상품명 : ${getProduct.prod_name }<br>
-					일일대여 요금 : ${getProduct.prod_price }원<br>
-					용품 요약설명 : ${getProduct.prod_summary }
+					일일대여 요금 : ${getProduct.prod_price }원<br><br>
+					-용품 요약설명-<br> ${getProduct.prod_summary }
 			</div>
 			<!-- 이미지 영역 끝 -->
 <style>
@@ -230,7 +230,6 @@ function fn_account(val){
 										<button type="submit"
 											style="background-color: #0D6EFD; color: white;"
 											onclick="fn_account(${pdto.rp_num}); return false;">내용</button>
-
 									</div>
 								</div>
 							</td>

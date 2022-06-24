@@ -20,8 +20,7 @@
 		delete from ProductCart where cart_num = #{cart_num}
 	</delete>
 	
-	
-	
-	
-	
+	<delete id="payCart" parameterType="int" >
+		delete from ProductCart where mem_num = #{mem_num}
+	</delete>
 </mapper>
