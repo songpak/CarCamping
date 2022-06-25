@@ -3,7 +3,8 @@
 <%@ include file="../top.jsp"%>
 
  <c:set var="ccr_num" value="${regionSelected.ccr_num }"/>
- <c:set var="mem_id" value="${sessionScope.id}"/>
+ <c:set var="mem_id" value="${sessionScope.mem_id}"/>
+ 
 <div class="modal modal-center fade" id="regionContent" tabindex="-1"
 	role="dialog" aria-labelledby="regionContentLabel">
 	<div class="modal-dialog modal-center modal-lg" role="document">
@@ -80,12 +81,14 @@ body {
 .border .border-4 {
 	border-color : red;
 }
+
+
 </style>
-<script
+<!-- <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
 	crossorigin="anonymous">
-</script>
+</script> -->
  
 <div class="container-fluid themed-container" style="margin-left: 55px;" id="test">
 	<div class="row mb-3">
@@ -299,9 +302,7 @@ body {
 					<button type="button" class="btn btn-success" style=" margin-left: 15px; background-color: #00205b; border-color: #00205b;" onclick="show_allList()">
 							전체보기
 					</button>
-					<button type="button" class="btn btn-success" style=" margin-left: 15px; " onclick="location.href='test.region'">
-							테스트
-					</button>
+				
 				</div>
 				
 					<%-- regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${i} --%>
@@ -328,8 +329,14 @@ body {
 				<tr>
 					<c:if test="${empty reviewList}">
 						<c:if test="${not empty searchString }"><td><h2 align="center">검색 하신 리뷰는 존재하지 않습니다.</h2></td></c:if>
-						<c:if test="${empty searchString }"><td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2></td></c:if>
-					</c:if>
+						<c:if test="${empty searchString }">
+						<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
+						<button type="button" class="btn btn-success" style="margin-left: 431px;align: center;
+						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
+							onclick="location.href=#">
+							리뷰 등록 하기 
+						</button></td></c:if>
+						</c:if>
 					<c:forEach var="review_ccr" items="${reviewList }">
 						<td>
 							<div class="card border-success" style="width: 18rem;">
@@ -403,7 +410,8 @@ body {
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 					<c:if test="${rowCount>0 }">
-						<c:if test="${startPage>1}">
+						<c:if test="${
+Page>1}">
 								<li class="page-item">
 								<a class="page-link" href="#" onclick="location.href='regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${startPage-1}'">
 									Previous</a>
@@ -484,13 +492,24 @@ body {
 			}	
 		}
 		function popup(review_num) {
+			var isEmpty = function(value){//빈값체크
+	            if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
+	              return true
+	            }else{
+	              return false
+	            }
+	          };
+			var mid = '${mem_id}';
+			if(!isEmpty(mid)){
 			var url = "regionReviewView.region?review_num="+review_num;
 			var name = "popup";
 		    var _left = Math.ceil(( window.screen.width - 800 )/2);
 			var _top = Math.ceil(( window.screen.height - 1000 )/2); 
-			
 			var option = "width = 800, height = 900, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
 			window.open(url, name, option);
+			}else{
+				alert("리뷰를 보기위해서는 로그인이 필요합니다 !");
+			}
 		}
 		
 		function search_function(){

@@ -161,6 +161,10 @@
 				</td>
 			</tr>
 			<tr>
+				<th>리뷰수</th>
+				<td>${pdto.prod_reviewCount}</td>
+			</tr>
+			<tr>
 				<th>평점</th>
 				<td>${pdto.prod_reviewScore}</td>
 			</tr>

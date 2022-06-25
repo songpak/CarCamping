@@ -1,6 +1,8 @@
 package com.ezen.carCamping;
 
 import java.io.File;
+
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,7 @@ import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
+import com.ezen.carCamping.pagination.Pagination;
 import com.ezen.carCamping.service.AdminMapper;
 
 @Controller
@@ -38,6 +41,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminMapper adminMapper;
+	
+	//Pagination Singleton Instance
+	private Pagination pagination = Pagination.getInstance();
 	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
@@ -49,19 +55,35 @@ public class AdminController {
 		session.setAttribute("upPath", upPath);
 		return "admin/main";
 	}
+
+	
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////ì¥ ì†Œ////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	
 	@RequestMapping("/adminRegion.admin")
-	public String adminRegion(HttpServletRequest req,@RequestParam(required=false) String region_num) {
+	public String adminRegion(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,@RequestParam(required=false) String region_num) {
 		List<CarCampingRegionDTO> adminListCarCampingRegion = new ArrayList<CarCampingRegionDTO>();
+		
 		if (region_num==null) {
 			adminListCarCampingRegion = adminMapper.adminListCarCampingRegion();
 		}else {
 			adminListCarCampingRegion = adminMapper.adminListCarCampingRegionSelectRegion(Integer.parseInt(region_num));
 		}
 		
-		req.setAttribute("adminListCarCampingRegion", adminListCarCampingRegion);
+		//í˜„ì¬ í˜ì´ì§€
+		req.setAttribute("page", page);
+		//ì´ í˜ì´ì§€
+		req.setAttribute("pageCount", pagination.pageCount(adminListCarCampingRegion));
+		//í˜„ì¬ í˜ì´ì§€ì— ë§ëŠ” ê²Œì‹œë¬¼ ë¦¬ìŠ¤íŠ¸
+		req.setAttribute("adminListCarCampingRegion", pagination.getListRegion(page, adminListCarCampingRegion));
 		return "admin/adminRegion";
 	}
+	
+	
 	@RequestMapping(value="/adminRegisterRegion.admin", method=RequestMethod.GET)
 	public String adminRegisterRegion(HttpServletRequest req) {
 		
@@ -70,30 +92,30 @@ public class AdminController {
 	
 	@RequestMapping(value="/adminRegisterRegion.admin", method=RequestMethod.POST)
 	public ModelAndView adminRegisterRegionPro(HttpServletRequest req,@ModelAttribute CarCampingRegionDTO dto,@RequestParam("ccr_viewImage") MultipartFile[] file, @RequestParam Map<String,String> map) {
-		//¿Ü·¡Å°
+		
 				RegionDTO regionDTO = new RegionDTO();
 				regionDTO.setRegion_num(Integer.parseInt(map.get("region_num")));
 				dto.setRegionDTO(regionDTO);
 				
-				//Â÷·® Á¢±Ù
+				//ì°¨ëŸ‰ì ‘ê·¼
 				String ccr_car = "";
-				if (map.containsKey("ccr_car1")) ccr_car += "½Â¿ëÂ÷  ";
-				if (map.containsKey("ccr_car2")) ccr_car += "¼ÒÇü Æ®·¹ÀÏ·¯  ";
-				if (map.containsKey("ccr_car3")) ccr_car += "Ä«¶ó¹İ  ";
-				if (map.containsKey("ccr_car4")) ccr_car += "·çÇÁÅ¾  ";
-				if (map.containsKey("ccr_car5")) ccr_car += "Ä·ÇÎÄ«  ";
+				if (map.containsKey("ccr_car1")) ccr_car += "ìŠ¹ìš©ì°¨  ";
+				if (map.containsKey("ccr_car2")) ccr_car += "ì†Œí˜• íŠ¸ë ˆì¼ëŸ¬  ";
+				if (map.containsKey("ccr_car3")) ccr_car += "ì¹´ë¼ë°˜  ";
+				if (map.containsKey("ccr_car4")) ccr_car += "ë£¨í”„íƒ‘  ";
+				if (map.containsKey("ccr_car5")) ccr_car += "ìº í•‘ì¹´  ";
 				dto.setCcr_car(ccr_car.trim());
 				
-				//¹Ù´Ú Á¾·ù
+				//ë°”ë‹¥ì¢…ë¥˜
 				String ccr_ground = "";
-				if (map.containsKey("ccr_ground1")) ccr_ground += "¸ÇÈë  ";
-				if (map.containsKey("ccr_ground2")) ccr_ground += "ÀÚ°¥  ";
-				if (map.containsKey("ccr_ground3")) ccr_ground += "¸ğ·¡  ";
-				if (map.containsKey("ccr_ground4")) ccr_ground += "µ¥Å©  ";
-				if (map.containsKey("ccr_ground5")) ccr_ground += "ÀÜµğ ";
+				if (map.containsKey("ccr_ground1")) ccr_ground += "ë§¨í™  ";
+				if (map.containsKey("ccr_ground2")) ccr_ground += "ìê°ˆ  ";
+				if (map.containsKey("ccr_ground3")) ccr_ground += "ëª¨ë˜  ";
+				if (map.containsKey("ccr_ground4")) ccr_ground += "ë°í¬  ";
+				if (map.containsKey("ccr_ground5")) ccr_ground += "ì”ë”” ";
 				dto.setCcr_ground(ccr_ground.trim());
 				
-				//À¯¹« Ã¼Å©
+				//í¸ì˜ì‹œì„¤
 				if (map.containsKey("ccr_amenity1")) dto.setCcr_toilet(0);
 				else dto.setCcr_toilet(1);
 				
@@ -111,7 +133,7 @@ public class AdminController {
 				
 				String upPath = (String)req.getSession().getAttribute("upPath");
 				
-				//´ÙÁßÆÄÀÏ ¾÷·Îµå
+				//ë‹¤ì¤‘ íŒŒì¼ ì „ì†¡
 				for (MultipartFile f : file) {
 					String filename = f.getOriginalFilename();		
 					if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
@@ -133,13 +155,13 @@ public class AdminController {
 				int res = adminMapper.adminInsertRegion(dto);
 				String msg =null, url = null;
 				if (res>0) {
-					msg = "Àå¼Ò°¡ µî·ÏµÇ¾ú½À´Ï´Ù.";
+					msg = "ì¥ì†Œê°€ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤";
 					url = "adminRegion.admin";
 				}else {
-					msg = "Àå¼Ò µî·ÏÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+					msg = "ì¥ì†Œë“±ë¡ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 					url = "adminRegion.admin";
 				}
-				ModelAndView mav = new ModelAndView("message");
+				ModelAndView mav = new ModelAndView("admin/message");
 				mav.addObject("msg", msg);
 				mav.addObject("url", url);
 				return mav;
@@ -156,25 +178,25 @@ public class AdminController {
 	@RequestMapping("/adminUpdateRegion.admin")
 	public ModelAndView  updateRegion(HttpServletRequest req,@RequestParam("ccr_viewImage") MultipartFile[] file,@RequestParam Map<String,String> map) {
 		CarCampingRegionDTO dto = adminMapper.getCarCampingRegion(Integer.parseInt(map.get("ccr_num")));
-		//Â÷·® Á¢±Ù
+		//ì°¨ëŸ‰ì ‘ê·¼
 		String ccr_car = "";
-		if (map.containsKey("ccr_car1")) ccr_car += "½Â¿ëÂ÷  ";
-		if (map.containsKey("ccr_car2")) ccr_car += "¼ÒÇü Æ®·¹ÀÏ·¯  ";
-		if (map.containsKey("ccr_car3")) ccr_car += "Ä«¶ó¹İ  ";
-		if (map.containsKey("ccr_car4")) ccr_car += "·çÇÁÅ¾  ";
-		if (map.containsKey("ccr_car5")) ccr_car += "Ä·ÇÎÄ«  ";
+		if (map.containsKey("ccr_car1")) ccr_car += "ìŠ¹ìš©ì°¨  ";
+		if (map.containsKey("ccr_car2")) ccr_car += "ì†Œí˜• íŠ¸ë ˆì¼ëŸ¬  ";
+		if (map.containsKey("ccr_car3")) ccr_car += "ì¹´ë¼ë°˜  ";
+		if (map.containsKey("ccr_car4")) ccr_car += "ë£¨í”„íƒ‘  ";
+		if (map.containsKey("ccr_car5")) ccr_car += "ìº í•‘ì¹´  ";
 		dto.setCcr_car(ccr_car.trim());
 		
-		//¹Ù´Ú Á¾·ù
+		//ë°”ë‹¥ì¢…ë¥˜
 		String ccr_ground = "";
-		if (map.containsKey("ccr_ground1")) ccr_ground += "¸ÇÈë  ";
-		if (map.containsKey("ccr_ground2")) ccr_ground += "ÀÚ°¥  ";
-		if (map.containsKey("ccr_ground3")) ccr_ground += "¸ğ·¡  ";
-		if (map.containsKey("ccr_ground4")) ccr_ground += "µ¥Å©  ";
-		if (map.containsKey("ccr_ground5")) ccr_ground += "ÀÜµğ ";
+		if (map.containsKey("ccr_ground1")) ccr_ground += "ë§¨í™  ";
+		if (map.containsKey("ccr_ground2")) ccr_ground += "ìê°ˆ  ";
+		if (map.containsKey("ccr_ground3")) ccr_ground += "ëª¨ë˜  ";
+		if (map.containsKey("ccr_ground4")) ccr_ground += "ë°í¬  ";
+		if (map.containsKey("ccr_ground5")) ccr_ground += "ì”ë”” ";
 		dto.setCcr_ground(ccr_ground.trim());
 		
-		//À¯¹« Ã¼Å©
+		//í¸ì˜ì‹œì„¤
 		if (map.containsKey("ccr_amenity1")) dto.setCcr_toilet(0);
 		else dto.setCcr_toilet(1);
 		
@@ -192,7 +214,7 @@ public class AdminController {
 		
 		String upPath = (String)req.getSession().getAttribute("upPath");
 		
-		//´ÙÁßÆÄÀÏ ¾÷·Îµå
+		//ë‹¤ì¤‘íŒŒì¼ ì „ì†¡
 		for (MultipartFile f : file) {
 			String filename = f.getOriginalFilename();		
 			if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
@@ -208,20 +230,20 @@ public class AdminController {
 				e.printStackTrace();
 			}
 		}
-		//ÀÎ±â¿©ºÎ
+		//ï¿½Î±â¿©ï¿½ï¿½
 		if (map.containsKey("ccr_popular")) dto.setCcr_popular(0);
 		else dto.setCcr_popular(1);
 		
 		int res = adminMapper.adminUpdateRegion(dto);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "Àå¼Ò°¡ ¼öÁ¤µÇ¾ú½À´Ï´Ù.";
+			msg = "ì¥ì†Œê°€ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminRegion.admin";
 		}else {
-			msg = "Àå¼Ò ¼öÁ¤ÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ì¥ì†Œ ìˆ˜ì •ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminRegion.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -231,18 +253,26 @@ public class AdminController {
 		int res = adminMapper.adminDeleteRegion(ccr_num);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "Àå¼Ò°¡ »èÁ¦µÇ¾ú½À´Ï´Ù.";
+			msg = "ì¥ì†Œê°€ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminRegion.admin";
 		}else {
-			msg = "Àå¼Ò »èÁ¦°¡ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ì¥ì†Œ ì‚­ì œê°€ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminRegion.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
 	}
-///////////////////////////////////´ë¸®Á¡///////////////////////////////////////////////
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////ëŒ€ë¦¬ì ////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	@RequestMapping("/adminAgency.admin")
 	public String adminAgency(HttpServletRequest req) {
 		List<AgencyDTO> adminListAgency = adminMapper.adminListAgency();
@@ -264,13 +294,13 @@ public class AdminController {
 		int res = adminMapper.adminInsertAgency(dto);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "´ë¸®Á¡ÀÌ µî·ÏµÇ¾ú½À´Ï´Ù.";
+			msg = "ëŒ€ë¦¬ì ì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminAgency.admin";
 		}else {
-			msg = "´ë¸®Á¡ µî·ÏÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ëŒ€ë¦¬ì  ë“±ë¡ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminAgency.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -292,13 +322,13 @@ public class AdminController {
 		int res = adminMapper.adminUpdateAgency(adto);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "´ë¸®Á¡ÀÌ ¼öÁ¤µÇ¾ú½À´Ï´Ù.";
+			msg = "ëŒ€ë¦¬ì ì´ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminAgency.admin";
 		}else {
-			msg = "´ë¸®Á¡ ¼öÁ¤ÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ëŒ€ë¦¬ì  ìˆ˜ì •ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤, ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminAgency.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -309,18 +339,25 @@ public class AdminController {
 		int res = adminMapper.adminDeleteAgency(agency_num);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "´ë¸®Á¡ÀÌ »èÁ¦µÇ¾ú½À´Ï´Ù.";
+			msg = "ëŒ€ë¦¬ì ì´ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminAgency.admin";
 		}else {
-			msg = "´ë¸®Á¡ »èÁ¦°¡ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ëŒ€ë¦¬ì  ì‚­ì œê°€ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤, ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminAgency.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
 	}
-	///////////////////////////////////////////Ä«Å×°í¸®/////////////////////////////////////////////////
+	
+	
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////ì¹´í…Œê³ ë¦¬///////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	
 	@RequestMapping("/adminCategory.admin")
 	public String adminCategory(HttpServletRequest req,@RequestParam(required=false) String category) {
@@ -342,13 +379,13 @@ public class AdminController {
 		int res = adminMapper.adminInsertCategory(map);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "Ä«Å×°í¸®°¡ µî·ÏµÇ¾ú½À´Ï´Ù.";
+			msg = "ì¹´í…Œê³ ë¦¬ê°€ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminCategory.admin";
 		}else {
-			msg = "Ä«Å×°í¸® µî·ÏÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ì¹´í…Œê³ ë¦¬ ë“±ë¡ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤, ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminCategory.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -359,13 +396,13 @@ public class AdminController {
 		int res = adminMapper.adminDeleteBrand(brand_num);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "ºê·£µå Ä«Å×°í¸®°¡ »èÁ¦µÇ¾ú½À´Ï´Ù.";
+			msg = "ë¸Œëœë“œê°€ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminCategory.admin";
 		}else {
-			msg = "ºê·£µå Ä«Å×°í¸® »èÁ¦°¡ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ë¸Œëœë“œ ì‚­ì œê°€ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminCategory.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -376,13 +413,13 @@ public class AdminController {
 		int res = adminMapper.adminDeleteProductCategory(pc_num);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "»óÇ° Ä«Å×°í¸®°¡ »èÁ¦µÇ¾ú½À´Ï´Ù.";
+			msg = "ì¹´í…Œê³ ë¦¬ê°€ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminCategory.admin";
 		}else {
-			msg = "»óÇ° Ä«Å×°í¸® »èÁ¦°¡ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ì¹´í…Œê³ ë¦¬ ì‚­ì œê°€ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤, ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminCategory.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -391,7 +428,7 @@ public class AdminController {
 	
 	
 //////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////¿ëÇ°/////////////////////////////////////////
+//////////////////////////////////////////////////ìš© í’ˆ/////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
@@ -435,7 +472,7 @@ public class AdminController {
 		
 		String upPath = (String)req.getSession().getAttribute("upPath");
 		
-		//´ÙÁßÆÄÀÏ ¾÷·Îµå
+		//ë‹¤ì¤‘íŒŒì¼ ì „ì†¡
 		for (MultipartFile f : file) {
 			String filename = f.getOriginalFilename();		
 			if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
@@ -455,13 +492,13 @@ public class AdminController {
 		int res = adminMapper.adminInsertProduct(dto);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "¿ëÇ°ÀÌ µî·ÏµÇ¾ú½À´Ï´Ù.";
+			msg = "ìš©í’ˆì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminProduct.admin";
 		}else {
-			msg = "¿ëÇ° µî·ÏÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ìš©í’ˆ ë“±ë¡ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminProduct.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -484,7 +521,7 @@ public class AdminController {
 		
 		String upPath = (String)req.getSession().getAttribute("upPath");
 		
-		//´ÙÁßÆÄÀÏ ¾÷·Îµå
+		//ë‹¤ì¤‘íŒŒì¼ ì „ì†¡
 		for (MultipartFile f : file) {
 			String filename = f.getOriginalFilename();		
 			if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
@@ -504,13 +541,13 @@ public class AdminController {
 		int res = adminMapper.adminUpdateProduct(dto);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "¿ëÇ°ÀÌ ¼öÁ¤µÇ¾ú½À´Ï´Ù.";
+			msg = "ìš©í’ˆì´ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminProduct.admin";
 		}else {
-			msg = "¿ëÇ° ¼öÁ¤ÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ìš©í’ˆìˆ˜ì •ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminProduct.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -522,13 +559,13 @@ public class AdminController {
 		
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "¿ëÇ°ÀÌ »èÁ¦µÇ¾ú½À´Ï´Ù.";
+			msg = "ìš©í’ˆì´ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminProduct.admin";
 		}else {
-			msg = "¿ëÇ° »èÁ¦°¡ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ìš©í’ˆ ì‚­ì œê°€ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminProduct.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -537,7 +574,7 @@ public class AdminController {
 	
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////È¸¿ø °ü¸®//////////////////////////////////////////////////////
+/////////////////////////////////////íšŒ ì›//////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
@@ -577,13 +614,13 @@ public class AdminController {
 		int res = adminMapper.adminDenyMember(map);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "¼öÁ¤µÇ¾ú½À´Ï´Ù.";
+			msg = "ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminMember.admin";
 		}else {
-			msg = "¼öÁ¤ÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ìˆ˜ì • ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminMember.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -592,7 +629,7 @@ public class AdminController {
 	
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////Àå¼Ò ¸®ºä °ü¸®////////////////////////////////////////////////
+/////////////////////////////////////////ì¥ ì†Œ ë¦¬ ë·°////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
@@ -640,13 +677,13 @@ public class AdminController {
 		int res = adminMapper.adminUpdateReviewRegion(map);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "¼öÁ¤µÇ¾ú½À´Ï´Ù.";
+			msg = "ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminReviewRegion.admin";
 		}else {
-			msg = "¼öÁ¤ÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ìˆ˜ì •ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminReviewRegion.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -654,7 +691,7 @@ public class AdminController {
 
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////¿ëÇ° ¸®ºä °ü¸®////////////////////////////////////////////////
+/////////////////////////////////////////ìš© í’ˆ ë¦¬ ë·°////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
@@ -702,13 +739,13 @@ public class AdminController {
 		int res = adminMapper.adminUpdateReviewProduct(map);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "¼öÁ¤µÇ¾ú½À´Ï´Ù.";
+			msg = "ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminReviewProduct.admin";
 		}else {
-			msg = "¼öÁ¤ÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ìˆ˜ì • ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminReviewProduct.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -717,7 +754,7 @@ public class AdminController {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////°ø Áö »ç Ç×////////////////////////////////////////////////
+///////////////////////////////////////////ê³µ ì§€ ì‚¬ í•­////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
@@ -745,7 +782,7 @@ public class AdminController {
 	public ModelAndView adminInsertAnnounce(HttpServletRequest req,@ModelAttribute AdminAnnounceDTO dto,@RequestParam("aa_image") MultipartFile[] file) {
 		
 		String upPath = (String)req.getSession().getAttribute("upPath");
-		//´ÙÁßÆÄÀÏ ¾÷·Îµå
+		//ë‹¤ì¤‘íŒŒì¼ ì „ì†¡
 		for (MultipartFile f : file) {
 			String filename = f.getOriginalFilename();		
 			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
@@ -764,13 +801,13 @@ public class AdminController {
 		int res = adminMapper.adminInsertAnnounce(dto);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "µî·ÏµÇ¾ú½À´Ï´Ù.";
+			msg = "ê³µì§€ì‚¬í•­ì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminAnnounce.admin";
 		}else {
-			msg = "µî·ÏÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ê³µì§€ì‚¬í•­ ë“±ë¡ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminAnnounce.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -787,7 +824,7 @@ public class AdminController {
 	@RequestMapping(value="/adminViewAnnounce.admin", method=RequestMethod.POST)
 	public ModelAndView adminViewAnnounce(HttpServletRequest req,@RequestParam("aa_image") MultipartFile[] file,@ModelAttribute AdminAnnounceDTO dto) {
 		String upPath = (String)req.getSession().getAttribute("upPath");
-		//´ÙÁßÆÄÀÏ ¾÷·Îµå
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 		for (MultipartFile f : file) {
 			String filename = f.getOriginalFilename();		
 			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
@@ -806,13 +843,13 @@ public class AdminController {
 		int res = adminMapper.adminUpdateAnnounce(dto);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "¼öÁ¤µÇ¾ú½À´Ï´Ù.";
+			msg = "ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminAnnounce.admin";
 		}else {
-			msg = "¼öÁ¤ÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ìˆ˜ì •ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminAnnounce.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -823,13 +860,13 @@ public class AdminController {
 		int res = adminMapper.adminDeleteAnnounce(aa_num);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "»èÁ¦µÇ¾ú½À´Ï´Ù.";
+			msg = "ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminAnnounce.admin";
 		}else {
-			msg = "»èÁ¦°¡ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ì‚­ì œ ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminAnnounce.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -838,7 +875,7 @@ public class AdminController {
 	
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////¹® ÀÇ »ç Ç×////////////////////////////////////////////////
+///////////////////////////////////////////ë¬¸ ì˜ ì‚¬ í•­////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	@RequestMapping("/adminQuestion.admin")
@@ -872,13 +909,13 @@ public class AdminController {
 		int res = adminMapper.adminUpdateQuestion(dto);
 		String msg =null, url = null;
 		if (res>0) {
-			msg = "´ä±ÛÀÌ ÀÛ¼ºµÇ¾ú½À´Ï´Ù.";
+			msg = "ë‹µê¸€ì´ ì‘ì„±(ìˆ˜ì •)ë˜ì—ˆìŠµë‹ˆë‹¤";
 			url = "adminQuestion.admin";
 		}else {
-			msg = "´ä±ÛÀÛ¼ºÀÌ ½ÇÆĞµÇ¾ú½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇÏ¼¼¿ä";
+			msg = "ë‹µê¸€ ì‘ì„±(ìˆ˜ì •)ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
 			url = "adminQuestion.admin";
 		}
-		ModelAndView mav = new ModelAndView("message");
+		ModelAndView mav = new ModelAndView("admin/message");
 		mav.addObject("msg", msg);
 		mav.addObject("url", url);
 		return mav;
@@ -888,7 +925,7 @@ public class AdminController {
 	
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////´ë ¿© ³» ¿ª////////////////////////////////////////////////
+///////////////////////////////////////////ëŒ€ ì—¬ ë‚´ ì—­////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 	
@@ -899,5 +936,30 @@ public class AdminController {
 		
 		req.setAttribute("adminListRentalLog", list);
 		return "admin/adminRental";
+	}
+	
+	@RequestMapping(value="/adminViewRentalLog.admin",method=RequestMethod.GET)
+	public String adminViewRentalLog(HttpServletRequest req,@RequestParam int rental_num) {
+		RentalLogDTO dto = adminMapper.adminGetRentalLog(rental_num);
+		
+		req.setAttribute("rdto", dto);
+		return "admin/adminViewRentalLog";
+	}
+	
+	@RequestMapping(value="/adminViewRentalLog.admin",method=RequestMethod.POST)
+	public ModelAndView adminViewRentalLog(@RequestParam Map<String,String> map) {
+		int res = adminMapper.adminUpdateRentalLog(map);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤";
+			url = "adminRental.admin";
+		}else {
+			msg = "ìˆ˜ì •ì´ ì‹¤íŒ¨ë˜ì—ˆìŠµë‹ˆë‹¤. ì„œë¹„ìŠ¤ ì„¼í„°ì— ë¬¸ì˜í•˜ì„¸ìš”";
+			url = "adminRental.admin";
+		}
+		ModelAndView mav = new ModelAndView("admin/message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
 	}
 }

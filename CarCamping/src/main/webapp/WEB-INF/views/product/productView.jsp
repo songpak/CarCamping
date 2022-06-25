@@ -2,31 +2,18 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- 
-1. 로그인 했을떄 안했을때 넘어가는 페이지 분리
-2.리스트 다음페이지로 넘기기
-3.리뷰 검색
-4.대여날짜 넘기기
-5.정렬
-※일단 페이지 내에서 할 수 있는 기능부터 구현할것!!
- -->
-
-<script>
+<script type="text/javascript">
 function fn_account(val){
 	window.open("<c:url value='productReviewView.product?rp_num="+val+"'/>",  
 				"soyoInfoPop" ,"height=1000,width=700,top=100,left=200,scrollbars=yes,resizable=yes");
 }
-        
 		function popup1() {
 			var url = "myPageContactUs.myPage";
 			var name = "popup test";
 			var option = "width = 600, height = 500, top = 100, left = 200, location = no"
 			window.open(url, name, option);
 		}
-		
-		
     </script>
-
 <!-- 부트스트랩 영역 -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
@@ -34,10 +21,10 @@ function fn_account(val){
 	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
 	crossorigin="anonymous">
 
-<script
+<!-- <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-	crossorigin="anonymous"></script> 
+	crossorigin="anonymous"></script> -->
 
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
@@ -55,7 +42,7 @@ function fn_account(val){
 	<div class="row mb-3">
 		<!-- List Column Grid -->
 		<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
-			style="width: 280px;">
+			style="width: 280px; height: 1000px;">
 			<a href="/"
 				class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 				<svg class="bi me-2" width="40" height="32">
@@ -67,46 +54,13 @@ function fn_account(val){
 			<div align="center">
 				<h4>
 					<img src="${getProduct.prod_viewImage1}" />
-				</h4>
+				</h4> <br>
+					상품명 : ${getProduct.prod_name }<br>
+					일일대여 요금 : ${getProduct.prod_price }원<br><br>
+					-용품 요약설명-<br> ${getProduct.prod_summary }
 			</div>
 			<!-- 이미지 영역 끝 -->
-
-			<script type="text/javascript">
-		$("#mForm").submit(function(){
-			var indate2 = $("#indate1").val();
-			var outdate2 = $("#outdate1").val();
-			var date1 = indate2.split('-');
-			var in_date = new Date(indate2);
-			var date2 = outdate2.split('-');
-			var out_date = new Date(outdate2);
-			
-   			var date = new Date();
-   			
-	   		if(indate2 != ''){
-	       		if(outdate2 != ''){
-		    		if(date.getDate() <= in_date.getDate()){
-		    			if(in_date.getDate() > out_date.getDate()){
-		     				alert('반납날짜보다 빌린날짜가 먼저여야 합니다');
-		     				return false;
-		     			}
-		    		}else {
-		    			alert('지난 날짜는 선택 할 수 없습니다.');
-		    			return false;
-		    		}
-	       		}else{
-	       			alert('반납날짜를 지정해주세요');
-	       			return false;
-	       		}
-	       	}else{
-	       		alert('빌린날짜를 지정해주세요');
-	       		return false;
-	       	}
-		});
-	});
-</script>
-
-
-			<style>
+<style>
 .search-box {
 	width: fit-content;
 	background-color: 262626;
@@ -134,16 +88,16 @@ function fn_account(val){
 </style>
 
 			<!-- 여기서는 날짜 보내주기만 하고 저장은 구매할때 저장 -->
-			<form name="f" action="myPageCart.myPage" method="post">
-			<input type="hidden" name="prod_num" value="${getProduct.prod_num}">
-			<c:if test="${not empty mem_num}">
-			<input type="hidden" name="mem_num" value="${mem_num}">
-			</c:if>
-			<c:if test="${empty mem_num}">
-			<input type="hidden" name="mem_num" value="0">
-			</c:if>
+			<form name="f_lent" action="myPageCart.myPage" method="post">
+				<input type="hidden" name="prod_num" value="${getProduct.prod_num}">
+				<c:if test="${not empty mem_num}">
+					<input type="hidden" name="mem_num" value="${mem_num}">
+				</c:if>
+				<c:if test="${empty mem_num}">
+					<input type="hidden" name="mem_num" value="0">
+				</c:if>
 				<div style="width: 100%; padding: 50px 0; background: 262626;">
-				
+
 					<div class="row search-box">
 						<div style="margin-bottom: 10px;">
 							빌린날짜 <input type="date" id="indate1" name="cart_from">
@@ -153,20 +107,35 @@ function fn_account(val){
 						</div>
 						<br>
 						<div align="center">
-						빌릴 갯수 입력
-						 <input type="text" name="cart_prodCount"
-						  size="7" value="1" pattern="[0-9]+">
+							빌릴 갯수 입력 <input type="number" name="cart_prodCount" "
+								value="1" pattern="[0-9]+" min="1" max="10">
 						</div>
 						<br>
+						
 						<div>
-						 <input type="submit" value="대여하기"> 
-						<input	type="button" onclick="location.href='javascript:popup1()'" value="문의하기">
+						대리점 선택
+						<select name="agency_num">
+						<c:forEach items="${getAgency}" var="dto">
+							<option value="${dto.agency_num}">${dto.agency_name}</option>
+							</c:forEach>
+						</select>
+						
+							</div>
+						<br>
+						<div>
+
+							<!-- ---------------수정할 사항-------------------------- -->
+							<!--  <button style="background-color: #0D6EFD; color: white;"
+								onclick="location.href='javascript:dateCheck()'">대여하기</button>-->
+							 <input type="submit" value="대여하기"  style="background-color: #0D6EFD; color: white;">
+							<input type="button" style="background-color: #0D6EFD; color: white;"
+								onclick="location.href='javascript:popup1()'" value="문의하기" >
 						</div>
 					</div>
-					
+
 				</div>
 			</form>
-
+			<!-- ---------------수정할 사항-------------------------- -->
 
 		</div>
 		<!-- 용품 상세보기 영역 끝 -->
@@ -174,7 +143,7 @@ function fn_account(val){
 		<div class="col-md-8 themed-grid-col">
 			<div class="row" align="center">
 				<div class="row"></div>
-				<h2>용품 리뷰 목록</h2>
+				<h1>용품 리뷰 목록</h1>
 				<form name="f" method="post">
 					<select name="search">
 						<option selected value="rp_title">리뷰 제목</option>
@@ -184,34 +153,23 @@ function fn_account(val){
 				</form>
 			</div>
 			<div class="row" align="center"
-				style="overflow: scroll; width: 100%; height: 60%">
-				
+				style="overflow: scroll; width: 100%; height: 85%">
+
 				<!-- 정렬 기능 -->
 
 				<!-- 정렬기능 끝 -->
-				
+
 				<br>
 				<!-- 본문 -->
 				<c:if test="${empty ReList}">
-					<table class="table table-borderless">
-						<tr>
-							<td>
-								<div class="card" style="width: 18rem;">
-									<!-- 리뷰리스트 이미지 영역 -->
-									<img src="resources/images/carbak4.jpg" class="card-img-top">
-									<!-- 리뷰리스트 이미지 영역 끝 -->
-									<div class="card-body">
-										<h5 class="card-title">리뷰 없음</h5>
-										<p class="card-text">
-											<label for="disabledRange" class="form-label">없음</label> <input
-												type="range" class="form-range" id="disabledRange" disabled>
-											등록된 리뷰가 없어요!!!<br>작성일
-										</p>
-										<a href="javascript:popup()"><button type="button"
-												class="btn btn-primary" data-bs-toggle="modal">없음</button></a>
-									</div>
-								</div>
-							</td>
+					<table class="table table-borderless" >
+					<tr>
+					<td></td>
+					</tr>
+						<tr align = "center">
+							<th >
+								<h1>아직 등록된 리뷰가 없어요!</h1>
+							</th>
 						</tr>
 					</table>
 				</c:if>
@@ -228,15 +186,47 @@ function fn_account(val){
 										<h5 class="card-title">${pdto.rp_title}</h5>
 										<p class="card-text">
 											<label for="disabledRange" class="form-label">평점 :
-												${pdto.rp_score}</label> <input type="range" class="form-range"
-												id="disabledRange" disabled> 조회수 :
+												${pdto.rp_score}</label> <br>
+											별점 : 	
+													<c:choose>
+				 				<c:when test="${pdto.rp_score >= 1 && pdto.rp_score < 2 }">
+				  							<label for="rate1">⭐</label>
+				 				</c:when>
+				 				<c:when test="${pdto.rp_score >= 2 && pdto.rp_score < 3 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				 				</c:when>
+								 <c:when test="${pdto.rp_score >= 3 && pdto.rp_score < 4 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				 				</c:when>
+				 				<c:when test="${pdto.rp_score >= 4 && pdto.rp_score < 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						 <label for="rate4">⭐</label>
+				 				</c:when>
+				 				<c:when test="${pdto.rp_score eq 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						 <label for="rate4">⭐</label>
+				  						 <label for="rate5">⭐</label> 
+				 				</c:when>
+								 <c:otherwise>
+								  ☆☆☆☆☆
+								 </c:otherwise>
+								</c:choose> <br>
+												<!-- 이부분 별점으로 수정 -->
+												
+												 조회수 :
 											${pdto.rp_readCount}&nbsp;&nbsp; | &nbsp;&nbsp;좋아요 :
 											${pdto.rp_likeCount}<br>작성일 : ${pdto.rp_sysdate}
 										</p>
 										<button type="submit"
 											style="background-color: #0D6EFD; color: white;"
 											onclick="fn_account(${pdto.rp_num}); return false;">내용</button>
-
 									</div>
 								</div>
 							</td>

@@ -5,14 +5,6 @@
 <!-- Content Column Grid -->
 <div class="container" align="center" class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
 	<div class="row">
-		<figure class="text-center">
-			<blockquote class="blockquote">
-				<p>A well-known quote, contained in a blockquote element.</p>
-			</blockquote>
-			<figcaption class="blockquote-footer">
-				Someone famous in <cite title="Source Title">Source Title</cite>
-			</figcaption>
-		</figure>
 	</div>
 	<div class="row" align="center">
 		<div class="col">
@@ -43,30 +35,25 @@
 	<!-- 본문 -->
 	<table class="table table-striped">
 		<tr>
+			<th>용품명</th>
 			<th>대리점명</th>
 			<th>대여기간</th>
 			<th>대여금</th>
-			<th>반납상태</th>
-			<th>보기</th>
+			
 		</tr>
+		 <c:forEach items="${cartList}" var="mdto">
 		<tr>
-			<td>서울 강북점</td>
-			<td>2022-05-26 ~ 2022-05-28</td>
-			<td>100,000원</td>
-			<td>반납완료</td>
-			<td><button type="button" 
-					class="btn btn-primary"
-					data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop-11">
-						보기
-				</button></td>
+			<td>${mdto.prod_name}</td>
+			<td>${mdto.agency_name}</td>
+			<td>${mdto.cart_from} ~ ${mdto.cart_to}</td>
+			<td>${mdto.prod_price}원</td>
 		</tr>
-		
+		</c:forEach>
 		
 	</table>
 	
 	<!-- 대여내역 보기 모달 -->
-	<form class="row gy-2 gx-3 align-items-center">
+ <form class="row gy-2 gx-3 align-items-center">
 	<div class="modal fade" id="staticBackdrop-11" data-bs-backdrop="static"
 		data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -78,7 +65,7 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-				<!-- 대리점 지역&이름 -->
+				대리점 지역&이름
 					<div class="row">
 						<div class="col">
 							<div class="form-floating">
@@ -100,7 +87,7 @@
 						</div>
 					</div>
 					
-				<!-- 대리점 위치 -->
+				대리점 위치
 						<div class="row">
 							<div class="form-floating mb-3">
 								<input type="email" class="form-control" id="floatingInput"
@@ -109,7 +96,7 @@
 							</div>
 						</div>
 				
-				<!-- 대리점 전화번호 -->
+				대리점 전화번호
 						<div class="row">
 							<div class="form-floating mb-3">
 								<input type="email" class="form-control" id="floatingInput"
@@ -118,7 +105,7 @@
 							</div>
 						</div>
 						
-				<!-- 버튼 영역 -->
+				버튼 영역
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">닫기</button>

@@ -119,13 +119,8 @@
 				</c:if>
 			</tr>
 			<tr>
-				<th>첫 리뷰 작성여부</th>
-				<c:if test="${mdto.mem_firstReview==0}">
-					<td>예</td>
-				</c:if>
-				<c:if test="${mdto.mem_firstReview==1}">
-					<td>아니오</td>
-				</c:if>
+				<th>리뷰수</th>
+				<td>${mdto.mem_reviewCount}</td>
 			</tr>
 			<tr>
 				<td align="center" colspan="2">

@@ -30,6 +30,7 @@
 		<result column="ccr_viewImage5" property="ccr_viewImage5"/>
 		<result column="ccr_summary" property="ccr_summary"/>
 		<result column="ccr_content" property="ccr_content"/>
+		<result column="ccr_reviewCount" property="ccr_reviewCount"/>
 		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
 		</association>
 	</resultMap>
@@ -48,10 +49,10 @@
 	
 	<insert id="adminInsertRegion" parameterType="CarCampingRegionDTO">
 		insert into CarCampingRegion(region_num,ccr_name,ccr_car,ccr_pricePerDay,ccr_toilet,ccr_restroom,ccr_water,ccr_market,ccr_river,ccr_ground,
-		ccr_likeCount,ccr_score,ccr_popular,ccr_viewImage1,ccr_viewImage2,ccr_viewImage3,ccr_viewImage4,ccr_viewImage5,ccr_summary,ccr_content) 
+		ccr_likeCount,ccr_score,ccr_popular,ccr_viewImage1,ccr_viewImage2,ccr_viewImage3,ccr_viewImage4,ccr_viewImage5,ccr_summary,ccr_content,ccr_reviewCount) 
 		values(#{regionDTO.region_num},#{ccr_name},#{ccr_car},#{ccr_pricePerDay},#{ccr_toilet},
 		#{ccr_restroom},#{ccr_water},#{ccr_market},#{ccr_river},#{ccr_ground}, 0, 0.0, 1,#{ccr_viewImage1},
-		#{ccr_viewImage2},#{ccr_viewImage3},#{ccr_viewImage4},#{ccr_viewImage5},#{ccr_summary},#{ccr_content})
+		#{ccr_viewImage2},#{ccr_viewImage3},#{ccr_viewImage4},#{ccr_viewImage5},#{ccr_summary},#{ccr_content},0)
 	</insert>
 	
 	<update id="adminUpdateRegion" parameterType="CarCampingRegionDTO">
@@ -170,6 +171,7 @@
 		<result column="prod_sysdate" property="prod_sysdate"/>
 		<result column="prod_update" property="prod_update"/>
 		<result column="prod_reviewScore" property="prod_reviewScore"/>
+		<result column="prod_reviewCount" property="prod_reviewCount"/>
 		<association property="brandCategoryDTO" javaType="BrandCategoryDTO" resultMap="brandCategoryMap">
 		</association>
 		<association property="productCategoryDTO" javaType="ProductCategoryDTO" resultMap="productCategoryMap">
@@ -193,9 +195,9 @@
 	
 	<insert id="adminInsertProduct" parameterType="ProductDTO">
 		insert into Product(pc_num,brand_num,prod_name,prod_popular,prod_price,prod_viewImage1,prod_viewImage2,prod_viewImage3,prod_viewImage4,prod_viewImage5,
-		prod_summary,prod_viewContent,prod_sysdate,prod_update,prod_reviewScore) values(
+		prod_summary,prod_viewContent,prod_sysdate,prod_update,prod_reviewScore,prod_reviewCount) values(
 		#{productCategoryDTO.pc_num},#{brandCategoryDTO.brand_num},#{prod_name},1,#{prod_price},#{prod_viewImage1},#{prod_viewImage2},#{prod_viewImage3},#{prod_viewImage4},#{prod_viewImage5},
-		#{prod_summary},#{prod_viewContent},now(),now(),0.0)
+		#{prod_summary},#{prod_viewContent},now(),now(),0.0,0)
 	</insert>
 	
 	<update id="adminUpdateProduct" parameterType="ProductDTO">
@@ -235,7 +237,7 @@
 		<result column="mem_image" property="mem_image"/>
 		<result column="mem_summary" property="mem_summary"/>
 		<result column="mem_introduce" property="mem_introduce"/>
-		<result column="mem_firstReview" property="mem_firstReview"/>
+		<result column="mem_reviewCount" property="mem_reviewCount"/>
 		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
 		</association>
 	</resultMap>
@@ -442,18 +444,19 @@
 	
 	
 	
-	<resultMap id="productCartMap" type="ProductCartDTO">
-		<id column="cart_num" property="car_num"/>
+<!-- 	<resultMap id="productCartMap" type="ProductCartDTO">
+		<id column="cart_num" property="cart_num"/>
 		<result column="cart_prodCount" property="cart_prodCount"/>
 		<result column="cart_from" property="cart_from"/>
 		<result column="cart_to" property="cart_to"/>
 		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
 		<association property="productDTO" javaType="ProductDTO" resultMap="productMap"/>
 		<association property="agencyDTO" javaType="AgencyDTO" resultMap="agencyMap"/>
-	</resultMap>
+	</resultMap> -->
 	
 	<resultMap id="rentalLogMap" type="RentalLogDTO">
 		<id column="rental_num" property="rental_num"/>
+		<result column="rental_productCount" property="rental_productCount"/>
 		<result column="rental_from" property="rental_from"/>
 		<result column="rental_to" property="rental_to"/>
 		<result column="rental_return" property="rental_return"/>
@@ -463,14 +466,24 @@
 		<result column="rental_usePoint" property="rental_usePoint"/>
 		<result column="rental_extendPrice" property="rental_extendPrice"/>
 		<result column="rental_notReturnPrice" property="rental_notReturnPrice"/>
-		<association property="productCartDTO" javaType="ProductCartDTO" resultMap="productCartMap"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
+		<association property="productDTO" javaType="ProductDTO" resultMap="productMap"/>
+		<association property="agencyDTO" javaType="AgencyDTO" resultMap="agencyMap"/>
 	</resultMap>
 	
 	<select id="adminListRentalLog" resultMap="rentalLogMap">
-		select a.*,b.*,c.*,d.*,e.* from RentalLog a join ProductCart b join Member c join Product d join Agency e 
-		on a.cart_num = b.cart_num and b.mem_num = c.mem_num and b.prod_num = d.prod_num and b.agency_num = e.agency_num
+		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
+		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
 	</select>
 	
+	<select id="adminGetRentalLog" resultMap="rentalLogMap" parameterType="int">
+		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
+		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
+		where a.rental_num = #{rental_num}
+	</select>
 	
+	<update id="adminUpdateRentalLog" parameterType="java.util.Map">
+		update RentalLog set rental_return = #{rental_return} where rental_num = #{rental_num}
+	</update>
 	
 </mapper>

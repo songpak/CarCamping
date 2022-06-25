@@ -12,7 +12,7 @@
 
 			<!-- 카테고리 등록 버튼 -->
 			<div class="col" align="right">
-				<button type="button" class="btn btn-primary" onclick="location.href='javascript:popup()'">
+				<button type="button" class="btn btn-info" onclick="location.href='javascript:popup()'">
 				카테고리 등록</button>
 			</div>
 			<!-- 카테고리 버튼 끝 -->
@@ -22,7 +22,7 @@
 		function popup(){
 			var url = "adminInsertCategory.admin"
 			var name = "카테고리 등록"
-			var option = "width=300,height=150,top=100,left=200,location=no"
+			var option = "width=500,height=150,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 		function con_deleteBrand(a){
@@ -56,7 +56,7 @@
 						<tr>
 							<td>${dto.brand_name}</td>
 							<td>
-								<button type="button" class="btn btn-primary"
+								<button type="button" class="btn btn-info"
 									onclick="location.href='javascript:con_deleteBrand(${dto.brand_num})'">
 									삭제</button>
 							</td>
@@ -82,7 +82,7 @@
 						<tr>
 							<td>${dto.pc_name}</td>
 							<td>
-								<button type="button" class="btn btn-primary"
+								<button type="button" class="btn btn-info"
 									onclick="location.href='javascript:con_deleteProduct(${dto.pc_num})'">
 									삭제</button>
 							</td>
