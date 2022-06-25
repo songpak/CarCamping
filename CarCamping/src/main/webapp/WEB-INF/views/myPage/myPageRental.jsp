@@ -43,10 +43,10 @@
 		</tr>
 		 <c:forEach items="${cartList}" var="mdto">
 		<tr>
-			<td>${mdto.prod_name}</td>
-			<td>${mdto.agency_name}</td>
+			<td>${mdto.produdctDTO.prod_name}</td>
+			<td>${mdto.agencyDTO.agency_name}</td>
 			<td>${mdto.cart_from} ~ ${mdto.cart_to}</td>
-			<td>${mdto.prod_price}원</td>
+			<td>${mdto.produdctDTO.prod_price}원</td>
 		</tr>
 		</c:forEach>
 		

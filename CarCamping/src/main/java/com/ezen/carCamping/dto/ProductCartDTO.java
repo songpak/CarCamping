@@ -12,9 +12,6 @@ public class ProductCartDTO {
 	private String cart_from;
 	private String cart_to;
 		
-	
-	
-	
 	public int getAgency_num() {
 		return agency_num;
 	}

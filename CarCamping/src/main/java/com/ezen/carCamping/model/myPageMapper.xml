@@ -29,7 +29,6 @@
 		</association>
 	</resultMap>
 
-	
 	<resultMap type="AgencyDTO" id="agencyMap">
 		<id column="agency_num" property="agency_num"/>
 		<result column="agency_location" property="agency_location"/>
@@ -37,7 +36,6 @@
 		<result column="agency_phone" property="agency_phone"/>
 		<association property="regionDTO" javaType="regionDTO" resultMap="regionMap"></association>
 	</resultMap>
-	
 		
 	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
 		<id column="brand_num" property="brand_num"/>

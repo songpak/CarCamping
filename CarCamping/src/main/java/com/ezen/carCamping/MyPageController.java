@@ -1,6 +1,6 @@
 package com.ezen.carCamping;
 
-import java.io.File;
+import java.io.File; 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -163,7 +163,7 @@ public class MyPageController {
 		return "myPage/myPageCart";
 	}
 
-	@RequestMapping("checkOut.myPage")
+	@RequestMapping("checkOut.myPage")//장바구니 결제버튼 눌렀을때
 	public String checkOut(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
@@ -182,20 +182,20 @@ public class MyPageController {
 		return "message";
 	}
 
-	@RequestMapping("Pay.myPage")
+	@RequestMapping("Pay.myPage")//결제폼
 	public String myPageCheckOut1(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
 		List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 		session.setAttribute("cartList", list);
-		return "myPage/myPagePay";// 결제폼
+		return "myPage/myPagePay";
 	}
 
-	@RequestMapping("myPageCheckOut.myPage")
+	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
 	public String myPageCheckOut2(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
-		int res = myPageMapper.payCart(mem_num);// 장바구니 비우기
+		int res = myPageMapper.payCart(mem_num);
 		if (res > 0) {
 			System.out.println("결제 성공");
 		} else {

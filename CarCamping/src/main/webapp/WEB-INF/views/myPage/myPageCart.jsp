@@ -44,7 +44,6 @@
                                   			
                                 </div>
                             </div>
-                            
                         </td>
                         <td data-th="Price">${mdto.productDTO.prod_price}원</td>
                         
