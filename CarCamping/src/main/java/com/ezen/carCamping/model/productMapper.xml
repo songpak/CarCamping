@@ -38,8 +38,6 @@
 		</association>
 	</resultMap>
 
-	
-	
 	<select id="getProduct" parameterType="int" resultType="ProductDTO">
 		select * from Product where prod_num = #{prod_num}
 	</select>
@@ -70,7 +68,7 @@
 
 	<select id="findProduct" parameterType="java.util.Map" resultMap="productMap">
 	<!--  select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString}-->
-	 select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%')
+	 select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%') limit #{startRow},#{endRow}
 	</select> 
 	
 	
@@ -79,31 +77,34 @@
 	</select>
 	
 	
-	<select id="listProductPrice" resultMap="productMap">
-		select * from Product order by prod_price asc;
+	<select id="listProductPrice" resultMap="productMap" parameterType="java.util.Map">
+		select * from Product order by prod_price asc limit #{startRow},#{endRow}
 	</select>
 	
-	<select id="listProductNew" resultMap="productMap">
-		select * from Product order by prod_num desc;
+	<select id="listProductNew" resultMap="productMap" parameterType="java.util.Map">
+		select * from Product order by prod_num desc limit #{startRow},#{endRow}
 	</select>
 	
-	<select id="listProductPop" resultMap="productMap">
-		select * from Product order by prod_popular desc; 
+	<select id="listProductPop" resultMap="productMap" parameterType="java.util.Map">
+		select * from Product order by prod_popular desc limit #{startRow},#{endRow} 
 	</select>
-	
-	<select id="listProductsearchPrice" resultMap="productMap">
+
+	<select id="listProductsearchPrice" resultMap="productMap" parameterType="java.util.Map">
 		<!-- select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} order by prod_price asc; -->
-		select a.*, b.brand_name from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%') order by prod_price desc;
+		select a.*, b.* from Product as a left join BrandCategory as b on a.brand_num = b.brand_num 
+		where ${search} like concat('%',#{searchString},'%') order by prod_price desc limit #{startRow},#{endRow}
 	</select>
 	
-	<select id="listProductsearchNew" resultMap="productMap">
+	<select id="listProductsearchNew" resultMap="productMap" parameterType="java.util.Map">
 		<!--  select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} order by prod_num desc;-->
-		select a.*, b.brand_name from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%') order by prod_num desc;
+		  select a.*, b.* from Product as a left join BrandCategory as b on a.brand_num = b.brand_num
+      where ${search} like concat('%',#{searchString},'%') order by prod_num desc limit #{startRow},#{endRow}
 	</select>
 	
-	<select id="listProductsearchPop" resultMap="productMap">
+	<select id="listProductsearchPop" resultMap="productMap" parameterType="java.util.Map">
 		<!--  select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} order by prod_popular desc;-->
-	select a.*, b.brand_name from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%') order by prod_popular desc;
+	select a.*, b.* from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num 
+	where  ${search}  like concat('%',#{searchString},'%') order by prod_popular desc limit #{startRow},#{endRow}
 	</select>
 
 	<select id="getAgency" resultType="AgencyDTO">
@@ -126,8 +127,8 @@
 
 	<!-- 전체 리스트 -->
 	<select id="listProduct" resultMap="productMap" parameterType="java.util.Map">
-		select a.*, b.* from Product as a left join
-		 BrandCategory as b on a.brand_num = b.brand_num limit #{startRow},#{endRow}
+		select a.*, b.brand_name from Product as a left join
+		 BrandCategory as b on a.brand_num = b.brand_num limit #{startRow},#{endRow} 
 	</select>
 
 	<select id="listProductMain" resultMap="productMap">
@@ -138,7 +139,9 @@
 	<select resultType="int" id="listProductMainCount" parameterType="int">
 		select count(*) from Product
 	</select>
-	
-
+	<!--브랜드 검색 로우 카운트  -->
+	<select resultType="int" id="listProductbrandSearch" parameterType="String">
+		select count(*) from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where brand_name like concat('%',#{searchString},'%')
+	</select> 
 </mapper>
 

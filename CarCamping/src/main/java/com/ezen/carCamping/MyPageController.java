@@ -27,6 +27,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
 
@@ -40,7 +41,7 @@ public class MyPageController {
 	
 	@Autowired
 	private MemberMapper memberMapper;
-		
+	
 	@Resource(name="uploadPath")
 			private String uploadPath;
 
@@ -328,15 +329,18 @@ public class MyPageController {
 	public String myPagaWriteReview() {
 		return "myPage/myPageWriteReview";
 	}
-
+	// 전용재@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("/myPageLikeReview.myPage")
-	public String myPagaLikeReview() {
+	public String myPagaLikeReview(HttpServletRequest req) {
+	
+		List<ReviewProductDTO>list = myPageMapper.ReviewProductList();
+		req.setAttribute("list", list);
 		return "myPage/myPageLikeReview";
-	}
-
+	} 
+ 
 	@RequestMapping("/myPageTest.myPage")
-	public String myPageTest() {
-		return "myPage/myPageTest";
+	public String myPageTest() { 
+		return "myPage/myPageTest"; 
 	}
 
 	@RequestMapping(value="memberDelete.myPage", method=RequestMethod.GET)

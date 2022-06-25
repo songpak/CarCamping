@@ -19,6 +19,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
+import com.ezen.carCamping.dto.ReviewProductDTO;
 
 @Service
 public class MyPageMapper {
@@ -80,6 +81,14 @@ public class MyPageMapper {
 		return res;
 	}
 	
+	
+	 
+	//전용재 -- 용품 좋아요 리뷰  
+	public List<ReviewProductDTO> ReviewProductList(){
+		List<ReviewProductDTO>ReviewProductList =sqlSession.selectList("ReviewProductList");
+		System.out.println("맵퍼의ReviewProductList:" + ReviewProductList);
+		return ReviewProductList;
+	}
 }
 
 

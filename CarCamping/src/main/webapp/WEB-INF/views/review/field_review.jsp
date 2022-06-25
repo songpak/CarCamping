@@ -208,7 +208,6 @@ function fileDelete(fileNum){
 </style>
 
 <form name="dataForm" id="dataForm" onsubmit="return registerAction()">
-
   <input type="hidden" name="memberDTO.mem_num" value="${mem_num}"/>
   <div class="container">
   		<div class="row">

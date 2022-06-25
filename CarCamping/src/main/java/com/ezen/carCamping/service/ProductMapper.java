@@ -32,36 +32,57 @@ public class ProductMapper {
 			return null;
 	}
 	
-	public List<ProductDTO> listProductPrice(){
-		List<ProductDTO> listProductPrice = sqlSession.selectList("listProductPrice");
+	public List<ProductDTO> listProductPrice(String search,int startRow , int endRow){
+		java.util.Map<String,Object> map = new Hashtable<>();
+		map.put("search", search);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		List<ProductDTO> listProductPrice = sqlSession.selectList("listProductPrice",map);
 		return listProductPrice;
 	}
-	public List<ProductDTO> listProductNew(){
-		List<ProductDTO>listProductNew = sqlSession.selectList("listProductNew");
+	public List<ProductDTO> listProductNew(String search,int startRow , int endRow){
+		java.util.Map<String,Object> map = new Hashtable<>();
+		
+		search = "prod_name";
+		map.put("search", search);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		List<ProductDTO>listProductNew = sqlSession.selectList("listProductNew",map);
 		return listProductNew;
 	}
-	public List<ProductDTO> listProductPop(){
-		List<ProductDTO> listProductPop= sqlSession.selectList("listProductPop");
+	public List<ProductDTO> listProductPop(String search,int startRow , int endRow){
+		java.util.Map<String,Object> map = new Hashtable<>();
+		
+		map.put("search", search);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		List<ProductDTO> listProductPop= sqlSession.selectList("listProductPop",map);
 		return listProductPop;
 	}
-	public List<ProductDTO> listProductsearchPrice(String search,String searchString){
-		java.util.Map<String,String> map = new Hashtable<String, String>();
+	public List<ProductDTO> listProductsearchPrice(String search,String searchString,int startRow , int endRow){
+		java.util.Map<String,Object> map = new Hashtable<>();
 		map.put("search", search);
 		map.put("searchString", searchString);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
 		List<ProductDTO>listProductsearchPrice=sqlSession.selectList("listProductsearchPrice",map);
 		return listProductsearchPrice;
 	}
-	public List<ProductDTO> listProductsearchNew(String search,String searchString){
-		java.util.Map<String,String> map = new Hashtable<String, String>();
+	public List<ProductDTO> listProductsearchNew(String search,String searchString,int startRow , int endRow){
+		java.util.Map<String,Object> map = new Hashtable<>();
 		map.put("search", search);
 		map.put("searchString", searchString);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
 		List<ProductDTO>listProductsearchNew=sqlSession.selectList("listProductsearchNew",map);
 		return listProductsearchNew;
 	}
-	public List<ProductDTO> listProductsearchPop(String search,String searchString){
-		java.util.Map<String,String> map = new Hashtable<String, String>();
+	public List<ProductDTO> listProductsearchPop(String search,String searchString,int startRow , int endRow){
+		java.util.Map<String,Object> map = new Hashtable<>();
 		map.put("search", search);
 		map.put("searchString", searchString);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
 		List<ProductDTO>listProductsearchPop=sqlSession.selectList("listProductsearchPop",map);
 		return listProductsearchPop;
 	}
@@ -136,7 +157,12 @@ public class ProductMapper {
 		int count = sqlSession.selectOne("listProductMainCount");
 		return count;
 	}
-
+	
+	//브랜드 검색 로우카운트
+	
+	  public int listProductbrandSearch(String searchString){ 
+		  return sqlSession.selectOne("listProductbrandSearch", searchString); 
+	  }
 	
 }
  

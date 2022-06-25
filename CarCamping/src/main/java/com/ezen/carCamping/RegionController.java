@@ -230,9 +230,7 @@ public class RegionController {
 				e.printStackTrace();
 			}
 		}
-		
-		//id媛믪쓣 媛��졇�� 濡쒓렇 �궡�뿭 泥댄겕 �썑 踰꾪듉�쓽 �깋源붿쓣 寃곗젙 
-		//HttpSession session = req.getSession();
+
 		String id = (String) session.getAttribute("mem_id");
 		if (id==null || id.equals("")) req.setAttribute("check", 0);
 		else{
@@ -268,18 +266,13 @@ public class RegionController {
 		if(check==0) { //醫뗭븘�슂 �궡�뿭�뿉 議댁옱�븯吏� �븡�쑝硫�
 			count = RegionMapper.insertRegionLikeLog(mem_id, ccr_num); // 醫뗭븘�슂 �궡�뿭�뿉 異붽�
 			System.out.println("insert�썑 異붿쿇�� "+count);
-			//if(updRes>0) {
-			//	RegionMapper.addLikeCountRegion(ccr_num);//吏��뿭 醫뗭븘�슂 �닔瑜� 利앷��븯怨� 寃곌낵媛믪쓣
-			//}
-		}else {// �겢由��뻽�쓣 �븣 醫뗭븘�슂 �궡�뿭�뿉 �씠誘� 議댁옱�븯硫� 醫뗭븘�슂 �궡�뿭�뿉�꽌 �궘�젣�븯怨� 醫뗭븘�슂�닔瑜� �븯�굹 �궡由�
+			
+		}else {
 			count = RegionMapper.deleteRegionLikeLog(mem_id, ccr_num);
 			System.out.println("delete�썑 異붿쿇�� "+count);
-			//if(updRes>0) {
-			//	RegionMapper.subLikeCountRegion(ccr_num);
-			//}
+
 		}
-		//int count = RegionMapper.recountRegionLike(ccr_num);
-		//String returnString = String.valueOf(RegionMapper.recountRegionLike(ccr_num));
+
 		return String.valueOf(count);
 	}
 	
@@ -313,61 +306,6 @@ public class RegionController {
 	}
 	
 	
-	/*
-	 * @RequestMapping("/test.region") public String test(HttpServletRequest
-	 * req,HttpServletResponse rep) { List<Map<String,Object>> list =
-	 * RegionMapper.test(); req.setAttribute("list", list); return "/region/test"; }
-	 */
-	
-	/*
-	 * class LikeCountComparator implements Comparator<ReviewRegionDTO>{ //�삤由꾩감�닚
-	 * 
-	 * @Override public int compare(ReviewRegionDTO o1, ReviewRegionDTO o2) {
-	 * if(o1.getReview_likeCount()>o2.getReview_likeCount()) return 1; else
-	 * if(o1.getReview_likeCount()<o2.getReview_likeCount()) return -1; else return
-	 * 0; } } class RegionScoreComparator implements Comparator<ReviewRegionDTO>{
-	 * 
-	 * @Override public int compare(ReviewRegionDTO o1, ReviewRegionDTO o2) {
-	 * if(o1.getReview_regionScore()>o2.getReview_regionScore()) return 1; else
-	 * if(o1.getReview_regionScore()<o2.getReview_regionScore()) return -1; else
-	 * return 0; } }
-	 */
-	//�뀒�뒪�듃 - �궘�젣 �빐�룄�맖
-	/*
-	 * @RequestMapping("/test.region")
-	 * 
-	 * @ResponseBody public String testRegion(HttpServletRequest req,@RequestParam
-	 * int ccr_num,@RequestParam String id) { System.out.println(ccr_num+" + "+ id);
-	 * req.setAttribute("ccr_num", ccr_num); req.setAttribute("id", id); String test
-	 * = String.valueOf(ccr_num)+id; return test; }
-	 */
-
-	/*
-	 * @RequestMapping(value="/board.region", method=RequestMethod.GET) public
-	 * String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam
-	 * Map<String,String> params) { String region_num = params.get("region_num");
-	 * List<CarCampingRegionDTO>list =null; int pageSize= 3; String pageNum =
-	 * params.get("pageNum"); int currentpage; if(pageNum==null) { pageNum="1";
-	 * currentpage=Integer.parseInt(pageNum); }else { double pageNum_db
-	 * =Double.parseDouble(pageNum); if(pageNum_db<=0)pageNum_db = 0 ; currentpage =
-	 * (int)(pageNum_db); } int startRow = (currentpage -1) * pageSize +1; int
-	 * endRow = startRow + pageSize - 1; int rowCount=0;
-	 * rowCount=RegionMapper.listRegionCount(Integer.parseInt(region_num)).size();
-	 * if(endRow>rowCount) endRow=rowCount; if(rowCount>0) {
-	 * list=RegionMapper.listPopRegion(Integer.parseInt(region_num)); } int
-	 * pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1); int pageBlock
-	 * = 3; int startPage = (currentpage - 1)/pageBlock * pageBlock + 1; int endPage
-	 * = startPage + pageBlock - 1; if (endPage > pageCount) endPage = pageCount;
-	 * req.setAttribute("region_num", region_num);
-	 * req.setAttribute("rowCount",rowCount); req.setAttribute("list", list);
-	 * req.setAttribute("pageCount", pageCount); req.setAttribute("startPage",
-	 * startPage); req.setAttribute("endPage", endPage);
-	 * 
-	 * return "/region/regionBoard";
-	 * 
-	 * }
-	 */
-
 
 	@RequestMapping(value="/board.region", method = RequestMethod.GET)
 	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params,

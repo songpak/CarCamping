@@ -30,6 +30,12 @@ public class ProductController {
 	private ProductMapper productMapper;
 
 	// 용품메인 컨트롤러
+	/**
+	 * @param req
+	 * @param mode
+	 * @param params
+	 * @return
+	 */
 	@RequestMapping(value ="/goProduct.product",method = RequestMethod.GET)
 	 public String goProduct(HttpServletRequest req,
 	         @RequestParam (required = false) String mode,
@@ -37,7 +43,6 @@ public class ProductController {
 	   
 	      List<ProductDTO> list=null;
 	      //int prod_num = Integer.parseInt(params.get("prod_num"));
-	      System.out.println("맵받기:"+params);
 	      String pageNum = params.get("pageNum");
 	      mode=params.get("mode");
 	      System.out.println("컨트롤러의 모드:"+mode);
@@ -45,9 +50,10 @@ public class ProductController {
 	      String searchString=params.get("searchString");
 	      System.out.println("칸트롤러의 서치 : "+search);
 	      System.out.println("칸트롤러의 서치스트링 : "+searchString);
-	      int pageSize= 2;
+	      int pageSize= 10;
 	      System.out.println("페이지 사이즈:"+pageSize);
 	      int currentpage;
+	      
 	      if(pageNum==null) {
 	         pageNum="1";
 	         currentpage=Integer.parseInt(pageNum);
@@ -57,49 +63,97 @@ public class ProductController {
 	         if(pageNum_db<=0)pageNum_db = 0 ;
 	         currentpage = (int)(pageNum_db);
 	      }
-	      int startRow = (currentpage -1) * pageSize +1;
-	      System.out.println("스타트로우:"+startRow);
-	      int endRow = startRow + pageSize - 1;
-	      System.out.println("앤드로우:"+endRow);
-	      int rowCount=productMapper.listProductMainCount();
-	      System.out.println("로우카운:"+rowCount);
-	      if(endRow>rowCount)   
-	         endRow=rowCount; 
-	      int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
-	      int pageBlock = 2;
-	      int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
-	      int endPage = startPage + pageBlock - 1;
-	      if (endPage > pageCount) endPage = pageCount;
 	      
+	      int startRow = (currentpage -1) * pageSize +1;//1
+	      System.out.println("스타트로우:"+startRow);
+	      int endRow = startRow + pageSize - 1;//10
+	      System.out.println("앤드로우:"+endRow);
+	      
+	      int rowCount=productMapper.listProductMainCount();
+	      
+	      //여기서 로우카운트가 계산되는데 밑으로 코드가 진행되면서 로우카운트가 바뀌죠??
+	      //근데 로우카운트를 이용한 연산들은 또 안하죠??
+	      //그러면 12로 계산된 로우카운트롤 이용한 결과값을 계속 써야돼요
+	      //저희는 로우카운트 8을 이용한 값들을 사용해야하는데
+	      //그래서 저는 로우카운트를 위에서 계산을 하고 그걸 이용한 연산들은 밑으로 다 내렸어요
+	      
+		/*
+		 * System.out.println("범이로우카운:"+rowCount); if(endRow>rowCount) endRow=rowCount;
+		 * //8 int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);//2?
+		 * //제계산맞나여? 네네 저랑 같이 나오는중 지금 2마죠?네네 저도 2나오는거같은데 int pageBlock = 4;//아예 똑같은데여?
+		 * 당연 제가 열심히 카피해버렸는걸요 됐죠???잠시 제가 스윽 보겟 마우스 저에게 턴
+		 * 
+		 * int startPage = (currentpage - 1)/pageBlock * pageBlock + 1; int endPage =
+		 * startPage + pageBlock - 1; if (endPage > pageCount) endPage = pageCount;//2
+		 */	  
 	      
 	      if(mode==null||mode.equals("")) {
 	         if(searchString!=null) {
-	              list = productMapper.findProduct(search, searchString,startRow,endRow);
+	        	 //서치스트링이 널이 아니면 파인드 프로덕트를 부르고 서치스트링이 널이면 전체 페이지를 가지고옴 
+	              list = productMapper.findProduct(search, searchString,startRow-1,endRow);
+	              
+	              rowCount = productMapper.listProductbrandSearch(searchString);
+	             
 	              System.out.println("위에 서치 스트링값은 : "+ searchString);
 	         }else {
-	              list=productMapper.listProduct(startRow, endRow);
+	              list=productMapper.listProduct(startRow-1, endRow);
 	              System.out.println("밑에서치스트링값은 : "+ searchString);
 	         }
 	      }else if(mode.equals("listProductNew")) {
 	         if(search!=null&&searchString!=null) {
-	            list=productMapper.listProductsearchNew(search,searchString);
-	         }else {
-	            list=productMapper.listProductNew(); 
+	        	 if(search.equals("")) {
+	        		 search = "prod_name";
+	        	 }
+	            list=productMapper.listProductsearchNew(search,searchString,startRow-1,endRow);
+	            System.out.println("리스트 프로덕트 서치 뉴 :"+ list);
+	         }else  {
+	        	System.out.println("리스트 프로덕트 뉴 :"+ mode);
+	            list=productMapper.listProductNew(search,startRow-1,endRow); 
+	            System.out.println("리스트 프로덕트 뉴 :"+ list);
 	         }
 	      }else if(mode.equals("listProductPop")) {
 	         if(search!=null&&searchString!=null) {
-	            list=productMapper.listProductsearchPop(search, searchString);
+	        	 if(search.equals("")) {
+	        		 search = "prod_name";
+	        	 }
+	            list=productMapper.listProductsearchPop(search, searchString,startRow-1,endRow);
+	            System.out.println("리스트 프로덕트 서치 팝 :"+ list);
 	         }else {
-	            list=productMapper.listProductPop();
+	            list=productMapper.listProductPop(search,startRow-1,endRow);
+	            System.out.println("리스트 프로덕트 팝 :"+ list);
 	         }
 	      }else if(mode.equals("listProductPrice")){
 	         if(search!=null&&searchString!=null) {
-	            list=productMapper.listProductsearchPrice(search, searchString);
+	        	 if(search.equals("")) {
+	        		 search = "prod_name";
+	        	 }
+	            list=productMapper.listProductsearchPrice(search, searchString,startRow-1,endRow);
+	            System.out.println("리스트 프로덕트 서치 프라이스 :"+ list);
 	         }else {
-	            list=productMapper.listProductPrice();
+	            list=productMapper.listProductPrice(search,startRow-1,endRow);
+	            System.out.println("리스트 프로덕트 프라이스 :"+ list);
 	         }
 	      } 
 
+	      /*
+	       * 저는 여기다 
+	      int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);//2?
+	      int pageBlock = 4;//아예 똑같은데여? 당연 제가 열심히 카피해버렸는걸요 됐죠???잠시 제가 스윽 보겟 마우스 저에게 턴 
+	      int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
+	      int endPage = startPage + pageBlock - 1;
+	      if (endPage > pageCount) endPage = pageCount;//2
+	       */
+	      
+	      System.out.println("범이로우카운:"+rowCount);
+	      if(endRow>rowCount)   
+	         endRow=rowCount; //8
+	      int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);//2?
+	      //제계산맞나여? 네네 저랑 같이 나오는중 지금 2마죠?네네 저도 2나오는거같은데 
+	      int pageBlock = 4;//아예 똑같은데여? 당연 제가 열심히 카피해버렸는걸요 됐죠???잠시 제가 스윽 보겟 마우스 저에게 턴 
+	      int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
+	      int endPage = startPage + pageBlock - 1;
+	      if (endPage > pageCount) endPage = pageCount;//2
+	      
 	      System.out.println("list : "+list);
 	      List<ProductDTO> popList = productMapper.popularProduct();
 	      req.setAttribute("mode", mode);

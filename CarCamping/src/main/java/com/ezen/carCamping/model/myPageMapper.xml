@@ -89,6 +89,35 @@
 		select 	
 	</select> -->
 	
+	
+	<!--  전용재 -->
+	 <resultMap id="reviewProductMap" type="ReviewProductDTO">
+		<id column="rp_num" property="rp_num"/>
+		<result column="rp_title" property="rp_title"/>
+		<result column="rp_sysdate" property="rp_sysdate"/>
+		<result column="rp_summaryContent" property="rp_summaryContent"/>
+		<result column="rp_content" property="rp_content"/>
+		<result column="rp_score" property="rp_score"/>
+		<result column="rp_image1" property="rp_image1"/>
+		<result column="rp_image2" property="rp_image2"/>
+		<result column="rp_image3" property="rp_image3"/>
+		<result column="rp_image4" property="rp_image4"/>
+		<result column="rp_image5" property="rp_image5"/>
+		<result column="rp_popular" property="rp_popular"/>
+		<result column="rp_readCount" property="rp_readCount"/>
+		<result column="rp_likeCount" property="rp_likeCount"/>
+		<result column="rp_adminConfirm" property="rp_adminConfirm"/>
+		<association property="reviewproductlikelogDTO" javaType="ReviewProductLikeLogDTO" resultMap="reviewproductlikelogMap">
+		</association>
+		</resultMap>
+	
+	
+	<!-- 용품리뷰 테이블이랑 용품리뷰 좋아요 테이블을 조인하는데 회원번호에 해당하는 데이터만 가져오면 된다 -->
+	<select id ="ReviewProductList" resultType="ReviewProductDTO" parameterType="int">
+		 select a.* ,b. mem_num from ReviewProduct a join ReviewProductLikeLog b on a.mem_num=b.mem_num where b.mem_num= #{mem_num}
+	</select>
+	
+	
 </mapper>
 
 
