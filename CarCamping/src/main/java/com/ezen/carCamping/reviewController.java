@@ -29,6 +29,7 @@ import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.MemberMapper;
+import com.ezen.carCamping.service.ProductMapper;
 import com.ezen.carCamping.service.RegionMapper;
 import com.ezen.carCamping.service.ReviewMapper;
 
@@ -40,7 +41,9 @@ public class reviewController {
 	
 	@Autowired 
 	private RegionMapper RegionMapper; 
-	
+
+	@Autowired
+	private ProductMapper ProductMapper;
 	
 	@RequestMapping(value="field_review.review", method=RequestMethod.GET )
 	public String field_review(HttpServletRequest req,@RequestParam(required=false) Integer ccr_num) {
@@ -124,7 +127,7 @@ public class reviewController {
 	
 	///////////////////////////////////////////product////////////////////////////////////////
 	@RequestMapping(value="goods_review.review", method=RequestMethod.GET )
-	public String prod_review(HttpServletRequest req) {
+	public String prod_review(HttpServletRequest req,@RequestParam(required=false) Integer prod_num) {
 		HttpSession session = req.getSession();
 		String upPath = session.getServletContext().getRealPath("/resources");
 		session.setAttribute("upPath", upPath);
@@ -137,6 +140,13 @@ public class reviewController {
 			req.setAttribute("mem_num", dto.getMem_num());
 			req.setAttribute("prodCateList", reviewMapper.listAllProdCate());
 			req.setAttribute("brandCateList", reviewMapper.listAllBrandCate());
+		}
+		if(prod_num!=null) {
+			ProductDTO pdto = ProductMapper.getProduct(prod_num);
+			req.setAttribute("pc_num",pdto.getProductCategoryDTO().getPc_num());
+			req.setAttribute("brand_num",pdto.getBrandCategoryDTO().getBrand_num());
+			req.setAttribute("prod_num",prod_num);
+			req.setAttribute("prod_name", pdto.getProd_name());
 		}
 		return "review/goods_review";
 	}

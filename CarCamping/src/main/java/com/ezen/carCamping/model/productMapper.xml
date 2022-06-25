@@ -39,8 +39,8 @@
 	</resultMap>
 
 	
-	
-	<select id="getProduct" parameterType="int" resultType="ProductDTO">
+	<!-- 0625 박혜성 변경  -->
+	<select id="getProduct" parameterType="int" resultMap="productMap">
 		select * from Product where prod_num = #{prod_num}
 	</select>
 

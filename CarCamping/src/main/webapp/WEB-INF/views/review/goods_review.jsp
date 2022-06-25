@@ -140,7 +140,7 @@ function fileDelete(fileNum){
 	 
 	 if (fieldReview.rp_content.value.length < 30) {
 			alert("리뷰 내용은 30자 이상 입력해주세요 😅");
-			fieldReview.review_regionContent.focus();
+			fieldReview.rp_content.focus();
 			return false;
 	 }
 	if(document.getElementsByClassName('imagefile').length==0){
@@ -161,7 +161,7 @@ function fileDelete(fileNum){
    	    		
 				var referrer = document.referrer;
    	    		
-   	    		if(referrer.indexOf("login.login")>0){ // 이전 페이지가 로그인이라면 메인페이지로 이동
+   	    		if(referrer.indexOf("login.login")>0||referrer.indexOf("goods_review.review")){ // 이전 페이지가 로그인이라면 메인페이지로 이동
    	    			location.href="goProduct.product";
    	    		}
    	    		else{
@@ -273,6 +273,37 @@ $(document).ready(function() {
     $('#review_brandCate').select2();
     $('#review_product').select2();
 });
+</script>
 
+<script type="text/javascript">
+	var pc_num = '${pc_num}';
+	var brand_num = '${brand_num}';
+	var prod_num = ${prod_num};
+	var prod_name ='${prod_name}';
+	if(prod_num != null){
+		var prodCateSelect = document.getElementById("review_prodCate")
+		var brandCateSelect = document.getElementById("review_brandCate")
+		var prodSelect = document.getElementById("review_product")
+		//카테고리
+		for(var i=0; i<prodCateSelect.children.length; i++) {
+			prodCateSelect.children[i].setAttribute('disabled', 'true')
+			if(prodCateSelect.children[i].value === pc_num) {
+				prodCateSelect.children[i].setAttribute('disabled', 'false')
+				prodCateSelect.children[i].setAttribute('selected', 'true')
+			}	
+		}
+		for(var i=0; i<brandCateSelect.children.length; i++) {
+			brandCateSelect.children[i].setAttribute('disabled', 'true')
+			if(brandCateSelect.children[i].value === brand_num) {	
+				brandCateSelect.children[i].setAttribute('disabled', 'false')
+				brandCateSelect.children[i].setAttribute('selected', 'true')
+			}
+		}
+		var prod_option = new Option(prod_name,prod_num)
+		prodSelect.append(prod_option)
+		prod_option.selected=true
+	}
+	
+	
 </script>
 <%@ include file="../bottom.jsp"%>

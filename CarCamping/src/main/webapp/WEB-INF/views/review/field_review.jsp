@@ -302,7 +302,7 @@
 		}
 	};
 
-	if (!isEmpty(${ccr_num})) {
+	if (!isEmpty(${ccr_num)) {
 		var ccr_num = '${ccr_num}';
 		var region_num = '${region_num}';
 		var ccr_name = '${ccr_name}';
