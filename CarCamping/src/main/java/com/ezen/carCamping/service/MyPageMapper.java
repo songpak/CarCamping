@@ -19,6 +19,8 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
+import com.ezen.carCamping.dto.ReviewProductDTO;
+import com.ezen.carCamping.dto.ReviewRegionDTO;
 
 @Service
 public class MyPageMapper {
@@ -53,14 +55,6 @@ public class MyPageMapper {
 		 String res = sqlSession.selectOne("getMemberPassword", mem_num);
 		 return res;
 		}	
-	
-		
-		
-
-	 public List<QuestionDTO> myPageGetQuestion(){
-		 List<QuestionDTO> myPageGetQuestion = sqlSession.selectList("myPageGetQuestion");
-		 return myPageGetQuestion;
-	 }
 	 public List<QuestionDTO> myPageGetQuestionSelectMember(int mem_num){
 			List<QuestionDTO> qdto = sqlSession.selectList("myPageGetQuestionSelectMember",mem_num);
 			return qdto;
@@ -73,12 +67,26 @@ public class MyPageMapper {
 		QuestionDTO qdto = sqlSession.selectOne("getQuestion", question_num);
 		return qdto;
 	}
-
-	
 	public int payCart(int mem_num) {
 		int res = sqlSession.delete("payCart",mem_num );
 		return res;
 	}
+	 public List<ReviewRegionDTO> myPageGetWriteReviewRegion(int mem_num){
+			List<ReviewRegionDTO> rdto = sqlSession.selectList("myPageGetWriteReviewRegion",mem_num);
+			return rdto;
+		}
+	 public List<ReviewProductDTO> myPageGetWriteReviewProduct(int mem_num){
+			List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct",mem_num);
+			return pdto;
+		} 
+	 public ReviewRegionDTO getReviewRegion(int review_num){
+		 	ReviewRegionDTO rdto = sqlSession.selectOne("getReviewRegion", review_num);
+			return rdto;
+		}
+	 public ReviewProductDTO getReviewProduct(int rp_num){
+		 	ReviewProductDTO pdto = sqlSession.selectOne("getReviewProduct", rp_num);
+			return pdto;
+		}
 	
 }
 

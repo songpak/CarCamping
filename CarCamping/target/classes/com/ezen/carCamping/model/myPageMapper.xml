@@ -67,9 +67,6 @@
 		<result column="question_replySysdate" property="question_replySysdate"/>
 		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
 	</resultMap>
-	<select id="myPageGetQuestion" resultMap="questionMap">
-		select a.*,b.mem_id from Question a join Member b on a.mem_num=b.mem_num
-	</select>
 	<select id="myPageGetQuestionSelectMember"  resultMap="questionMap">
 		select a.*,b.mem_id from Question a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
 	</select>
@@ -80,15 +77,124 @@
 	<select id="getQuestion" parameterType="int" resultType="questionDTO">
 		select * from Question where question_num = #{question_num}
 	</select>
-	
 	<delete id="payCart" parameterType="int" >
 		delete from ProductCart where mem_num = #{mem_num}
 	</delete>
+
+<!-- 리뷰 관련 map -->	
+
+	<resultMap type="CarCampingRegionDTO" id="carCampingRegionMap">
+		<id column="ccr_num" property="ccr_num"/>
+		<result column="ccr_name" property="ccr_name"/>
+		<result column="ccr_car" property="ccr_car"/>
+		<result column="ccr_pricePerDay" property="ccr_pricePerDay"/>
+		<result column="ccr_toilet" property="ccr_toilet"/>
+		<result column="ccr_restroom" property="ccr_restroom"/>
+		<result column="ccr_water" property="ccr_water"/>
+		<result column="ccr_market" property="ccr_market"/>
+		<result column="ccr_river" property="ccr_river"/>
+		<result column="ccr_ground" property="ccr_ground"/>
+		<result column="ccr_likeCount" property="ccr_likeCount"/>
+		<result column="ccr_score" property="ccr_score"/>
+		<result column="ccr_popular" property="ccr_popular"/>
+		<result column="ccr_viewImage1" property="ccr_viewImage1"/>
+		<result column="ccr_viewImage2" property="ccr_viewImage2"/>
+		<result column="ccr_viewImage3" property="ccr_viewImage3"/>
+		<result column="ccr_viewImage4" property="ccr_viewImage4"/>
+		<result column="ccr_viewImage5" property="ccr_viewImage5"/>
+		<result column="ccr_summary" property="ccr_summary"/>
+		<result column="ccr_content" property="ccr_content"/>
+		<result column="ccr_reviewCount" property="ccr_reviewCount	"/>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
+		</association>
+	</resultMap>
+
+	<resultMap id="reviewRegionMap" type="ReviewRegionDTO">
+		<id column="review_num" property="review_num"/>
+		<result column="review_title" property="review_title"/>
+		<result column="review_sysdate" property="review_sysdate"/>
+		<result column="review_summaryContent" property="review_summaryContent"/>
+		<result column="review_regionContent" property="review_regionContent"/>
+		<result column="review_regionScore" property="review_regionScore"/>
+		<result column="review_regionImage1" property="review_regionImage1"/>
+		<result column="review_regionImage2" property="review_regionImage2"/>
+		<result column="review_regionImage3" property="review_regionImage3"/>
+		<result column="review_regionImage4" property="review_regionImage4"/>
+		<result column="review_regionImage5" property="review_regionImage5"/>
+		<result column="review_popular" property="review_popular"/>
+		<result column="review_readCount" property="review_readCount"/>
+		<result column="review_likeCount" property="review_likeCount"/>
+		<result column="review_adminConfirm" property="review_adminConfirm"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
+		</association>
+		<association property="carCampingRegionDTO" javaType="CarCampingRegionDTO" resultMap="carCampingRegionMap">
+		</association>
+	</resultMap>
 	
-	<!-- <select id="sendRentLog" parameterType="int" >
-		select 	
-	</select> -->
+	<resultMap id="productMap" type="ProductDTO">
+		<id column="prod_num" property="prod_num"/>
+		<result column="prod_name" property="prod_name"/>
+		<result column="prod_popular" property="prod_popular"/>
+		<result column="prod_price" property="prod_price"/>
+		<result column="prod_viewImage1" property="prod_viewImage1"/>
+		<result column="prod_viewImage2" property="prod_viewImage2"/>
+		<result column="prod_viewImage3" property="prod_viewImage3"/>
+		<result column="prod_viewImage4" property="prod_viewImage4"/>
+		<result column="prod_viewImage5" property="prod_viewImage5"/>
+		<result column="prod_summary" property="prod_summary"/>
+		<result column="prod_viewContent" property="prod_viewContent"/>
+		<result column="prod_sysdate" property="prod_sysdate"/>
+		<result column="prod_update" property="prod_update"/>
+		<result column="prod_reviewScore" property="prod_reviewScore"/>
+		<association property="brandCategoryDTO" javaType="BrandCategoryDTO" resultMap="brandCategoryMap">
+		</association>
+		<association property="productCategoryDTO" javaType="ProductCategoryDTO" resultMap="productCategoryMap">
+		</association>
+	</resultMap>
 	
+	<resultMap id="reviewProductMap" type="ReviewProductDTO">
+		<id column="rp_num" property="rp_num"/>
+		<result column="rp_title" property="rp_title"/>
+		<result column="rp_sysdate" property="rp_sysdate"/>
+		<result column="rp_summaryContent" property="rp_summaryContent"/>
+		<result column="rp_content" property="rp_content"/>
+		<result column="rp_score" property="rp_score"/>
+		<result column="rp_image1" property="rp_image1"/>
+		<result column="rp_image2" property="rp_image2"/>
+		<result column="rp_image3" property="rp_image3"/>
+		<result column="rp_image4" property="rp_image4"/>
+		<result column="rp_image5" property="rp_image5"/>
+		<result column="rp_popular" property="rp_popular"/>
+		<result column="rp_readCount" property="rp_readCount"/>
+		<result column="rp_likeCount" property="rp_likeCount"/>
+		<result column="rp_adminConfirm" property="rp_adminConfirm"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
+		</association>
+		<association property="productDTO" javaType="ProductDTO" resultMap="productMap">
+		</association>
+	</resultMap>
+	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
+		<id column="brand_num" property="brand_num"/>
+		<result column="brand_name" property="brand_name"/>
+	</resultMap>
+	
+	<resultMap id="productCategoryMap" type="ProductCategoryDTO">
+		<id column="pc_num" property="pc_num"/>
+		<result column="pc_name" property="pc_name"/>
+	</resultMap>
+
+	<select id="myPageGetWriteReviewRegion"  resultMap="reviewRegionMap">
+		select a.*,b.* from ReviewRegion a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
+	</select>	
+	<select id="myPageGetWriteReviewProduct"  resultMap="reviewProductMap">
+		select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
+	</select>	
+		<select id="getReviewRegion" parameterType="int" resultType="reviewRegionDTO">
+		select * from ReviewRegion where review_num = #{review_num}
+	</select>
+		<select id="getReviewProduct" parameterType="int" resultType="reviewProductDTO">
+		select * from ReviewProduct where rp_num = #{rp_num}
+	</select>
 </mapper>
 
 
