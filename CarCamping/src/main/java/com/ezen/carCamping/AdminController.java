@@ -80,7 +80,7 @@ public class AdminController {
 		//총 페이지
 		req.setAttribute("pageCount", pagination.pageCount(adminListCarCampingRegion));
 		//현재 페이지에 맞는 게시물 리스트
-		req.setAttribute("adminListCarCampingRegion", pagination.getListRegion(page, adminListCarCampingRegion));
+		req.setAttribute("adminListCarCampingRegion", pagination.getPagePost(page, adminListCarCampingRegion));
 		return "admin/adminRegion";
 	}
 	
@@ -275,9 +275,21 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminAgency.admin")
-	public String adminAgency(HttpServletRequest req) {
-		List<AgencyDTO> adminListAgency = adminMapper.adminListAgency();
-		req.setAttribute("adminListAgency", adminListAgency);
+	public String adminAgency(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
+			@RequestParam(required=false) String region_num) {
+			List<AgencyDTO> adminListAgency = new ArrayList<AgencyDTO>();
+		if (region_num == null) {
+			adminListAgency = adminMapper.adminListAgency();
+		}else {
+			adminListAgency = adminMapper.adminListAgencySort(Integer.parseInt(region_num));
+		}
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListAgency));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListAgency", pagination.getPagePost(page, adminListAgency));
+		
 		return "admin/adminAgency";
 	}
 	
@@ -435,7 +447,7 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminProduct.admin")
-	public String adminProduct(HttpServletRequest req,@RequestParam(required=false) String search) {
+	public String adminProduct(HttpServletRequest req,@RequestParam(required=false) String search,@RequestParam(value="page",defaultValue="1") int page) {
 		List<BrandCategoryDTO> adminListBrand = adminMapper.adminListBrand();
 		List<ProductCategoryDTO> adminListProductCategory = adminMapper.adminListProductCategoty();
 		List<ProductDTO> adminListProduct = new ArrayList<ProductDTO>();
@@ -445,9 +457,16 @@ public class AdminController {
 			adminListProduct = adminMapper.adminFindProduct(search.trim());
 		}
 		
-		req.setAttribute("adminListProduct", adminListProduct);
 		req.setAttribute("adminListBrand", adminListBrand);
 		req.setAttribute("adminListProductCategory", adminListProductCategory);
+		
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListProduct));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListProduct", pagination.getPagePost(page, adminListProduct));
+	
 		return "admin/adminProduct";
 	}
 	
@@ -580,7 +599,7 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminMember.admin")
-	public String adminMember(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminMember(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,@RequestParam(value="page",defaultValue="1") int page) {
 		List<MemberDTO> adminListMember = new ArrayList<MemberDTO>();
 		
 		if(map.containsKey("sort")) {
@@ -593,7 +612,13 @@ public class AdminController {
 			adminListMember = adminMapper.adminListMember();
 		}
 		
-		req.setAttribute("adminListMember", adminListMember);
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListMember));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListMember", pagination.getPagePost(page, adminListMember));
+		
 		return "admin/adminMember";
 	}
 	
@@ -636,7 +661,9 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminReviewRegion.admin")
-	public String adminReviewRegion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminReviewRegion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+			@RequestParam(value="page",defaultValue="1") int page) {
+		
 		List<ReviewRegionDTO> adminListReviewRegion = new ArrayList<ReviewRegionDTO>();
 		
 		if (map.containsKey("sort")) {
@@ -649,7 +676,13 @@ public class AdminController {
 			adminListReviewRegion = adminMapper.adminListReviewRegion();
 		}
 		
-		req.setAttribute("adminListReviewRegion", adminListReviewRegion);
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListReviewRegion));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListReviewRegion", pagination.getPagePost(page, adminListReviewRegion));
+		
 		return "admin/adminReviewRegion";
 	}
 	
@@ -698,7 +731,8 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminReviewProduct.admin")
-	public String adminReviewProduct(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminReviewProduct(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+			@RequestParam(value="page",defaultValue="1") int page) {
 		List<ReviewProductDTO> adminListReviewProduct = new ArrayList<ReviewProductDTO>();
 		
 		if (map.containsKey("sort")) {
@@ -710,8 +744,13 @@ public class AdminController {
 		}else {
 			adminListReviewProduct = adminMapper.adminListReviewProduct();
 		}
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListReviewProduct));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListReviewProduct", pagination.getPagePost(page, adminListReviewProduct));
 		
-		req.setAttribute("adminListReviewProduct", adminListReviewProduct);
 		return "admin/adminReviewProduct";
 	}
 	
@@ -761,7 +800,8 @@ public class AdminController {
 
 	
 	@RequestMapping("/adminAnnounce.admin")
-	public String adminAnnounce(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminAnnounce(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+			@RequestParam(value="page",defaultValue="1") int page) {
 		List<AdminAnnounceDTO> list = new ArrayList<AdminAnnounceDTO>();
 		
 		if (map.containsKey("sort")) {
@@ -769,8 +809,13 @@ public class AdminController {
 		}else {
 			list = adminMapper.adminListAnnounce();
 		}
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(list));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListAnnounce", pagination.getPagePost(page, list));
 		
-		req.setAttribute("adminListAnnounce", list);
 		return "admin/adminAnnounce";
 	}
 	
@@ -825,7 +870,7 @@ public class AdminController {
 	@RequestMapping(value="/adminViewAnnounce.admin", method=RequestMethod.POST)
 	public ModelAndView adminViewAnnounce(HttpServletRequest req,@RequestParam("aa_image") MultipartFile[] file,@ModelAttribute AdminAnnounceDTO dto) {
 		String upPath = (String)req.getSession().getAttribute("upPath");
-		//�������� ���ε�
+		//다중파일업로드
 		for (MultipartFile f : file) {
 			String filename = f.getOriginalFilename();		
 			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
@@ -879,8 +924,11 @@ public class AdminController {
 ///////////////////////////////////////////문 의 사 항////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	
+	
 	@RequestMapping("/adminQuestion.admin")
-	public String adminQuestion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminQuestion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+			@RequestParam(value="page",defaultValue="1") int page) {
 		List<QuestionDTO> adminListQuestion = new ArrayList<QuestionDTO>();
 		
 		if (map.containsKey("sort")) {
@@ -893,7 +941,13 @@ public class AdminController {
 			adminListQuestion = adminMapper.adminListQuestion();
 		}
 		
-		req.setAttribute("adminListQuestion", adminListQuestion);
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListQuestion));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListQuestion", pagination.getPagePost(page, adminListQuestion));
+		
 		return "admin/adminQuestion";
 	}
 	
@@ -932,10 +986,16 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminRental.admin")
-	public String adminRental(HttpServletRequest req) {
+	public String adminRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page) {
 		List<RentalLogDTO> list = adminMapper.adminListRentalLog();
 		
-		req.setAttribute("adminListRentalLog", list);
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(list));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListRentalLog", pagination.getPagePost(page, list));
+
 		return "admin/adminRental";
 	}
 	
@@ -963,4 +1023,5 @@ public class AdminController {
 		mav.addObject("url", url);
 		return mav;
 	}
+	
 }

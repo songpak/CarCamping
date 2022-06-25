@@ -85,15 +85,19 @@
 		<result column="agency_location" property="agency_location"/>
 		<result column="agency_name" property="agency_name"/>
 		<result column="agency_phone" property="agency_phone"/>
-		<association property="regionDTO" javaType="regionDTO" resultMap="regionMap"></association>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap"></association>
 	</resultMap>
 	
 	<select id="adminListAgency" resultMap="agencyMap">
-		select a.*,b.region_name from Agency a join Region b on a.region_num = b.region_num
+		select a.*,b.* from Agency a join Region b on a.region_num = b.region_num
+	</select>
+	
+	<select id="adminListAgencySort" resultMap="agencyMap">
+		select a.*,b.* from Agency a join Region b on a.region_num = b.region_num where a.region_num = #{region_num}
 	</select>
 	
 	<select id="adminGetAgency" parameterType="int" resultMap="agencyMap">
-		select a.*,b.region_name from Agency a join Region b on a.region_num = b.region_num where agency_num = #{agency_num}
+		select a.*,b.* from Agency a join Region b on a.region_num = b.region_num where agency_num = #{agency_num}
 	</select>
 	
 	<insert id="adminInsertAgency" parameterType="AgencyDTO">
