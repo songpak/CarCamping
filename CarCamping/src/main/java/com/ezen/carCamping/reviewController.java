@@ -75,7 +75,7 @@ public class reviewController {
 	public String fileUploadFiled(
 			@RequestParam("review_Image") List<MultipartFile> multipartFile
 			, HttpServletRequest request,ReviewRegionDTO dto) {
-		String strResult = "{ \"result\":\"FAIL\" }";
+		String strResult ="bad";
 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
 		String fileRoot;
 		try {
@@ -93,7 +93,7 @@ public class reviewController {
 					else if (dto.getReview_regionImage3()==null) dto.setReview_regionImage3(savedFileName);
 					else if (dto.getReview_regionImage4()==null) dto.setReview_regionImage4(savedFileName);
 					else if (dto.getReview_regionImage5()==null) dto.setReview_regionImage5(savedFileName);
-					//System.out.println("dto의 1번이미지 : "+dto.getReview_regionImage1());
+					
 					File targetFile = new File(fileRoot + savedFileName);	
 					try {
 						InputStream fileStream = file.getInputStream();
@@ -106,11 +106,9 @@ public class reviewController {
 					}
 				}
 				int res = reviewMapper.insertReviewRegion(dto);	
-				strResult = "{ \"result\":\"OK\" }";
+				strResult = "good";
 			}
 			// 파일 아무것도 첨부 안했을때 
-			else
-				strResult = "{ \"result\":\"OK\" }";
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -154,7 +152,7 @@ public class reviewController {
 	public String fileUploadGoods(
 			@RequestParam("review_Image") List<MultipartFile> multipartFile
 			, HttpServletRequest request,ReviewProductDTO dto) {
-		String strResult = "{ \"result\":\"FAIL\" }";
+		String strResult = "bad";
 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
 		String fileRoot;
 		try {
@@ -186,11 +184,8 @@ public class reviewController {
 					}
 				}
 				int res = reviewMapper.insertReviewProduct(dto);	
-				strResult = "{ \"result\":\"OK\" }";
+				strResult = "good";
 			}
-			// 파일 아무것도 첨부 안했을때 
-			else
-				strResult = "{ \"result\":\"OK\" }";
 		}catch(Exception e){
 			e.printStackTrace();
 		}

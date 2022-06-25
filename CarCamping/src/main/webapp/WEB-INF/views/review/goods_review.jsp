@@ -103,7 +103,7 @@ function fileCheck(e) {
       reader.onload = function (e) {
         content_files.push(f);
         $('#reviewImageBox').append(
-           		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
+           		'<div id="file' + fileNum + '" class="imagefile" onclick="fileDelete(\'file' + fileNum + '\')">'
            		+ '<p style="font-size:12px">' + f.name + '💣</p>' 
            		+ '<img src="'+e.target.result+'"style="width: 25%; display: inline;"/>'
            		+ '</div>'
@@ -138,14 +138,15 @@ function fileDelete(fileNum){
 	 var fieldReview = document.dataForm;
 	 var fileList = document.getElementById("reviewImageBox");
 	 
-	 if(fieldReview.rp_content.value.length<30){///////////////////////
-		 alert("리뷰 내용은 30자 이상 입력해주세요 😅");
-		 fieldReview.review_regionContent.focus();
-		 return false;
-	 }else if(!reviewImageBox.textContent){
-		 alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
-		 return false;
-	 } 
+	 if (fieldReview.rp_content.value.length < 30) {
+			alert("리뷰 내용은 30자 이상 입력해주세요 😅");
+			fieldReview.review_regionContent.focus();
+			return false;
+	 }
+	if(document.getElementsByClassName('imagefile').length==0){
+			alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
+			return false;
+	}
  //파일업로드 multiple ajax처리  
 	$.ajax({
    	      type: "POST",
@@ -155,7 +156,7 @@ function fileDelete(fileNum){
        	  processData: false,
    	      contentType: false,
    	      success: function (data) {
-   	    	if(JSON.parse(data)['result'] == "OK"){
+   	    	if(data == "good"){
 				alert("리뷰 업로드 성공");
    	    		
 				var referrer = document.referrer;
@@ -166,8 +167,6 @@ function fileDelete(fileNum){
    	    		else{
    	    			location.href = referrer;
    	    		}
-   	    		//alert(referrer);
-   	    		
 			} else
 				alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
    	      },
