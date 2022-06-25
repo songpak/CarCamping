@@ -298,7 +298,10 @@ body {
 					<button type="button" class="btn btn-success" style=" margin-left: 15px; background-color: #00205b; border-color: #00205b;" onclick="show_allList()">
 							전체보기
 					</button>
-				
+					<button type="button" class="btn btn-success" style="margin-left: 15px; background-color: #00205b; border-color: #00205b;" 
+							onclick="location.href='field_review.review?ccr_num=${ccr_num}'">
+							리뷰 등록 하기 
+					</button>
 				</div>
 				
 					<%-- regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${i} --%>
@@ -329,7 +332,7 @@ body {
 						<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
 						<button type="button" class="btn btn-success" style="margin-left: 431px;align: center;
 						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
-							onclick="location.href='field_review.review'">
+							onclick="location.href='field_review.review?ccr_num=${ccr_num}'">
 							리뷰 등록 하기 
 						</button></td></c:if>
 						</c:if>

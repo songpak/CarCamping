@@ -51,13 +51,18 @@ public class MemberController {
 	   HttpSession session = req.getSession();
 	   String referer = req.getHeader("Referer");
 	      String re_url = null;
-	      if(referer.indexOf("index.do")>0) {
-	         System.out.println("이전 페이지 : "+referer); // 메인페이지 -> 로그인페이지 -> 메인페이지
-	         session.setAttribute("re_url", referer);
-	      }else {
-	          System.out.println("이전 페이지 : "+referer); //메인페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 메인페이지가 아닌 다른 페이지
-	          session.setAttribute("re_url", referer);
-	      } 
+		/*
+		 * if(referer.indexOf("index.do")>0) { System.out.println("이전 페이지 : "+referer);
+		 * // 메인페이지 -> 로그인페이지 -> 메인페이지 session.setAttribute("re_url", referer); }else {
+		 * System.out.println("이전 페이지 : "+referer); //메인페이지가 아닌 다른 페이지 -> 로그인 페이지 ->
+		 * 메인페이지가 아닌 다른 페이지 session.setAttribute("re_url", referer); }
+		 */
+	      if(referer.indexOf("login.login")>0) {//이전 페이지가 로그인 페이지라면
+			  session.setAttribute("re_url",session.getAttribute("re_url"));
+		   }else {
+		       System.out.println("이전 페이지 : "+referer); //로그인 페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 로그인 페이지가 아닌 다른 페이지
+		       session.setAttribute("re_url", referer);
+		   }
       return "login/login";
    }
    

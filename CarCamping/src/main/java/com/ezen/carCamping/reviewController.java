@@ -43,7 +43,8 @@ public class reviewController {
 	
 	
 	@RequestMapping(value="field_review.review", method=RequestMethod.GET )
-	public String field_review(HttpServletRequest req) {
+	public String field_review(HttpServletRequest req,@RequestParam(required=false) Integer ccr_num) {
+	
 		HttpSession session = req.getSession();
 		String upPath = session.getServletContext().getRealPath("/resources");
 		session.setAttribute("upPath", upPath);
@@ -54,6 +55,12 @@ public class reviewController {
 			return "message";
 		}else {
 			req.setAttribute("mem_num", dto.getMem_num());
+		}
+		if(ccr_num!=null) {
+			CarCampingRegionDTO cdto = RegionMapper.selectRegionByCcrnum(ccr_num);
+			req.setAttribute("region_num",cdto.getRegionDTO().getRegion_num());
+			req.setAttribute("ccr_num",ccr_num);
+			req.setAttribute("ccr_name", cdto.getCcr_name());
 		}
 		return "review/field_review";
 	}

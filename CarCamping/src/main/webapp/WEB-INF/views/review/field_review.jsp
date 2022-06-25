@@ -289,5 +289,36 @@
 	</div>
 
 </form>
+<script type="text/javascript">
+	var isEmpty = function(value) { //빈값체크
+		if (value == ""
+				|| value == null
+				|| value == undefined
+				|| (value != null && typeof value == "object" && !Object
+						.keys(value).length)) {
+			return true
+		} else {
+			return false
+		}
+	};
 
+	if (!isEmpty(${ccr_num})) {
+		var ccr_num = '${ccr_num}';
+		var region_num = '${region_num}';
+		var ccr_name = '${ccr_name}';
+		alert(ccr_num)
+		var regionSelect = document.getElementById("review_region")
+		var ccrSelect = document.getElementById("review_ccr")
+		for (var i = 0; i < regionSelect.children.length; i++) {
+			regionSelect.children[i].setAttribute('disabled', 'true')
+			if (regionSelect.children[i].value === region_num) {
+				regionSelect.children[i].setAttribute('disabled', 'false')
+				regionSelect.children[i].setAttribute('selected', 'true')
+			}
+		}
+		var ccr_option = new Option(ccr_name, ccr_num)
+		ccrSelect.append(ccr_option)
+		ccr_option.selected = true
+	}
+</script>
 <%@ include file="../bottom.jsp"%>
