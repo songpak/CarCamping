@@ -215,56 +215,5 @@ public class reviewController {
 		req.setAttribute("url",url);
 		return "message";
 	}
-	
-	/*
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value = "/prod_upload.review", method = RequestMethod.POST)
-	 * public String fileUpload(
-	 * 
-	 * @RequestParam("review_Image") List<MultipartFile> multipartFile ,
-	 * HttpServletRequest request,ReviewRegionDTO dto) {
-	 * 
-	 * String strResult = "{ \"result\":\"FAIL\" }"; String contextRoot = new
-	 * HttpServletRequestWrapper(request).getRealPath("/"); String fileRoot; try {
-	 * // 파일이 있을때 if(multipartFile.size() > 0 &&
-	 * !multipartFile.get(0).getOriginalFilename().equals("")) { for(MultipartFile
-	 * file:multipartFile) { fileRoot = contextRoot + "resources/images/";
-	 * System.out.println(fileRoot); String originalFileName =
-	 * file.getOriginalFilename(); //오리지날 파일명 String extension =
-	 * originalFileName.substring(originalFileName.lastIndexOf(".")); //파일 확장자
-	 * String savedFileName = UUID.randomUUID() + extension; //저장될 파일 명 //dto image
-	 * setting if (dto.getReview_regionImage1()==null)
-	 * dto.setReview_regionImage1(savedFileName); else if
-	 * (dto.getReview_regionImage2()==null)
-	 * dto.setReview_regionImage2(savedFileName); else if
-	 * (dto.getReview_regionImage3()==null)
-	 * dto.setReview_regionImage3(savedFileName); else if
-	 * (dto.getReview_regionImage4()==null)
-	 * dto.setReview_regionImage4(savedFileName); else if
-	 * (dto.getReview_regionImage5()==null)
-	 * dto.setReview_regionImage5(savedFileName);
-	 * //System.out.println("dto의 1번이미지 : "+dto.getReview_regionImage1()); File
-	 * targetFile = new File(fileRoot + savedFileName); try { InputStream fileStream
-	 * = file.getInputStream(); FileUtils.copyInputStreamToFile(fileStream,
-	 * targetFile); //파일 저장
-	 * 
-	 * } catch (Exception e) {//파일삭제 FileUtils.deleteQuietly(targetFile);//저장된 현재 파일
-	 * 삭제 e.printStackTrace(); break; } } int res =
-	 * reviewMapper.insertReviewRegion(dto); strResult = "{ \"result\":\"OK\" }"; }
-	 * // 파일 아무것도 첨부 안했을때 else strResult = "{ \"result\":\"OK\" }"; }catch(Exception
-	 * e){ e.printStackTrace(); } return strResult; }
-	 */
-	
-	/*
-	 * @RequestMapping(value="goods_review.review", method=RequestMethod.GET )
-	 * public String goods_review() { return "review/goods_review"; }
-	 * 
-	 * @RequestMapping(value="goods_review.review", method=RequestMethod.POST)
-	 * public String goods_reviewOk(HttpServletRequest req, ReviewProductDTO dto) {
-	 * int res = reviewMapper.insertReviewProduct(dto); if(res>0) {
-	 * req.setAttribute("msg", "占쏙옙占쏙옙 占쏙옙占� 占쏙옙占쏙옙!"); }else {
-	 * req.setAttribute("msg", "占쏙옙占쏙옙 占쏙옙占� 占쏙옙占싻ㅿ옙_占쏙옙"); req.setAttribute("url",
-	 * "goods_review.review"); } return "message"; }
-	 */
+
 }

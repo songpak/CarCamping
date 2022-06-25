@@ -1,7 +1,6 @@
 package com.ezen.carCamping;
 
-
-import java.io.File;
+import java.io.File; 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,30 +29,24 @@ import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
 
-
 @Controller
 public class MyPageController {
 
 	@Autowired
 	private MyPageMapper myPageMapper;
 
-	
 	@Autowired
 	private MemberMapper memberMapper;
-		
-	@Resource(name="uploadPath")
-			private String uploadPath;
 
-
-
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 
 	@RequestMapping("/myPageCart.myPage")
-	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from,
-			String cart_to, int mem_num, int agency_num)
-			throws ParseException {
-		//System.out.println(agency_num);
-		//System.out.println(sdf.format(indate));
-		//System.out.println(sdf.format(outdate));
+	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from, String cart_to, int mem_num,
+			int agency_num) throws ParseException {
+		// System.out.println(agency_num);
+		// System.out.println(sdf.format(indate));
+		// System.out.println(sdf.format(outdate));
 		if (mem_num == 0) {
 			String msg = ".로그인 하셔야 합니다!";
 
@@ -61,9 +54,8 @@ public class MyPageController {
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
 			return "message";
-
-		} 
-		if (cart_from == "" || cart_to =="") {
+		}
+		if (cart_from == "" || cart_to == "") {
 			String msg = "대여날짜를 선택해 주세요!";
 			String url = "goProduct.product";
 			req.setAttribute("msg", msg);
@@ -76,7 +68,7 @@ public class MyPageController {
 		Date time = new Date();
 		String time1 = sdf.format(time);
 		Date now = sdf.parse(time1);
-			if (indate.compareTo(outdate) > 0) {
+		if (indate.compareTo(outdate) > 0) {
 			String msg = "반납날짜보다 빌린날짜가 먼저여야 합니다!";
 			String url = "goProduct.product";
 			req.setAttribute("msg", msg);
@@ -91,9 +83,9 @@ public class MyPageController {
 		} else {
 			int res = myPageMapper.insertCart(dto);
 			if (res > 0) {
-				System.out.println("�벑濡앹꽦怨�");
+				System.out.println("장바구니 넣기 성공");
 			} else {
-				System.err.println("�벑濡앹떎�뙣");
+				System.err.println("장바구니 넣기 실패");
 			}
 			HttpSession session = req.getSession();
 			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
@@ -101,7 +93,6 @@ public class MyPageController {
 		}
 		return "myPage/myPageCart";
 	}
-
 
 	@RequestMapping("/myPageCart2.myPage") // 탑에서 장바구니 갈때
 	public String myPageCart2(HttpServletRequest req) {
@@ -120,12 +111,11 @@ public class MyPageController {
 		return "myPage/myPageCart";
 	}
 
-
 	@RequestMapping("mall_cartEdit.myPage") // 카트수정
 	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num, String cart_from,
 			String cart_to) {
-		//System.out.println("cart_from" + cart_from);
-		//System.out.println("cart_from" + cart_to);
+		System.out.println("prodNum" + prod_num);
+		System.out.println("cart_from" + cart_to);
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		if (cart_prodCount <= 0) {
@@ -150,13 +140,11 @@ public class MyPageController {
 		return "myPage/myPageCart";
 	}
 
-
-
 	@RequestMapping("mall_cartDel.myPage") // 카트삭제
 	public String mall_cartDel(HttpServletRequest req, @RequestParam int prod_num, int cart_num, String cart_from,
 			String cart_to) {
-		//System.out.println("cart_from" + cart_from);
-		//System.out.println("cart_from" + cart_to);
+		// System.out.println("cart_from" + cart_from);
+		// System.out.println("cart_from" + cart_to);
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		for (ProductCartDTO cartDTO : cart) {
@@ -175,7 +163,7 @@ public class MyPageController {
 		return "myPage/myPageCart";
 	}
 
-	@RequestMapping("checkOut.myPage")
+	@RequestMapping("checkOut.myPage")//장바구니 결제버튼 눌렀을때
 	public String checkOut(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
@@ -184,9 +172,9 @@ public class MyPageController {
 
 			msg = "장바구니가 비었습니다!";
 			url = "productView.product";
-			
+
 		} else {
-			msg = "寃곗젣 �럹�씠吏�濡� �씠�룞�빀�땲�떎!";
+			msg = "결제 페이지로 이동합니다!";
 			url = "Pay.myPage";
 		}
 		req.setAttribute("msg", msg);
@@ -194,22 +182,20 @@ public class MyPageController {
 		return "message";
 	}
 
-	
-
-	@RequestMapping("Pay.myPage") 
+	@RequestMapping("Pay.myPage")//결제폼
 	public String myPageCheckOut1(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
 		List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 		session.setAttribute("cartList", list);
-		return "myPage/myPagePay";// 결제폼
+		return "myPage/myPagePay";
 	}
-	
-	@RequestMapping("myPageCheckOut.myPage")
+
+	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
 	public String myPageCheckOut2(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
-		int res= myPageMapper.payCart(mem_num);//장바구니 비우기
+		int res = myPageMapper.payCart(mem_num);
 		if (res > 0) {
 			System.out.println("결제 성공");
 		} else {
@@ -217,7 +203,7 @@ public class MyPageController {
 		}
 		return "myPage/myPageCheckOut";
 	}
-	
+
 	@RequestMapping("/myPageRental.myPage")
 	public String myPageRental(HttpServletRequest req) {
 		HttpSession session = req.getSession();
@@ -235,22 +221,24 @@ public class MyPageController {
 		return "myPage/myPageRental";
 	}
 
-	@RequestMapping(value="myPageProfile.myPage", method=RequestMethod.GET)
+	@RequestMapping(value = "myPageProfile.myPage", method = RequestMethod.GET)
 	public String memberUpdate(HttpServletRequest req) {
 		HttpSession session = req.getSession();
-		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");  
+		MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
 		req.setAttribute("getMember", dto);
-		
+
 		return "myPage/myPageProfile";
 	}
+
 	@RequestMapping("/myPageProfile.myPage") // 프로필 상세보기
 	public String myPageProfile() {
 
 		return "myPage/myPageProfile";
 	}
-	@RequestMapping(value="myPageProfile.myPage", method=RequestMethod.POST)
+
+	@RequestMapping(value = "myPageProfile.myPage", method = RequestMethod.POST)
 	public String memberUpdateOk(HttpServletRequest req, @ModelAttribute MemberDTO dto, BindingResult result) {
-		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
 		MultipartFile mf = mr.getFile("mem_image");
 		String filename = mf.getOriginalFilename();
 		dto.setMem_image(filename);
@@ -258,21 +246,22 @@ public class MyPageController {
 			File file = new File(uploadPath, filename);
 			try {
 				mf.transferTo(file);
-			}catch(IOException e) {}
-			}else {
-				filename = req.getParameter("mem_image2"); 
-			}		
-			dto.setMem_image(filename);
-	  RegionDTO rdto = new RegionDTO();
-      rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
-      dto.setRegionDTO(rdto);
-		
-      int res = memberMapper.updateMember(dto);
+			} catch (IOException e) {
+			}
+		} else {
+			filename = req.getParameter("mem_image2");
+		}
+		dto.setMem_image(filename);
+		RegionDTO rdto = new RegionDTO();
+		rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
+		dto.setRegionDTO(rdto);
+
+		int res = memberMapper.updateMember(dto);
 		String msg = null, url = null;
-		if (res>0) {
+		if (res > 0) {
 			msg = "내정보 수정 성공!";
 			url = "myPageProfile.myPage";
-		}else {
+		} else {
 			msg = "내정보 수정 실패! 다시 시도해 주세요.";
 			url = "myPageProfile.myPage?mem_num=" + dto.getMem_num();
 		}
@@ -281,42 +270,41 @@ public class MyPageController {
 		return "message";
 	}
 
-
-	
-	@RequestMapping("/myPageQuestion.myPage")//마이페이지 문의목록
+	@RequestMapping("/myPageQuestion.myPage") // 마이페이지 문의목록
 	public String myPageQuestion(HttpServletRequest req, int mem_num) {
-		List<QuestionDTO> qdto =  new ArrayList<QuestionDTO>();
+		List<QuestionDTO> qdto = new ArrayList<QuestionDTO>();
 		qdto = myPageMapper.myPageGetQuestionSelectMember(mem_num);
 		req.setAttribute("listBoard", qdto);
 		return "myPage/myPageQuestion";
 	}
 
-
-	
-	@RequestMapping(value="myPageContactUs.myPage", method=RequestMethod.GET)//마이페이지 컨텍어스
+	@RequestMapping(value = "myPageContactUs.myPage", method = RequestMethod.GET) // 마이페이지 컨텍어스
 	public String myPageContactUs() {
 		return "myPage/myPageContactUs";
 	}
-	@RequestMapping(value="myPageContactUs.myPage", method=RequestMethod.POST)
+
+	@RequestMapping(value = "myPageContactUs.myPage", method = RequestMethod.POST)
 	public String myPageContactUsOk(HttpServletRequest req, QuestionDTO qdto, @RequestParam int mem_num) {
 		MemberDTO dto = new MemberDTO();
 		dto.setMem_num(Integer.parseInt(req.getParameter("mem_num")));
-	    qdto.setMemberDTO(dto);
-	    req.setAttribute("mem_num", mem_num);
+		qdto.setMemberDTO(dto);
+		req.setAttribute("mem_num", mem_num);
 		int res = myPageMapper.insertQuestion(qdto);
-		if (res>0) {
+		if (res > 0) {
 			req.setAttribute("msg", "문의사항을 접수했습니다.");
-		}else {
+		} else {
 			req.setAttribute("msg", "문의사항을 접수하지 못했습니다. 다시 입력해 주세요.");
 		}
 		return "message";
 	}
+
 	@RequestMapping("/myPageContactUsView.myPage")
 	public String myPageContactUsView(HttpServletRequest req, @RequestParam int question_num) {
 		QuestionDTO qdto = myPageMapper.getQuestion(question_num);
 		req.setAttribute("getQuestion", qdto);
 		return "myPage/myPageContactUsView";
 	}
+
 	@RequestMapping("/myPageQuestionReply.myPage")
 	public String myPageQuestionReply(HttpServletRequest req, @RequestParam int question_num) {
 		QuestionDTO qdto = myPageMapper.getQuestion(question_num);
@@ -339,46 +327,41 @@ public class MyPageController {
 		return "myPage/myPageTest";
 	}
 
-	@RequestMapping(value="memberDelete.myPage", method=RequestMethod.GET)
+	@RequestMapping(value = "memberDelete.myPage", method = RequestMethod.GET)
 	public String memberDelete() {
-	return "myPage/memberDelete";
+		return "myPage/memberDelete";
 	}
-	
-	@RequestMapping(value="memberDelete.myPage", method=RequestMethod.POST)
+
+	@RequestMapping(value = "memberDelete.myPage", method = RequestMethod.POST)
 	public String memberDeleteOK(HttpServletRequest req, String raw_password) {
 		HttpSession session = req.getSession();
-		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
+		MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
 		int mem_num = dto.getMem_num();
-		
-		
+
 		String mem_password = memberMapper.getMemberPassword(mem_num);
-		
+
 		System.out.println(mem_password);
 		System.out.println(raw_password);
-		if(mem_password.equals(raw_password)) {
+		if (mem_password.equals(raw_password)) {
 			System.out.println(mem_password);
-         int res = memberMapper.deleteMember(mem_num, mem_password);
- 		System.out.println(raw_password);
-         
-         if(res>0){
+			int res = memberMapper.deleteMember(mem_num, mem_password);
+			System.out.println(raw_password);
+
+			if (res > 0) {
 				session.invalidate();
-				
+
 				req.setAttribute("msg", "회원 탈퇴되었습니다.");
 				req.setAttribute("url", "index.do");
-			}else { 
+			} else {
 				req.setAttribute("msg", "회원 탈퇴에 실패하였습니다. 다시 시도해주세요.");
 				req.setAttribute("url", "memberDelete.myPage");
 			}
-		}else {
+		} else {
 			req.setAttribute("msg", "비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
 			req.setAttribute("url", "memberDelete.myPage");
 		}
-		
-		return "message"; 
+
+		return "message";
 	}
 
 }
-		 
-
-
-

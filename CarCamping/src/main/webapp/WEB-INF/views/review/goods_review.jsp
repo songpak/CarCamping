@@ -65,8 +65,6 @@ function SelectCateEvent(){
 			});
 	}
 }
-
-
 </script>
 
 <script>
@@ -157,18 +155,10 @@ function fileDelete(fileNum){
    	      contentType: false,
    	      success: function (data) {
    	    	if(data == "good"){
-				alert("리뷰 업로드 성공");
-   	    		
-				var referrer = document.referrer;
-   	    		
-   	    		if(referrer.indexOf("login.login")>0||referrer.indexOf("goods_review.review")){ // 이전 페이지가 로그인이라면 메인페이지로 이동
-   	    			location.href="goProduct.product";
-   	    		}
-   	    		else{
-   	    			location.href = referrer;
-   	    		}
+				alert("리뷰 업로드 성공");   	    		
+				location.href="goProduct.product";  	    		   
 			} else
-				alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
+				alert("서버내 오류 또는 게시글의 내용이 너무 깁니다. 잠시후 시도 하시거나 내용을 변경해주세요");
    	      },
    	      error: function (xhr, status, error) {
    	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
@@ -178,7 +168,6 @@ function fileDelete(fileNum){
    	    return false;
 	}
 </script>
-
 
 <style>
 .select2-container .select2-selection--single .select2-selection__rendered {

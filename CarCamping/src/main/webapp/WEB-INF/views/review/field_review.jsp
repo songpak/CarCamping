@@ -54,8 +54,6 @@
 		loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>';
 		$('body').fadeTo("fast", 0.4).append(loadingHtml);
 		var selectedRegionNum = $("#review_region option:selected").val(); // region_num 저장
-		//alert(selectedRegionNum);
-		var ccr_list = []; //region_num에 따른 ccr을 받아올 리스트
 
 		//ajax호출
 		$.ajax({
@@ -171,19 +169,12 @@
 			processData : false,
 			contentType : false,
 			success : function(data) {
-				alert(data)
 				if (data == "good") {
 					alert("리뷰 업로드 성공");
-
-					var referrer = document.referrer;
-
-					if (referrer.indexOf("login.login") > 0) { // 이전 페이지가 로그인이라면 메인페이지로 이동
-						location.href = "goRegion.region";
-					} else {
-						location.href = referrer;
-					}
+					location.href = "goRegion.region";
+					
 				} else
-					alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
+					alert("서버내 오류 또는 게시글의 내용이 너무 깁니다. 잠시후 시도 하시거나 내용을 변경해주세요");
 			},
 			error : function(xhr, status, error) {
 				alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
@@ -302,11 +293,10 @@
 		}
 	};
 
-	if (!isEmpty(${ccr_num)) {
+	if (!isEmpty(${ccr_num})) {
 		var ccr_num = '${ccr_num}';
 		var region_num = '${region_num}';
 		var ccr_name = '${ccr_name}';
-		alert(ccr_num)
 		var regionSelect = document.getElementById("review_region")
 		var ccrSelect = document.getElementById("review_ccr")
 		for (var i = 0; i < regionSelect.children.length; i++) {

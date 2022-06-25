@@ -22,12 +22,12 @@
 <table class="table table-bordered">
     <tr>
       <th scope="col" width="30%" class="text-center">상점명</th>
-      <td width="70%">WithCar(${mdto.agency_name})</td>
+      <td width="70%">WithCar(${mdto.agencyDTO.agency_name})</td>
     </tr>
   
     <tr>
       <th scope="col" width="30%" class="text-center">용품명</th>
-      <td width="200" width="70%">${mdto.prod_name }</td>
+      <td width="200" width="70%">${mdto.productDTO.prod_name }</td>
      
     </tr>
     <tr>
@@ -42,14 +42,14 @@
     </tr>
     <tr>
       <th scope="col" width="30%" class="text-center">결제금액</th>
-      <td width="200" width="70%" class="text-danger">${mdto.prod_price}원</td>
+      <td width="200" width="70%" class="text-danger">${mdto.productDTO.prod_price}원</td>
     </tr>
 </table>
 </c:forEach>
   <div style="float:right">
              <c:set var ="cartTotalPrice" value="0"/>
          <c:forEach items="${cartList}" var="mdto">
-        <c:set var="cartTotalPrice" value="${cartTotalPrice + mdto.prod_price * mdto.cart_prodCount}"/>
+        <c:set var="cartTotalPrice" value="${cartTotalPrice + mdto.productDTO.prod_price * mdto.cart_prodCount}"/>
          </c:forEach>
                 <h3>총 결제금액</h3>
                 <h1>${cartTotalPrice}원</h1>
