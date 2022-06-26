@@ -87,7 +87,14 @@ public class MyPageMapper {
 		 	ReviewProductDTO pdto = sqlSession.selectOne("getReviewProduct", rp_num);
 			return pdto;
 		}
-	
+	public int deleteReviewRegion(int review_num) {
+		int res = sqlSession.delete("deleteReviewRegion", review_num);
+		return res;
+		}
+	public int deleteReviewProduct(int rp_num) {
+		int res = sqlSession.delete("deleteReviewProduct", rp_num);
+		return res;
+		}
 }
 
 

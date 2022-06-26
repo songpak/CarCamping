@@ -9,7 +9,7 @@
 <!-- Content Column Grid -->
 	<script>
 		function popup_region(a){
-			var url = "myPageWriteReviewRegionView.myPage?review_num="+a
+			var url = "myPageWriteReviewRegionView.myPage?&review_num="+a
 			var name = "내가 쓴 리뷰"
 			var option = "width=800,height=400,top=100,left=300,location=no"
 			window.open(url,name,option);
@@ -47,7 +47,10 @@
 						</p>
 						<button type="button" class="btn btn-dark"
 							onclick="location.href='javascript:popup_region(${rdto.review_num})'">
-							상세보기</button>
+							상세보기</button>&nbsp;&nbsp;
+						<button type="button" class="btn btn-dark"
+							onclick="location.href='myPageWriteReviewRegionDelete.myPage?review_num=${rdto.review_num}'">
+							삭제하기</button>
 						</div>
 					</div>
 				</td>
@@ -78,7 +81,10 @@
 						</p>
 						<button type="button" class="btn btn-dark"
 							onclick="location.href='javascript:popup_product(${pdto.rp_num})'">
-							상세보기</button>
+							상세보기</button>&nbsp;&nbsp;
+						<button type="button" class="btn btn-dark"
+							onclick="location.href='myPageWriteReviewProductDelete.myPage?rp_num=${pdto.rp_num}'">
+							삭제하기</button>
 						</div>
 					</div>
 				</td>

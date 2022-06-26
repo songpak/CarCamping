@@ -195,6 +195,12 @@
 		<select id="getReviewProduct" parameterType="int" resultType="reviewProductDTO">
 		select * from ReviewProduct where rp_num = #{rp_num}
 	</select>
+	<delete id="deleteReviewRegion" parameterType="int">
+		delete from ReviewRegion where review_num = #{review_num}
+	</delete>
+	<delete id="deleteReviewProduct" parameterType="int">
+		delete from ReviewProduct where rp_num = #{rp_num}
+	</delete>
 </mapper>
 
 

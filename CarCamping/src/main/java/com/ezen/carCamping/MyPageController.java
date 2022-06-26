@@ -398,6 +398,42 @@ public class MyPageController {
 		req.setAttribute("getReviewProduct", pdto);
 		return "myPage/myPageWriteReviewProductView";
 	}
+	@RequestMapping("/myPageWriteReviewRegionDelete.myPage")
+	public String deleteReviewRegion(HttpServletRequest req, @RequestParam int review_num) {
+		HttpSession session = req.getSession();
+		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
+		int mem_num = dto.getMem_num();
+		int res = myPageMapper.deleteReviewRegion(review_num);
+		String msg = null, url = null;
+		if (res>0) {
+			msg = "리뷰를 삭제했습니다.";
+			url = "myPageWriteReview.myPage?mem_num="+mem_num;
+		}else {
+			msg = "리뷰를 삭제하지 못했습니다. 다시 시도해 주세요!";
+			url = "myPageWriteReview.myPage?mem_num="+mem_num;
+		}
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	@RequestMapping("/myPageWriteReviewProductDelete.myPage")
+	public String deleteReviewProduct(HttpServletRequest req, @RequestParam int rp_num) {
+		HttpSession session = req.getSession();
+		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
+		int mem_num = dto.getMem_num();
+		int res = myPageMapper.deleteReviewProduct(rp_num);
+		String msg = null, url = null;
+		if (res>0) {
+			msg = "리뷰를 삭제했습니다.";
+			url = "myPageWriteReview.myPage?mem_num="+mem_num;
+		}else {
+			msg = "리뷰를 삭제하지 못했습니다. 다시 시도해 주세요!";
+			url = "myPageWriteReview.myPage?mem_num="+mem_num;
+		}
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
 		
 }
 		 
