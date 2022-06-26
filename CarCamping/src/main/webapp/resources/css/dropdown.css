@@ -7,11 +7,14 @@
 .dropdown-content{
   display : none;
   position : absolute;
-  z-index : 1; /*´Ù¸¥ ¿ä¼Òµéº¸´Ù ¾Õ¿¡ ¹èÄ¡*/
+  z-index : 1; /*ï¿½Ù¸ï¿½ ï¿½ï¿½Òµéº¸ï¿½ï¿½ ï¿½Õ¿ï¿½ ï¿½ï¿½Ä¡*/
+  border: 1px solid black;
+  width: 100%;
 }
 
 .dropdown-content a{
   display : block;
+ 
 }
 
 .dropdown:hover .dropdown-content {

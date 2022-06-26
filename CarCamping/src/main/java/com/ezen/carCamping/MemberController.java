@@ -165,6 +165,7 @@ public class MemberController {
     		   int res = LoginLogMapper.insertLoginLogSuccess(ldto);
     		   msg = dto.getMem_id()+"님, 환영합니다!!";
     		   url = (String) session.getAttribute("re_url");
+    		   System.out.println("re_url : " + url);
     		   login_success = 0;
     		   session.setAttribute("mem_num",  dto.getMem_num());
     		   session.setAttribute("mbdto", dto);
