@@ -86,7 +86,6 @@ function fn_account(val){
 	font-size: 13px;
 }
 </style>
-
 			<!-- 여기서는 날짜 보내주기만 하고 저장은 구매할때 저장 -->
 			<form name="f_lent" action="myPageCart.myPage" method="post">
 				<input type="hidden" name="prod_num" value="${getProduct.prod_num}">

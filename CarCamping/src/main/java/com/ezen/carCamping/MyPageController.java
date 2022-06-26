@@ -26,6 +26,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
 
@@ -169,10 +170,8 @@ public class MyPageController {
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		String msg = null, url = null;
 		if (cart == null) {
-
 			msg = "장바구니가 비었습니다!";
 			url = "productView.product";
-
 		} else {
 			msg = "결제 페이지로 이동합니다!";
 			url = "Pay.myPage";
@@ -190,10 +189,23 @@ public class MyPageController {
 		session.setAttribute("cartList", list);
 		return "myPage/myPagePay";
 	}
-
+	
 	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
-	public String myPageCheckOut2(HttpServletRequest req) {
+	public String myPageCheckOut2(HttpServletRequest req, int cart_prodCount, int prod_num, String cart_from,
+			String cart_to,RentalLogDTO dto) {
+		System.out.println("상품번호" + prod_num);
+		System.out.println("대여날짜" + cart_from);
 		HttpSession session = req.getSession();
+		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+		for (ProductCartDTO cartDTO : cart) {
+				int res = myPageMapper.insertCartLog(dto);
+				if (res > 0) {
+					System.out.println("로그 입력 성공");
+				} else {
+					System.out.println("삭로그 입력제 실패");
+				}
+		}
+		//로그 테이블에 인서트 할 곳
 		int mem_num = (int) session.getAttribute("mem_num");
 		int res = myPageMapper.payCart(mem_num);
 		if (res > 0) {

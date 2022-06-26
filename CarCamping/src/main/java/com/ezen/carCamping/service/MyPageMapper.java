@@ -19,6 +19,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
+import com.ezen.carCamping.dto.RentalLogDTO;
 
 @Service
 public class MyPageMapper {
@@ -53,7 +54,10 @@ public class MyPageMapper {
 		 String res = sqlSession.selectOne("getMemberPassword", mem_num);
 		 return res;
 		}	
-	
+	 public int insertCartLog(RentalLogDTO dto) {
+		 int res =sqlSession.insert("insertCartLog", dto);
+		 return res; 
+	 }
 		
 		
 
