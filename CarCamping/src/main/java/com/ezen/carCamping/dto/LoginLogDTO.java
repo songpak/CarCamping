@@ -7,7 +7,7 @@ public class LoginLogDTO {
 	private String login_userId;
 	private String login_sysdate;
 	private String login_ip;
-	private String login_reason;
+	private int login_reason;
 	
 	public int getLogin_num() {
 		return login_num;
@@ -45,10 +45,10 @@ public class LoginLogDTO {
 	public void setLogin_ip(String login_ip) {
 		this.login_ip = login_ip;
 	}
-	public String getLogin_reason() {
+	public int getLogin_reason() {
 		return login_reason;
 	}
-	public void setLogin_reason(String login_reason) {
+	public void setLogin_reason(int login_reason) {
 		this.login_reason = login_reason;
 	}
 }

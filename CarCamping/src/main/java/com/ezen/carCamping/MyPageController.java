@@ -318,7 +318,8 @@ public class MyPageController {
 	}
 
 	@RequestMapping("/myPageLikeReview.myPage")
-	public String myPagaLikeReview() {
+	public String myPagaLikeReview(HttpServletRequest req) {
+		System.out.println(req.getSession().getAttribute("mem_num"));
 		return "myPage/myPageLikeReview";
 	}
 

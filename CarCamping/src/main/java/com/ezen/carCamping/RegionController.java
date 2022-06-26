@@ -100,7 +100,7 @@ public class RegionController {
 		int startRow = (currentPage - 1) * pageSize + 1;//3-1 4 8
 		int endRow = startRow + pageSize - 1;
 		int rowCount = RegionMapper.countReviewCcrnum(ccr_num);
-		System.out.println(rowCount);
+		
 		if (endRow > rowCount)
 			endRow = rowCount;
 		String orderBy =  params.get("orderBy");
