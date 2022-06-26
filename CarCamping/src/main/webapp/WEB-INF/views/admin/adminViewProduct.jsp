@@ -125,41 +125,83 @@
 					</td>
 			</tr>
 			<tr>
-				<td colspan="2">
-					<input class="form-control" id="formFileMultiple-1" type="file"
-							multiple accept="image/*" name="prod_viewImage" class="form-control" id="validationCustom05" required>
-						<div id="validationCustom05" class="form-text">최소 2개, 최대  5개 이미지 업로드 가능합니다</div>
-						<ul id="file-list-1">
-							<li class="no-items"></li>
-						</ul>
+					<td colspan="2">
+						<div class="accordion accordion-flush" id="accordionFlushExample">
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="flush-headingOne">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+										aria-expanded="false" aria-controls="flush-collapseOne">
+										이미지 수정</button>
+								</h2>
+								<div id="flush-collapseOne" class="accordion-collapse collapse"
+									aria-labelledby="flush-headingOne"
+									data-bs-parent="#accordionFlushExample">
+									<div class="accordion-body">
+										<input class="form-control" id="formFileMultiple-1"
+											type="file" multiple accept="image/*" name="prod_viewImage"
+											class="form-control" id="validationCustom05" required>
 
-						<script>
-							var filesUpload = document
-									.getElementById("formFileMultiple-1"), fileList = document
-									.getElementById("file-list-1");
+										<!-- 기존 이미지 Hidden -->
+										<c:if test="${not empty pdto.prod_viewImage1}">
+											<input type="hidden" name="prod_viewImageHidden1"
+												value="${pdto.prod_viewImage1}">
+										</c:if>
+										<c:if test="${not empty pdto.prod_viewImage2}">
+											<input type="hidden" name="prod_viewImageHidden2"
+												value="${pdto.prod_viewImage2}">
+										</c:if>
+										<c:if test="${not empty pdto.prod_viewImage3}">
+											<input type="hidden" name="prod_viewImageHidden3"
+												value="${pdto.prod_viewImage3}">
+										</c:if>
+										<c:if test="${not empty pdto.prod_viewImage4}">
+											<input type="hidden" name="prod_viewImageHidden4"
+												value="${pdto.prod_viewImage4}">
+										</c:if>
+										<c:if test="${not empty pdto.prod_viewImage5}">
+											<input type="hidden" name="prod_viewImageHidden5"
+												value="${pdto.prod_viewImage5}">
+										</c:if>
+										<div id="validationCustom05" class="form-text">수정시, 기존
+											이미지는 삭제되고 선택된 이미지들로 대체됩니다</div>
+										<ul id="file-list-1">
+											<li class="no-items"></li>
+										</ul>
 
-							function traverseFiles(files) {
-								var li, file, fileInfo;
-								fileList.innerHTML = "";
+										<script>
+											var filesUpload = document
+													.getElementById("formFileMultiple-1"), fileList = document
+													.getElementById("file-list-1");
 
-								for (var i = 0, il = files.length; i < il; i++) {
-									li = document.createElement("li");
-									file = files[i];
-									fileInfo = "<div><strong>파일명:</strong> "
-											+ file.name + "</div>";
+											function traverseFiles(files) {
+												var li, file, fileInfo;
+												fileList.innerHTML = "";
 
-									li.innerHTML = fileInfo;
-									fileList.appendChild(li);
-								}
-								;
-							};
+												for (var i = 0, il = files.length; i < il; i++) {
+													li = document
+															.createElement("li");
+													file = files[i];
+													fileInfo = "<div><strong>파일명:</strong> "
+															+ file.name
+															+ "</div>";
 
-							filesUpload.onchange = function() {
-								traverseFiles(this.files);
-							};
-						</script>
-				</td>
-			</tr>
+													li.innerHTML = fileInfo;
+													fileList.appendChild(li);
+												}
+												;
+											};
+
+											filesUpload.onchange = function() {
+												traverseFiles(this.files);
+											};
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
 			<tr>
 				<th>리뷰수</th>
 				<td>${pdto.prod_reviewCount}</td>

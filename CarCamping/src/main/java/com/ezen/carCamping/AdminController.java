@@ -1,17 +1,18 @@
 package com.ezen.carCamping;
 
 import java.io.File;
-
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,6 +45,9 @@ public class AdminController {
 	
 	//Pagination Singleton Instance
 	private Pagination pagination = Pagination.getInstance();
+	
+	//AWS S3
+
 	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
@@ -177,8 +181,9 @@ public class AdminController {
 	
 
 	@RequestMapping("/adminUpdateRegion.admin")
-	public ModelAndView  updateRegion(HttpServletRequest req,@RequestParam("ccr_viewImage") MultipartFile[] file,@RequestParam Map<String,String> map) {
-		CarCampingRegionDTO dto = adminMapper.getCarCampingRegion(Integer.parseInt(map.get("ccr_num")));
+	public ModelAndView  updateRegion(HttpServletRequest req,@RequestParam("ccr_viewImage") MultipartFile[] file,
+			@ModelAttribute CarCampingRegionDTO dto,@RequestParam Map<String,String> map) {
+//		CarCampingRegionDTO dto = adminMapper.getCarCampingRegion(Integer.parseInt(map.get("ccr_num")));
 		//차량접근
 		String ccr_car = "";
 		if (map.containsKey("ccr_car1")) ccr_car += "승용차  ";
@@ -216,23 +221,33 @@ public class AdminController {
 		String upPath = (String)req.getSession().getAttribute("upPath");
 		
 		//다중파일 전송
-		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
-			else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
-			else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
-			else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
-			else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
-			
-			try {
-				f.transferTo(new File(upPath+"/images/region/"+filename));
+		if (!file[0].isEmpty()) {
+			for (MultipartFile f : file) {
 				
-			}catch(IOException e) {
-				e.printStackTrace();
+				String filename = f.getOriginalFilename();		
+				if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
+				else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
+				else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
+				else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
+				else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
+				
+				try {
+					f.transferTo(new File(upPath+"/images/region/"+filename));
+					
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
 			}
+		}else {
+			if (map.containsKey("ccr_viewImageHidden1")) dto.setCcr_viewImage1(map.get("ccr_viewImageHidden1"));
+			if (map.containsKey("ccr_viewImageHidden2")) dto.setCcr_viewImage2(map.get("ccr_viewImageHidden2"));
+			if (map.containsKey("ccr_viewImageHidden3")) dto.setCcr_viewImage3(map.get("ccr_viewImageHidden3"));
+			if (map.containsKey("ccr_viewImageHidden4")) dto.setCcr_viewImage4(map.get("ccr_viewImageHidden4"));
+			if (map.containsKey("ccr_viewImageHidden5")) dto.setCcr_viewImage5(map.get("ccr_viewImageHidden5"));
 		}
-		//�α⿩��
-		if (map.containsKey("ccr_popular")) dto.setCcr_popular(0);
+		
+		//인기장소
+		if (map.containsKey("ccr_popular1")) dto.setCcr_popular(0);
 		else dto.setCcr_popular(1);
 		
 		int res = adminMapper.adminUpdateRegion(dto);
@@ -534,28 +549,37 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/adminViewProduct.admin", method=RequestMethod.POST)
-	public ModelAndView adminViewProduct(HttpServletRequest req,@ModelAttribute ProductDTO dto, @RequestParam("prod_viewImage") MultipartFile[] file,@RequestParam(required=false) String prod_popular1) {
+	public ModelAndView adminViewProduct(HttpServletRequest req,@ModelAttribute ProductDTO dto, @RequestParam("prod_viewImage") MultipartFile[] file,
+			@RequestParam Map<String,String> map) {
 		
-		if (prod_popular1==null) dto.setProd_popular(1);
+		if (!map.containsKey("prod_popular1")) dto.setProd_popular(1);
 		else dto.setProd_popular(0);
 		
 		String upPath = (String)req.getSession().getAttribute("upPath");
 		
 		//다중파일 전송
-		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
-			else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
-			else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
-			else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
-			else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
-
-			try {
-				f.transferTo(new File(upPath+"/images/product/"+filename));
-
-			}catch(IOException e) {
-				e.printStackTrace();
+		if (!file[0].isEmpty()) {
+			for (MultipartFile f : file) {
+				String filename = f.getOriginalFilename();		
+				if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
+				else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
+				else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
+				else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
+				else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
+	
+				try {
+					f.transferTo(new File(upPath+"/images/product/"+filename));
+	
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
 			}
+		}else {
+			if (map.containsKey("prod_viewImageHidden1")) dto.setProd_viewImage1(map.get("prod_viewImageHidden1"));
+			if (map.containsKey("prod_viewImageHidden2")) dto.setProd_viewImage2(map.get("prod_viewImageHidden2"));
+			if (map.containsKey("prod_viewImageHidden3")) dto.setProd_viewImage3(map.get("prod_viewImageHidden3"));
+			if (map.containsKey("prod_viewImageHidden4")) dto.setProd_viewImage4(map.get("prod_viewImageHidden4"));
+			if (map.containsKey("prod_viewImageHidden5")) dto.setProd_viewImage5(map.get("prod_viewImageHidden5"));
 		}
 		
 		int res = adminMapper.adminUpdateProduct(dto);
@@ -825,10 +849,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/adminRegisterAnnounce.admin", method=RequestMethod.POST)
-	public ModelAndView adminInsertAnnounce(HttpServletRequest req,@ModelAttribute AdminAnnounceDTO dto,@RequestParam("aa_image") MultipartFile[] file) {
+	public ModelAndView adminInsertAnnounce(HttpServletRequest req,@ModelAttribute AdminAnnounceDTO dto,
+			@RequestParam("aa_image") MultipartFile[] file) {
 		
 		String upPath = (String)req.getSession().getAttribute("upPath");
-		//다중파일 전송
+		//다중파일업로드
 		for (MultipartFile f : file) {
 			String filename = f.getOriginalFilename();		
 			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
@@ -844,6 +869,7 @@ public class AdminController {
 				e.printStackTrace();
 			}
 		}
+		
 		int res = adminMapper.adminInsertAnnounce(dto);
 		String msg =null, url = null;
 		if (res>0) {
@@ -868,23 +894,33 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/adminViewAnnounce.admin", method=RequestMethod.POST)
-	public ModelAndView adminViewAnnounce(HttpServletRequest req,@RequestParam("aa_image") MultipartFile[] file,@ModelAttribute AdminAnnounceDTO dto) {
+	public ModelAndView adminViewAnnounce(HttpServletRequest req,@RequestParam("aa_image") MultipartFile[] file,
+			@ModelAttribute AdminAnnounceDTO dto,@RequestParam Map<String,String> map) {
 		String upPath = (String)req.getSession().getAttribute("upPath");
-		//다중파일업로드
-		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
-			else if (dto.getAa_image2()==null) dto.setAa_image2(filename);
-			else if (dto.getAa_image3()==null) dto.setAa_image3(filename);
-			else if (dto.getAa_image4()==null) dto.setAa_image4(filename);
-			else if (dto.getAa_image5()==null) dto.setAa_image5(filename);
+		
+		//다중파일 전송
+		if (!file[0].isEmpty()) {
+			for (MultipartFile f : file) {
+				String filename = f.getOriginalFilename();		
+				if (dto.getAa_image1()==null) dto.setAa_image1(filename);
+				else if (dto.getAa_image2()==null) dto.setAa_image2(filename);
+				else if (dto.getAa_image3()==null) dto.setAa_image3(filename);
+				else if (dto.getAa_image4()==null) dto.setAa_image4(filename);
+				else if (dto.getAa_image5()==null) dto.setAa_image5(filename);
 
-			try {
-				f.transferTo(new File(upPath+"/images/announce/"+filename));
+				try {
+					f.transferTo(new File(upPath+"/images/announce/"+filename));
 
-			}catch(IOException e) {
-				e.printStackTrace();
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
 			}
+		}else {
+			if (map.containsKey("aa_imageHidden1")) dto.setAa_image1(map.get("aa_imageHidden1"));
+			if (map.containsKey("aa_imageHidden2")) dto.setAa_image2(map.get("aa_imageHidden2"));
+			if (map.containsKey("aa_imageHidden3")) dto.setAa_image3(map.get("aa_imageHidden3"));
+			if (map.containsKey("aa_imageHidden4")) dto.setAa_image4(map.get("aa_imageHidden4"));
+			if (map.containsKey("aa_imageHidden5")) dto.setAa_image5(map.get("aa_imageHidden5"));
 		}
 		int res = adminMapper.adminUpdateAnnounce(dto);
 		String msg =null, url = null;
@@ -986,7 +1022,8 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminRental.admin")
-	public String adminRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page) {
+	public String adminRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
+			@RequestParam(required=false) String sort) {
 		List<RentalLogDTO> list = adminMapper.adminListRentalLog();
 		
 		//현재 페이지

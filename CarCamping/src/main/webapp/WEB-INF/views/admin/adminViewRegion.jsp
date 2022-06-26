@@ -229,37 +229,78 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input class="form-control" id="formFileMultiple" type="file" multiple accept="image/*" name="ccr_viewImage" class="form-control" id="validationCustom05" required>
-					<div id="validationCustom05" class="form-text">최소 2개, 최대  5개 이미지 업로드 가능합니다</div>
-					<ul id="file-list">
-						<li class="no-items"></li>
-					</ul>
+					<div class="accordion accordion-flush" id="accordionFlushExample">
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="flush-headingOne">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+										aria-expanded="false" aria-controls="flush-collapseOne">
+										이미지 수정</button>
+								</h2>
+								<div id="flush-collapseOne" class="accordion-collapse collapse"
+									aria-labelledby="flush-headingOne"
+									data-bs-parent="#accordionFlushExample">
+									<div class="accordion-body">
+										<!-- 기존 이미지 Hidden -->
+										<c:if test="${not empty cdto.ccr_viewImage1}">
+											<input type="hidden" name="ccr_viewImageHidden1" value="${cdto.ccr_viewImage1}">
+										</c:if>
+										<c:if test="${not empty cdto.ccr_viewImage2}">
+											<input type="hidden" name="ccr_viewImageHidden2" value="${cdto.ccr_viewImage2}">
+										</c:if>
+										<c:if test="${not empty cdto.ccr_viewImage3}">
+											<input type="hidden" name="ccr_viewImageHidden3" value="${cdto.ccr_viewImage3}">
+										</c:if>
+										<c:if test="${not empty cdto.ccr_viewImage4}">
+											<input type="hidden" name="ccr_viewImageHidden4" value="${cdto.ccr_viewImage4}">
+										</c:if>
+										<c:if test="${not empty cdto.ccr_viewImage5}">
+											<input type="hidden" name="ccr_viewImageHidden5" value="${cdto.ccr_viewImage5}">
+										</c:if> 
+										
+										<!-- 수정 이미지 업로드 -->
+										<input class="form-control" id="formFileMultiple" type="file"
+											multiple accept="image/*" name="ccr_viewImage"
+											class="form-control" id="validationCustom05" required>
+										<div id="validationCustom05" class="form-text">
+											수정시, 기존 이미지는 삭제되고 선택된 이미지들로 대체됩니다
+										</div>
+										<ul id="file-list">
+											<li class="no-items"></li>
+										</ul>
 
-					<script>
-						var filesUpload = document
-								.getElementById("formFileMultiple"), fileList = document
-								.getElementById("file-list");
+										<script>
+											var filesUpload = document
+													.getElementById("formFileMultiple"), fileList = document
+													.getElementById("file-list");
 
-						function traverseFiles(files) {
-							var li, file, fileInfo;
-							fileList.innerHTML = "";
+											function traverseFiles(files) {
+												var li, file, fileInfo;
+												fileList.innerHTML = "";
 
-							for (var i = 0, il = files.length; i < il; i++) {
-								li = document.createElement("li");
-								file = files[i];
-								fileInfo = "<div><strong>파일명:</strong> "+ file.name + "</div>";
-						
-								li.innerHTML = fileInfo;
-								fileList.appendChild(li);
-							}
-							;
-						};
+												for (var i = 0, il = files.length; i < il; i++) {
+													li = document
+															.createElement("li");
+													file = files[i];
+													fileInfo = "<div><strong>파일명:</strong> "
+															+ file.name
+															+ "</div>";
 
-						filesUpload.onchange = function() {
-							traverseFiles(this.files);
-						};
-					</script>
-				</td>
+													li.innerHTML = fileInfo;
+													fileList.appendChild(li);
+												}
+												;
+											};
+
+											filesUpload.onchange = function() {
+												traverseFiles(this.files);
+											};
+										</script>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
 			</tr>
 			<tr>
 				<th>좋아요 수</th>
@@ -277,10 +318,10 @@
 				<th>인기장소</th>
 				<c:choose>
 					<c:when test="${cdto.ccr_popular==0}">
-						<td><input type="checkbox" name="ccr_popular" checked>체크시(예)</td>
+						<td><input type="checkbox" name="ccr_popular1" checked>체크시(예)</td>
 					</c:when>
 					<c:otherwise>
-						<td><input type="checkbox" name="ccr_popular">체크시(예)</td>
+						<td><input type="checkbox" name="ccr_popular1">체크시(예)</td>
 					</c:otherwise>
 				</c:choose>
 			</tr>
