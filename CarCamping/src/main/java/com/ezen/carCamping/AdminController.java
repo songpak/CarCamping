@@ -1023,8 +1023,16 @@ public class AdminController {
 	
 	@RequestMapping("/adminRental.admin")
 	public String adminRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
-			@RequestParam(required=false) String sort) {
-		List<RentalLogDTO> list = adminMapper.adminListRentalLog();
+			@RequestParam(required=false) Map<String,String> map) {
+		List<RentalLogDTO> list = new ArrayList<RentalLogDTO>();
+		
+		if (map.containsKey("search")) {
+			list = adminMapper.adminListRentalLogSearch(map.get("search"));
+		}else if (map.containsKey("sort")){
+			list = adminMapper.adminListRentalLogSort(Integer.parseInt(map.get("sort")));
+		}else {
+			list = adminMapper.adminListRentalLog();
+		}
 		
 		//현재 페이지
 		req.setAttribute("page", page);

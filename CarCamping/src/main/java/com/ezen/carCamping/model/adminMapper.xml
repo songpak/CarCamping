@@ -481,6 +481,18 @@
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
 	</select>
 	
+	<select id="adminListRentalLogSort" parameterType="int" resultMap="rentalLogMap">
+		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
+		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num 
+		where a.rental_return = #{sort}
+	</select>
+	
+	<select id="adminListRentalLogSearch" parameterType="String" resultMap="rentalLogMap">
+		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
+		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
+		where b.mem_id like #{String} or c.prod_name like #{String}
+	</select>
+	
 	<select id="adminGetRentalLog" resultMap="rentalLogMap" parameterType="int">
 		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num

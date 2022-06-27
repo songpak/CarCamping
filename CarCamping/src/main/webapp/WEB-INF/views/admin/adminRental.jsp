@@ -24,6 +24,13 @@
 			</div>
 		<!-- 드랍 버튼 끝 -->
 		
+		<!-- ID 검색 버튼 -->
+		<div class="col" align="right">
+			<form name="searchForm" action="adminRental.admin" method="post" enctype="multipart/form-data">
+				<input type="search" name="search" placeholder="ID | 용품명">
+				<button type="submit">검색</button>
+			</form>
+		</div>
 	</div>
 </div>
 	&nbsp;

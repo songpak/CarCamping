@@ -18,7 +18,7 @@
 						<option value="mem_point">포인트</option>
 						<option value="mem_rentalCount">대여건수</option>
 					</select>
-					<button type="submit" class="btn btn-info">정렬</button>
+					<button type="submit">정렬</button>
 				</form>
 			</div>
 			
@@ -33,8 +33,8 @@
 						<option value="mem_email">이메일</option>
 						<option value="mem_userName">이름</option>
 					</select>
-					<input type="text" name="name2">
-					<button type="submit" class="btn btn-info">검색</button>
+					<input type="search" name="name2">
+					<button type="submit">검색</button>
 				</form>
 			</div>
 		<!-- 회원 검색 버튼 끝 -->

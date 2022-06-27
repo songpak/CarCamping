@@ -14,7 +14,8 @@
 		<!-- 검색 버튼 -->
 		<div class="col" align="left">
 			<form name="search" action="adminProduct.admin" enctype="multipart/form-data" method="post">
-				<input type="text" name="search">&nbsp;<button type="submit" class="btn btn-info">검색</button>
+				<input type="search" name="search" placeholder="브랜드|카테고리|용품명">
+				&nbsp;<button type="submit">검색</button>
 			</form>
 		</div>
 
