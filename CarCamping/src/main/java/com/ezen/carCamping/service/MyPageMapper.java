@@ -54,8 +54,8 @@ public class MyPageMapper {
 		 String res = sqlSession.selectOne("getMemberPassword", mem_num);
 		 return res;
 		}	
-	 public int insertCartLog(RentalLogDTO dto) {
-		 int res =sqlSession.insert("insertCartLog", dto);
+	 public int insertCartLog(Map<String, String> params) {
+		 int res =sqlSession.insert("insertCartLog", params);
 		 return res; 
 	 }
 		
@@ -79,8 +79,8 @@ public class MyPageMapper {
 	}
 
 	
-	public int payCart(int mem_num) {
-		int res = sqlSession.delete("payCart",mem_num );
+	public int payCart(int cart_num) {
+		int res = sqlSession.delete("payCart",cart_num );
 		return res;
 	}
 	

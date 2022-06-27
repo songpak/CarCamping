@@ -110,8 +110,10 @@
 		where cart_num = #{cart_num}
 	</delete>
 
-	<insert id="insertCartLog" parameterType="RentalLogDTO">
-		insert into RentalLog
+	<insert id="insertCartLog" parameterType="java.util.Map" statementType="CALLABLE">
+	{call cartToPay(
+  					#{cart_num},#{rental_price},#{rental_usePoint})}
+		<!-- insert into RentalLog
 		(rental_num, mem_num, prod_num,
 		agency_num,rental_productCount,rental_from,rental_to,
 		rental_return,
@@ -122,8 +124,13 @@
 		#{agency_num},
 		#{cart_prodCount}, #{cart_from},
 		#{cart_to}
-		,0,0,0,#{rental_price},0,0,0)
+		,0,0,0,#{rental_price},0,0,0) -->
 	</insert>
+	<delete id="payCart" parameterType="int">
+		delete from ProductCart
+		where
+		cart_num = #{cart_num}
+	</delete>
 
 	<resultMap type="RegionDTO" id="regionMap">
 		<id column="region_num" property="region_num" />
@@ -162,11 +169,7 @@
 		select * from Question where question_num = #{question_num}
 	</select>
 
-	<delete id="payCart" parameterType="int">
-		delete from ProductCart
-		where
-		mem_num = #{mem_num}
-	</delete>
+	
 
 	<!-- <select id="sendRentLog" parameterType="int" > select </select> -->
 

@@ -43,15 +43,28 @@
 			<tr>
 				<th scope="col" width="30%" class="text-center">물품갯수</th>
 				<td width="200" width="70%">${mdto.cart_prodCount}개</td>
-
 			</tr>
 			<tr>
-				<th scope="col" width="30%" class="text-center">결제금액</th>
-				<td width="200" width="70%" class="text-danger">${mdto.productDTO.prod_price}원</td>
+			<th scope="col" id="div1" width="30%" class="text-center"
+				style="padding-top: 30px;">카드선택</th>
+			<td width="70%"><input type="checkbox" name="등록된 카드" />등록된 카드로 결제</td>
+			<!-- <td width="70%"><input type="radio" name="다른카드" />다른카드로 결제</td> -->
+		</tr>
+			<tr>
+				<th scope="col" width="30%" class="text-center"></th>
+				<td width="200" width="70%" class="text-danger">
+				<form action="myPageCheckOut.myPage" method="post">
+				 <input type="hidden" name= "cart_num" value="${mdto.cart_num }">
+       			 <input type="hidden" name= "rental_price" value="${mdto.productDTO.prod_price}">
+        		 <input type="hidden" name= "rental_usePoint" value="${mdto.memberDTO.mem_point}">
+        		 <button class="btn btn-lg btn-dark btn-block text-uppercase"
+			type="submit" >결제하기</button>
+         </form>
+				</td>
 			</tr>
 		</table>
 	</c:forEach>
-	<div style="float: right">
+	<%-- <div style="float: right">
 		<c:set var="cartTotalPrice" value="0" />
 		<c:forEach items="${cartList}" var="mdto">
 			<c:set var="cartTotalPrice"
@@ -59,9 +72,9 @@
 		</c:forEach>
 		<h3>총 결제금액</h3>
 		<h1>${cartTotalPrice}원</h1>
-	</div>
+	</div> --%>
 
-	<h2 class="text-left">
+	<%-- <h2 class="text-left">
 		<b>결제 정보</b>
 	</h2>
 	<table class="table table-bordered">
@@ -117,19 +130,14 @@
 	</table>
 	<form action="myPageCheckOut.myPage" method="post">
 	  <c:forEach items="${cartList}" var="mdto">
-	  <input type="hidden" name= "cart_prodCount" value="${mdto.cart_prodCount}">
-      <input type="hidden" name= "prod_num" value="${mdto.productDTO.prod_num }">
-      <input type="hidden" name= "mem_num" value="${mdto.memberDTO.mem_num }">
-      <input type="hidden" name= "prod_name" value="${mdto.productDTO.prod_name }">
-        <input type="hidden" name= "agency_num" value="${mdto.agencyDTO.agency_num }">
-      <input type="hidden" name= "cart_from" value="${mdto.cart_from }">
-      <input type="hidden" name= "cart_to" value="${mdto.cart_to }">
-        <input type="hidden" name= "rental_price" value="${cartTotalPrice}">
+      <input type="hidden" name= "cart_num" value="${mdto.cart_num }">
+        <input type="hidden" name= "rental_price" value="${mdto.productDTO.prod_price}">
+         <input type="hidden" name= "rental_usePoint" value="${mdto.memberDTO.mem_point}">
 	  </c:forEach> 
 		<button class="btn btn-lg btn-dark btn-block text-uppercase"
 			type="submit" >
 			결제하기</button>
-	 </form> 
+	 </form>  --%>
 </div>
 
 <%@ include file="../bottom.jsp"%>

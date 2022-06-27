@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -181,7 +182,7 @@ public class MyPageController {
 		return "message";
 	}
 
-	@RequestMapping("Pay.myPage")//결제폼
+	@RequestMapping("Pay.myPage")
 	public String myPageCheckOut1(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
@@ -191,30 +192,30 @@ public class MyPageController {
 	}
 	
 	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
-	public String myPageCheckOut2(HttpServletRequest req, int cart_prodCount, int prod_num, String cart_from,
-			String cart_to,RentalLogDTO dto) {
-		System.out.println("상품번호" + prod_num);
-		System.out.println("대여날짜" + cart_from);
+	public String myPageCheckOut2(HttpServletRequest req, int cart_num
+			,RentalLogDTO dto, @RequestParam Map<String, String> params) {
+		//System.out.println("상품번호" + prod_num);
+		//System.out.println("대여날짜" + cart_from);
 		HttpSession session = req.getSession();
-		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
-		for (ProductCartDTO cartDTO : cart) {
-				int res = myPageMapper.insertCartLog(dto);
-				if (res > 0) {
+		//List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+				int res2 = myPageMapper.insertCartLog(params);
+				if (res2 > 0) {
 					System.out.println("로그 입력 성공");
 				} else {
 					System.out.println("삭로그 입력제 실패");
 				}
-		}
 		//로그 테이블에 인서트 할 곳
-		int mem_num = (int) session.getAttribute("mem_num");
-		int res = myPageMapper.payCart(mem_num);
+		//int mem_num = (int) session.getAttribute("mem_num");
+		int res = myPageMapper.payCart(cart_num);
 		if (res > 0) {
 			System.out.println("결제 성공");
 		} else {
-			System.out.println("결제 실패");
+			System.err.println("결제 실패");
 		}
 		return "myPage/myPageCheckOut";
 	}
+	
+	//----------------------------------------------------------------------------------------------------
 
 	@RequestMapping("/myPageRental.myPage")
 	public String myPageRental(HttpServletRequest req) {
