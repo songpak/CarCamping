@@ -61,7 +61,7 @@
        			 <input type="hidden" name= "rental_price" value="${mdto.productDTO.prod_price}">
        			  <input type="hidden" name= "mem_num" value="${mdto.memberDTO.mem_num}">
         		  <input type="number" name="rental_usePoint"
-								value="1" pattern="[0-9]+" min="1" max="10000">
+								value="0" pattern="[0-9]+" min="0" max="10000">
         		 <button class="btn btn-lg btn-dark btn-block text-uppercase"
 			type="submit" >결제하기</button>
          </form>
