@@ -51,17 +51,28 @@
 				<td>${rdto.rental_price}</td>
 			</tr>
 			<tr>
+				<th>포인트사용요금</th>
+				<td>${rdto.rental_usePoint}</td>
+			</tr>
+			<tr>
+				<th>결제일시</th>
+				<td>${rdto.rental_pay}</td>
+			</tr>
+			<tr>
 				<th>반납상태</th>
 				<c:if test="${rdto.rental_return==0}">
-					<td>대여중</td>
+					<td>대기</td>
 				</c:if>
 				<c:if test="${rdto.rental_return==1}">
-					<td>반납완료</td>
+					<td>대여중</td>
 				</c:if>
 				<c:if test="${rdto.rental_return==2}">
-					<td>연장중</td>
+					<td>반납완료</td>
 				</c:if>
 				<c:if test="${rdto.rental_return==3}">
+					<td>연장중</td>
+				</c:if>
+				<c:if test="${rdto.rental_return==4}">
 					<td>미납</td>
 				</c:if>	
 			</tr>

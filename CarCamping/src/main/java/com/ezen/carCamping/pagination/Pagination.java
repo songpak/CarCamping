@@ -9,7 +9,7 @@ import com.ezen.carCamping.dto.CarCampingRegionDTO;
 @SuppressWarnings("rawtypes")
 public class Pagination {
 	//페이지당 게시글 수
-	private int postPerPage = 10;
+	private int postPerPage = 9;
 	
 	//Singleton instance생성
 	private static Pagination instance = new Pagination();

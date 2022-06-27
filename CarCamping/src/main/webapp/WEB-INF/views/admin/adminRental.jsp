@@ -13,10 +13,11 @@
 			<div class="col" align="left">
 				<form name="sortForm" method="post" enctype="multipart/form-data" action="adminRental.admin">
 					<select name="sort">
-						<option value="3">미납</option>
-						<option value="2">연장</option>
-						<option value="1">반납완료</option>
-						<option value="0">대여중</option>
+						<option value="4">미납</option>
+						<option value="3">연장</option>
+						<option value="2">반납완료</option>
+						<option value="1">대여중</option>
+						<option value="0">대기</option>
 					</select>
 					<input type="submit" value="정렬">
 				</form>
@@ -62,15 +63,18 @@
 				<td>${dto.rental_price}</td>
 				<td>${dto.rental_usePoint}</td>
 				<c:if test="${dto.rental_return==0}">
-					<td>대여중</td>
+					<td>대기</td>
 				</c:if>
 				<c:if test="${dto.rental_return==1}">
-					<td>반납완료</td>
+					<td>대여중</td>
 				</c:if>
 				<c:if test="${dto.rental_return==2}">
-					<td>연장중</td>
+					<td>반납완료</td>
 				</c:if>
 				<c:if test="${dto.rental_return==3}">
+					<td>연장중</td>
+				</c:if>
+				<c:if test="${dto.rental_return==4}">
 					<td>미납</td>
 				</c:if>					
 				<td><button type="button" class="btn btn-info"

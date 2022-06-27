@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ezen.carCamping.aws.S3Util;
+import com.ezen.carCamping.aws.UploadFileUtils;
 import com.ezen.carCamping.dto.AdminAnnounceDTO;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
@@ -47,6 +51,10 @@ public class AdminController {
 	private Pagination pagination = Pagination.getInstance();
 	
 	//AWS S3
+	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
+
+	S3Util s3 = new S3Util();
+	String bucketName = "songsama";
 
 	
 	@RequestMapping("/goAdmin.admin")
@@ -136,11 +144,15 @@ public class AdminController {
 		if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
 		else dto.setCcr_river(1);
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
+		String upPath = "images";
 		
 		//다중 파일 전송
+		
 		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
+			logger.info("장소 이미지 등록");
+			String filename = f.getOriginalFilename();	
+			logger.info("originalName: " + filename);
+			
 			if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
 			else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
 			else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
@@ -149,10 +161,14 @@ public class AdminController {
 			
 			try {
 				f.transferTo(new File(upPath+"/images/region/"+filename));
-				
+				ResponseEntity<String> img_path = new ResponseEntity<>(
+						UploadFileUtils.uploadFile(upPath, filename, f.getBytes()),
+						HttpStatus.CREATED);
+				String regionPath = (String)img_path.getBody();
+				req.setAttribute("upPath", regionPath);
 				
 
-			}catch(IOException e) {
+			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}

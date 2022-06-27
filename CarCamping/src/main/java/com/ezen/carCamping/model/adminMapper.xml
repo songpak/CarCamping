@@ -468,6 +468,7 @@
 		<result column="rental_notReturn" property="rental_notReturn"/>
 		<result column="rental_price" property="rental_price"/>
 		<result column="rental_usePoint" property="rental_usePoint"/>
+		<result column="rental_pay" property="rental_pay"/>
 		<result column="rental_extendPrice" property="rental_extendPrice"/>
 		<result column="rental_notReturnPrice" property="rental_notReturnPrice"/>
 		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>

@@ -31,8 +31,8 @@ public class UploadController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 
-	S3Util s3 = new S3Util();
-	String bucketName = "songsama";
+	private S3Util s3 = new S3Util();
+	private String bucketName = "songsama";
 
 	
 	//자격증 & 신분증 이미지 업로드
