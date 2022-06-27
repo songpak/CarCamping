@@ -150,6 +150,11 @@ function fn_account(val){
 						<option value="rp_content">리뷰 내용</option>
 					</select> <input type="text" name="searchString">
 					<button type="submit">검색하기</button>
+					<!-- 0625 박혜성 추가 -->
+					<button type="button" class="btn btn-success" style="margin-left: 15px; background-color: #00205b; border-color: #00205b; display: block;margin-top: 20px;" 
+							onclick="location.href='goods_review.review?prod_num=${getProduct.prod_num}'">
+							리뷰 등록 하기 
+					</button>
 				</form>
 			</div>
 			<div class="row" align="center"

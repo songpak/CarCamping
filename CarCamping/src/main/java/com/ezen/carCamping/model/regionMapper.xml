@@ -3,6 +3,40 @@
  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ezen.carCamping.model.regionMapper">
+
+
+	<resultMap type="RegionDTO"	 id="regionMap">
+		<id column="region_num" property="region_num"/>
+		<result column="region_name" property="region_name"/>
+	</resultMap>
+	
+	<resultMap type="CarCampingRegionDTO" id="carCampingRegionMap">
+		<id column="ccr_num" property="ccr_num"/>
+		<result column="ccr_name" property="ccr_name"/>
+		<result column="ccr_car" property="ccr_car"/>
+		<result column="ccr_pricePerDay" property="ccr_pricePerDay"/>
+		<result column="ccr_toilet" property="ccr_toilet"/>
+		<result column="ccr_restroom" property="ccr_restroom"/>
+		<result column="ccr_water" property="ccr_water"/>
+		<result column="ccr_market" property="ccr_market"/>
+		<result column="ccr_river" property="ccr_river"/>
+		<result column="ccr_ground" property="ccr_ground"/>
+		<result column="ccr_likeCount" property="ccr_likeCount"/>
+		<result column="ccr_score" property="ccr_score"/>
+		<result column="ccr_popular" property="ccr_popular"/>
+		<result column="ccr_viewImage1" property="ccr_viewImage1"/>
+		<result column="ccr_viewImage2" property="ccr_viewImage2"/>
+		<result column="ccr_viewImage3" property="ccr_viewImage3"/>
+		<result column="ccr_viewImage4" property="ccr_viewImage4"/>
+		<result column="ccr_viewImage5" property="ccr_viewImage5"/>
+		<result column="ccr_summary" property="ccr_summary"/>
+		<result column="ccr_content" property="ccr_content"/>
+		<result column="ccr_reviewCount" property="ccr_reviewCount"/>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
+		</association>
+	</resultMap>
+	
+	
 	<select id="listRegion" resultType="RegionDTO"> 
 		select * from Region 
 	</select>
@@ -30,7 +64,7 @@
 		SELECT * FROM CarCampingRegion where ccr_popular=1 and ccr_score>=4 order by ccr_score desc limit 10
 	</select>
 	
-	<select id="selectRegionByCcrnum" parameterType="Integer" resultType="CarCampingRegionDTO">
+	<select id="selectRegionByCcrnum" parameterType="Integer" resultMap="carCampingRegionMap">
 		select * from CarCampingRegion where ccr_num = #{ccr_num} 
 	</select>
 	
@@ -154,36 +188,6 @@
 		from (select a.* from CarCampingRegion a)c)d where d.reviewCount>0 and d.region_num =#{region_num}
 	</select> -->
 
-	<resultMap type="RegionDTO"	 id="regionMap">
-		<id column="region_num" property="region_num"/>
-		<result column="region_name" property="region_name"/>
-	</resultMap>
-	
-	<resultMap type="CarCampingRegionDTO" id="carCampingRegionMap">
-		<id column="ccr_num" property="ccr_num"/>
-		<result column="ccr_name" property="ccr_name"/>
-		<result column="ccr_car" property="ccr_car"/>
-		<result column="ccr_pricePerDay" property="ccr_pricePerDay"/>
-		<result column="ccr_toilet" property="ccr_toilet"/>
-		<result column="ccr_restroom" property="ccr_restroom"/>
-		<result column="ccr_water" property="ccr_water"/>
-		<result column="ccr_market" property="ccr_market"/>
-		<result column="ccr_river" property="ccr_river"/>
-		<result column="ccr_ground" property="ccr_ground"/>
-		<result column="ccr_likeCount" property="ccr_likeCount"/>
-		<result column="ccr_score" property="ccr_score"/>
-		<result column="ccr_popular" property="ccr_popular"/>
-		<result column="ccr_viewImage1" property="ccr_viewImage1"/>
-		<result column="ccr_viewImage2" property="ccr_viewImage2"/>
-		<result column="ccr_viewImage3" property="ccr_viewImage3"/>
-		<result column="ccr_viewImage4" property="ccr_viewImage4"/>
-		<result column="ccr_viewImage5" property="ccr_viewImage5"/>
-		<result column="ccr_summary" property="ccr_summary"/>
-		<result column="ccr_content" property="ccr_content"/>
-		<result column="ccr_reviewCount" property="ccr_reviewCount"/>
-		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
-		</association>
-	</resultMap>
 
 
 
