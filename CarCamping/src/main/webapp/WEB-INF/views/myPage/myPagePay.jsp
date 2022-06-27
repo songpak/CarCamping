@@ -50,13 +50,17 @@
 			<td width="70%"><input type="checkbox" name="등록된 카드" />등록된 카드로 결제</td>
 			<!-- <td width="70%"><input type="radio" name="다른카드" />다른카드로 결제</td> -->
 		</tr>
+		
 			<tr>
-				<th scope="col" width="30%" class="text-center"></th>
+				<th scope="col" width="30%" class="text-center">
+				사용할 포인트
+				</th>
 				<td width="200" width="70%" class="text-danger">
 				<form action="myPageCheckOut.myPage" method="post">
 				 <input type="hidden" name= "cart_num" value="${mdto.cart_num }">
        			 <input type="hidden" name= "rental_price" value="${mdto.productDTO.prod_price}">
-        		 <input type="hidden" name= "rental_usePoint" value="${mdto.memberDTO.mem_point}">
+        		 사용 가능포인트 <input type="number" name="rental_usePoint"
+								value="${mdto.memberDTO.mem_point}" pattern="[0-9]+" min="3000" max="10000">
         		 <button class="btn btn-lg btn-dark btn-block text-uppercase"
 			type="submit" >결제하기</button>
          </form>

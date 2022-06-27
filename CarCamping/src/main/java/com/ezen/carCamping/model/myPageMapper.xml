@@ -88,9 +88,9 @@
 
 	<select id="cartProduct" parameterType="int"
 		resultMap="productCartMap"><!-- 용품을 장바구니에 추가만 하는 쿼리문 -->
-		select a.*,b.*, c.* from ProductCart as a left join Product as b on
+		select a.*,b.*, c.*,d.* from ProductCart as a left join Product as b on
 		a.prod_num = b.prod_num left join Agency as c on a.agency_num =
-		c.agency_num where a.mem_num = #{mem_num}
+		c.agency_num left join Member as d on a.mem_num=d.mem_num where a.mem_num = #{mem_num}
 	</select>
 
 	<insert id="insertCart" parameterType="ProductCartDTO">
