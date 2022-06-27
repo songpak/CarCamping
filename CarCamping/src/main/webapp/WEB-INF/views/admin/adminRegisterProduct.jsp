@@ -71,7 +71,7 @@
 				<td colspan="2">
 						<input class="form-control" id="formFileMultiple" type="file"
 							name="prod_viewImage" multiple accept="image/*" class="form-control" id="validationCustom05" required>
-						<div id="validationCustom05" class="form-text">최소 2개, 최대  5개 이미지 업로드 가능합니다</div>
+						<div id="validationCustom05" class="form-text">최대  5개 이미지 업로드 가능합니다</div>
 						<ul id="file-list">
 							<li class="no-items"></li>
 						</ul>

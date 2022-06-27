@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 
+@SuppressWarnings("rawtypes")
 public class Pagination {
 	//페이지당 게시글 수
 	private int postPerPage = 10;
@@ -38,22 +39,23 @@ public class Pagination {
 		return pageCount;
 	}
 	
-	public HashMap<Integer,List<Object>> getPagePost(List<Object> list){
+	@SuppressWarnings("unchecked")
+	public List getPagePost(int page,List list){
 		
 		//총 페이지 수 계산
 		int pageCount = pageCount(list);
 		
 		//페이지당 게시물을  담을 HashMap 
 		//Key : 페이지 번호 / Value : 페이지 번호에 해당되는 게시물리스트
-		HashMap<Integer,List<Object>> map = new HashMap<>();
+		HashMap<Integer,List> map = new HashMap<>();
 		
 		int i = 1; //페이지 번호
 		int j = 1; //개시글 카운트
 		
 		//게시물 리스트의 배열
-		List<Object>[] listArray = new List[pageCount]; 
+		List[] listArray = new List[pageCount]; 
 		for (int k=0; k<listArray.length; k++) {
-			listArray[k] = new ArrayList<Object>();
+			listArray[k] = new ArrayList();
 		}
 		
 		for (Object obj : list) {
@@ -66,38 +68,7 @@ public class Pagination {
 			j++;
 		}
 	
-		return map;
+		return map.get(page);
 	}
 
-	
-	
-//////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////차박장소 전용//////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	
-	
-	public List<CarCampingRegionDTO> getListRegion(int page,List<CarCampingRegionDTO> list){
-		//Object로 형변환
-		List<Object> listObject = new ArrayList<Object>();
-		for (CarCampingRegionDTO dto : list) {
-			Object obj = (Object)dto;
-			listObject.add(obj);
-		}
-
-		//위의 getPagePost로 해당 페이지의 게시물 분할
-		List<Object> listPerPage = getPagePost(listObject).get(page);
-		
-		//다시 CarCampingRegionDTO로 형변환
-		List<CarCampingRegionDTO> changedList = new ArrayList<CarCampingRegionDTO>();
-		for(Object obj : listPerPage) {
-			CarCampingRegionDTO dto = (CarCampingRegionDTO)obj;
-			changedList.add(dto);
-		}
-		
-		return changedList;
-	}
-	
-	
 }

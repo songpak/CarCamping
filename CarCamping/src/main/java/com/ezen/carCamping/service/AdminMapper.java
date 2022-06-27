@@ -85,6 +85,11 @@ public class AdminMapper {
 		return adminListAgency;
 	}
 	
+	public List<AgencyDTO> adminListAgencySort(int region_num){
+		List<AgencyDTO> adminListAgency = sqlSession.selectList("adminListAgencySort",region_num);
+		return adminListAgency;
+	}
+	
 	public int adminInsertAgency(AgencyDTO dto) {
 		int res = sqlSession.insert("adminInsertAgency", dto);
 		return res;

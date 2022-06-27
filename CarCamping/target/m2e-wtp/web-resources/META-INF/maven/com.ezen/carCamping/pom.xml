@@ -214,7 +214,16 @@
 			<version>2.5</version>
 
 		</dependency>
+
+		<!-- AWS SDK -->
 		
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk</artifactId>
+		    <version>1.12.248</version>
+		</dependency>
+
+	
 		<!-- 회원탈퇴 관련  -->
 		<!-- security -->
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
