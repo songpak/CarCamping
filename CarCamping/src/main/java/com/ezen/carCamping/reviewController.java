@@ -93,10 +93,11 @@ public class reviewController {
 			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
 				for(MultipartFile file:multipartFile) {
 					fileRoot = contextRoot + "resources/images/";
-					System.out.println(fileRoot);
+					
 					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
 					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
 					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+					
 					//dto image setting
 					if (dto.getReview_regionImage1()==null) dto.setReview_regionImage1(savedFileName);
 					else if (dto.getReview_regionImage2()==null) dto.setReview_regionImage2(savedFileName);

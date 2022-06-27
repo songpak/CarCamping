@@ -234,13 +234,7 @@ public class RegionMapper{
 
 		return listPopRegion;
 	}
-	
-	/*
-	public List<CarCampingRegionDTO> listRegionCount(int region_num) {
-		List<CarCampingRegionDTO> count = sqlSession.selectList("listRegionCount",region_num);
-		return count;
-	}
-	*/
+
 	//페이지 카운트처리
 	public int listRegionCount(int region_num ) {
 		System.out.println("매퍼의 리즌넘:" + region_num);
@@ -258,9 +252,7 @@ public class RegionMapper{
 		System.out.println("매퍼의 listRegionMainCount : " + listRegionMain);
 		return listRegionMain;
 	}
-	
-	
-	
+
 	public List<CarCampingRegionDTO> listRegionReviewCount(int region_num ,int startRow , int endRow){
 		Map<String,Object> map = new Hashtable<>();
 		map.put("region_num",region_num);

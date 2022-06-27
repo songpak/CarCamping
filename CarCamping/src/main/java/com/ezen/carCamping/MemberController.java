@@ -172,12 +172,19 @@ public class MemberController {
     		   MemberDTO mdto = (MemberDTO)session.getAttribute("mbdto"); 
     		   req.setAttribute("getMember", mdto);
             
-				/*
-				 * Cookie loginCookie = new Cookie("loginCookie", dto.getMem_id()); if
-				 * (params.containsKey("loginCookie") ){ loginCookie.setPath("/");
-				 * loginCookie.setMaxAge(60*60*24*3000); // 유효시간 3일                    
-				 * resp.addCookie(loginCookie); }else { loginCookie.setMaxAge(0); }
-				 */
+				Cookie loginCookie = new Cookie("loginCookie", dto.getMem_id());
+				if (params.containsKey("loginCookie")) {
+					loginCookie.setPath("/");
+					loginCookie.setMaxAge(60 * 60 * 24 * 3); // 유효시간 3일     
+					resp.addCookie(loginCookie);
+					String value = loginCookie.getValue();
+					MemberDTO mbdto = memberMapper.getMemberId(value);
+					session.setAttribute("mem_num", mbdto.getMem_num());
+					session.setAttribute("mbdto", mbdto);
+				} else {
+					loginCookie.setMaxAge(0);
+				}
+				 
     	  	
     		   Cookie ck = new Cookie("saveId", dto.getMem_id());
     		   if (params.containsKey("saveId")){
@@ -217,14 +224,7 @@ public class MemberController {
     	   }
        	}	   
       	req.setAttribute("msg", msg);
-      	req.setAttribute("url", url);
-
-	  //Cookie ck2 = new Cookie("stopId", dto.getMem_id());
-      // ck2.setMaxAge(24*60*60);
-     // resp.addCookie(ck2);
-	 // url="index.do";
-	 // msg ="5번 이상 로그인에 실패하여 하루동안 로그인이 불가능합니다.";
-	  
+      	req.setAttribute("url", url); 
       	return "message";
    }
    
@@ -266,19 +266,21 @@ public class MemberController {
    
    @RequestMapping("/logout.login")
    public String logout(HttpServletRequest req, HttpServletResponse resp, @RequestParam Map<String, String> params) {
-	   HttpSession session = req.getSession();
-       session.invalidate();
-	   	Cookie[] cookie = req.getCookies();
-	    for(int i=0; i < cookie.length; i++){
-	         if(cookie[i].getName().equals("loginCookie")){
-	        	 cookie[i].setMaxAge(0);
-	             resp.addCookie(cookie[i]);
-	         }
-	    }
+		HttpSession session = req.getSession();
+		Cookie[] cookie = req.getCookies();
+		if (cookie != null) {
+			for (int i = 0; i < cookie.length; i++) {
+				if (cookie[i].getName().equals("loginCookie")) {
+					cookie[i].setMaxAge(0);
+					resp.addCookie(cookie[i]);
+					break;
+				}
+			}
+		}
+		session.invalidate();
 		req.setAttribute("msg", "로그아웃 되었습니다.");
 		req.setAttribute("url", "index.do");
 		return "message";
-	   
    }
    
 	@RequestMapping("/checkId.login")
