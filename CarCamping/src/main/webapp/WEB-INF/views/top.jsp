@@ -126,7 +126,7 @@ padding-left: 0px;
                                  class="list-group-item list-group-item-action list-group-item-light p-3">      
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
                                  내 정보 </a> 
-                              <a href="myPageWriteReview.myPage"
+                              <a href="myPageWriteReview.myPage?mem_num=${mem_num}"
                                  class="list-group-item list-group-item-action list-group-item-light p-3">
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
                                  내가 쓴 리뷰</a> 
