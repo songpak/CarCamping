@@ -284,7 +284,7 @@ public class RegionController {
 	int region_num = Integer.parseInt(params.get("region_num"));	
 	String pageNum = params.get("pageNum");
 	mode=params.get("mode");
-	int pageSize= 2;
+	int pageSize= 10;
 	int currentpage;
 	if(pageNum==null) {
 		pageNum="1";
@@ -309,7 +309,7 @@ public class RegionController {
 		list=RegionMapper.listRegionscore(region_num, startRow-1, pageSize);
 	}
 	int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
-	int pageBlock = 2;
+	int pageBlock = 5;
 	int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
 	int endPage = startPage + pageBlock - 1;
 	if (endPage > pageCount) endPage = pageCount;
