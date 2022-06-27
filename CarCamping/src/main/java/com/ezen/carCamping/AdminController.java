@@ -1,6 +1,7 @@
 package com.ezen.carCamping;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ezen.carCamping.aws.S3Util;
-import com.ezen.carCamping.aws.UploadFileUtils;
 import com.ezen.carCamping.dto.AdminAnnounceDTO;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
@@ -49,13 +48,6 @@ public class AdminController {
 	
 	//Pagination Singleton Instance
 	private Pagination pagination = Pagination.getInstance();
-	
-	//AWS S3
-	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
-
-	S3Util s3 = new S3Util();
-	String bucketName = "songsama";
-
 	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
@@ -149,10 +141,8 @@ public class AdminController {
 		//다중 파일 전송
 		
 		for (MultipartFile f : file) {
-			logger.info("장소 이미지 등록");
 			String filename = f.getOriginalFilename();	
-			logger.info("originalName: " + filename);
-			
+
 			if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
 			else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
 			else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
@@ -161,12 +151,6 @@ public class AdminController {
 			
 			try {
 				f.transferTo(new File(upPath+"/images/region/"+filename));
-				ResponseEntity<String> img_path = new ResponseEntity<>(
-						UploadFileUtils.uploadFile(upPath, filename, f.getBytes()),
-						HttpStatus.CREATED);
-				String regionPath = (String)img_path.getBody();
-				req.setAttribute("upPath", regionPath);
-				
 
 			}catch(Exception e) {
 				e.printStackTrace();
