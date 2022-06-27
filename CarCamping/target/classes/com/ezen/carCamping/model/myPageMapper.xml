@@ -109,6 +109,11 @@
 		delete from ProductCart
 		where cart_num = #{cart_num}
 	</delete>
+	
+	<update id="updateCartLogPoint" parameterType="java.util.Map">
+		update Member set mem_point=mem_point-#{rental_usePoint}
+		where mem_num = #{mem_num}
+	</update>
 
 	<insert id="insertCartLog" parameterType="java.util.Map" statementType="CALLABLE">
 	{call cartToPay(

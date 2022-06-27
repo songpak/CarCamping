@@ -11,6 +11,7 @@ public class MemberDTO {
 	private String mem_birthday;
 	private String mem_gender;
 	private RegionDTO regionDTO;
+	private int rental_usePoint;
 	private int mem_point;
 	private int mem_rentalCount;
 	private String mem_sysdate;
@@ -22,7 +23,14 @@ public class MemberDTO {
 	private String mem_summary;
 	private String mem_introduce;
 	private int mem_reviewCount;
+	
 
+	public int getRental_usePoint() {
+		return rental_usePoint;
+	}
+	public void setRental_usePoint(int rental_usePoint) {
+		this.rental_usePoint = rental_usePoint;
+	}
 	public int getMem_num() {
 		return mem_num;
 	}

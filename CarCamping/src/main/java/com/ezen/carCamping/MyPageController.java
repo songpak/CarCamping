@@ -193,8 +193,8 @@ public class MyPageController {
 	
 	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
 	public String myPageCheckOut2(HttpServletRequest req, int cart_num
-			,RentalLogDTO dto, @RequestParam Map<String, String> params) {
-		//System.out.println("상품번호" + prod_num);
+			,RentalLogDTO dto, @RequestParam Map<String, String> params,@RequestParam Map<String, String> params2, int rental_usePoint) {
+		System.out.println("포인트" + rental_usePoint);
 		//System.out.println("대여날짜" + cart_from);
 		HttpSession session = req.getSession();
 		//List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
@@ -204,6 +204,13 @@ public class MyPageController {
 				} else {
 					System.out.println("삭로그 입력제 실패");
 				}
+				int res3 = myPageMapper.updateCartLogPoint(params2);
+				if (res3 > 0) {
+					System.out.println("포인트 변경 성공");
+				} else {
+					System.out.println("포인트 변경 실패");
+				}
+				
 		//로그 테이블에 인서트 할 곳
 		//int mem_num = (int) session.getAttribute("mem_num");
 		int res = myPageMapper.payCart(cart_num);

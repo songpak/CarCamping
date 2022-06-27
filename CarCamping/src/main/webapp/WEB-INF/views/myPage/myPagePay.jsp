@@ -59,8 +59,9 @@
 				<form action="myPageCheckOut.myPage" method="post">
 				 <input type="hidden" name= "cart_num" value="${mdto.cart_num }">
        			 <input type="hidden" name= "rental_price" value="${mdto.productDTO.prod_price}">
-        		 사용 가능포인트 <input type="number" name="rental_usePoint"
-								value="${mdto.memberDTO.mem_point}" pattern="[0-9]+" min="3000" max="10000">
+       			  <input type="hidden" name= "mem_num" value="${mdto.memberDTO.mem_num}">
+        		  <input type="number" name="rental_usePoint"
+								value="1" pattern="[0-9]+" min="1" max="10000">
         		 <button class="btn btn-lg btn-dark btn-block text-uppercase"
 			type="submit" >결제하기</button>
          </form>

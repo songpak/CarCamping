@@ -58,6 +58,11 @@ public class MyPageMapper {
 		 int res =sqlSession.insert("insertCartLog", params);
 		 return res; 
 	 }
+	 
+	 public int updateCartLogPoint(Map<String, String> params2) {
+		 int res =sqlSession.update("updateCartLogPoint", params2);
+		 return res; 
+	 }
 		
 		
 
