@@ -18,7 +18,7 @@
 						<option value="${dto.region_num}">${dto.region_name}</option>
 					</c:forEach>
 				</select>
-				<button type="submit" class="btn btn-info">정렬</button>
+				<button type="submit">정렬</button>
 			</form>
 		</div>
 		<!-- 정렬 지역 버튼 끝 -->

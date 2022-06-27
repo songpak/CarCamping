@@ -44,7 +44,7 @@
 		<div class="col">
 			<table class="table table-striped" style="overflow:scroll">
 				<tr class="table-info">
-					<th colspan="2" align="center">브랜드 카테고리</th>
+					<th colspan="2" align="center"><p class="h4"><strong>브랜드 카테고리</strong></p></th>
 				</tr>
 				
 				<tr class="table-info">
@@ -71,7 +71,7 @@
 		<div class="col">
 			<table class="table table-striped" style="overflow:scroll">
 				<tr class="table-info">
-					<th colspan="2" align="center">용품 카테고리</th>
+					<th colspan="2" align="center"><p class="h4"><strong>용품 카테고리</strong></p></th>
 				</tr>
 				<tr class="table-info">
 					<th>카테고리명</th>

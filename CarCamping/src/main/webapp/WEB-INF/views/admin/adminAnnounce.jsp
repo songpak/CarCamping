@@ -18,7 +18,7 @@
 							<option value="desc">최신순</option>
 							<option value="asc">오래된순</option>
 					</select>
-					<button type="submit" class="btn btn-info">정렬</button>
+					<button type="submit">정렬</button>
 				</form>
 			</div>
 		<!-- 드랍 버튼 끝 -->
@@ -63,7 +63,7 @@
 					<td>${dto.aa_sysdate}</td>
 					<td>${dto.aa_update}</td>
 					<td>
-						<button type="button" class="btn btn-primary"
+						<button type="button" class="btn btn-info"
 								onclick="location.href='javascript:con_view(${dto.aa_num})'">
 								보기</button>
 					</td>

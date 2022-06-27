@@ -381,6 +381,16 @@ public class AdminMapper {
 		return list;
 	}
 	
+	public List<RentalLogDTO> adminListRentalLogSort(int sort) {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSort",sort);
+		return list;
+	}
+	
+	public List<RentalLogDTO> adminListRentalLogSearch(String search) {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSearch","%"+search+"%");
+		return list;
+	}
+	
 	public RentalLogDTO adminGetRentalLog(int rental_num) {
 		RentalLogDTO dto = sqlSession.selectOne("adminGetRentalLog", rental_num);
 		return dto;

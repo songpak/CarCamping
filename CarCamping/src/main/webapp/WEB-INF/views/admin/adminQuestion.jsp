@@ -18,7 +18,7 @@
 						<option value="question_sysdate">최신순</option>
 						<option value="question_reply">답변 미완료</option>
 					</select>
-					<button type="submit" class="btn btn-info">정렬</button>
+					<button type="submit">정렬</button>
 				</form>
 			</div>
 		<!-- 드랍 버튼 끝 -->

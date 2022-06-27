@@ -1,6 +1,7 @@
 package com.ezen.carCamping;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +48,6 @@ public class AdminController {
 	
 	//Pagination Singleton Instance
 	private Pagination pagination = Pagination.getInstance();
-	
-	//AWS S3
-
 	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
@@ -136,11 +136,13 @@ public class AdminController {
 		if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
 		else dto.setCcr_river(1);
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
+		String upPath = "images";
 		
 		//다중 파일 전송
+		
 		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
+			String filename = f.getOriginalFilename();	
+
 			if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
 			else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
 			else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
@@ -149,10 +151,8 @@ public class AdminController {
 			
 			try {
 				f.transferTo(new File(upPath+"/images/region/"+filename));
-				
-				
 
-			}catch(IOException e) {
+			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -1023,8 +1023,16 @@ public class AdminController {
 	
 	@RequestMapping("/adminRental.admin")
 	public String adminRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
-			@RequestParam(required=false) String sort) {
-		List<RentalLogDTO> list = adminMapper.adminListRentalLog();
+			@RequestParam(required=false) Map<String,String> map) {
+		List<RentalLogDTO> list = new ArrayList<RentalLogDTO>();
+		
+		if (map.containsKey("search")) {
+			list = adminMapper.adminListRentalLogSearch(map.get("search"));
+		}else if (map.containsKey("sort")){
+			list = adminMapper.adminListRentalLogSort(Integer.parseInt(map.get("sort")));
+		}else {
+			list = adminMapper.adminListRentalLog();
+		}
 		
 		//현재 페이지
 		req.setAttribute("page", page);
