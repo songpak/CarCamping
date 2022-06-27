@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,11 @@ import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
+import com.ezen.carCamping.pagination.Pagination;
 import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
+import com.ezen.carCamping.service.ProductMapper;
+import com.ezen.carCamping.service.RegionMapper;
 
 
 @Controller
@@ -42,11 +47,16 @@ public class MyPageController {
 	
 	@Autowired
 	private MemberMapper memberMapper;
-		
+	
+	@Autowired
+	private RegionMapper RegionMapper;
+	@Autowired
+	private ProductMapper productMapper;
+	
 	@Resource(name="uploadPath")
 			private String uploadPath;
 
-
+	private static Pagination pagination = Pagination.getInstance();
 
 
 	@RequestMapping("/myPageCart.myPage")
@@ -286,10 +296,15 @@ public class MyPageController {
 
 	
 	@RequestMapping("/myPageQuestion.myPage")//마이페이지 문의목록
-	public String myPageQuestion(HttpServletRequest req, int mem_num) {
+	public String myPageQuestion(HttpServletRequest req, @RequestParam(required=false,defaultValue="1") int page) {
+		HttpSession session = req.getSession();
+		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
+		int mem_num = dto.getMem_num();
 		List<QuestionDTO> qdto =  new ArrayList<QuestionDTO>();
 		qdto = myPageMapper.myPageGetQuestionSelectMember(mem_num);
 		req.setAttribute("listBoard", qdto);
+		req.setAttribute("pageCount", pagination.pageCount(qdto));
+		req.setAttribute("listBoard", pagination.getPagePost(page,qdto));
 		return "myPage/myPageQuestion";
 	}
 
@@ -372,30 +387,193 @@ public class MyPageController {
 		return "message"; 
 	}
 	
-	@RequestMapping("/myPageWriteReview.myPage")//마이페이지 문의목록
-	public String myPageWriteReview(HttpServletRequest req, int mem_num, @RequestParam(required = false) String mode) {
+	@RequestMapping("/myPageWriteReview.myPage")//마이페이지 내가 쓴 리뷰목록
+	public String myPageWriteReview(HttpServletRequest req, @RequestParam(required = false) String mode,
+		@RequestParam(required=false,defaultValue="1") int page) {
+		HttpSession session = req.getSession();
+		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
+		int mem_num = dto.getMem_num();
 		if (mode == null) {
-		List<ReviewRegionDTO> rdto =  new ArrayList<ReviewRegionDTO>();
-		rdto = myPageMapper.myPageGetWriteReviewRegion(mem_num);
-		req.setAttribute("listRegion", rdto);
+			List<ReviewRegionDTO> rdto =  new ArrayList<ReviewRegionDTO>();
+			rdto = myPageMapper.myPageGetWriteReviewRegion(mem_num);
+			req.setAttribute("pageCount", pagination.pageCount(rdto));
+			req.setAttribute("listRegion", pagination.getPagePost(page,rdto));
+		
 		}else {
 			List<ReviewProductDTO> pdto =  new ArrayList<ReviewProductDTO>();
 			pdto = myPageMapper.myPageGetWriteReviewProduct(mem_num);
-			req.setAttribute("listProduct", pdto);
+			req.setAttribute("pageCount", pagination.pageCount(pdto));
+			req.setAttribute("listProduct", pagination.getPagePost(page,pdto));
 		}
+		
+		req.setAttribute("page", page);
+		
+		
+		
 		return "myPage/myPageWriteReview";
 
 	}
 	@RequestMapping("/myPageWriteReviewRegionView.myPage")
-	public String myPageWriteReviewRegionView(HttpServletRequest req, @RequestParam int review_num) {
+	public String myPageWriteReviewRegionView(HttpServletRequest req, HttpServletResponse rep, @RequestParam int review_num) {
 		ReviewRegionDTO rdto = myPageMapper.getReviewRegion(review_num);
 		req.setAttribute("getReviewRegion", rdto);
+		///////////////////////////////////////////////////////////////////////////
+		  HttpSession session = req.getSession();
+		  MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
+		  if(mdto!=null) {
+			  session.setAttribute("mem_num", mdto.getMem_num());
+			  session.setAttribute("mem_id", mdto.getMem_id());
+		  }else if(mdto == null){
+			  System.out.println("로그인안해쓴ㄴ데여?");
+			  req.setAttribute("msg", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
+			  req.setAttribute("url","login.login");
+			  return "message";
+		  }
+		
+		Cookie[] cookies = req.getCookies();
+		Cookie viewCookie = null;//鍮꾧탳荑좏궎
+		
+		// 荑좏궎媛� �엳�쓣 寃쎌슦 
+        if (cookies != null && cookies.length > 0) { 
+        	for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals("cookie"+review_num)) viewCookie = cookies[i];
+                // Cookie�쓽 name�씠 cookie(revie_num) ���씪移섑븯�뒗 荑좏궎瑜� viewCookie�뿉 �꽔�뼱以� 
+            }
+        }
+        
+        if (rdto != null) {
+            // 留뚯씪 viewCookie媛� null�씪 寃쎌슦  荑좏궎瑜� �깮�꽦�빐�꽌 議고쉶�닔 利앷� 濡쒖쭅�쓣 泥섎━�븿.->�뾾�쑝硫� !泥섏쓬 �뱾�뼱媛꾧쾬�씠誘�濡�!
+            if (viewCookie == null) {    
+                // 荑좏궎 �깮�꽦(�씠由�, 媛�)
+                Cookie newCookie = new Cookie("cookie"+review_num, "|" + review_num + "|");     
+                // 荑좏궎 異붽�
+                rep.addCookie(newCookie);
+                // 荑좏궎瑜� 異붽� �떆�궎怨� 議고쉶�닔 利앷��떆�궡
+                int result = RegionMapper.addReviewReadCount(review_num);
+                rdto.setReview_readCount(rdto.getReview_readCount()+1);
+                if(result>0) {
+                    System.out.println("議고쉶�닔 利앷�");
+                }else {
+                    System.out.println("議고쉶�닔 利앷� �뿉�윭");
+                }
+            }//view 荑좏궎�뿉 媛믪씠 �엳�쑝硫� �씠誘� �뱾�뼱媛� 由щ럭 �씠誘�濡� 議고쉶�닔 利앷��븯吏��븡�쓬
+            	
+        }else { //dto媛� null�씠硫� �뿉�윭�럹�씠吏�濡� �씠�룞
+        	return "/region/RegionErrorPage";
+        }
+        
+		// �빐�떦 由щ럭�뿉 �엳�뒗 �씠誘몄� 留뚰겮留� �뒳�씪�씠�뱶 �깮�꽦�븯湲� �쐞�븿
+		Class<? extends ReviewRegionDTO> cls = rdto.getClass();
+		List<String> reviewImages = new java.util.ArrayList<>();
+		for(int i=1;i<=5;i++) {
+			String imageVar = "review_regionImage"+i;
+			try {
+				java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
+				f.setAccessible(true);
+				String imageSrc = (String)f.get(rdto);
+				System.out.println(imageSrc);
+				if(imageSrc!=null) {
+					reviewImages.add(imageSrc);
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//id媛믪쓣 媛��졇�� 濡쒓렇 �궡�뿭 泥댄겕 �썑 踰꾪듉�쓽 �깋源붿쓣 寃곗젙 
+		//HttpSession session = req.getSession();
+		String id = (String) req.getSession().getAttribute("mem_id");
+		if (id==null || id.equals("")) req.setAttribute("check", 0);
+		else{
+			int check = RegionMapper.checkReviewLikeLog(id, review_num);
+			System.out.println("check = "+ check);
+			req.setAttribute("check", check);
+		}
+					
+		//req.setAttribute("selectedReview", rdto);
+		req.setAttribute("reviewImageList", reviewImages); //�빐�떦 由щ럭�쓽 �씠誘몄� �씠由꾩쓣 ���옣
+
 		return "myPage/myPageWriteReviewRegionView";
 	}
 	@RequestMapping("/myPageWriteReviewProductView.myPage")
-	public String myPageWriteReviewProductView(HttpServletRequest req, @RequestParam int rp_num) {
+	public String myPageWriteReviewProductView(HttpServletRequest req, HttpServletResponse rep, @RequestParam int rp_num) {
 		ReviewProductDTO pdto = myPageMapper.getReviewProduct(rp_num);
 		req.setAttribute("getReviewProduct", pdto);
+		///////////////////////////////////////////////////////////////////////////
+		HttpSession session = req.getSession();
+		MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
+		if(mdto!=null) {
+		session.setAttribute("mem_num", mdto.getMem_num());
+		session.setAttribute("mem_id", mdto.getMem_id());
+		}else if(mdto == null){
+		System.out.println("로그인안해쓴ㄴ데여?");
+		req.setAttribute("msg", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
+		req.setAttribute("url","login.login");
+		return "message";
+		}
+		
+		Cookie[] cookies = req.getCookies();
+		Cookie viewCookie = null;//鍮꾧탳荑좏궎
+		
+		// 荑좏궎媛� �엳�쓣 寃쎌슦 
+		if (cookies != null && cookies.length > 0) { 
+		for (int i = 0; i < cookies.length; i++) {
+		if (cookies[i].getName().equals("cookie"+rp_num)) viewCookie = cookies[i];
+		// Cookie�쓽 name�씠 cookie(revie_num) ���씪移섑븯�뒗 荑좏궎瑜� viewCookie�뿉 �꽔�뼱以� 
+		}
+		}
+		
+		if (pdto != null) {
+		// 留뚯씪 viewCookie媛� null�씪 寃쎌슦  荑좏궎瑜� �깮�꽦�빐�꽌 議고쉶�닔 利앷� 濡쒖쭅�쓣 泥섎━�븿.->�뾾�쑝硫� !泥섏쓬 �뱾�뼱媛꾧쾬�씠誘�濡�!
+		if (viewCookie == null) {    
+		// 荑좏궎 �깮�꽦(�씠由�, 媛�)
+		Cookie newCookie = new Cookie("cookie"+rp_num, "|" + rp_num + "|");     
+		// 荑좏궎 異붽�
+		rep.addCookie(newCookie);
+		// 荑좏궎瑜� 異붽� �떆�궎怨� 議고쉶�닔 利앷��떆�궡
+		int result = productMapper.addProductReviewReadCount(rp_num);
+		pdto.setRp_readCount(pdto.getRp_readCount()+1);
+		if(result>0) {
+		System.out.println("議고쉶�닔 利앷�");
+		}else {
+		System.out.println("議고쉶�닔 利앷� �뿉�윭");
+		}
+		}//view 荑좏궎�뿉 媛믪씠 �엳�쑝硫� �씠誘� �뱾�뼱媛� 由щ럭 �씠誘�濡� 議고쉶�닔 利앷��븯吏��븡�쓬
+		
+		}else { //dto媛� null�씠硫� �뿉�윭�럹�씠吏�濡� �씠�룞
+		return "/region/RegionErrorPage";
+		}
+		
+		// �빐�떦 由щ럭�뿉 �엳�뒗 �씠誘몄� 留뚰겮留� �뒳�씪�씠�뱶 �깮�꽦�븯湲� �쐞�븿
+		Class<? extends ReviewProductDTO> cls = pdto.getClass();
+		List<String> rp_images = new java.util.ArrayList<>();
+		for(int i=1;i<=5;i++) {
+		String imageVar = "rp_image"+i;
+		try {
+		java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
+		f.setAccessible(true);
+		String imageSrc = (String)f.get(pdto);
+		System.out.println(imageSrc);
+		if(imageSrc!=null) {
+		rp_images.add(imageSrc);
+		}
+		}catch (Exception e) {
+		e.printStackTrace();
+		}
+		}
+		
+		//id媛믪쓣 媛��졇�� 濡쒓렇 �궡�뿭 泥댄겕 �썑 踰꾪듉�쓽 �깋源붿쓣 寃곗젙 
+		//HttpSession session = req.getSession();
+		String id = (String) req.getSession().getAttribute("mem_id");
+		if (id==null || id.equals("")) req.setAttribute("check", 0);
+		else{
+		int check = productMapper.checkProductReviewLikeLog(id, rp_num);
+		System.out.println("check = "+ check);
+		req.setAttribute("check", check);
+		}
+		
+		//req.setAttribute("selectedReview", pdto);
+		req.setAttribute("rp_imageList", rp_images); //�빐�떦 由щ럭�쓽 �씠誘몄� �씠由꾩쓣 ���옣
 		return "myPage/myPageWriteReviewProductView";
 	}
 	@RequestMapping("/myPageWriteReviewRegionDelete.myPage")

@@ -189,7 +189,7 @@
 	<select id="myPageGetWriteReviewProduct"  resultMap="reviewProductMap">
 		select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
 	</select>	
-		<select id="getReviewRegion" parameterType="int" resultType="reviewRegionDTO">
+		<select id="getReviewRegion" parameterType="int" resultMap="reviewRegionMap">
 		select * from ReviewRegion where review_num = #{review_num}
 	</select>
 		<select id="getReviewProduct" parameterType="int" resultType="reviewProductDTO">

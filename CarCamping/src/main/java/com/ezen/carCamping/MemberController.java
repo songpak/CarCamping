@@ -146,13 +146,6 @@ public class MemberController {
        }	   
       req.setAttribute("msg", msg);
       req.setAttribute("url", url);
-
-	  //Cookie ck2 = new Cookie("stopId", dto.getMem_id());
-      // ck2.setMaxAge(24*60*60);
-     // resp.addCookie(ck2);
-	 // url="index.do";
-	 // msg ="5번 이상 로그인에 실패하여 하루동안 로그인이 불가능합니다.";
-	  
 	  
 
       return "message";

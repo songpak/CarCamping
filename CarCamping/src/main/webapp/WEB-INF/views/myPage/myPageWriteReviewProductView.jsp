@@ -42,8 +42,8 @@
 </head>
 <body>
 
-	<c:set var="review_num" value="${getReviewProduct.rp_num }"/>
- 	<c:set var="mem_id" value="${getReviewProduct.memberDTO.mem_id}"/>
+	<c:set var="review_num" value="${getReviewProduct.rp_num}"/>
+ 	<c:set var="mem_id" value="${sessionScope.mem_id}"/>
 	<div id="wrapper">
 		<!-- Begin Header -->
 		<div align="center" id="header">
@@ -127,7 +127,7 @@
 					<div align="center" id="leftcolumn"
 						style="width: 666px;margin-top: 5px; background:#fff;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-right-width: 0px;">
 						<div class="slider-gr" style="width:640px;">
-							<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
+							<c:forEach var="i" begin="1" end="${fn:length(rp_imageList)}"> 
 									<input type="radio" name="slide" id="slide${i}" checked />
 								</c:forEach>
 							<!-- <input type="radio" name="slide" id="slide1" checked /> <input
@@ -135,8 +135,8 @@
 								name="slide" id="slide3" /> <input type="radio" name="slide"
 								id="slide4" /> -->
 							<ul id="imgholder" class="imgs">
-								<c:forEach var="reviewImages" items="${reviewImageList}">
-									<li><img src="resources/images/${reviewImages }" style="width:640px; height:300px;">/></li>
+								<c:forEach var="rp_images" items="${rp_imageList}">
+									<li><img src="resources/images/${rp_images }" style="width:640px; height:300px;">/></li>
 								</c:forEach>
 								
 								<!-- <li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>
@@ -144,7 +144,7 @@
 								<li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li> -->
 							</ul>
 							<div class="bullets">
-									<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
+									<c:forEach var="i" begin="1" end="${fn:length(rp_imageList)}"> 
 									<label for="slide${i}">&nbsp;</label>
 									</c:forEach>
 								<!-- <label for="slide1">&nbsp;</label> <label for="slide2">&nbsp;</label>
@@ -177,7 +177,7 @@
 		var isRun = false; // ajax 동시 호출 막기(ajax가 호출되는 동안 버튼이 클릭돼도 중복으로 실행되는것을 막기위함)
 		
 		function Like_function(){
-			var mid = '${getReviewRegion.memberDTO.mem_id}';
+			var mid = '${sessionScope.mem_id}';
 			var isEmpty = function(value){//빈값체크
 	            if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
 	              return true
@@ -203,10 +203,10 @@
 	   				var like_color = like_button.style.backgroundColor;
 	   				
 	   				$.ajax({
-						url: "updateReviewLike.product", //컨트롤러 맵핑
+						url: "updateProductReviewLike.product", //컨트롤러 맵핑
 		                type: "POST",
 		                data: { //사용자가 데이터를 정의한다	
-		                	mem_id: '${getReviewProduct.memberDTO.mem_id}',
+		                	mem_id: '${sessionScope.mem_id}',
 		                	rp_num: ${getReviewProduct.rp_num}
 		                },         
 		                success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.

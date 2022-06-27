@@ -136,7 +136,44 @@ public class ProductMapper {
 		int count = sqlSession.selectOne("listProductMainCount");
 		return count;
 	}
-
+	public int recountProductReviewLike(int rp_num) {
+		int res = (int)sqlSession.selectOne("recountProductReviewLike", rp_num);
+		return res;
+	}
+	public int insertProductReviewLikeLog(String mem_id,int rp_num) {
+		Map<String,Object> map = new Hashtable<>();
+		map.put("mem_id", mem_id);
+		map.put("rp_num",rp_num);
+		int ud = sqlSession.update("addProductReviewReadCount", rp_num);
+		if(ud>0) sqlSession.insert("insertProductReviewLikeLog", map);
+		int res =(int)sqlSession.selectOne("recountProductReviewLike", rp_num);
+		return res;
+	}
+	public int deleteProductReviewLikeLog(String mem_id,int rp_num) {
+		Map<String,Object> map = new Hashtable<>();
+		map.put("mem_id", mem_id);
+		map.put("review_num", rp_num);
+		int ud = sqlSession.update("subLikeCountReview", rp_num);
+		if(ud>0) sqlSession.delete("deleteProductReviewLikeLog", map);
+		int res =(int)sqlSession.selectOne("recountProductReviewLike", rp_num);
+		return res;
+	}
+	//리뷰 좋아요 내역 체크
+		public int checkProductReviewLikeLog(String mem_id,int rp_num) {
+			Map<String,Object> map = new Hashtable<>();
+			map.put("mem_id", mem_id);
+			map.put("rp_num", rp_num);
+			int res = (int)sqlSession.selectOne("checkProductReviewLikeLog", map);
+			if(res>0) System.out.println("해당 아이디의  해당 리뷰에 대해 추천한 기록이있습니다");
+			else System.out.println("해당 아이디의 해당 리뷰에 대해 추천한 기록이 없습니다");
+			return res;
+		}
+		//리뷰 상세보기 조회수 
+		public int addProductReviewReadCount(int rp_num) {
+			return sqlSession.update("addProductReviewReadCount", rp_num);
+		}
+		
+	
 	
 }
  

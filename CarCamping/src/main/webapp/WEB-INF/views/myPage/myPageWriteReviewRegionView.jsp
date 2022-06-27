@@ -43,7 +43,7 @@
 <body>
 
 	<c:set var="review_num" value="${getReviewRegion.review_num }"/>
- 	<c:set var="mem_id" value="${getReviewRegion.memberDTO.mem_id}"/>
+ 	<c:set var="mem_id" value="${sessionScope.mem_id}"/>
 	<div id="wrapper">
 		<!-- Begin Header -->
 		<div align="center" id="header">
@@ -177,7 +177,7 @@
 		var isRun = false; // ajax 동시 호출 막기(ajax가 호출되는 동안 버튼이 클릭돼도 중복으로 실행되는것을 막기위함)
 		
 		function Like_function(){
-			var mid = '${getReviewRegion.memberDTO.mem_id}';
+			var mid = '${mem_id}';
 			var isEmpty = function(value){//빈값체크
 	            if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
 	              return true
@@ -206,7 +206,7 @@
 						url: "updateReviewLike.region", //컨트롤러 맵핑
 		                type: "POST",
 		                data: { //사용자가 데이터를 정의한다	
-		                	mem_id: '${getReviewRegion.memberDTO.mem_id}',
+		                	mem_id: '${mem_id}',
 		                	review_num: ${getReviewRegion.review_num}
 		                },         
 		                success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.

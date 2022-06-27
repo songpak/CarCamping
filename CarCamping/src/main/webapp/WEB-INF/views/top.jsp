@@ -126,7 +126,7 @@ padding-left: 0px;
                                  class="list-group-item list-group-item-action list-group-item-light p-3">      
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
                                  내 정보 </a> 
-                              <a href="myPageWriteReview.myPage?mem_num=${mem_num}"
+                              <a href="myPageWriteReview.myPage"
                                  class="list-group-item list-group-item-action list-group-item-light p-3">
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
                                  내가 쓴 리뷰</a> 
@@ -142,7 +142,7 @@ padding-left: 0px;
                                  class="list-group-item list-group-item-action list-group-item-light p-3">
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
                                  대여내역</a>
-                              <a href="myPageQuestion.myPage?mem_num=${mem_num}"
+                              <a href="myPageQuestion.myPage"
                                  class="list-group-item list-group-item-action list-group-item-light p-3">
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
                                  문의하기</a>    

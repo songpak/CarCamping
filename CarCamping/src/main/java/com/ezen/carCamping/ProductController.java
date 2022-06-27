@@ -17,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezen.carCamping.dto.AgencyDTO;
+import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.service.ProductMapper;
@@ -181,11 +183,34 @@ public class ProductController {
 		return "message";
 	}
 	
+	@RequestMapping(value="updateProductReviewLike.product",method=RequestMethod.POST)
+	@ResponseBody
+	public String updateProductReviewLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int rp_num) {
+		
+		HttpSession session = req.getSession();
+		  MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
+		  if(mdto!=null) {
+			  session.setAttribute("mem_num", mdto.getMem_num());
+			  session.setAttribute("mem_id", mdto.getMem_id());
+		  }else if(mdto == null){
+			  req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
+			  req.setAttribute("url","login.login");
+			  return "message";
+		  }
+		  
+		  
+		int check = productMapper.checkProductReviewLikeLog(mem_id, rp_num);
+		int count = 0;
+		if(check==0) { //醫뗭븘�슂 �궡�뿭�뿉 議댁옱�븯吏� �븡�쑝硫�
+			count = productMapper.insertProductReviewLikeLog(mem_id, rp_num); // 醫뗭븘�슂 �궡�뿭�뿉 異�
+			System.out.println("insert�썑 異붿쿇�� "+count);
+		}else {// �겢由��뻽�쓣 �븣 醫뗭븘�슂 �궡�뿭�뿉 �씠誘� 議댁옱�븯硫� 醫뗭븘�슂 �궡�뿭�뿉�꽌 �궘�젣�븯怨� 醫뗭븘�슂�닔瑜� �븯�굹 �궡由�
+			count = productMapper.deleteProductReviewLikeLog(mem_id, rp_num);
+			System.out.println("delete�썑 異붿쿇�� "+count);
+		}
+		return String.valueOf(count);
+	}
 }
-
-
-
-
 
 
 
