@@ -26,8 +26,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<context:component-scan
-		base-package="com.ezen.carCamping" />
+	<context:component-scan base-package="com.ezen.carCamping" />
 
 	<!-- fileUpload -->
 	<beans:bean

@@ -32,6 +32,8 @@ import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.ProductMapper;
 import com.ezen.carCamping.service.RegionMapper;
 import com.ezen.carCamping.service.ReviewMapper;
+import com.ezen.carCamping.service.S3FileService;
+
 
 @Controller
 public class reviewController {
@@ -44,6 +46,9 @@ public class reviewController {
 
 	@Autowired
 	private ProductMapper ProductMapper;
+	
+	@Autowired
+	private S3FileService S3FileService;
 	
 	@RequestMapping(value="field_review.review", method=RequestMethod.GET )
 	public String field_review(HttpServletRequest req,@RequestParam(required=false) Integer ccr_num) {
@@ -92,6 +97,7 @@ public class reviewController {
 			// 파일이 있을때 
 			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
 				for(MultipartFile file:multipartFile) {
+					
 					fileRoot = contextRoot + "resources/images/";
 					
 					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
@@ -99,7 +105,11 @@ public class reviewController {
 					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
 					
 					//dto image setting
-					if (dto.getReview_regionImage1()==null) dto.setReview_regionImage1(savedFileName);
+					if (dto.getReview_regionImage1()==null) {
+						dto.setReview_regionImage1(savedFileName);
+						String str = S3FileService.upload(file);
+						System.out.println(str);
+					}
 					else if (dto.getReview_regionImage2()==null) dto.setReview_regionImage2(savedFileName);
 					else if (dto.getReview_regionImage3()==null) dto.setReview_regionImage3(savedFileName);
 					else if (dto.getReview_regionImage4()==null) dto.setReview_regionImage4(savedFileName);
