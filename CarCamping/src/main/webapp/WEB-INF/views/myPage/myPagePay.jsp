@@ -68,11 +68,13 @@
 				 <input type="hidden" name= "cart_num" value="${mdto.cart_num }">
        			 <input type="hidden" name= "rental_price" value="${mdto.productDTO.prod_price}">
        			  <input type="hidden" name= "mem_num" value="${mdto.memberDTO.mem_num}">
+       			  
        			  <c:if test="${mdto.memberDTO.mem_point <= 0}">
         		  사용 가능한 포인트가 없습니다.<br>
         		  <input type="number" name="rental_usePoint"
 								value="0" pattern="[0-9]+" min="0" max="0">
         		 </c:if>
+        		 
         		 <c:if test="${mdto.memberDTO.mem_point > 0}">
         		  사용가능 포인트 : ${mdto.memberDTO.mem_point}<br>
         		  <input type="number" name="rental_usePoint"
