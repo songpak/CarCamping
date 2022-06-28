@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -30,6 +31,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
+<<<<<<< HEAD
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
@@ -38,6 +40,11 @@ import com.ezen.carCamping.service.MyPageMapper;
 import com.ezen.carCamping.service.ProductMapper;
 import com.ezen.carCamping.service.RegionMapper;
 import com.ezen.carCamping.service.S3FileService;
+=======
+import com.ezen.carCamping.dto.RentalLogDTO;
+import com.ezen.carCamping.service.MemberMapper;
+import com.ezen.carCamping.service.MyPageMapper;
+>>>>>>> 오신웅2
 
 @Controller
 public class MyPageController {
@@ -45,6 +52,7 @@ public class MyPageController {
 	@Autowired
 	private MyPageMapper myPageMapper;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 	@Autowired
 	private MemberMapper memberMapper;
@@ -66,6 +74,10 @@ public class MyPageController {
 
 	private static Pagination pagination = Pagination.getInstance();
 >>>>>>> 박다슬2
+=======
+	@Autowired
+	private MemberMapper memberMapper;
+>>>>>>> 오신웅2
 
 	@Resource(name = "uploadPath")
 	private String uploadPath;
@@ -198,10 +210,12 @@ public class MyPageController {
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		String msg = null, url = null;
 		if (cart == null) {
-
 			msg = "장바구니가 비었습니다!";
 			url = "productView.product";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 오신웅2
 		} else {
 			msg = "결제 페이지로 이동합니다!";
 			url = "Pay.myPage";
@@ -211,7 +225,11 @@ public class MyPageController {
 		return "message";
 	}
 
+<<<<<<< HEAD
 	@RequestMapping("Pay.myPage")//결제폼
+=======
+	@RequestMapping("Pay.myPage")
+>>>>>>> 오신웅2
 	public String myPageCheckOut1(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
@@ -219,6 +237,7 @@ public class MyPageController {
 		session.setAttribute("cartList", list);
 		return "myPage/myPagePay";
 	}
+<<<<<<< HEAD
 
 	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
 	public String myPageCheckOut2(HttpServletRequest req) {
@@ -229,13 +248,44 @@ public class MyPageController {
 		
 >>>>>>> 송재영2
 		int res = myPageMapper.payCart(mem_num);
+=======
+	
+	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
+	public String myPageCheckOut2(HttpServletRequest req, int cart_num
+			,RentalLogDTO dto, @RequestParam Map<String, String> params,@RequestParam Map<String, String> params2, int rental_usePoint) {
+		System.out.println("포인트" + rental_usePoint);
+		//System.out.println("대여날짜" + cart_from);
+		HttpSession session = req.getSession();
+		//List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+				int res2 = myPageMapper.insertCartLog(params);
+				if (res2 > 0) {
+					System.out.println("로그 입력 성공");
+				} else {
+					System.out.println("삭로그 입력제 실패");
+				}
+				int res3 = myPageMapper.updateCartLogPoint(params2);
+				if (res3 > 0) {
+					System.out.println("포인트 변경 성공");
+				} else {
+					System.out.println("포인트 변경 실패");
+				}
+				
+		//로그 테이블에 인서트 할 곳
+		//int mem_num = (int) session.getAttribute("mem_num");
+		int res = myPageMapper.payCart(cart_num);
+>>>>>>> 오신웅2
 		if (res > 0) {
-			System.out.println("결제 성공");
+			System.out.println("결제후 장바구니 삭제 성공");
 		} else {
-			System.out.println("결제 실패");
+			System.err.println("결제후 장바구니 삭제 실패");
 		}
 		return "myPage/myPageCheckOut";
 	}
+<<<<<<< HEAD
+=======
+	
+	//----------------------------------------------------------------------------------------------------
+>>>>>>> 오신웅2
 
 	@RequestMapping("/myPageRental.myPage")
 	public String myPageRental(HttpServletRequest req) {
@@ -304,6 +354,7 @@ public class MyPageController {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	@RequestMapping("/myPageQuestion.myPage") // 마이페이지 문의목록
 	public String myPageQuestion(HttpServletRequest req, int mem_num) {
 		List<QuestionDTO> qdto = new ArrayList<QuestionDTO>();
@@ -317,6 +368,11 @@ public class MyPageController {
 		int mem_num = dto.getMem_num();
 		List<QuestionDTO> qdto =  new ArrayList<QuestionDTO>();
 >>>>>>> 박다슬2
+=======
+	@RequestMapping("/myPageQuestion.myPage") // 마이페이지 문의목록
+	public String myPageQuestion(HttpServletRequest req, int mem_num) {
+		List<QuestionDTO> qdto = new ArrayList<QuestionDTO>();
+>>>>>>> 오신웅2
 		qdto = myPageMapper.myPageGetQuestionSelectMember(mem_num);
 		req.setAttribute("listBoard", qdto);
 		req.setAttribute("pageCount", pagination.pageCount(qdto));
@@ -325,10 +381,14 @@ public class MyPageController {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	@RequestMapping(value = "myPageContactUs.myPage", method = RequestMethod.GET) // 마이페이지 컨텍어스
 =======
 	@RequestMapping(value="myPageContactUs.myPage", method=RequestMethod.GET)//마이페이지 컨텍어스
 >>>>>>> 박다슬2
+=======
+	@RequestMapping(value = "myPageContactUs.myPage", method = RequestMethod.GET) // 마이페이지 컨텍어스
+>>>>>>> 오신웅2
 	public String myPageContactUs() {
 		return "myPage/myPageContactUs";
 	}

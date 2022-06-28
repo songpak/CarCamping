@@ -53,7 +53,7 @@ function fn_account(val){
 			<!-- 이미지 영역 -->
 			<div align="center">
 				<h4>
-					<img src="${getProduct.prod_viewImage1}" />
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440${getProduct.prod_viewImage1}" />
 				</h4> <br>
 					상품명 : ${getProduct.prod_name }<br>
 					일일대여 요금 : ${getProduct.prod_price }원<br><br>
@@ -86,7 +86,6 @@ function fn_account(val){
 	font-size: 13px;
 }
 </style>
-
 			<!-- 여기서는 날짜 보내주기만 하고 저장은 구매할때 저장 -->
 			<form name="f_lent" action="myPageCart.myPage" method="post">
 				<input type="hidden" name="prod_num" value="${getProduct.prod_num}">
@@ -185,7 +184,7 @@ function fn_account(val){
 							<td>
 								<div class="card" style="width: 18rem;">
 									<!-- 리뷰리스트 이미지 영역 -->
-									<img src="${pdto.rp_image1}">
+									<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440${pdto.rp_image1}">
 									<!-- 리뷰리스트 이미지 영역 끝 -->
 									<div class="card-body">
 										<h5 class="card-title">${pdto.rp_title}</h5>

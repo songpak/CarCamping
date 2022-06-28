@@ -85,10 +85,17 @@ public class ProductMapper {
 		List<ProductDTO> listProductsearchPop = sqlSession.selectList("listProductsearchPop", map);
 		return listProductsearchPop;
 	}
+<<<<<<< HEAD
 
 	public List<ReviewProductDTO> listProdReview(int prod_num) {
 		List<ReviewProductDTO> list = sqlSession.selectList("listProdReview", prod_num);
 		return list;
+=======
+	
+	public List<ReviewProductDTO> listProdReview(int prod_num){
+		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview", prod_num);
+		return list; 
+>>>>>>> 오신웅2
 	}
 
 	public List<ReviewProductDTO> findReview(String search, String searchString) {

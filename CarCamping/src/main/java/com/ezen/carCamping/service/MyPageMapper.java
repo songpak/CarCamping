@@ -19,8 +19,12 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
+<<<<<<< HEAD
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
+=======
+import com.ezen.carCamping.dto.RentalLogDTO;
+>>>>>>> 오신웅2
 
 @Service
 public class MyPageMapper {
@@ -55,6 +59,25 @@ public class MyPageMapper {
 		 String res = sqlSession.selectOne("getMemberPassword", mem_num);
 		 return res;
 		}	
+<<<<<<< HEAD
+=======
+	 public int insertCartLog(Map<String, String> params) {
+		 int res =sqlSession.insert("insertCartLog", params);
+		 return res; 
+	 }
+	 
+	 public int updateCartLogPoint(Map<String, String> params2) {
+		 int res =sqlSession.update("updateCartLogPoint", params2);
+		 return res; 
+	 }
+		
+		
+
+	 public List<QuestionDTO> myPageGetQuestion(){
+		 List<QuestionDTO> myPageGetQuestion = sqlSession.selectList("myPageGetQuestion");
+		 return myPageGetQuestion;
+	 }
+>>>>>>> 오신웅2
 	 public List<QuestionDTO> myPageGetQuestionSelectMember(int mem_num){
 			List<QuestionDTO> qdto = sqlSession.selectList("myPageGetQuestionSelectMember",mem_num);
 			return qdto;
@@ -67,8 +90,15 @@ public class MyPageMapper {
 		QuestionDTO qdto = sqlSession.selectOne("getQuestion", question_num);
 		return qdto;
 	}
+<<<<<<< HEAD
 	public int payCart(int mem_num) {
 		int res = sqlSession.delete("payCart",mem_num );
+=======
+
+	
+	public int payCart(int cart_num) {
+		int res = sqlSession.delete("payCart",cart_num );
+>>>>>>> 오신웅2
 		return res;
 	}
 	 public List<ReviewRegionDTO> myPageGetWriteReviewRegion(int mem_num){

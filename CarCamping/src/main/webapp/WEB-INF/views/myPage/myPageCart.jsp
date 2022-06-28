@@ -27,6 +27,23 @@
                 </thead>
                 <tbody>
         <!-- ------------------------------------------- -->
+       <c:if test="${empty cartList}">
+        <tr>
+                        <td data-th="Product">
+                       
+                            <div class="row">
+                                <div class="col-md-3 text-left">
+                                </div>
+                                <div class="col-md-9 text-left mt-sm-2">
+                                    <h4>장바구니에 추가된 상품이 없습니다</h4>
+                                   <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-th="Price">0원</td>
+                    </tr>
+       </c:if>
          <c:forEach items="${cartList}" var="mdto">
                     <tr>
                         <td data-th="Product">

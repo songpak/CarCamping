@@ -60,17 +60,17 @@
                <h2>🔥 인기 용품을 지금 바로 만나보세요 🔥</h2>
             </nav>
 
-         </div>
-         <div class="swiper-container">
-            <div class="swiper-wrapper">
-               <c:forEach items="${popList}" var="pdto">
-                  <div class="swiper-slide">
-                     <a href="resources/images/1.jpg"> <img
-                        src="${pdto.prod_viewImage1}"> <br> ${pdto.prod_name}
-                     </a>
-                     
-                  </div>
-               </c:forEach>
+        	</div>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<c:forEach items="${popList}" var="pdto">
+						<div class="swiper-slide">
+							<a href="productView.product?prod_num=${pdto.prod_num}">
+								<img src="${pdto.prod_viewImage1}"> <br> ${pdto.prod_name}
+							</a>
+							<!-- 이부분 수정하시면 됩니다 -->
+						</div>
+					</c:forEach>
 
             </div>
             <!-- 네비게이션 -->
