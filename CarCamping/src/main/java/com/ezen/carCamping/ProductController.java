@@ -20,6 +20,7 @@ import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
+import com.ezen.carCamping.pagination.Pagination;
 import com.ezen.carCamping.service.MyPageMapper;
 import com.ezen.carCamping.service.ProductMapper;
 import com.ezen.carCamping.service.S3FileService;
@@ -35,6 +36,8 @@ public class ProductController {
 	
 	@Autowired
 	private S3FileService service;
+	
+	private static Pagination pagination = Pagination.getInstance();
 	
 	
 	//service.upload(File file)
@@ -60,7 +63,7 @@ public class ProductController {
 	      String search=params.get("search");
 	      String searchString=params.get("searchString");
 
-	      int pageSize= 10;
+	      int pageSize= 12;
 	      int currentpage;
 	      
 	      if(pageNum==null) {
@@ -130,24 +133,31 @@ public class ProductController {
 	      return "product/productMain";
 	   }
  
-	// 리뷰목록 컨트롤러
 	@RequestMapping("/productView.product")
-	public String productView(HttpServletRequest req, @RequestParam Map<String, String> params, int prod_num) {
-			List<ReviewProductDTO> list = null;
-			String search = params.get("search");
-			String searchString = params.get("searchString");
-			if (searchString == null) {
-				list = productMapper.listProdReview(prod_num);
-			} else {
-				list = productMapper.findReview(search, searchString);
-			}
-			List<AgencyDTO> Alist = productMapper.getAgency();
-			req.setAttribute("getAgency", Alist);
-			req.setAttribute("getProduct", productMapper.getProduct(prod_num));
-			req.setAttribute("ReList", list);
+	   public String productView(HttpServletRequest req, @RequestParam Map<String, String> params, int prod_num,
+	         @RequestParam(required=false,defaultValue="1") int page) {
+	          HttpSession session = req.getSession();
+	          ProductDTO dto = (ProductDTO)session.getAttribute("dto");  
+	          req.setAttribute("getProduct", dto);
 
-		return "product/productView";
-	}
+	         List<ReviewProductDTO> list = null;
+	         String search = params.get("search");
+	         String searchString = params.get("searchString");
+	         if (searchString == null) {
+	            list = productMapper.listProdReview(prod_num);
+	         } else {
+	            list = productMapper.findReview(search, searchString);
+	         }
+	         List<AgencyDTO> Alist = productMapper.getAgency();
+	         req.setAttribute("getAgency", Alist);
+	         req.setAttribute("getProduct", productMapper.getProduct(prod_num));
+//	         req.setAttribute("ReList", list);
+	         
+	         req.setAttribute("pageCount", pagination.pageCount(list));
+	         req.setAttribute("listBoard", pagination.getPagePost(page,list));
+
+	      return "product/productView";
+	   }
 	
 	@RequestMapping("/productReviewView.product")
 	   public String myPageWriteReviewProductView(HttpServletRequest req, HttpServletResponse rep, @RequestParam int rp_num) {

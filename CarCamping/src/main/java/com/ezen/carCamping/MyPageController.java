@@ -381,10 +381,6 @@ public class MyPageController {
 	}
 
 
-	@RequestMapping("/myPageWriteReview.myPage")
-	public String myPagaWriteReview() {
-		return "myPage/myPageWriteReview";
-	}
 	
 	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("/myPageLikeReview.myPage")
@@ -728,40 +724,42 @@ public class MyPageController {
 		return "myPage/myPageWriteReviewProductView";
 	}
 	@RequestMapping("/myPageWriteReviewRegionDelete.myPage")
-	public String deleteReviewRegion(HttpServletRequest req, @RequestParam int review_num) {
-		HttpSession session = req.getSession();
-		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
-		int mem_num = dto.getMem_num();
-		////////////////////아마존 이미지 삭제//////////////////////////
-		ReviewRegionDTO rdto = myPageMapper.getReviewRegion(review_num);
-		List<String> reviewImages = new java.util.ArrayList<>();
-		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
-
-		for(int i=1;i<=5;i++) {
-			if("rdto.getReview_regionImage"+i !=null) {
-				String imageVar = "rdto.review_regionImage"+i;
-				reviewImages.add(imageVar);
-			    MultipartFile mf = mr.getFile("imageVar");
-			    String filename = mf.getOriginalFilename();	    
-				S3FileService.deleteImage(filename);
-			}
-		}
-		////////////////////////////////////////////////////////	
-		int res = myPageMapper.deleteReviewRegion(review_num);
-	
-		String msg = null, url = null;
-		if (res>0) {
-			msg = "리뷰를 삭제했습니다.";
-			url = "myPageWriteReview.myPage?mem_num="+mem_num;
-		}else {
-			msg = "리뷰를 삭제하지 못했습니다. 다시 시도해 주세요!";
-			url = "myPageWriteReview.myPage?mem_num="+mem_num;
-		}
-		req.setAttribute("msg", msg);
-		req.setAttribute("url", url);
-		return "message";	
-		
-	}
+	   public String deleteReviewRegion(HttpServletRequest req, @RequestParam int review_num) {
+	      HttpSession session = req.getSession();
+	      MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
+	      int mem_num = dto.getMem_num();
+	      ////////////////////아마존 이미지 삭제//////////////////////////
+	      ReviewRegionDTO rdto = myPageMapper.getReviewRegion(review_num);
+	      Class<? extends ReviewRegionDTO> cls = rdto.getClass();
+	      for(int i=1;i<=5;i++) {
+	         String imageVar = "review_regionImage"+i;
+	         try {
+	            java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
+	            f.setAccessible(true);
+	            String imageSrc = (String)f.get(rdto);
+	            if(imageSrc!=null) {
+	               S3FileService.deleteImage(imageSrc);
+	            }
+	         }catch(Exception e){
+	               
+	            }
+	      }
+	      ////////////////////////////////////////////////////////   
+	      int res = myPageMapper.deleteReviewRegion(review_num);
+	   
+	      String msg = null, url = null;
+	      if (res>0) {
+	         msg = "리뷰를 삭제했습니다.";
+	         url = "myPageWriteReview.myPage?mem_num="+mem_num;
+	      }else {
+	         msg = "리뷰를 삭제하지 못했습니다. 다시 시도해 주세요!";
+	         url = "myPageWriteReview.myPage?mem_num="+mem_num;
+	      }
+	      req.setAttribute("msg", msg);
+	      req.setAttribute("url", url);
+	      return "message";   
+	      
+	   }
 	
 
 	 

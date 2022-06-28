@@ -30,14 +30,6 @@
 			resultMap="regionMap">
 		</association>
 	</resultMap>
-
-	<resultMap type="AgencyDTO" id="agencyMap">
-		<id column="agency_num" property="agency_num"/>
-		<result column="agency_location" property="agency_location"/>
-		<result column="agency_name" property="agency_name"/>
-		<result column="agency_phone" property="agency_phone"/>
-		<association property="regionDTO" javaType="regionDTO" resultMap="regionMap"></association>
-	</resultMap>
 		
 	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
 		<id column="brand_num" property="brand_num"/>
@@ -49,27 +41,7 @@
 		<result column="pc_name" property="pc_name"/>
 	</resultMap>
 	
-	<resultMap id="productMap" type="ProductDTO">
-		<id column="prod_num" property="prod_num"/>
-		<result column="prod_name" property="prod_name"/>
-		<result column="prod_popular" property="prod_popular"/>
-		<result column="prod_price" property="prod_price"/>
-		<result column="prod_viewImage1" property="prod_viewImage1"/>
-		<result column="prod_viewImage2" property="prod_viewImage2"/>
-		<result column="prod_viewImage3" property="prod_viewImage3"/>
-		<result column="prod_viewImage4" property="prod_viewImage4"/>
-		<result column="prod_viewImage5" property="prod_viewImage5"/>
-		<result column="prod_summary" property="prod_summary"/>
-		<result column="prod_viewContent" property="prod_viewContent"/>
-		<result column="prod_sysdate" property="prod_sysdate"/>
-		<result column="prod_update" property="prod_update"/>
-		<result column="prod_reviewScore" property="prod_reviewScore"/>
-		<result column="prod_reviewCount" property="prod_reviewCount"/>
-		<association property="brandCategoryDTO" javaType="BrandCategoryDTO" resultMap="brandCategoryMap">
-		</association>
-		<association property="productCategoryDTO" javaType="ProductCategoryDTO" resultMap="productCategoryMap">
-		</association>
-	</resultMap>
+	
 	<resultMap id="productCartMap" type="ProductCartDTO">
 		<id column="cart_num" property="cart_num"/>
 		<result column="cart_prodCount" property="cart_prodCount"/>
@@ -79,16 +51,6 @@
 		<association property="productDTO" javaType="ProductDTO" resultMap="productMap"/>
 		<association property="agencyDTO" javaType="AgencyDTO" resultMap="agencyMap"/>
 	</resultMap>
- 
-	
-	
-	
-
-		<resultMap type="RegionDTO" id="regionMap">
-		
-		<id column="region_num" property="region_num"/>
-		<result column="region_name" property="region_name"/>
-		</resultMap>
 		
 		<resultMap type="AgencyDTO" id="agencyMap">
 		<id column="agency_num" property="agency_num" />
@@ -99,30 +61,11 @@
 			resultMap="regionMap"></association>
 	</resultMap>
 
-	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
-		<id column="brand_num" property="brand_num" />
-		<result column="brand_name" property="brand_name" />
-	</resultMap>
-	
-	<select id="myPageGetQuestionSelectMember"  resultMap="questionMap">
-		select a.*,b.mem_id from Question a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
-	</select>
-	<insert id="insertQuestion" parameterType="questionDTO">
-		insert into Question (mem_num, question_title, question_content, question_sysdate, question_reply, question_replySysdate)
-		values (#{memberDTO.mem_num}, #{question_title},#{question_content},now(),null,null)
-	</insert>
-	<select id="getQuestion" parameterType="int" resultType="questionDTO">
-		select * from Question where question_num = #{question_num}
-	</select>
 	
 	<delete id="payCart" parameterType="int" >
 		delete from ProductCart where mem_num = #{mem_num}
 	</delete>
 	
-	<resultMap id="productCategoryMap" type="ProductCategoryDTO">
-		<id column="pc_num" property="pc_num" />
-		<result column="pc_name" property="pc_name" />
-	</resultMap>
 
 	<resultMap id="productMap" type="ProductDTO">
 		<id column="prod_num" property="prod_num" />
@@ -146,18 +89,6 @@
 		<association property="productCategoryDTO"
 			javaType="ProductCategoryDTO" resultMap="productCategoryMap">
 		</association>
-	</resultMap>
-	<resultMap id="productCartMap" type="ProductCartDTO">
-		<id column="cart_num" property="cart_num" />
-		<result column="cart_prodCount" property="cart_prodCount" />
-		<result column="cart_from" property="cart_from" />
-		<result column="cart_to" property="cart_to" />
-		<association property="memberDTO" javaType="MemberDTO"
-			resultMap="memberMap" />
-		<association property="productDTO" javaType="ProductDTO"
-			resultMap="productMap" />
-		<association property="agencyDTO" javaType="AgencyDTO"
-			resultMap="agencyMap" />
 	</resultMap>
 
 	<select id="cartProduct" parameterType="int"
@@ -211,62 +142,7 @@
 		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
 		</association>
 	</resultMap>
-
-	<resultMap id="reviewRegionMap" type="ReviewRegionDTO">
-		<id column="review_num" property="review_num"/>
-		<result column="review_title" property="review_title"/>
-		<result column="review_sysdate" property="review_sysdate"/>
-		<result column="review_summaryContent" property="review_summaryContent"/>
-		<result column="review_regionContent" property="review_regionContent"/>
-		<result column="review_regionScore" property="review_regionScore"/>
-		<result column="review_regionImage1" property="review_regionImage1"/>
-		<result column="review_regionImage2" property="review_regionImage2"/>
-		<result column="review_regionImage3" property="review_regionImage3"/>
-		<result column="review_regionImage4" property="review_regionImage4"/>
-		<result column="review_regionImage5" property="review_regionImage5"/>
-		<result column="review_popular" property="review_popular"/>
-		<result column="review_readCount" property="review_readCount"/>
-		<result column="review_likeCount" property="review_likeCount"/>
-		<result column="review_adminConfirm" property="review_adminConfirm"/>
-		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
-		</association>
-		<association property="carCampingRegionDTO" javaType="CarCampingRegionDTO" resultMap="carCampingRegionMap">
-		</association>
-	</resultMap>
 	
-	<resultMap id="productMap" type="ProductDTO">
-		<id column="prod_num" property="prod_num"/>
-		<result column="prod_name" property="prod_name"/>
-		<result column="prod_popular" property="prod_popular"/>
-		<result column="prod_price" property="prod_price"/>
-		<result column="prod_viewImage1" property="prod_viewImage1"/>
-		<result column="prod_viewImage2" property="prod_viewImage2"/>
-		<result column="prod_viewImage3" property="prod_viewImage3"/>
-		<result column="prod_viewImage4" property="prod_viewImage4"/>
-		<result column="prod_viewImage5" property="prod_viewImage5"/>
-		<result column="prod_summary" property="prod_summary"/>
-		<result column="prod_viewContent" property="prod_viewContent"/>
-		<result column="prod_sysdate" property="prod_sysdate"/>
-		<result column="prod_update" property="prod_update"/>
-		<result column="prod_reviewScore" property="prod_reviewScore"/>
-		<association property="brandCategoryDTO" javaType="BrandCategoryDTO" resultMap="brandCategoryMap">
-		</association>
-		<association property="productCategoryDTO" javaType="ProductCategoryDTO" resultMap="productCategoryMap">
-		</association>
-	</resultMap>
-	
-	
-
-	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
-		<id column="brand_num" property="brand_num"/>
-		<result column="brand_name" property="brand_name"/>
-	</resultMap>
-	
-	<resultMap id="productCategoryMap" type="ProductCategoryDTO">
-		<id column="pc_num" property="pc_num"/>
-		<result column="pc_name" property="pc_name"/>
-	</resultMap>
-
 	<select id="myPageGetWriteReviewRegion"  resultMap="reviewRegionMap">
 		select a.*,b.* from ReviewRegion a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
 	</select>	
@@ -305,11 +181,6 @@
 		#{cart_to}
 		,0,0,0,#{rental_price},0,0,0) -->
 	</insert>
-	<delete id="payCart" parameterType="int">
-		delete from ProductCart
-		where
-		cart_num = #{cart_num}
-	</delete>
 
 	<resultMap type="RegionDTO" id="regionMap">
 		<id column="region_num" property="region_num" />

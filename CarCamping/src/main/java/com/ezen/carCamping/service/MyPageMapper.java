@@ -3,7 +3,6 @@ package com.ezen.carCamping.service;
 import java.util.Hashtable;
 
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ import com.ezen.carCamping.dto.QuestionDTO;
 
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
-
 import com.ezen.carCamping.dto.RentalLogDTO;
 
 
@@ -77,6 +75,7 @@ public class MyPageMapper {
 		 List<QuestionDTO> myPageGetQuestion = sqlSession.selectList("myPageGetQuestion");
 		 return myPageGetQuestion;
 	 }
+	 
 	 public List<QuestionDTO> myPageGetQuestionSelectMember(int mem_num){
 			List<QuestionDTO> qdto = sqlSession.selectList("myPageGetQuestionSelectMember",mem_num);
 			return qdto;
@@ -90,12 +89,41 @@ public class MyPageMapper {
 		return qdto;
 	}
 
+
+	
 	public int payCart(int cart_num) {
 		int res = sqlSession.delete("payCart",cart_num );
-
 		return res;
 	}
 
+	 public List<ReviewRegionDTO> myPageGetWriteReviewRegion(int mem_num){
+			List<ReviewRegionDTO> rdto = sqlSession.selectList("myPageGetWriteReviewRegion",mem_num);
+			return rdto;
+	}
+	 public List<ReviewProductDTO> myPageGetWriteReviewProduct(int mem_num){
+			List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct",mem_num);
+			return pdto;
+	} 
+	 public ReviewRegionDTO getReviewRegion(int review_num){
+		 	ReviewRegionDTO rdto = sqlSession.selectOne("getReviewRegion", review_num);
+			return rdto;
+	}
+	 public ReviewProductDTO getReviewProduct(int rp_num){
+		 	ReviewProductDTO pdto = sqlSession.selectOne("getReviewProduct", rp_num);
+			return pdto;
+	}
+	public int deleteReviewRegion(int review_num) {
+		int res = sqlSession.delete("deleteReviewRegion", review_num);
+		return res;
+	}
+	public int deleteReviewProduct(int rp_num) {
+		int res = sqlSession.delete("deleteReviewProduct", rp_num);
+		return res;
+	}
+
+	
+	
+	 
 	//전용재 -- 용품 좋아요 리뷰  
 	public List<ReviewProductDTO> ReviewProductList(int mem_num){
 		List<ReviewProductDTO>ReviewProductList =sqlSession.selectList("ReviewProductList",mem_num);
@@ -146,15 +174,6 @@ public class MyPageMapper {
 		int res = sqlSession.update("UpdateRegionLikeLog", review_num);
 		return res;
 	 }
-	 
-	 public List<ReviewRegionDTO> myPageGetWriteReviewRegion(int mem_num){
-         List<ReviewRegionDTO> rdto = sqlSession.selectList("myPageGetWriteReviewRegion",mem_num);
-         return rdto;
-      }
-    public List<ReviewProductDTO> myPageGetWriteReviewProduct(int mem_num){
-         List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct",mem_num);
-         return pdto;
-      } 
 
 }
  

@@ -35,12 +35,7 @@
 		<association property="productCategoryDTO" javaType="ProductCategoryDTO" resultMap="productCategoryMap">
 		</association>
 	</resultMap>
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-	<!-- 0625 박혜성 변경  -->
-	<select id="getProduct" parameterType="int" resultMap="productMap">
-=======
+	
 	
 	<resultMap type="MemberDTO" id="memberMap">
 		<id column="mem_num" property="mem_num"/>
@@ -72,10 +67,8 @@
 	</resultMap>
 	
 	
-=======
->>>>>>> 전용재2
+
 	<select id="getProduct" parameterType="int" resultType="ProductDTO">
->>>>>>> 박다슬2
 		select * from Product where prod_num = #{prod_num}
 	</select>
 
@@ -110,10 +103,7 @@
 	select * from Product where prod_popular = 0
 	</select>
 	
-<<<<<<< HEAD
-=======
 	
->>>>>>> 전용재2
 	<select id="listProductPrice" resultMap="productMap" parameterType="java.util.Map">
 		select * from Product order by prod_price asc limit #{startRow},#{endRow}
 	</select>
@@ -124,7 +114,6 @@
 	
 	<select id="listProductPop" resultMap="productMap" parameterType="java.util.Map">
 		select * from Product order by prod_popular desc limit #{startRow},#{endRow} 
-<<<<<<< HEAD
 	</select>
 
 	<select id="listProductsearchPrice" resultMap="productMap" parameterType="java.util.Map">
@@ -140,27 +129,8 @@
 	<select id="listProductsearchPop" resultMap="productMap" parameterType="java.util.Map">
 		select a.*, b.* from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num 
 		where  ${search}  like concat('%',#{searchString},'%') and prod_popular=0 order by prod_reviewScore desc limit #{startRow},#{endRow}
-=======
 	</select>
 
-	<select id="listProductsearchPrice" resultMap="productMap" parameterType="java.util.Map">
-		<!-- select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} order by prod_price asc; -->
-		select a.*, b.* from Product as a left join BrandCategory as b on a.brand_num = b.brand_num 
-		where ${search} like concat('%',#{searchString},'%') order by prod_price desc limit #{startRow},#{endRow}
-	</select>
-	
-	<select id="listProductsearchNew" resultMap="productMap" parameterType="java.util.Map">
-		<!--  select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} order by prod_num desc;-->
-		  select a.*, b.* from Product as a left join BrandCategory as b on a.brand_num = b.brand_num
-      where ${search} like concat('%',#{searchString},'%') order by prod_num desc limit #{startRow},#{endRow}
-	</select>
-	
-	<select id="listProductsearchPop" resultMap="productMap" parameterType="java.util.Map">
-		<!--  select a.*, b.brand_name from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} = #{searchString} order by prod_popular desc;-->
-	select a.*, b.* from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num 
-	where  ${search}  like concat('%',#{searchString},'%') order by prod_popular desc limit #{startRow},#{endRow}
->>>>>>> 전용재2
-	</select>
 
 	<select id="getAgency" resultType="AgencyDTO">
 		select * from Agency
@@ -194,16 +164,11 @@
 	<select resultType="int" id="listProductMainCount" parameterType="int">
 		select count(*) from Product
 	</select>
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 	<!-- 0627 : 박혜성 추가 :  검색 로우 카운트 -->
 	<select id="countProductSeacrch" parameterType="java.util.Map" resultType="Integer">
 	 select count(*) from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where ${search} like concat('%',#{searchString},'%')
 	</select>
-
-
-=======
 	
 	<!-- 리뷰 좋아요  -->
 	<select id="recountProductReviewLike" parameterType="Integer" resultType="Integer">
@@ -228,13 +193,9 @@
 	<update id="addProductReviewReadCount" parameterType="Integer">
 		update ReviewProduct set rp_readCount=rp_readCount+1 where rp_num = #{rp_num}
 	</update>
->>>>>>> 박다슬2
-	
-=======
 	<!--브랜드 검색 로우 카운트  -->
 	<select resultType="int" id="listProductbrandSearch" parameterType="String">
 		select count(*) from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where brand_name like concat('%',#{searchString},'%')
 	</select> 
->>>>>>> 전용재2
 </mapper>
 

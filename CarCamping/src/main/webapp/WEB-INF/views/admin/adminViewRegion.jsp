@@ -228,7 +228,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan="2">
 					<!-- 현재 이미지 캐러셀 -->
 					<div id="carouselExampleIndicators" class="carousel slide"
 							data-bs-ride="carousel">
