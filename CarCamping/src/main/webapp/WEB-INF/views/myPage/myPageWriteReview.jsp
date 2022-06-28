@@ -5,39 +5,7 @@
 <div class="container" align="center" class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
 	<div class="row" align="center">
 		</div>
-	  
-<c:if test="${empty param.mode}">		
-		  <form method="post" name="search" action="searchbbs.jsp">
-				<table class="pull-right">
-					<tr>
-						<td><select class="form-control" name="searchField">
-								<option value="0">선택</option>
-								<option value="title">제목</option>
-						</select></td>
-						<td><input type="text" class="form-control"
-							placeholder="검색어 입력" name="searchText" maxlength="100"></td>
-						<td><button type="submit" class="btn btn-dark">검색</button></td>
-					</tr>
-
-				</table>
-			</form>
-		</c:if>
-		<c:if test="${not empty param.mode}">
-			<form method="post" name="search" action="searchbbs.jsp">
-				<table class="pull-right">
-					<tr>
-						<td><select class="form-control" name="searchField">
-								<option value="0">선택</option>
-								<option value="title">제목</option>
-						</select></td>
-						<td><input type="text" class="form-control"
-							placeholder="검색어 입력" name="searchText" maxlength="100"></td>
-						<td><button type="submit" class="btn btn-dark">검색</button></td>
-					</tr>
-
-				</table>
-			</form>
-		</c:if>			
+		
 <!-- Content Column Grid -->
 	<script>
 		function popup_region(a){
@@ -179,8 +147,7 @@
 								  ☆☆☆☆☆
 								 </c:otherwise>
 								</c:choose> <br>
-							<label for="disabledRange" class="form-label">평점 ${pdto.rp_score}</label> <input
-								type="range" class="form-range" id="disabledRange" disabled>
+							
 							조회수 ${pdto.rp_readCount} &nbsp;|&nbsp;좋아요 개수 ${pdto.rp_likeCount}<br>작성일 ${pdto.rp_sysdate}<br>
 						</p>
 						<button type="button" class="btn btn-dark"

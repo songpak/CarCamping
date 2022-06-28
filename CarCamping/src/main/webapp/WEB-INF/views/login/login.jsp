@@ -17,7 +17,7 @@
       <div class=" col-lg-5 mx-auto" style="float: none; margin:100 auto;">
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h3 class="card-title text-center"><font color="green"><b>Log in</b></font></h3>
+            <h3 class="card-title text-center"><font color="naivy"><b>Log in</b></font></h3>
             <form class="form-signin" method="post" action="login.login">
               <div class="form-label-group">
             <nobr>
@@ -63,11 +63,11 @@
               </c:if>
               </div>
 
-              <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">로그인</button>
+              <button class="btn btn-lg btn-dark btn-block text-uppercase" type="submit">로그인</button>
               <hr class="my-4">
              <a href="javascript:void(0)" onclick="findID()">아이디 찾기</a>/ 
               <a href="javascript:void(0)" onclick="findPW()">비밀번호 찾기</a>
-              <button class="btn btn-lg btn-success btn-block text-uppercase" onclick="location='sign.login'">회원가입</button>
+              <button class="btn btn-lg btn-dark btn-block text-uppercase" onclick="location='sign.login'">회원가입</button>
             </form>
           </div>
         </div>

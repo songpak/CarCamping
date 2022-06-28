@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
@@ -36,6 +38,7 @@ import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
 import com.ezen.carCamping.service.ProductMapper;
 import com.ezen.carCamping.service.RegionMapper;
+import com.ezen.carCamping.service.S3FileService;
 
 
 @Controller
@@ -44,7 +47,10 @@ public class MyPageController {
 	@Autowired
 	private MyPageMapper myPageMapper;
 
-	
+    @Autowired
+    private S3FileService S3FileService;
+    
+    
 	@Autowired
 	private MemberMapper memberMapper;
 	
@@ -581,7 +587,23 @@ public class MyPageController {
 		HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
 		int mem_num = dto.getMem_num();
+		////////////////////아마존 이미지 삭제//////////////////////////
+		ReviewRegionDTO rdto = myPageMapper.getReviewRegion(review_num);
+		List<String> reviewImages = new java.util.ArrayList<>();
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+
+		for(int i=1;i<=5;i++) {
+			if("rdto.getReview_regionImage"+i !=null) {
+				String imageVar = "rdto.review_regionImage"+i;
+				reviewImages.add(imageVar);
+			    MultipartFile mf = mr.getFile("imageVar");
+			    String filename = mf.getOriginalFilename();	    
+				S3FileService.deleteImage(filename);
+			}
+		}
+		////////////////////////////////////////////////////////	
 		int res = myPageMapper.deleteReviewRegion(review_num);
+	
 		String msg = null, url = null;
 		if (res>0) {
 			msg = "리뷰를 삭제했습니다.";
@@ -592,8 +614,12 @@ public class MyPageController {
 		}
 		req.setAttribute("msg", msg);
 		req.setAttribute("url", url);
-		return "message";
+		return "message";	
+		
 	}
+	
+
+	 
 	@RequestMapping("/myPageWriteReviewProductDelete.myPage")
 	public String deleteReviewProduct(HttpServletRequest req, @RequestParam int rp_num) {
 		HttpSession session = req.getSession();
