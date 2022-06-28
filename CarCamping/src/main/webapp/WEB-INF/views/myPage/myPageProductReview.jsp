@@ -135,7 +135,7 @@
 								id="slide4" /> -->
 							<ul id="imgholder" class="imgs">
 								<c:forEach var="reviewImages" items="${reviewImageList}">
-									<li><img src="resources/images/${reviewImages }" style="width:640px; height:300px;">/></li>
+									<li><img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${reviewImages}" style="width:640px; height:300px;">/></li>
 								</c:forEach>
 								
 								<!-- <li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>

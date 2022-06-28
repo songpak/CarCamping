@@ -22,6 +22,7 @@ import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.service.ProductMapper;
+import com.ezen.carCamping.service.S3FileService;
 
 @Controller
 public class ProductController {
@@ -29,7 +30,11 @@ public class ProductController {
 	@Autowired
 	private ProductMapper productMapper;
 	
+	@Autowired
+	private S3FileService service;
 	
+	
+	//service.upload(File file)
 	// 용품메인 컨트롤러
 	/**
 	 * @param req

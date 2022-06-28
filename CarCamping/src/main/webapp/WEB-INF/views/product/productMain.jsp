@@ -63,10 +63,10 @@
          </div>
          <div class="swiper-container">
             <div class="swiper-wrapper">
-               <c:forEach items="${popList}" var="pdto">
+               <c:forEach items="${popList}" var="proddto">
                   <div class="swiper-slide">
-                     <a href="resources/images/1.jpg"> <img
-                        src="${pdto.prod_viewImage1}"> <br> ${pdto.prod_name}
+                     <a href="resources/images/1.jpg"> 
+                     <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${proddto.prod_viewImage1}"> <br> ${proddto.prod_name}
                      </a>
                      
                   </div>
@@ -85,9 +85,9 @@
          <script>
             new Swiper('.swiper-container', {
 
-               slidesPerView : 3, // 동시에 보여줄 슬라이드 갯수
+               slidesPerView : 4, // 동시에 보여줄 슬라이드 갯수
                spaceBetween : 30, // 슬라이드간 간격
-               slidesPerGroup : 3, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
+               slidesPerGroup : 4, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
 
                // 그룹수가 맞지 않을 경우 빈칸으로 메우기
                // 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
@@ -161,7 +161,7 @@
 
          <c:set var="i" value="0" />
          <c:set var="j" value="4" />
-         <table border="1" align="center" >
+         <table align="center" >
             <c:forEach items="${listProduct}" var="pdto">
                <c:if test="${i%j == 0 }">
                   <tr>
@@ -169,7 +169,7 @@
                <td>
                   <div class="card" style="width: 18rem;">
                      <a href="productView.product?prod_num=${pdto.prod_num}"><img
-                        src="resources/images/1.jpg"></a>
+                        src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.prod_viewImage1}"></a>
                      <div class="card-body">
                         <p class="card-text">
 			                           용품명 :${pdto.prod_name}<br>

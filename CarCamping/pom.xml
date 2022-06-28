@@ -64,7 +64,28 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-
+		 <dependency>
+         <groupId>com.amazonaws</groupId>
+         <artifactId>aws-java-sdk-s3</artifactId>
+         <version>1.11.276</version>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.cloud</groupId>
+         <artifactId>spring-cloud-aws-context</artifactId>
+         <version>1.2.1.RELEASE</version>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.cloud</groupId>
+         <artifactId>spring-cloud-aws-autoconfigure</artifactId>
+         <version>1.2.1.RELEASE</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+      <dependency>
+         <groupId>org.projectlombok</groupId>
+         <artifactId>lombok</artifactId>
+         <version>1.18.22</version>
+         <scope>provided</scope>
+      </dependency>
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>

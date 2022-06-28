@@ -134,6 +134,7 @@ public class MyPageMapper {
 		int res = sqlSession.update("UpdateRegionLikeLog", review_num);
 		return res;
 	 }
+	 
 }
  
 
