@@ -66,27 +66,27 @@
 							<div class="carousel-inner">
 								<c:if test="${not empty adto.aa_image1}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image1}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image1}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image2}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image2}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image2}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image3}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image3}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image3}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image4}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image4}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image4}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image5}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image5}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image5}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 							</div>
@@ -105,15 +105,51 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input class="form-control" id="formFileMultiple-1" type="file"
-							multiple accept="image/*" name="aa_image">
-						<div id="passwordHelpBlock" class="form-text">최소 2개 이미지를
-							선택해주세요 (최대 5개)</div>
-						<ul id="file-list-1">
-							<li class="no-items"></li>
-						</ul>
+					<div class="accordion accordion-flush" id="accordionFlushExample">
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="flush-headingOne">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+										aria-expanded="false" aria-controls="flush-collapseOne">
+										이미지 수정</button>
+								</h2>
+								<div id="flush-collapseOne" class="accordion-collapse collapse"
+									aria-labelledby="flush-headingOne"
+									data-bs-parent="#accordionFlushExample">
+									<div class="accordion-body">
+										<!-- 기존 이미지 Hidden -->
+										<c:if test="${not empty adto.aa_image1}">
+											<input type="hidden" name="aa_imageHidden1"
+												value="${adto.aa_image1}">
+										</c:if>
+										<c:if test="${not empty adto.aa_image2}">
+											<input type="hidden" name="aa_imageHidden2"
+												value="${adto.aa_image2}">
+										</c:if>
+										<c:if test="${not empty adto.aa_image3}">
+											<input type="hidden" name="aa_imageHidden3"
+												value="${adto.aa_image3}">
+										</c:if>
+										<c:if test="${not empty adto.aa_image4}">
+											<input type="hidden" name="aa_imageHidden4"
+												value="${adto.aa_image4}">
+										</c:if>
+										<c:if test="${not empty adto.aa_image5}">
+											<input type="hidden" name="aa_imageHidden5"
+												value="${adto.aa_image5}">
+										</c:if>
+										
+										<!-- 수정 이미지 업로드 -->
+										<input class="form-control" id="formFileMultiple-1"
+											type="file" multiple accept="image/*" name="aa_image">
+										<div id="passwordHelpBlock" class="form-text">
+											수정시, 기존 이미지는 삭제되고 선택된 이미지들로 대체됩니다
+										</div>
+										<ul id="file-list-1">
+											<li class="no-items"></li>
+										</ul>
 
-						<script>
+										<script>
 							var filesUpload = document
 									.getElementById("formFileMultiple-1"), fileList = document
 									.getElementById("file-list-1");
@@ -138,7 +174,11 @@
 								traverseFiles(this.files);
 							};
 						</script>
-				</td>
+						</div>
+						</div>
+						</div>
+						</div>
+					</td>
 			</tr>
 			<tr>
 				<td align="center" colspan="2">

@@ -34,7 +34,7 @@
 						<input class="form-control" id="formFileMultiple" type="file"
 							name="aa_image" multiple accept="image/*">
 						<div id="passwordHelpBlock" class="form-text">
-							최대 5개 이미지 업로드 가능			
+							최대 5개 이미지 업로드 가능합니다		
 							</div>
 						<ul id="file-list">
 							<li class="no-items"></li>

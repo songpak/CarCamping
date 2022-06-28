@@ -86,8 +86,20 @@ public class MemberMapper {
 		return sqlSession.delete("deleteMember", map);
 		
 	}
+   //박혜성 : 임시비밀번호
+   public MemberDTO getMemberByIdNEmail(String mem_id,String mem_email) {
+	   Map<String, Object> map = new Hashtable<String, Object>();
+	   map.put("mem_id", mem_id);
+	   map.put("mem_email", mem_email);
+	   return (MemberDTO) sqlSession.selectOne("getMemberByIdNEmail", map); 
+	}
    
-
+   public int updatePassword(int mem_num,String mem_password) {
+	   Map<String, Object> map = new Hashtable<String, Object>();
+	   map.put("mem_num", mem_num);
+	   map.put("mem_password", mem_password);
+	   return sqlSession.update("updatePassword", map); 
+   }
 }
    
    

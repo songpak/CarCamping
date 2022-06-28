@@ -44,8 +44,6 @@
 								readonly onclick="findAddr()">
 							<label for="validationCustom02" >대리점 위치</label>
 						</div>
-						<div id="validationCustom02" class="form-text">예) 서울시 노원구
-							한글비석로66..</div>
 					</td>
 				</tr>
 				<tr>
@@ -68,7 +66,6 @@
 			</table>
 		</form>
 	</div>
-	<p>카카오(다음) 주소찾기</p>
 
 </body>
 <!-- 주소 API -->

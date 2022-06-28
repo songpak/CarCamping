@@ -85,6 +85,11 @@ public class AdminMapper {
 		return adminListAgency;
 	}
 	
+	public List<AgencyDTO> adminListAgencySort(int region_num){
+		List<AgencyDTO> adminListAgency = sqlSession.selectList("adminListAgencySort",region_num);
+		return adminListAgency;
+	}
+	
 	public int adminInsertAgency(AgencyDTO dto) {
 		int res = sqlSession.insert("adminInsertAgency", dto);
 		return res;
@@ -373,6 +378,16 @@ public class AdminMapper {
 	
 	public List<RentalLogDTO> adminListRentalLog() {
 		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLog");
+		return list;
+	}
+	
+	public List<RentalLogDTO> adminListRentalLogSort(int sort) {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSort",sort);
+		return list;
+	}
+	
+	public List<RentalLogDTO> adminListRentalLogSearch(String search) {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSearch","%"+search+"%");
 		return list;
 	}
 	

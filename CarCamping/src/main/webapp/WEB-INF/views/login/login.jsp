@@ -12,17 +12,17 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 </head>
 <body>
-<div class="container">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+<div class="container" >
+    <div class="row"  >
+      <div class=" col-lg-5 mx-auto" style="float: none; margin:100 auto;">
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h3 class="card-title text-center"><font color="green"><b>Log in</b></font></h3>
+            <h3 class="card-title text-center"><font color="naivy"><b>Log in</b></font></h3>
             <form class="form-signin" method="post" action="login.login">
               <div class="form-label-group">
             <nobr>
          <c:if test="${empty cookie.saveId}">         
-               <input type="checkbox" name="saveId">
+               <input  type="checkbox" name="saveId">
          </c:if>
          <c:if test="${not empty cookie.saveId}">
                <input type="checkbox" name="saveId" checked>
@@ -31,10 +31,10 @@
             </nobr>
               <nobr>
          <c:if test="${empty cookie.loginCookie}">         
-               <input type="checkbox" name="loginCookie">
+               <input  type="checkbox" name="loginCookie">
          </c:if>
          <c:if test="${not empty cookie.loginCookie}">
-               <input type="checkbox" name="loginCookie" checked>
+               <input  type="checkbox" name="loginCookie" checked>
          </c:if>               
                <font face="굴림" size="2">자동로그인하기</font>
             </nobr>
@@ -43,7 +43,7 @@
                 <input type="text" id="id" name="mem_id" class="form-control" placeholder="ID" required autofocus>
                  </c:if></div>
             <c:if test="${not empty cookie.saveId}">
-            <input type="text" name="mem_id" tabindex="1" value="${cookie.saveId.value}">
+            <input type="text" id="id" name="mem_id" class="form-control" tabindex="1" value="${cookie.saveId.value}">
          </c:if>            
          <div class="row">
          <p>
@@ -63,11 +63,11 @@
               </c:if>
               </div>
 
-              <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">로그인</button>
+              <button class="btn btn-lg btn-dark btn-block text-uppercase" type="submit">로그인</button>
               <hr class="my-4">
              <a href="javascript:void(0)" onclick="findID()">아이디 찾기</a>/ 
               <a href="javascript:void(0)" onclick="findPW()">비밀번호 찾기</a>
-              <button class="btn btn-lg btn-success btn-block text-uppercase" onclick="location='sign.login'">회원가입</button>
+              <button class="btn btn-lg btn-dark btn-block text-uppercase" onclick="location='sign.login'">회원가입</button>
             </form>
           </div>
         </div>

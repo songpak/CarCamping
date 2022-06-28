@@ -32,7 +32,7 @@
 				<img src="resources/images/flag.jpg" class="d-block w-100" alt="...">
 			</div>
 			<div class="carousel-item">
-				<img src="resources/flag.jpg" class="d-block w-100" alt="...">
+				<img src="${upPath}/adminMain.jsp" class="d-block w-100" alt="...">
 			</div>
 		</div>
 		<button class="carousel-control-prev" type="button"

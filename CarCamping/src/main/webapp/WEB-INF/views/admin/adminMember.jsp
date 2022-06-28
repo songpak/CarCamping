@@ -18,7 +18,7 @@
 						<option value="mem_point">포인트</option>
 						<option value="mem_rentalCount">대여건수</option>
 					</select>
-					<button type="submit" class="btn btn-info">정렬</button>
+					<button type="submit">정렬</button>
 				</form>
 			</div>
 			
@@ -33,8 +33,8 @@
 						<option value="mem_email">이메일</option>
 						<option value="mem_userName">이름</option>
 					</select>
-					<input type="text" name="name2">
-					<button type="submit" class="btn btn-info">검색</button>
+					<input type="search" name="name2">
+					<button type="submit">검색</button>
 				</form>
 			</div>
 		<!-- 회원 검색 버튼 끝 -->
@@ -92,12 +92,20 @@
 	
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
-			<li class="page-item disabled"><a class="page-link">Previous</a>
-			</li>
-			<li class="page-item"><a class="page-link" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#">Next</a></li>
+			<c:if test="${page-3>1}">
+				<li class="page-item"><a class="page-link" href="adminMember.admin?page=${page-1}">Previous</a></li>
+			</c:if>
+		<c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
+			<c:if test="${i==page}">
+				<li class="page-item"><a class="page-link" href="adminMember.admin?page=${i}" style="color:blue;">${i}</a></li>
+			</c:if>
+			<c:if test="${i!=page}">
+				<li class="page-item"><a class="page-link" href="adminMember.admin?page=${i}">${i}</a></li>
+			</c:if>
+		</c:forEach>
+			<c:if test="${page+3<pageCount}">
+				<li class="page-item"><a class="page-link" href="adminMember.admin?page=${page+1}">Next</a></li>
+			</c:if>
 		</ul>
 	</nav>
 </div>

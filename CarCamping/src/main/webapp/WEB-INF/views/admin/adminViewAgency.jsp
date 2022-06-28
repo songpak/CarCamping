@@ -45,7 +45,8 @@
 				<td colspan="2">
 					<div class="form-floating">
 						<input type="text" name="agency_location" value="${adto.agency_location}" class="form-control"
-								id="validationCustom02" maxlength="30" placeholder="1" required>
+								id="validationCustom02" maxlength="30" placeholder="1" required
+								readonly onclick="findAddr()">
 						<label for="validationCustom02">대리점 위치</label>	
 					</div>
 				</td>
@@ -53,7 +54,7 @@
 			<tr>
 				<td colspan="2">
 					<div class="form-floating">
-						<input type="text" name="agency_phone" value="${adto.agency_phone}" class="form-control"
+						<input type="tel" name="agency_phone" value="${adto.agency_phone}" class="form-control"
 								id="validationCustom03" maxlength="15" placeholder="1" required>
 						<label for="validationCustom03">대리점 번호</label>	
 					</div>
@@ -69,7 +70,35 @@
 		</table>
 		</form>
 	</div>
+<!-- 주소 API -->
+<script>
+function findAddr(){
+	new daum.Postcode({
+        oncomplete: function(data) {
+        	
+        	console.log(data);
+        	
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var jibunAddr = data.jibunAddress; // 지번 주소 변수
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+          
+            if(roadAddr !== ''){
+                document.getElementById("validationCustom02").value = roadAddr;
+            } 
+            else if(jibunAddr !== ''){
+                document.getElementById("validationCustom02").value = jibunAddr;
+            }
+        }
 	
+    }).open();
+	
+}
+
+</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 <script>

@@ -4,34 +4,19 @@ public class ProductCartDTO {
 	private int prod_num;
 	private int mem_num;
 	private int cart_num;
+	private int agency_num;
 	private MemberDTO memberDTO;
 	private ProductDTO productDTO;
 	private AgencyDTO agencyDTO;
 	private int cart_prodCount;
 	private String cart_from;
 	private String cart_to;
-	private String prod_viewImage1;
-	private String prod_viewImage2;
-	private String prod_viewImage3;
-	private String prod_viewImage4;
-	private String prod_viewImage5;
-	private String prod_name;
-	private int prod_price;
-	private String agency_name;
-	private int agency_num;
-	
-	
+		
 	public int getAgency_num() {
 		return agency_num;
 	}
 	public void setAgency_num(int agency_num) {
 		this.agency_num = agency_num;
-	}
-	public String getAgency_name() {
-		return agency_name;
-	}
-	public void setAgency_name(String agency_name) {
-		this.agency_name = agency_name;
 	}
 	public int getMem_num() {
 		return mem_num;
@@ -45,48 +30,7 @@ public class ProductCartDTO {
 	public void setProd_num(int prod_num) {
 		this.prod_num = prod_num;
 	}
-	public String getProd_viewImage1() {
-		return prod_viewImage1;
-	}
-	public void setProd_viewImage1(String prod_viewImage1) {
-		this.prod_viewImage1 = prod_viewImage1;
-	}
-	public String getProd_viewImage2() {
-		return prod_viewImage2;
-	}
-	public void setProd_viewImage2(String prod_viewImage2) {
-		this.prod_viewImage2 = prod_viewImage2;
-	}
-	public String getProd_viewImage3() {
-		return prod_viewImage3;
-	}
-	public void setProd_viewImage3(String prod_viewImage3) {
-		this.prod_viewImage3 = prod_viewImage3;
-	}
-	public String getProd_viewImage4() {
-		return prod_viewImage4;
-	}
-	public void setProd_viewImage4(String prod_viewImage4) {
-		this.prod_viewImage4 = prod_viewImage4;
-	}
-	public String getProd_viewImage5() {
-		return prod_viewImage5;
-	}
-	public void setProd_viewImage5(String prod_viewImage5) {
-		this.prod_viewImage5 = prod_viewImage5;
-	}
-	public String getProd_name() {
-		return prod_name;
-	}
-	public void setProd_name(String prod_name) {
-		this.prod_name = prod_name;
-	}
-	public int getProd_price() {
-		return prod_price;
-	}
-	public void setProd_price(int prod_price) {
-		this.prod_price = prod_price;
-	}
+	
 	public int getCart_num() {
 		return cart_num;
 	}

@@ -60,7 +60,7 @@ function fn_account(val){
 				<div class="card-body">
 				
 				<c:forEach items="${getRv}" var="rdto">
-					<img src="${rdto.rp_image1 }" class="card-img rounded-circle"
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440${rdto.rp_image1 }" class="card-img rounded-circle"
 						style="width: 150px; height: 150px" />
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center">
