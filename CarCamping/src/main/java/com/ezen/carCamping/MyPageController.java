@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
+import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
 
@@ -329,15 +331,114 @@ public class MyPageController {
 	public String myPagaWriteReview() {
 		return "myPage/myPageWriteReview";
 	}
-	// 전용재@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("/myPageLikeReview.myPage")
-	public String myPagaLikeReview(HttpServletRequest req) {
-	
-		List<ReviewProductDTO>list = myPageMapper.ReviewProductList();
-		req.setAttribute("list", list);
+	public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode) {
+		HttpSession session = req.getSession();
+		int mem_num = (int) session.getAttribute("mem_num");
+		System.out.println("회원번호:"+mem_num);
+		if(mode==null||mode.equals("")) {
+			  List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
+			  System.out.println("모드가 널 일때 값 :" + list);
+			  session.setAttribute("ReviewProductList", list);
+		}else if(mode.equals("ReviewProductList")) {  
+			List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
+			System.out.println("모드가 용품 일때 값 :" + list);
+			session.setAttribute("ReviewProductList", list);
+		}else if(mode.equals("ReviewRegionList")) {
+			List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
+			System.out.println("모드가 지역 일때 값 :" + list);
+			session.setAttribute("ReviewRegionList", list);
+		}
+		req.setAttribute("mode", mode);
+		System.out.println("모드 값:"+mode);
 		return "myPage/myPageLikeReview";
-	} 
- 
+	}   
+	@RequestMapping("/myPageProductReview.myPage")
+	public String myPageProductReview(HttpServletRequest req) {
+		int mem_num = Integer.parseInt(req.getParameter("mem_num"));
+		int rp_num = Integer.parseInt(req.getParameter("rp_num"));
+		System.out.println("상세보기의 rp_num"+rp_num);
+		System.out.println("상세보기의 mem_num"+mem_num);
+		HttpSession session = req.getSession();
+		String id = (String) session.getAttribute("mem_id");
+		if (id==null || id.equals("")) req.setAttribute("check", 0);
+		else{
+			int check = myPageMapper.CountReviewLikeLog(id, rp_num);
+			//System.out.println("check = "+ check);
+			req.setAttribute("check", check);
+		}
+		ReviewProductDTO rplist =myPageMapper.ReviewProductNum(rp_num);
+		System.out.println("리뷰프로덕트:"+rplist);
+		req.setAttribute("mem_num", mem_num);
+		req.setAttribute("rplist", rplist);
+		return "myPage/myPageProductReview";
+	}
+	
+	@RequestMapping("/myPageRegionReview.myPage")
+	public String myPageRegionReview(HttpServletRequest req) {
+		int mem_num = Integer.parseInt(req.getParameter("mem_num"));
+		int review_num = Integer.parseInt(req.getParameter("review_num"));
+		System.out.println("상세보기의 rp_num"+review_num);
+		System.out.println("상세보기의 mem_num"+mem_num);
+		HttpSession session = req.getSession();
+		String id = (String) session.getAttribute("mem_id");
+		if (id==null || id.equals("")) req.setAttribute("check", 0);
+		else{
+			int check = myPageMapper.CountReviewLikeLog(id, review_num);
+			//System.out.println("check = "+ check);
+			req.setAttribute("check", check);
+		}
+		ReviewRegionDTO rrlist=myPageMapper.ReviewRegionNum(review_num);
+		System.out.println("rrlist:"+rrlist);
+		req.setAttribute("mem_num", mem_num);
+		req.setAttribute("rrlist", rrlist);
+		return "myPage/myPageRegionReview";
+	}
+	
+	@RequestMapping("/DeleteProductReview.myPage")
+	public String DeleteProductReview(HttpServletRequest req,@RequestParam Map<String,String> map) {
+//		int mem_num = Integer.parseInt(req.getParameter("mem_num"));
+		int rp_num = Integer.parseInt(req.getParameter("rp_num"));
+//		System.out.println("상세보기의 rp_num:"+rp_num);
+//		System.out.println("상세보기의 mem_num:"+mem_num);
+		int res = myPageMapper.DeleteProductReview(map);
+		
+//		System.out.println("삭제의 rp_num"+rp_num);
+//		System.out.println("삭제의 mem_num"+mem_num);
+		String msg =null, url = null;
+		if (res>0) {
+			res = myPageMapper.UpdateProductLikeLog(rp_num);
+			msg = "목록에서 삭제되었습니다";
+			url = "myPageLikeReview.myPage";
+		}else {
+			msg = "목록에서 실패되었습니다. 서비스 센터에 문의하세요";
+			url = "myPageLikeReview.myPage";
+		}
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message"; 
+	}
+	@RequestMapping("/DeleteReviewReview.myPage")
+	public String DeleteReviewReview(HttpServletRequest req,@RequestParam Map<String,String> map){
+		int res = myPageMapper.DeleteRegionReveiw(map);
+		int review_num = Integer.parseInt(req.getParameter("review_num"));
+		String msg =null, url = null;
+		if (res>0) {
+			res = myPageMapper.UpdateRegionLikeLog(review_num);
+			msg = "목록에서 삭제되었습니다";
+			System.out.println(msg);
+			url = "myPageLikeReview.myPage";
+		}else {
+			msg = "목록에서 실패되었습니다. 서비스 센터에 문의하세요";
+			url = "myPageLikeReview.myPage";
+		}
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	
+
 	@RequestMapping("/myPageTest.myPage")
 	public String myPageTest() { 
 		return "myPage/myPageTest"; 
@@ -380,7 +481,7 @@ public class MyPageController {
 		
 		return "message"; 
 	}
-
+	
 }
 		 
 

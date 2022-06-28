@@ -28,7 +28,8 @@ public class ProductController {
 
 	@Autowired
 	private ProductMapper productMapper;
-
+	
+	
 	// 용품메인 컨트롤러
 	/**
 	 * @param req
@@ -91,7 +92,6 @@ public class ProductController {
 	         if(searchString!=null) {
 	        	 //서치스트링이 널이 아니면 파인드 프로덕트를 부르고 서치스트링이 널이면 전체 페이지를 가지고옴 
 	              list = productMapper.findProduct(search, searchString,startRow-1,endRow);
-	              
 	              rowCount = productMapper.listProductbrandSearch(searchString);
 	             
 	              System.out.println("위에 서치 스트링값은 : "+ searchString);
@@ -168,7 +168,7 @@ public class ProductController {
 	      
 	      return "product/productMain";
 	   }
-
+ 
 	// 리뷰목록 컨트롤러
 	@RequestMapping("/productView.product")
 	public String productView(HttpServletRequest req, @RequestParam Map<String, String> params, int prod_num) {
