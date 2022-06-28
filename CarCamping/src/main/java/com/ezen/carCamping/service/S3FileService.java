@@ -2,6 +2,7 @@ package com.ezen.carCamping.service;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
@@ -18,8 +19,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.UUID;
 
 
@@ -34,7 +38,6 @@ public class S3FileService {
     // 버킷 주소 동적 할당
     @Value("${cloud.aws.s3.bucket.url}")
     private String defaultUrl;
-    
   
     private final AmazonS3Client amazonS3Client; //s3 전송객체를 만드는 클래스
     @Autowired//!!!!!!!!!!!
@@ -50,16 +53,17 @@ public class S3FileService {
             final String ext = origName.substring(origName.lastIndexOf('.'));
             // 파일이름 암호화
             final String saveFileName = getUuid() + ext;
-            System.out.println(saveFileName);
             // 파일 객체 생성
             // System.getProperty => 시스템 환경에 관한 정보를 얻을 수 있다. (user.dir = 현재 작업 디렉토리를 의미함)
             File file = new File(System.getProperty("user.dir") + saveFileName);
+           
             // 파일 변환
             uploadFile.transferTo(file);
+            
+            url =calcPath()+ saveFileName;
             // S3 파일 업로드
-            uploadOnS3(saveFileName, file);
-            // 주소 할당
-            url = defaultUrl + saveFileName;
+            uploadOnS3(url, file);
+         
             // 파일 삭제
             file.delete();
         } catch (StringIndexOutOfBoundsException e) {
@@ -92,4 +96,19 @@ public class S3FileService {
     public void deleteImage(String fileName) {
     	amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
     }
+
+    private static String calcPath() {
+
+		Calendar cal = Calendar.getInstance();
+
+		String yearPath = String.valueOf(cal.get(Calendar.YEAR));
+
+		String monthPath = yearPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
+
+		String datePath = monthPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.DATE))+"/";
+
+	
+		return datePath;
+	}
+
 }
