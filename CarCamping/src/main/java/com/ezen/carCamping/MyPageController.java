@@ -195,6 +195,10 @@ public class MyPageController {
 	public String myPageCheckOut2(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 송재영2
 		int res = myPageMapper.payCart(mem_num);
 		if (res > 0) {
 			System.out.println("결제 성공");

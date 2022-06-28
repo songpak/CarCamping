@@ -18,7 +18,7 @@
 							<option value="desc">최신순</option>
 							<option value="asc">오래된순</option>
 					</select>
-					<button type="submit" class="btn btn-info">정렬</button>
+					<button type="submit">정렬</button>
 				</form>
 			</div>
 		<!-- 드랍 버튼 끝 -->
@@ -63,7 +63,7 @@
 					<td>${dto.aa_sysdate}</td>
 					<td>${dto.aa_update}</td>
 					<td>
-						<button type="button" class="btn btn-primary"
+						<button type="button" class="btn btn-info"
 								onclick="location.href='javascript:con_view(${dto.aa_num})'">
 								보기</button>
 					</td>
@@ -79,12 +79,20 @@
 	
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
-			<li class="page-item disabled"><a class="page-link">Previous</a>
-			</li>
-			<li class="page-item"><a class="page-link" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#">Next</a></li>
+			<c:if test="${page-3>1}">
+				<li class="page-item"><a class="page-link" href="adminAnnounce.admin?page=${page-1}">Previous</a></li>
+			</c:if>
+		<c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
+			<c:if test="${i==page}">
+				<li class="page-item"><a class="page-link" href="adminAnnounce.admin?page=${i}" style="color:blue;">${i}</a></li>
+			</c:if>
+			<c:if test="${i!=page}">
+				<li class="page-item"><a class="page-link" href="adminAnnounce.admin?page=${i}">${i}</a></li>
+			</c:if>
+		</c:forEach>
+			<c:if test="${page+3<pageCount}">
+				<li class="page-item"><a class="page-link" href="adminAnnounce.admin?page=${page+1}">Next</a></li>
+			</c:if>
 		</ul>
 	</nav>
 </div>

@@ -52,9 +52,13 @@ public class reviewController {
 	
 	@RequestMapping(value="field_review.review", method=RequestMethod.GET )
 	public String field_review(HttpServletRequest req,@RequestParam(required=false) Integer ccr_num) {
+<<<<<<< HEAD
 		
 		
 		
+=======
+	
+>>>>>>> 송재영2
 		HttpSession session = req.getSession();
 		String upPath = session.getServletContext().getRealPath("/resources");
 		session.setAttribute("upPath", upPath);
@@ -107,11 +111,23 @@ public class reviewController {
 					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
 					
 					//dto image setting
+<<<<<<< HEAD
 					if (dto.getReview_regionImage1()==null) dto.setReview_regionImage1(S3FileService.upload(file));
 					else if (dto.getReview_regionImage2()==null) dto.setReview_regionImage2(S3FileService.upload(file));
 					else if (dto.getReview_regionImage3()==null) dto.setReview_regionImage3(S3FileService.upload(file));
 					else if (dto.getReview_regionImage4()==null) dto.setReview_regionImage4(S3FileService.upload(file));
 					else if (dto.getReview_regionImage5()==null) dto.setReview_regionImage5(S3FileService.upload(file));
+=======
+					if (dto.getReview_regionImage1()==null) {
+						dto.setReview_regionImage1(savedFileName);
+						String str = S3FileService.upload(file);
+						System.out.println(str);
+					}
+					else if (dto.getReview_regionImage2()==null) dto.setReview_regionImage2(savedFileName);
+					else if (dto.getReview_regionImage3()==null) dto.setReview_regionImage3(savedFileName);
+					else if (dto.getReview_regionImage4()==null) dto.setReview_regionImage4(savedFileName);
+					else if (dto.getReview_regionImage5()==null) dto.setReview_regionImage5(savedFileName);
+>>>>>>> 송재영2
 					
 					File targetFile = new File(fileRoot + savedFileName);	
 					try {

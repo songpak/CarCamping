@@ -94,7 +94,11 @@
 		delete from ProductCart where cart_num = #{cart_num}
 	</delete>
 
+<<<<<<< HEAD
 		<resultMap type="RegionDTO" id="regionMap">
+=======
+		<resultMap type="RegionDTO"	 id="regionMap">
+>>>>>>> 송재영2
 		<id column="region_num" property="region_num"/>
 		<result column="region_name" property="region_name"/>
 	</resultMap>

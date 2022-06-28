@@ -18,15 +18,15 @@
 					<option value="rp_sysdate">최신순</option>
 					<option value="rp_adminConfirm">승인안됨</option>	
 				</select>
-				<button type="submit" class="btn btn-info">정렬</button>
+				<button type="submit">정렬</button>
 			</form>
 		</div>
 		
 		<!-- 리뷰 검색 버튼 -->
 		<div class="col" align="right">
 			<form name="searchForm" action="adminReviewProduct.admin" method="post" enctype="multipart/form-data">
-				<input type="search" name="search">
-				<button type="submit" class="btn btn-info">검색</button>
+				<input type="search" name="search" placeholder="제목|내용">
+				<button type="submit">검색</button>
 			</form>
 		</div>
 	</div>
@@ -78,19 +78,27 @@
 		function popup(a){
 			var url = "adminViewReviewProduct.admin?rp_num="+a
 			var name = "용품 리뷰 보기"
-			var option = "width=600,height=800,top=100,left=200,location=no,resizable=no"
+			var option = "width=700,height=800,top=100,left=200,location=no,resizable=no"
 			window.open(url,name,option);
 		}
 	</script>
 	
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
-			<li class="page-item disabled"><a class="page-link">Previous</a>
-			</li>
-			<li class="page-item"><a class="page-link" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#">Next</a></li>
+			<c:if test="${page-3>1}">
+				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${page-1}">Previous</a></li>
+			</c:if>
+		<c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
+			<c:if test="${i==page}">
+				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${i}" style="color:blue;">${i}</a></li>
+			</c:if>
+			<c:if test="${i!=page}">
+				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${i}">${i}</a></li>
+			</c:if>
+		</c:forEach>
+			<c:if test="${page+3<pageCount}">
+				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${page+1}">Next</a></li>
+			</c:if>
 		</ul>
 	</nav>
 </div>

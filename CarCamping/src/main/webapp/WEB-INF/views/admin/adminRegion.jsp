@@ -20,9 +20,10 @@
 						<option value="${dto.region_num}">${dto.region_name}</option>
 					</c:forEach>
 				</select>
-				<button type="submit" class="btn btn-info">정렬</button>
+				<button type="submit">정렬</button>
 			</form>
 		</div>
+		
 
 		<!-- 장소 등록 버튼 -->
 		<div class="col" align="right">
@@ -91,18 +92,25 @@
 	
 	<!-- 페이지 블록 -->
 	<nav aria-label="Page navigation example">
+	
+	
 		<ul class="pagination justify-content-center">
 		
-			<c:if test="${page > 1}">
-				<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+			<c:if test="${page-3>1}">
+				<li class="page-item"><a class="page-link" href="adminRegion.admin?page=${page-1}">Previous</a></li>
 			</c:if>
-		<c:forEach var="i" begin="1" end="${pageCount}">
+		<c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
+			<c:if test="${i==page}">
+				<li class="page-item"><a class="page-link" href="adminRegion.admin?page=${i}" style="color:blue;">${i}</a></li>
+			</c:if>
+			<c:if test="${i!=page}">
 				<li class="page-item"><a class="page-link" href="adminRegion.admin?page=${i}">${i}</a></li>
-		</c:forEach>
-			<c:if test="${page < pageCount}">
-				<li class="page-item"><a class="page-link" href="#">Next</a></li>
 			</c:if>
-			
+		</c:forEach>
+			<c:if test="${page+3<pageCount}">
+				<li class="page-item"><a class="page-link" href="adminRegion.admin?page=${page+1}">Next</a></li>
+			</c:if>
+		
 		</ul>
 	</nav>
 </div>

@@ -13,6 +13,7 @@ public class RentalLogDTO {
 	private int rental_notReturn;
 	private int rental_price;
 	private int rental_usePoint;
+	private String rental_pay;
 	private int rental_extendPrice;
 	private int rental_notReturnPrice;
 	
@@ -88,6 +89,12 @@ public class RentalLogDTO {
 	}
 	public void setRental_usePoint(int rental_usePoint) {
 		this.rental_usePoint = rental_usePoint;
+	}
+	public String getRental_pay() {
+		return rental_pay;
+	}
+	public void setRental_pay(String rental_pay) {
+		this.rental_pay = rental_pay;
 	}
 	public int getRental_extendPrice() {
 		return rental_extendPrice;

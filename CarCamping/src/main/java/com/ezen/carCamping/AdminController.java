@@ -2,17 +2,25 @@ package com.ezen.carCamping;
 
 import java.io.File;
 
-
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +43,7 @@ import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
 import com.ezen.carCamping.service.AdminMapper;
+import com.ezen.carCamping.service.S3FileService;
 
 @Controller
 public class AdminController {
@@ -45,10 +54,14 @@ public class AdminController {
 	//Pagination Singleton Instance
 	private Pagination pagination = Pagination.getInstance();
 	
+	//AWS S3
+	@Autowired
+	private S3FileService S3FileService;
+	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
 		HttpSession session = req.getSession();
-		String upPath = session.getServletContext().getRealPath("/resources");
+		String upPath = "https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440";
 		List<RegionDTO> adminListRegion = adminMapper.adminListRegion();
 		
 		session.setAttribute("adminListRegion", adminListRegion);
@@ -65,7 +78,8 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminRegion.admin")
-	public String adminRegion(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,@RequestParam(required=false) String region_num) {
+	public String adminRegion(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
+			@RequestParam(required=false) String region_num) {
 		List<CarCampingRegionDTO> adminListCarCampingRegion = new ArrayList<CarCampingRegionDTO>();
 		
 		if (region_num==null) {
@@ -79,7 +93,7 @@ public class AdminController {
 		//총 페이지
 		req.setAttribute("pageCount", pagination.pageCount(adminListCarCampingRegion));
 		//현재 페이지에 맞는 게시물 리스트
-		req.setAttribute("adminListCarCampingRegion", pagination.getListRegion(page, adminListCarCampingRegion));
+		req.setAttribute("adminListCarCampingRegion", pagination.getPagePost(page, adminListCarCampingRegion));
 		return "admin/adminRegion";
 	}
 	
@@ -93,91 +107,10 @@ public class AdminController {
 	@RequestMapping(value="/adminRegisterRegion.admin", method=RequestMethod.POST)
 	public ModelAndView adminRegisterRegionPro(HttpServletRequest req,@ModelAttribute CarCampingRegionDTO dto,@RequestParam("ccr_viewImage") MultipartFile[] file, @RequestParam Map<String,String> map) {
 		
-				RegionDTO regionDTO = new RegionDTO();
-				regionDTO.setRegion_num(Integer.parseInt(map.get("region_num")));
-				dto.setRegionDTO(regionDTO);
-				
-				//차량접근
-				String ccr_car = "";
-				if (map.containsKey("ccr_car1")) ccr_car += "승용차  ";
-				if (map.containsKey("ccr_car2")) ccr_car += "소형 트레일러  ";
-				if (map.containsKey("ccr_car3")) ccr_car += "카라반  ";
-				if (map.containsKey("ccr_car4")) ccr_car += "루프탑  ";
-				if (map.containsKey("ccr_car5")) ccr_car += "캠핑카  ";
-				dto.setCcr_car(ccr_car.trim());
-				
-				//바닥종류
-				String ccr_ground = "";
-				if (map.containsKey("ccr_ground1")) ccr_ground += "맨흙  ";
-				if (map.containsKey("ccr_ground2")) ccr_ground += "자갈  ";
-				if (map.containsKey("ccr_ground3")) ccr_ground += "모래  ";
-				if (map.containsKey("ccr_ground4")) ccr_ground += "데크  ";
-				if (map.containsKey("ccr_ground5")) ccr_ground += "잔디 ";
-				dto.setCcr_ground(ccr_ground.trim());
-				
-				//편의시설
-				if (map.containsKey("ccr_amenity1")) dto.setCcr_toilet(0);
-				else dto.setCcr_toilet(1);
-				
-				if (map.containsKey("ccr_amenity2")) dto.setCcr_restroom(0);
-				else dto.setCcr_restroom(1);
-				
-				if (map.containsKey("ccr_amenity3")) dto.setCcr_water(0);
-				else dto.setCcr_water(1);
-				
-				if (map.containsKey("ccr_amenity4")) dto.setCcr_market(0);
-				else dto.setCcr_market(1);
-				
-				if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
-				else dto.setCcr_river(1);
-				
-				String upPath = (String)req.getSession().getAttribute("upPath");
-				
-				//다중 파일 전송
-				for (MultipartFile f : file) {
-					String filename = f.getOriginalFilename();		
-					if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
-					else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
-					else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
-					else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
-					else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
-					
-					try {
-						f.transferTo(new File(upPath+"/images/region/"+filename));
-						
-						
+		RegionDTO regionDTO = new RegionDTO();
+		regionDTO.setRegion_num(Integer.parseInt(map.get("region_num")));
+		dto.setRegionDTO(regionDTO);
 		
-					}catch(IOException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				int res = adminMapper.adminInsertRegion(dto);
-				String msg =null, url = null;
-				if (res>0) {
-					msg = "장소가 등록되었습니다";
-					url = "adminRegion.admin";
-				}else {
-					msg = "장소등록이 실패되었습니다. 서비스 센터에 문의하세요";
-					url = "adminRegion.admin";
-				}
-				ModelAndView mav = new ModelAndView("admin/message");
-				mav.addObject("msg", msg);
-				mav.addObject("url", url);
-				return mav;
-		}
-	
-	@RequestMapping("/adminViewRegion.admin")
-	public ModelAndView adminViewRegion(@RequestParam int ccr_num) {
-		CarCampingRegionDTO cdto = adminMapper.getCarCampingRegion(ccr_num);
-		return new ModelAndView("admin/adminViewRegion","cdto",cdto);
-	}
-			
-	
-
-	@RequestMapping("/adminUpdateRegion.admin")
-	public ModelAndView  updateRegion(HttpServletRequest req,@RequestParam("ccr_viewImage") MultipartFile[] file,@RequestParam Map<String,String> map) {
-		CarCampingRegionDTO dto = adminMapper.getCarCampingRegion(Integer.parseInt(map.get("ccr_num")));
 		//차량접근
 		String ccr_car = "";
 		if (map.containsKey("ccr_car1")) ccr_car += "승용차  ";
@@ -212,26 +145,118 @@ public class AdminController {
 		if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
 		else dto.setCcr_river(1);
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
-		
-		//다중파일 전송
+		//다중 파일 전송
 		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
-			else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
-			else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
-			else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
-			else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
-			
 			try {
-				f.transferTo(new File(upPath+"/images/region/"+filename));
+				String str = S3FileService.upload(f); //이름바꾸고 아마존으로 업로드
 				
+				if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(str);
+				else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(str);
+				else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(str);
+				else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(str);
+				else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(str);
 			}catch(IOException e) {
-				e.printStackTrace();
+				
 			}
+
 		}
-		//�α⿩��
-		if (map.containsKey("ccr_popular")) dto.setCcr_popular(0);
+			
+		int res = adminMapper.adminInsertRegion(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "장소가 등록되었습니다";
+			url = "adminRegion.admin";
+		}else {
+			msg = "장소등록이 실패되었습니다. 서비스 센터에 문의하세요";
+			url = "adminRegion.admin";
+		}
+		ModelAndView mav = new ModelAndView("admin/message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
+	
+	@RequestMapping("/adminViewRegion.admin")
+	public ModelAndView adminViewRegion(@RequestParam int ccr_num) {
+		CarCampingRegionDTO cdto = adminMapper.getCarCampingRegion(ccr_num);
+		return new ModelAndView("admin/adminViewRegion","cdto",cdto);
+	}
+			
+	
+
+	@RequestMapping("/adminUpdateRegion.admin")
+	public ModelAndView  updateRegion(HttpServletRequest req,@RequestParam("ccr_viewImage") MultipartFile[] file,
+			@ModelAttribute CarCampingRegionDTO dto,@RequestParam Map<String,String> map) {
+
+		//차량접근
+		String ccr_car = "";
+		if (map.containsKey("ccr_car1")) ccr_car += "승용차  ";
+		if (map.containsKey("ccr_car2")) ccr_car += "소형 트레일러  ";
+		if (map.containsKey("ccr_car3")) ccr_car += "카라반  ";
+		if (map.containsKey("ccr_car4")) ccr_car += "루프탑  ";
+		if (map.containsKey("ccr_car5")) ccr_car += "캠핑카  ";
+		dto.setCcr_car(ccr_car.trim());
+		
+		//바닥종류
+		String ccr_ground = "";
+		if (map.containsKey("ccr_ground1")) ccr_ground += "맨흙  ";
+		if (map.containsKey("ccr_ground2")) ccr_ground += "자갈  ";
+		if (map.containsKey("ccr_ground3")) ccr_ground += "모래  ";
+		if (map.containsKey("ccr_ground4")) ccr_ground += "데크  ";
+		if (map.containsKey("ccr_ground5")) ccr_ground += "잔디 ";
+		dto.setCcr_ground(ccr_ground.trim());
+		
+		//편의시설
+		if (map.containsKey("ccr_amenity1")) dto.setCcr_toilet(0);
+		else dto.setCcr_toilet(1);
+		
+		if (map.containsKey("ccr_amenity2")) dto.setCcr_restroom(0);
+		else dto.setCcr_restroom(1);
+		
+		if (map.containsKey("ccr_amenity3")) dto.setCcr_water(0);
+		else dto.setCcr_water(1);
+		
+		if (map.containsKey("ccr_amenity4")) dto.setCcr_market(0);
+		else dto.setCcr_market(1);
+		
+		if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
+		else dto.setCcr_river(1);
+		
+		
+		//이미지 수정했을때
+		if (!file[0].isEmpty()) {
+			//기존 파일 삭제
+			if (map.containsKey("ccr_viewImageHidden1")) S3FileService.deleteImage(map.get("ccr_viewImageHidden1"));
+			if (map.containsKey("ccr_viewImageHidden2")) S3FileService.deleteImage(map.get("ccr_viewImageHidden2"));
+			if (map.containsKey("ccr_viewImageHidden3")) S3FileService.deleteImage(map.get("ccr_viewImageHidden3"));
+			if (map.containsKey("ccr_viewImageHidden4")) S3FileService.deleteImage(map.get("ccr_viewImageHidden4"));
+			if (map.containsKey("ccr_viewImageHidden5")) S3FileService.deleteImage(map.get("ccr_viewImageHidden5"));
+			
+			//새 파일 아마존으로 업로드
+			for (MultipartFile f : file) {
+				try {
+					String str = S3FileService.upload(f); //이름바꾸고 아마존으로 업로드	
+					if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(str);
+					else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(str);
+					else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(str);
+					else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(str);
+					else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(str);
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		//수정이미지 업로드 안했을때 (이미지 변경사항 X)	
+		}else {
+			
+			if (map.containsKey("ccr_viewImageHidden1")) dto.setCcr_viewImage1(map.get("ccr_viewImageHidden1"));
+			if (map.containsKey("ccr_viewImageHidden2")) dto.setCcr_viewImage2(map.get("ccr_viewImageHidden2"));
+			if (map.containsKey("ccr_viewImageHidden3")) dto.setCcr_viewImage3(map.get("ccr_viewImageHidden3"));
+			if (map.containsKey("ccr_viewImageHidden4")) dto.setCcr_viewImage4(map.get("ccr_viewImageHidden4"));
+			if (map.containsKey("ccr_viewImageHidden5")) dto.setCcr_viewImage5(map.get("ccr_viewImageHidden5"));
+		}
+		
+		//인기장소
+		if (map.containsKey("ccr_popular1")) dto.setCcr_popular(0);
 		else dto.setCcr_popular(1);
 		
 		int res = adminMapper.adminUpdateRegion(dto);
@@ -250,6 +275,16 @@ public class AdminController {
 	}
 	@RequestMapping("/adminDeleteRegion.admin")
 	public ModelAndView adminDeleteRegion(@RequestParam int ccr_num) {
+		
+		//기존 AWS 파일 삭제
+		CarCampingRegionDTO dto = adminMapper.getCarCampingRegion(ccr_num);
+		if (dto.getCcr_viewImage1()!=null) S3FileService.deleteImage(dto.getCcr_viewImage1());
+		if (dto.getCcr_viewImage2()!=null) S3FileService.deleteImage(dto.getCcr_viewImage2());
+		if (dto.getCcr_viewImage3()!=null) S3FileService.deleteImage(dto.getCcr_viewImage3());
+		if (dto.getCcr_viewImage4()!=null) S3FileService.deleteImage(dto.getCcr_viewImage4());
+		if (dto.getCcr_viewImage5()!=null) S3FileService.deleteImage(dto.getCcr_viewImage5());
+		
+		//DB에서 삭제
 		int res = adminMapper.adminDeleteRegion(ccr_num);
 		String msg =null, url = null;
 		if (res>0) {
@@ -274,9 +309,21 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminAgency.admin")
-	public String adminAgency(HttpServletRequest req) {
-		List<AgencyDTO> adminListAgency = adminMapper.adminListAgency();
-		req.setAttribute("adminListAgency", adminListAgency);
+	public String adminAgency(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
+			@RequestParam(required=false) String region_num) {
+			List<AgencyDTO> adminListAgency = new ArrayList<AgencyDTO>();
+		if (region_num == null) {
+			adminListAgency = adminMapper.adminListAgency();
+		}else {
+			adminListAgency = adminMapper.adminListAgencySort(Integer.parseInt(region_num));
+		}
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListAgency));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListAgency", pagination.getPagePost(page, adminListAgency));
+		
 		return "admin/adminAgency";
 	}
 	
@@ -434,7 +481,7 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminProduct.admin")
-	public String adminProduct(HttpServletRequest req,@RequestParam(required=false) String search) {
+	public String adminProduct(HttpServletRequest req,@RequestParam(required=false) String search,@RequestParam(value="page",defaultValue="1") int page) {
 		List<BrandCategoryDTO> adminListBrand = adminMapper.adminListBrand();
 		List<ProductCategoryDTO> adminListProductCategory = adminMapper.adminListProductCategoty();
 		List<ProductDTO> adminListProduct = new ArrayList<ProductDTO>();
@@ -444,9 +491,16 @@ public class AdminController {
 			adminListProduct = adminMapper.adminFindProduct(search.trim());
 		}
 		
-		req.setAttribute("adminListProduct", adminListProduct);
 		req.setAttribute("adminListBrand", adminListBrand);
 		req.setAttribute("adminListProductCategory", adminListProductCategory);
+		
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListProduct));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListProduct", pagination.getPagePost(page, adminListProduct));
+	
 		return "admin/adminProduct";
 	}
 	
@@ -470,23 +524,21 @@ public class AdminController {
 		cdto.setPc_num(Integer.parseInt(map.get("pc_num")));
 		dto.setProductCategoryDTO(cdto);
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
 		
 		//다중파일 전송
 		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
-			else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
-			else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
-			else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
-			else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
-			
 			try {
-				f.transferTo(new File(upPath+"/images/product/"+filename));
-
+				String str = S3FileService.upload(f);	
+				
+				if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(str);
+				else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(str);
+				else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(str);
+				else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(str);
+				else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(str);
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
+			
 		}
 		
 		int res = adminMapper.adminInsertProduct(dto);
@@ -514,28 +566,44 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/adminViewProduct.admin", method=RequestMethod.POST)
-	public ModelAndView adminViewProduct(HttpServletRequest req,@ModelAttribute ProductDTO dto, @RequestParam("prod_viewImage") MultipartFile[] file,@RequestParam(required=false) String prod_popular1) {
+	public ModelAndView adminViewProduct(HttpServletRequest req,@ModelAttribute ProductDTO dto, @RequestParam("prod_viewImage") MultipartFile[] file,
+			@RequestParam Map<String,String> map) {
 		
-		if (prod_popular1==null) dto.setProd_popular(1);
+		if (!map.containsKey("prod_popular1")) dto.setProd_popular(1);
 		else dto.setProd_popular(0);
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
+		//용품 이미지 수정했을시
+		if (!file[0].isEmpty()) {
+			//기존 파일 삭제
+			if (map.containsKey("prod_viewImageHidden1")) S3FileService.deleteImage(map.get("prod_viewImageHidden1"));
+			if (map.containsKey("prod_viewImageHidden2")) S3FileService.deleteImage(map.get("prod_viewImageHidden2"));
+			if (map.containsKey("prod_viewImageHidden3")) S3FileService.deleteImage(map.get("prod_viewImageHidden3"));
+			if (map.containsKey("prod_viewImageHidden4")) S3FileService.deleteImage(map.get("prod_viewImageHidden4"));
+			if (map.containsKey("prod_viewImageHidden5")) S3FileService.deleteImage(map.get("prod_viewImageHidden5"));
+			
+			//새 이미지 업로드
+			for (MultipartFile f : file) {
+				try {
+					String filename = S3FileService.upload(f);
+					
+					if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
+					else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
+					else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
+					else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
+					else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
 		
-		//다중파일 전송
-		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
-			else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
-			else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
-			else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
-			else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
-
-			try {
-				f.transferTo(new File(upPath+"/images/product/"+filename));
-
-			}catch(IOException e) {
-				e.printStackTrace();
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
 			}
+			
+		//이미지 수정 안했을 때
+		}else {
+			if (map.containsKey("prod_viewImageHidden1")) dto.setProd_viewImage1(map.get("prod_viewImageHidden1"));
+			if (map.containsKey("prod_viewImageHidden2")) dto.setProd_viewImage2(map.get("prod_viewImageHidden2"));
+			if (map.containsKey("prod_viewImageHidden3")) dto.setProd_viewImage3(map.get("prod_viewImageHidden3"));
+			if (map.containsKey("prod_viewImageHidden4")) dto.setProd_viewImage4(map.get("prod_viewImageHidden4"));
+			if (map.containsKey("prod_viewImageHidden5")) dto.setProd_viewImage5(map.get("prod_viewImageHidden5"));
 		}
 		
 		int res = adminMapper.adminUpdateProduct(dto);
@@ -555,6 +623,15 @@ public class AdminController {
 	
 	@RequestMapping("/adminDeleteProduct.admin")
 	public ModelAndView adminDeleteProduct(@RequestParam int prod_num) {
+		//기존 AWS 이미지 삭제
+		ProductDTO dto = adminMapper.adminGetProduct(prod_num);
+		if (dto.getProd_viewImage1()!=null) S3FileService.deleteImage(dto.getProd_viewImage1());
+		if (dto.getProd_viewImage2()!=null) S3FileService.deleteImage(dto.getProd_viewImage2());
+		if (dto.getProd_viewImage3()!=null) S3FileService.deleteImage(dto.getProd_viewImage3());
+		if (dto.getProd_viewImage4()!=null) S3FileService.deleteImage(dto.getProd_viewImage4());
+		if (dto.getProd_viewImage5()!=null) S3FileService.deleteImage(dto.getProd_viewImage5());
+		
+		//DB에서 삭제
 		int res = adminMapper.adminDeleteProduct(prod_num);
 		
 		String msg =null, url = null;
@@ -578,8 +655,9 @@ public class AdminController {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
+	
 	@RequestMapping("/adminMember.admin")
-	public String adminMember(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminMember(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,@RequestParam(value="page",defaultValue="1") int page) {
 		List<MemberDTO> adminListMember = new ArrayList<MemberDTO>();
 		
 		if(map.containsKey("sort")) {
@@ -592,7 +670,13 @@ public class AdminController {
 			adminListMember = adminMapper.adminListMember();
 		}
 		
-		req.setAttribute("adminListMember", adminListMember);
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListMember));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListMember", pagination.getPagePost(page, adminListMember));
+		
 		return "admin/adminMember";
 	}
 	
@@ -635,7 +719,9 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminReviewRegion.admin")
-	public String adminReviewRegion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminReviewRegion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+			@RequestParam(value="page",defaultValue="1") int page) {
+		
 		List<ReviewRegionDTO> adminListReviewRegion = new ArrayList<ReviewRegionDTO>();
 		
 		if (map.containsKey("sort")) {
@@ -648,7 +734,13 @@ public class AdminController {
 			adminListReviewRegion = adminMapper.adminListReviewRegion();
 		}
 		
-		req.setAttribute("adminListReviewRegion", adminListReviewRegion);
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListReviewRegion));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListReviewRegion", pagination.getPagePost(page, adminListReviewRegion));
+		
 		return "admin/adminReviewRegion";
 	}
 	
@@ -690,6 +782,7 @@ public class AdminController {
 	}
 
 	
+	
 //////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////용 품 리 뷰////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -697,7 +790,8 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminReviewProduct.admin")
-	public String adminReviewProduct(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminReviewProduct(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+			@RequestParam(value="page",defaultValue="1") int page) {
 		List<ReviewProductDTO> adminListReviewProduct = new ArrayList<ReviewProductDTO>();
 		
 		if (map.containsKey("sort")) {
@@ -709,8 +803,13 @@ public class AdminController {
 		}else {
 			adminListReviewProduct = adminMapper.adminListReviewProduct();
 		}
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListReviewProduct));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListReviewProduct", pagination.getPagePost(page, adminListReviewProduct));
 		
-		req.setAttribute("adminListReviewProduct", adminListReviewProduct);
 		return "admin/adminReviewProduct";
 	}
 	
@@ -760,7 +859,8 @@ public class AdminController {
 
 	
 	@RequestMapping("/adminAnnounce.admin")
-	public String adminAnnounce(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminAnnounce(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+			@RequestParam(value="page",defaultValue="1") int page) {
 		List<AdminAnnounceDTO> list = new ArrayList<AdminAnnounceDTO>();
 		
 		if (map.containsKey("sort")) {
@@ -768,8 +868,13 @@ public class AdminController {
 		}else {
 			list = adminMapper.adminListAnnounce();
 		}
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(list));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListAnnounce", pagination.getPagePost(page, list));
 		
-		req.setAttribute("adminListAnnounce", list);
 		return "admin/adminAnnounce";
 	}
 	
@@ -779,25 +884,24 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/adminRegisterAnnounce.admin", method=RequestMethod.POST)
-	public ModelAndView adminInsertAnnounce(HttpServletRequest req,@ModelAttribute AdminAnnounceDTO dto,@RequestParam("aa_image") MultipartFile[] file) {
+	public ModelAndView adminInsertAnnounce(HttpServletRequest req,@ModelAttribute AdminAnnounceDTO dto,
+			@RequestParam("aa_image") MultipartFile[] file) {
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
-		//다중파일 전송
+		//AWS에 파일업로드
 		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
-			else if (dto.getAa_image2()==null) dto.setAa_image2(filename);
-			else if (dto.getAa_image3()==null) dto.setAa_image3(filename);
-			else if (dto.getAa_image4()==null) dto.setAa_image4(filename);
-			else if (dto.getAa_image5()==null) dto.setAa_image5(filename);
-
 			try {
-				f.transferTo(new File(upPath+"/images/announce/"+filename));
-
+				String str = S3FileService.upload(f);
+				
+				if (dto.getAa_image1()==null) dto.setAa_image1(str);
+				else if (dto.getAa_image2()==null) dto.setAa_image2(str);
+				else if (dto.getAa_image3()==null) dto.setAa_image3(str);
+				else if (dto.getAa_image4()==null) dto.setAa_image4(str);
+				else if (dto.getAa_image5()==null) dto.setAa_image5(str);
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
 		}
+		
 		int res = adminMapper.adminInsertAnnounce(dto);
 		String msg =null, url = null;
 		if (res>0) {
@@ -822,23 +926,41 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/adminViewAnnounce.admin", method=RequestMethod.POST)
-	public ModelAndView adminViewAnnounce(HttpServletRequest req,@RequestParam("aa_image") MultipartFile[] file,@ModelAttribute AdminAnnounceDTO dto) {
+	public ModelAndView adminViewAnnounce(HttpServletRequest req,@RequestParam("aa_image") MultipartFile[] file,
+			@ModelAttribute AdminAnnounceDTO dto,@RequestParam Map<String,String> map) {
 		String upPath = (String)req.getSession().getAttribute("upPath");
-		//�������� ���ε�
-		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
-			else if (dto.getAa_image2()==null) dto.setAa_image2(filename);
-			else if (dto.getAa_image3()==null) dto.setAa_image3(filename);
-			else if (dto.getAa_image4()==null) dto.setAa_image4(filename);
-			else if (dto.getAa_image5()==null) dto.setAa_image5(filename);
+		
+		//이미지 수정했을때
+		if (!file[0].isEmpty()) {
+			//기존 파일 삭제
+			if (map.containsKey("aa_imageHidden1")) S3FileService.deleteImage(map.get("aa_imageHidden1"));
+			if (map.containsKey("aa_imageHidden2")) S3FileService.deleteImage(map.get("aa_imageHidden2"));
+			if (map.containsKey("aa_imageHidden3")) S3FileService.deleteImage(map.get("aa_imageHidden3"));
+			if (map.containsKey("aa_imageHidden4")) S3FileService.deleteImage(map.get("aa_imageHidden4"));
+			if (map.containsKey("aa_imageHidden5")) S3FileService.deleteImage(map.get("aa_imageHidden5"));
+			
+			//새 파일 AWS에 업로드
+			for (MultipartFile f : file) {
+				try {
+					String str = S3FileService.upload(f);		
+					if (dto.getAa_image1()==null) dto.setAa_image1(str);
+					else if (dto.getAa_image2()==null) dto.setAa_image2(str);
+					else if (dto.getAa_image3()==null) dto.setAa_image3(str);
+					else if (dto.getAa_image4()==null) dto.setAa_image4(str);
+					else if (dto.getAa_image5()==null) dto.setAa_image5(str);
 
-			try {
-				f.transferTo(new File(upPath+"/images/announce/"+filename));
-
-			}catch(IOException e) {
-				e.printStackTrace();
+				}catch(IOException e) {
+					e.printStackTrace();
+				}
 			}
+			
+		//이미지 수정 안했을 때
+		}else {
+			if (map.containsKey("aa_imageHidden1")) dto.setAa_image1(map.get("aa_imageHidden1"));
+			if (map.containsKey("aa_imageHidden2")) dto.setAa_image2(map.get("aa_imageHidden2"));
+			if (map.containsKey("aa_imageHidden3")) dto.setAa_image3(map.get("aa_imageHidden3"));
+			if (map.containsKey("aa_imageHidden4")) dto.setAa_image4(map.get("aa_imageHidden4"));
+			if (map.containsKey("aa_imageHidden5")) dto.setAa_image5(map.get("aa_imageHidden5"));
 		}
 		int res = adminMapper.adminUpdateAnnounce(dto);
 		String msg =null, url = null;
@@ -878,8 +1000,11 @@ public class AdminController {
 ///////////////////////////////////////////문 의 사 항////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	
+	
 	@RequestMapping("/adminQuestion.admin")
-	public String adminQuestion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map) {
+	public String adminQuestion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+			@RequestParam(value="page",defaultValue="1") int page) {
 		List<QuestionDTO> adminListQuestion = new ArrayList<QuestionDTO>();
 		
 		if (map.containsKey("sort")) {
@@ -892,7 +1017,13 @@ public class AdminController {
 			adminListQuestion = adminMapper.adminListQuestion();
 		}
 		
-		req.setAttribute("adminListQuestion", adminListQuestion);
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(adminListQuestion));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListQuestion", pagination.getPagePost(page, adminListQuestion));
+		
 		return "admin/adminQuestion";
 	}
 	
@@ -931,10 +1062,25 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminRental.admin")
-	public String adminRental(HttpServletRequest req) {
-		List<RentalLogDTO> list = adminMapper.adminListRentalLog();
+	public String adminRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
+			@RequestParam(required=false) Map<String,String> map) {
+		List<RentalLogDTO> list = new ArrayList<RentalLogDTO>();
 		
-		req.setAttribute("adminListRentalLog", list);
+		if (map.containsKey("search")) {
+			list = adminMapper.adminListRentalLogSearch(map.get("search"));
+		}else if (map.containsKey("sort")){
+			list = adminMapper.adminListRentalLogSort(Integer.parseInt(map.get("sort")));
+		}else {
+			list = adminMapper.adminListRentalLog();
+		}
+		
+		//현재 페이지
+		req.setAttribute("page", page);
+		//총 페이지
+		req.setAttribute("pageCount", pagination.pageCount(list));
+		//현재 페이지에 맞는 게시물 리스트
+		req.setAttribute("adminListRentalLog", pagination.getPagePost(page, list));
+
 		return "admin/adminRental";
 	}
 	
@@ -962,4 +1108,5 @@ public class AdminController {
 		mav.addObject("url", url);
 		return mav;
 	}
+	
 }

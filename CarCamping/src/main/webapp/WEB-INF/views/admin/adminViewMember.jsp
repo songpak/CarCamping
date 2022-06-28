@@ -24,7 +24,7 @@
 		<table class="table table-sm">
 			<tr>
 				<th>프로필 이미지</th>
-				<td><img src="${upPath}/images/member/${mdto.mem_image}"></td>
+				<td><img src="${upPath}/${mdto.mem_image}"></td>
 			</tr>
 			<tr>
 				<th>
