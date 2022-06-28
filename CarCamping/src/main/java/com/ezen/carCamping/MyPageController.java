@@ -215,9 +215,9 @@ public class MyPageController {
 		//int mem_num = (int) session.getAttribute("mem_num");
 		int res = myPageMapper.payCart(cart_num);
 		if (res > 0) {
-			System.out.println("결제 성공");
+			System.out.println("결제후 장바구니 삭제 성공");
 		} else {
-			System.err.println("결제 실패");
+			System.err.println("결제후 장바구니 삭제 실패");
 		}
 		return "myPage/myPageCheckOut";
 	}

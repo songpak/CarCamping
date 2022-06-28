@@ -21,7 +21,16 @@
 	<h2 class="text-left">
 		<b>기본 정보</b>
 	</h2>
-
+<c:if test="${empty cartList}">
+<table class="table table-bordered">
+	<tr align="center">
+	<td><h2>결제하실 상품이 없습니다.</h2></td>
+	</tr>
+	<tr  align="center">
+	<td><button class="btn btn-success mb-3" onClick="location.href='goProduct.product'" style="width: 756px;">상품구매하러 가기</button></td>
+	</tr>
+</table>
+</c:if>
 
 	<c:forEach items="${cartList}" var="mdto">
 		<table class="table table-bordered">
@@ -47,8 +56,7 @@
 			<tr>
 			<th scope="col" id="div1" width="30%" class="text-center"
 				style="padding-top: 30px;">카드선택</th>
-			<td width="70%"><input type="checkbox" name="등록된 카드" />등록된 카드로 결제</td>
-			<!-- <td width="70%"><input type="radio" name="다른카드" />다른카드로 결제</td> -->
+			<td width="70%"><input type="checkbox" name="등록된 카드" checked="checked" />등록된 카드로 결제</td>
 		</tr>
 		
 			<tr>
@@ -60,8 +68,16 @@
 				 <input type="hidden" name= "cart_num" value="${mdto.cart_num }">
        			 <input type="hidden" name= "rental_price" value="${mdto.productDTO.prod_price}">
        			  <input type="hidden" name= "mem_num" value="${mdto.memberDTO.mem_num}">
+       			  <c:if test="${mdto.memberDTO.mem_point <= 0}">
+        		  사용 가능한 포인트가 없습니다.<br>
         		  <input type="number" name="rental_usePoint"
-								value="0" pattern="[0-9]+" min="0" max="10000">
+								value="0" pattern="[0-9]+" min="0" max="0">
+        		 </c:if>
+        		 <c:if test="${mdto.memberDTO.mem_point > 0}">
+        		  사용가능 포인트 : ${mdto.memberDTO.mem_point}<br>
+        		  <input type="number" name="rental_usePoint"
+								value="0" pattern="[0-9]+" min="0" max="3000">
+								</c:if>
         		 <button class="btn btn-lg btn-dark btn-block text-uppercase"
 			type="submit" >결제하기</button>
          </form>
