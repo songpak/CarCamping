@@ -242,10 +242,20 @@ public class RegionController {
 		if(check==0) { 
 			count = RegionMapper.insertRegionLikeLog(mem_id, ccr_num); 
 			System.out.println("insert�썑 異붿쿇�� "+count);
+<<<<<<< HEAD
 		}else {
 			count = RegionMapper.deleteRegionLikeLog(mem_id, ccr_num);
 			System.out.println("delete�썑 異붿쿇�� "+count);
 		}
+=======
+			
+		}else {
+			count = RegionMapper.deleteRegionLikeLog(mem_id, ccr_num);
+			System.out.println("delete�썑 異붿쿇�� "+count);
+
+		}
+
+>>>>>>> 전용재2
 		return String.valueOf(count);
 	}
 	
@@ -277,6 +287,11 @@ public class RegionController {
 		return String.valueOf(count);
 	}
 	
+<<<<<<< HEAD
+=======
+	
+
+>>>>>>> 전용재2
 	@RequestMapping(value="/board.region", method = RequestMethod.GET)
 	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params,
 			@RequestParam (required = false) String mode) {

@@ -1,6 +1,6 @@
 package com.ezen.carCamping;
 
-import java.io.File;
+import java.io.File; 
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,8 +42,12 @@ import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
+<<<<<<< HEAD
 import com.ezen.carCamping.service.AdminMapper;
 import com.ezen.carCamping.service.S3FileService;
+=======
+import com.ezen.carCamping.service.AdminMapper; 
+>>>>>>> 전용재2
 
 @Controller
 public class AdminController {

@@ -30,6 +30,7 @@ public class AwsS3Config {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     	System.out.println("accessKey : "+accessKey);
     	System.out.println("secretKey : "+secretKey);
     	System.out.println("region : "+region);
@@ -48,6 +49,11 @@ public class AwsS3Config {
     	System.out.println("secretKey : "+secretKey);
     	System.out.println("region : "+region);
 >>>>>>> 오신웅2
+=======
+    	System.out.println("accessKey : "+accessKey);
+    	System.out.println("secretKey : "+secretKey);
+    	System.out.println("region : "+region);
+>>>>>>> 전용재2
 
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
         return (AmazonS3Client) AmazonS3ClientBuilder.standard()

@@ -296,6 +296,11 @@
 		</association>
 	</resultMap>
 	
+<<<<<<< HEAD
+=======
+	
+	<!--  전용재 -->
+>>>>>>> 전용재2
 	<resultMap id="reviewProductMap" type="ReviewProductDTO">
 		<id column="rp_num" property="rp_num"/>
 		<result column="rp_title" property="rp_title"/>
@@ -314,6 +319,7 @@
 		<result column="rp_adminConfirm" property="rp_adminConfirm"/>
 		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
 		</association>
+<<<<<<< HEAD
 		<association property="productDTO" javaType="ProductDTO" resultMap="productMap">
 		</association>
 	</resultMap>
@@ -415,6 +421,84 @@
 	<!-- <select id="sendRentLog" parameterType="int" > select </select> -->
 
 >>>>>>> 오신웅2
+=======
+	<!-- 	<association property="productDTO" javaType="ProductDTO" resultMap="productMap">
+		</association>  -->
+	</resultMap>
+	 
+	 
+	<!-- 용품리뷰 테이블이랑 용품리뷰 좋아요 테이블을 조인하는데 회원번호에 해당하는 데이터만 가져오면 된다 -->
+	<select id ="ReviewProductList" resultMap="reviewProductMap" parameterType="int">
+		  select a.*, b.* from ReviewProduct a join ReviewProductLikeLog b on a.rp_num = b.rp_num where b.mem_num = #{mem_num} 
+		<!-- select rp_title as title,rp_score as score,rp_readCount as readCount,rp_likeCount as likeCount,rp_sysdate as sysdate,rp_adminConfirm as Confirm
+ 		from ReviewProduct a join ReviewProductLikeLog b on a.rp_num = b.rp_num where b.mem_num = #{mem_num}  -->
+	</select>
+	
+	<select id ="ReviewProductNum" resultMap="reviewProductMap" parameterType="int">
+		select a.*, b.* from ReviewProduct a join ReviewProductLikeLog b on a.rp_num = b.rp_num where b.rp_num = #{rp_num}  
+	</select>
+	
+	<update id="UpdateProductLikeLog" parameterType="int">
+		update ReviewProduct set rp_likeCount = rp_likeCount -1  where rp_num = #{rp_num}
+	</update>   
+
+	<delete id ="DeleteProductReview" parameterType="java.util.Map">
+	 delete from ReviewProductLikeLog where rp_num = #{rp_num} and mem_num = #{mem_num}
+	</delete>
+ 		<resultMap id="reviewRegionMap" type="ReviewRegionDTO">
+		<id column="review_num" property="review_num"/> 
+		<result column="review_title" property="review_title"/>
+		<result column="review_sysdate" property="review_sysdate"/>
+		<result column="review_summaryContent" property="review_summaryContent"/>
+		<result column="review_regionContent" property="review_regionContent"/>
+		<result column="review_regionScore" property="review_regionScore"/>
+		<result column="review_regionImage1" property="review_regionImage1"/>
+		<result column="review_regionImage2" property="review_regionImage2"/>
+		<result column="review_regionImage3" property="review_regionImage3"/>
+		<result column="review_regionImage4" property="review_regionImage4"/>
+		<result column="review_regionImage5" property="review_regionImage5"/>
+		<result column="review_popular" property="review_popular"/>
+		<result column="review_readCount" property="review_readCount"/>
+		<result column="review_likeCount" property="review_likeCount"/>
+		<result column="review_adminConfirm" property="review_adminConfirm"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
+
+			</resultMap>
+	<select id ="ReviewRegionList" resultMap="reviewRegionMap" parameterType="int">
+		select a.*, b.* from ReviewRegion a join ReviewLikeLog b on a.review_num = b.review_num where b.mem_num = #{mem_num} 
+	</select>
+	
+	<select id="ReviewRegionNum" resultMap="reviewRegionMap" parameterType="int">
+	select a.*, b.* from ReviewRegion a join ReviewLikeLog b on a.review_num = b.review_num where b.review_num = #{review_num}
+	</select>
+	
+
+	<select id="CountReviewLikeLog" parameterType="java.util.Map" resultType="Integer">
+		select count(*) from ReviewLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{mem_id}
+	</select>
+	
+	<update id="UpdateRegionLikeLog" parameterType="int">
+		update ReviewRegion set review_likeCount = review_likeCount -1  where review_num = #{review_num}
+	</update> 
+
+	
+	<delete id ="DeleteRegionReveiw" parameterType="java.util.Map">
+		 delete from ReviewLikeLog where review_num = #{review_num} and mem_num = #{mem_num}
+	</delete>
+	
+
+	
+<!-- 	<select id ="CountProductLikeLog" parameterType="Map" resultType="Integer">
+		select count(*) from ReviewProductLikeLog a,Member b
+		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.rp_num = #{rp_num}
+	</select> -->
+<!-- 	<delete id="adminDeleteRegion" parameterType="int">
+		delete from CarCampingRegion where ccr_num = #{ccr_num} 
+	</delete> -->
+	
+	
+>>>>>>> 전용재2
 </mapper>
 
 
