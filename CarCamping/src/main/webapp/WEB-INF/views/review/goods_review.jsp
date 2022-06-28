@@ -65,8 +65,6 @@ function SelectCateEvent(){
 			});
 	}
 }
-
-
 </script>
 
 <script>
@@ -103,11 +101,11 @@ function fileCheck(e) {
       reader.onload = function (e) {
         content_files.push(f);
         $('#reviewImageBox').append(
-       		'<div id="file' + fileNum + '" onclick="fileDelete(\'file' + fileNum + '\')">'
-       		+ '<font style="font-size:12px">' + f.name + '</font>'  
-       		+ '💣' 
-       		+ '<div/>'
-		);
+           		'<div id="file' + fileNum + '" class="imagefile" onclick="fileDelete(\'file' + fileNum + '\')">'
+           		+ '<p style="font-size:12px">' + f.name + '💣</p>' 
+           		+ '<img src="'+e.target.result+'"style="width: 25%; display: inline;"/>'
+           		+ '</div>'
+            );
         fileNum ++;
       };
       reader.readAsDataURL(f);
@@ -138,14 +136,15 @@ function fileDelete(fileNum){
 	 var fieldReview = document.dataForm;
 	 var fileList = document.getElementById("reviewImageBox");
 	 
-	 if(fieldReview.rp_content.value.length<30){///////////////////////
-		 alert("리뷰 내용은 30자 이상 입력해주세요 😅");
-		 fieldReview.review_regionContent.focus();
-		 return false;
-	 }else if(!reviewImageBox.textContent){
-		 alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
-		 return false;
-	 } 
+	 if (fieldReview.rp_content.value.length < 30) {
+			alert("리뷰 내용은 30자 이상 입력해주세요 😅");
+			fieldReview.rp_content.focus();
+			return false;
+	 }
+	if(document.getElementsByClassName('imagefile').length==0){
+			alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
+			return false;
+	}
  //파일업로드 multiple ajax처리  
 	$.ajax({
    	      type: "POST",
@@ -155,21 +154,11 @@ function fileDelete(fileNum){
        	  processData: false,
    	      contentType: false,
    	      success: function (data) {
-   	    	if(JSON.parse(data)['result'] == "OK"){
-				alert("리뷰 업로드 성공");
-   	    		
-				var referrer = document.referrer;
-   	    		
-   	    		if(referrer.indexOf("login.login")>0){ // 이전 페이지가 로그인이라면 메인페이지로 이동
-   	    			location.href="goProduct.product";
-   	    		}
-   	    		else{
-   	    			location.href = referrer;
-   	    		}
-   	    		//alert(referrer);
-   	    		
+   	    	if(data == "good"){
+				alert("리뷰 업로드 성공");   	    		
+				location.href="goProduct.product";  	    		   
 			} else
-				alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
+				alert("서버내 오류 또는 게시글의 내용이 너무 깁니다. 잠시후 시도 하시거나 내용을 변경해주세요");
    	      },
    	      error: function (xhr, status, error) {
    	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
@@ -179,7 +168,6 @@ function fileDelete(fileNum){
    	    return false;
 	}
 </script>
-
 
 <style>
 .select2-container .select2-selection--single .select2-selection__rendered {
@@ -249,23 +237,24 @@ margin-right : 0px;
          		<br>
 		 	<label for="rp_content">리뷰 상세</label>
             	<textarea class="form-control" id="rp_content" name="rp_content" placeholder="리뷰 상세" rows="18" required  style="resize:none;"></textarea>
-       	 		<br>	
+       	 		<br>
+       	 	<div style="text-align: center;">
+	  		<button class="btn btn-warning mb-3" type="submit" style="margin-right: 60px;">리뷰 작성</button>
+ 			<button class="btn btn-danger mb-3" type="reset">취소</button>
+			</div>	
 			<button id="btn-upload" type="button" style="border: 1px solid #ddd; outline: none;">이미지 파일 추가</button>
   			<input id="input_file" multiple="multiple" type="file" style="display:none;" accept="image/*">
   			<span style="font-size:10px; color: gray;">※이미지 파일은 최대 5개까지 등록이 가능합니다.</span>
   			<div class="data_file_txt" id="data_file_txt" style="margin:40px;">
 			<span>이미지 파일</span>
 			<br/>
-			<div id="reviewImageBox"><!-- //articlefileChange -->
+			<div id="reviewImageBox"  style="overflow-x:hidden; width:100%; height:200px;"><!-- //articlefileChange -->
 			</div>
 	</div>
       	</div>
    </div>
 </div>
-<div style="text-align: center;">
-	  <button class="btn btn-warning mb-3" type="submit" style="margin-right: 60px;">리뷰 작성</button>
- 		<button class="btn btn-danger mb-3" type="reset">취소</button>
-</div>
+
 </form>
 <script>
 $(document).ready(function() {
@@ -273,6 +262,37 @@ $(document).ready(function() {
     $('#review_brandCate').select2();
     $('#review_product').select2();
 });
+</script>
 
+<script type="text/javascript">
+	var pc_num = '${pc_num}';
+	var brand_num = '${brand_num}';
+	var prod_num = ${prod_num};
+	var prod_name ='${prod_name}';
+	if(prod_num != null){
+		var prodCateSelect = document.getElementById("review_prodCate")
+		var brandCateSelect = document.getElementById("review_brandCate")
+		var prodSelect = document.getElementById("review_product")
+		//카테고리
+		for(var i=0; i<prodCateSelect.children.length; i++) {
+			prodCateSelect.children[i].setAttribute('disabled', 'true')
+			if(prodCateSelect.children[i].value === pc_num) {
+				prodCateSelect.children[i].setAttribute('disabled', 'false')
+				prodCateSelect.children[i].setAttribute('selected', 'true')
+			}	
+		}
+		for(var i=0; i<brandCateSelect.children.length; i++) {
+			brandCateSelect.children[i].setAttribute('disabled', 'true')
+			if(brandCateSelect.children[i].value === brand_num) {	
+				brandCateSelect.children[i].setAttribute('disabled', 'false')
+				brandCateSelect.children[i].setAttribute('selected', 'true')
+			}
+		}
+		var prod_option = new Option(prod_name,prod_num)
+		prodSelect.append(prod_option)
+		prod_option.selected=true
+	}
+	
+	
 </script>
 <%@ include file="../bottom.jsp"%>

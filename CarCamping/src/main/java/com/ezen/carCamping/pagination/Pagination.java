@@ -10,6 +10,12 @@ public class Pagination {
 	//페이지당 게시글 수
 	private int postPerPage = 10;
 	
+	public void setPostPerPage(int postPerPage) {
+		this.postPerPage = postPerPage;
+	}
+
+
+
 	//Singleton instance생성
 	private static Pagination instance = new Pagination();
 	
