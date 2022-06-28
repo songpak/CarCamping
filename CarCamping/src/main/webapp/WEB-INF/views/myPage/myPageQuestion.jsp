@@ -64,26 +64,32 @@
 				<td align="center">
 				<button type="button" class="btn btn-dark" onclick="location.href='javascript:popupReply(${dto.question_num})'">답변보기</button>
 					</c:if>		
-			</tr>		
-			</c:forEach>
-
-		</table>
+			</tr>	
+		</c:forEach>
+	</table>
 		 <div class="col-md-offset-9"> 
 		<button id="writehBtn" type="button" class="btn btn-dark" onclick="location.href='javascript:popup()'" >문의글 작성</button>
                 
 		</div>
 		
 		 <div class="col-xs-6 col-xs-offset-3"> 
-	<nav>
-	  <ul class="pagination">
-	    <li><a href="#"><span aria-hidden="true">←</span><span class="sr-only">Previous</span></a></li>
-	    <li><a href="#">1</a></li>
-	    <li><a href="#">2</a></li>
-	    <li><a href="#">3</a></li>
-	    <li><a href="#">4</a></li>
-	    <li><a href="#">5</a></li>
-	    <li><a href="#"><span aria-hidden="true">→</span><span class="sr-only">Next</span></a></li>
-	  </ul>
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			<c:if test="${page-3>1}">
+            <li class="page-item"><a class="page-link" href="myPageQuestion.myPage?page=${page-1}&mem_num=${sessionScope.mem_num}">Previous</a></li>
+         </c:if>
+      <c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
+         <c:if test="${i==page}">
+            <li class="page-item"><a class="page-link" href="myPageQuestion.myPage?page=${i}&mem_num=${sessionScope.mem_num}" style="color:blue;">${i}</a></li>
+         </c:if>
+         <c:if test="${i!=page}">
+            <li class="page-item"><a class="page-link" href="myPageQuestion.myPage?page=${i}&mem_num=${sessionScope.mem_num}">${i}</a></li>
+         </c:if>
+      </c:forEach>
+         <c:if test="${page+3<pageCount}">
+            <li class="page-item"><a class="page-link" href="myPageQuestion.myPage?page=${page+1}&mem_num=${sessionScope.mem_num}">Next</a></li>
+         </c:if>
+		</ul>
 	</nav>
 </div>
 </div>

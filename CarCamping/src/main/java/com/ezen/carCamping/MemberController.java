@@ -174,6 +174,7 @@ public class MemberController {
     		   MemberDTO mdto = (MemberDTO)session.getAttribute("mbdto"); 
     		   req.setAttribute("getMember", mdto);
             
+<<<<<<< HEAD
 				Cookie loginCookie = new Cookie("loginCookie", dto.getMem_id());
 				if (params.containsKey("loginCookie")) {
 					loginCookie.setPath("/");
@@ -228,6 +229,38 @@ public class MemberController {
       	req.setAttribute("msg", msg);
       	req.setAttribute("url", url); 
       	return "message";
+=======
+    	  	Cookie loginCookie = new Cookie("loginCookie", dto.getMem_id());
+    	  	if (params.containsKey("loginCookie") ){	
+          	loginCookie.setPath("/");
+          	loginCookie.setMaxAge(60*60*24*3); // 유효시간 3일     
+          	resp.addCookie(loginCookie);
+   			String value =loginCookie.getValue(); 
+   			MemberDTO mbdto = memberMapper.getMemberId(value);
+   			session.setAttribute("mem_num", mbdto.getMem_num());
+   			session.setAttribute("mbdto", mbdto);  
+    	  	}else {
+          	loginCookie.setMaxAge(0);
+    	  	}
+    	  	
+            Cookie ck = new Cookie("saveId", dto.getMem_id());
+            if (params.containsKey("saveId")){
+               ck.setMaxAge(60*60*24);
+            }else {
+               ck.setMaxAge(0);
+            }
+            resp.addCookie(ck);
+         }else {   
+            msg = "비밀번호가 틀렸습니다. 다시 확인하고 로그인해 주세요!!";
+            url = "login.login";
+         }
+       }	   
+      req.setAttribute("msg", msg);
+      req.setAttribute("url", url);
+	  
+
+      return "message";
+>>>>>>> 박다슬2
    }
    
    
@@ -268,6 +301,7 @@ public class MemberController {
    
    @RequestMapping("/logout.login")
    public String logout(HttpServletRequest req, HttpServletResponse resp, @RequestParam Map<String, String> params) {
+<<<<<<< HEAD
 		HttpSession session = req.getSession();
 		Cookie[] cookie = req.getCookies();
 		if (cookie != null) {
@@ -283,7 +317,26 @@ public class MemberController {
 		req.setAttribute("msg", "로그아웃 되었습니다.");
 		req.setAttribute("url", "index.do");
 		return "message";
+=======
+	   HttpSession session = req.getSession();
+	   	Cookie[] cookie = req.getCookies();
+	   	if(cookie !=null) {
+	    for(int i=0; i < cookie.length; i++){
+	         if(cookie[i].getName().equals("loginCookie")){
+	        	 cookie[i].setMaxAge(0);
+	             resp.addCookie(cookie[i]);
+	             break;
+	         	}
+	         }
+	    }
+	    req.getSession().invalidate();
+		req.setAttribute("msg", "로그아웃 되었습니다.");
+		req.setAttribute("url", "index.do");
+		return "message";
+	   	
+>>>>>>> 박다슬2
    }
+	   	
    
 	@RequestMapping("/checkId.login")
 	public String checkID(HttpServletRequest req, @RequestParam String mem_id) {	

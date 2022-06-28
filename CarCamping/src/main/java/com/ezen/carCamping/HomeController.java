@@ -35,20 +35,27 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model,HttpServletRequest req) {
-		/*
-		 * HttpSession session = req.getSession(); Cookie[] cookie = req.getCookies();
-		 * for(int i=0; i < cookie.length; i++){
-		 * if(cookie[i].getName().equals("loginCookie")){ String value =
-		 * cookie[i].getValue(); MemberDTO dto = memberMapper.getMemberId(value);
-		 * session.setAttribute("mem_num", dto.getMem_num());
-		 * session.setAttribute("mbdto", dto); } }
-		 */
+		HttpSession session = req.getSession();
+	   	Cookie[] cookie = req.getCookies();
+	    for(int i=0; i < cookie.length; i++){
+	         if(cookie[i].getName().equals("loginCookie")){
+	        	 String value = cookie[i].getValue();
+	        	  MemberDTO dto = memberMapper.getMemberId(value);
+	        	 session.setAttribute("mem_num",  dto.getMem_num());
+	             session.setAttribute("mbdto", dto);
+	         }
+	    }
+	
 		return "index";
 	}
 	
 	@RequestMapping("/index.do")
 	public String goIndex(HttpServletRequest req, HttpServletResponse resp) {
+<<<<<<< HEAD
 			
+=======
+	
+>>>>>>> 박다슬2
 			return "index";
 
 	}
