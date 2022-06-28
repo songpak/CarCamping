@@ -28,7 +28,7 @@ public class ProductMapper {
 		else
 			return null;
 	}
-<<<<<<< HEAD
+
 
 	public List<ProductDTO> listProductPrice(int startRow, int endRow) {
 		java.util.Map<String, Object> map = new Hashtable<>();
@@ -56,10 +56,6 @@ public class ProductMapper {
 		List<ProductDTO> listProductPop = sqlSession.selectList("listProductPop", map);
 		return listProductPop;
 	}
-	
-	public List<ProductDTO> listProductsearchPrice(String search, String searchString, int startRow, int endRow) {
-		java.util.Map<String, Object> map = new Hashtable<>();
-=======
 	
 	public List<ProductDTO> listProductPrice(String search,int startRow , int endRow){
 		java.util.Map<String,Object> map = new Hashtable<>();
@@ -90,65 +86,43 @@ public class ProductMapper {
 	}
 	public List<ProductDTO> listProductsearchPrice(String search,String searchString,int startRow , int endRow){
 		java.util.Map<String,Object> map = new Hashtable<>();
->>>>>>> 전용재2
 		map.put("search", search);
 		map.put("searchString", searchString);
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
-<<<<<<< HEAD
 		List<ProductDTO> listProductsearchPrice = sqlSession.selectList("listProductsearchPrice", map);
 		return listProductsearchPrice;
 	}
 
-	public List<ProductDTO> listProductsearchNew(String search, String searchString, int startRow, int endRow) {
-		java.util.Map<String, Object> map = new Hashtable<>();
-=======
-		List<ProductDTO>listProductsearchPrice=sqlSession.selectList("listProductsearchPrice",map);
-		return listProductsearchPrice;
-	}
+
 	public List<ProductDTO> listProductsearchNew(String search,String searchString,int startRow , int endRow){
 		java.util.Map<String,Object> map = new Hashtable<>();
->>>>>>> 전용재2
+
 		map.put("search", search);
 		map.put("searchString", searchString);
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
-<<<<<<< HEAD
 		List<ProductDTO> listProductsearchNew = sqlSession.selectList("listProductsearchNew", map);
 		return listProductsearchNew;
 	}
 
-	public List<ProductDTO> listProductsearchPop(String search, String searchString, int startRow, int endRow) {
-		java.util.Map<String, Object> map = new Hashtable<>();
-=======
-		List<ProductDTO>listProductsearchNew=sqlSession.selectList("listProductsearchNew",map);
-		return listProductsearchNew;
-	}
+
 	public List<ProductDTO> listProductsearchPop(String search,String searchString,int startRow , int endRow){
 		java.util.Map<String,Object> map = new Hashtable<>();
->>>>>>> 전용재2
 		map.put("search", search);
 		map.put("searchString", searchString);
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
-<<<<<<< HEAD
 		List<ProductDTO> listProductsearchPop = sqlSession.selectList("listProductsearchPop", map);
-=======
-		List<ProductDTO>listProductsearchPop=sqlSession.selectList("listProductsearchPop",map);
->>>>>>> 전용재2
-		return listProductsearchPop;
+	return listProductsearchPop;
 	}
-<<<<<<< HEAD
 
-	public List<ReviewProductDTO> listProdReview(int prod_num) {
-		List<ReviewProductDTO> list = sqlSession.selectList("listProdReview", prod_num);
-		return list;
-=======
+
+
 	
 	public List<ReviewProductDTO> listProdReview(int prod_num){
 		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview", prod_num);
 		return list; 
->>>>>>> 오신웅2
 	}
 
 	public List<ReviewProductDTO> findReview(String search, String searchString) {
@@ -216,8 +190,7 @@ public class ProductMapper {
 		int count = sqlSession.selectOne("listProductMainCount");
 		return count;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 	/*0627 박혜성 추가*/
 	// 검색 결과 rowcount
@@ -230,8 +203,6 @@ public class ProductMapper {
 
 	}
 
-
-=======
 	public int recountProductReviewLike(int rp_num) {
 		int res = (int)sqlSession.selectOne("recountProductReviewLike", rp_num);
 		return res;
@@ -254,7 +225,7 @@ public class ProductMapper {
 		int res =(int)sqlSession.selectOne("recountProductReviewLike", rp_num);
 		return res;
 	}
-	//리뷰 좋아요 내역 체크
+		//리뷰 좋아요 내역 체크
 		public int checkProductReviewLikeLog(String mem_id,int rp_num) {
 			Map<String,Object> map = new Hashtable<>();
 			map.put("mem_id", mem_id);
@@ -268,16 +239,9 @@ public class ProductMapper {
 		public int addProductReviewReadCount(int rp_num) {
 			return sqlSession.update("addProductReviewReadCount", rp_num);
 		}
-		
-=======
-	
 	//브랜드 검색 로우카운트
-	
 	  public int listProductbrandSearch(String searchString){ 
 		  return sqlSession.selectOne("listProductbrandSearch", searchString); 
 	  }
->>>>>>> 전용재2
-	
-	
->>>>>>> 박다슬2
+
 }

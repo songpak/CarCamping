@@ -23,42 +23,6 @@
 	</h2>
 <c:if test="${empty cartList}">
 <table class="table table-bordered">
-<<<<<<< HEAD
-    <tr>
-      <th scope="col" width="30%" class="text-center">상점명</th>
-      <td width="70%">WithCar(${mdto.agencyDTO.agency_name})</td>
-    </tr>
-  
-    <tr>
-      <th scope="col" width="30%" class="text-center">용품명</th>
-      <td width="200" width="70%">${mdto.productDTO.prod_name }</td>
-     
-    </tr>
-    <tr>
-      <th scope="col" width="30%" class="text-center">대여기간</th>
-      <td width="200" width="70%">${mdto.cart_from } ~ ${mdto.cart_to }</td>
-     
-    </tr>
-    <tr>
-      <th scope="col" width="30%" class="text-center">물품갯수</th>
-      <td width="200" width="70%">${mdto.cart_prodCount}개</td>
-     
-    </tr>
-    <tr>
-      <th scope="col" width="30%" class="text-center">결제금액</th>
-      <td width="200" width="70%" class="text-danger">${mdto.productDTO.prod_price}원</td>
-    </tr>
-</table>
-</c:forEach>
-  <div style="float:right">
-             <c:set var ="cartTotalPrice" value="0"/>
-         <c:forEach items="${cartList}" var="mdto">
-        <c:set var="cartTotalPrice" value="${cartTotalPrice + mdto.productDTO.prod_price * mdto.cart_prodCount}"/>
-         </c:forEach>
-                <h3>총 결제금액</h3>
-                <h1>${cartTotalPrice}원</h1>
-            </div>
-=======
 	<tr align="center">
 	<td><h2>결제하실 상품이 없습니다.</h2></td>
 	</tr>
@@ -67,7 +31,6 @@
 	</tr>
 </table>
 </c:if>
->>>>>>> 오신웅2
 
 	<c:forEach items="${cartList}" var="mdto">
 		<table class="table table-bordered">

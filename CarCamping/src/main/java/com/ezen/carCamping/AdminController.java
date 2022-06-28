@@ -1,26 +1,15 @@
 package com.ezen.carCamping;
 
-import java.io.File; 
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,12 +31,9 @@ import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
-<<<<<<< HEAD
 import com.ezen.carCamping.service.AdminMapper;
-import com.ezen.carCamping.service.S3FileService;
-=======
-import com.ezen.carCamping.service.AdminMapper; 
->>>>>>> 전용재2
+import com.ezen.carCamping.service.S3FileService; 
+
 
 @Controller
 public class AdminController {

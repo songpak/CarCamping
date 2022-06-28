@@ -4,30 +4,6 @@
  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ezen.carCamping.model.myPageMapper">
-<<<<<<< HEAD
-<resultMap type="MemberDTO" id="memberMap">
-		<id column="mem_num" property="mem_num"/>
-		<result column="mem_id" property="mem_id"/>
-		<result column="mem_email" property="mem_email"/>
-		<result column="mem_password" property="mem_password"/>
-		<result column="mem_userName" property="mem_userName"/>
-		<result column="mem_nickName" property="mem_nickName"/>
-		<result column="mem_phone" property="mem_phone"/>
-		<result column="mem_birthday" property="mem_birthday"/>
-		<result column="mem_gender" property="mem_gender"/>
-		<result column="mem_point" property="mem_point"/>
-		<result column="mem_rentalCount" property="mem_rentalCount"/>
-		<result column="mem_sysdate" property="mem_sysdate"/>
-		<result column="mem_accept_email" property="mem_accept_email"/>
-		<result column="mem_accept_phone" property="mem_accept_phone"/>
-		<result column="mem_accept_privacy" property="mem_accept_privacy"/>
-		<result column="mem_denied" property="mem_denied"/>
-		<result column="mem_image" property="mem_image"/>
-		<result column="mem_summary" property="mem_summary"/>
-		<result column="mem_introduce" property="mem_introduce"/>
-		<result column="mem_reviewCount" property="mem_reviewCount"/>
-		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
-=======
 	<resultMap type="MemberDTO" id="memberMap">
 		<id column="mem_num" property="mem_num" />
 		<result column="mem_id" property="mem_id" />
@@ -52,12 +28,10 @@
 		<result column="mem_reviewCount" property="mem_reviewCount" />
 		<association property="regionDTO" javaType="RegionDTO"
 			resultMap="regionMap">
->>>>>>> 오신웅2
 		</association>
 	</resultMap>
 
 	<resultMap type="AgencyDTO" id="agencyMap">
-<<<<<<< HEAD
 		<id column="agency_num" property="agency_num"/>
 		<result column="agency_location" property="agency_location"/>
 		<result column="agency_name" property="agency_name"/>
@@ -106,44 +80,30 @@
 		<association property="agencyDTO" javaType="AgencyDTO" resultMap="agencyMap"/>
 	</resultMap>
  
-	<select id="cartProduct" parameterType="int" resultMap="productCartMap"><!-- 용품을 장바구니에 추가만 하는 쿼리문 -->
-	select a.*,b.*, c.* from ProductCart as a left join Product as b on a.prod_num = b.prod_num left join Agency as c on a.agency_num = c.agency_num where a.mem_num = #{mem_num}
-	</select>
 	
-	<insert id="insertCart" parameterType="ProductCartDTO">
-		insert into ProductCart values(null, #{mem_num}, #{prod_num}, #{agency_num}, #{cart_prodCount}, #{cart_from}, #{cart_to})
-	</insert>
 	
-	  <update id="updateCart" parameterType="ProductCartDTO">
-		update ProductCart set cart_prodCount = #{cart_prodCount} where cart_from = #{cart_from} and cart_to = #{cart_to}
-	</update>  
 	
-	<delete id="deleteCart" parameterType="int">
-		delete from ProductCart where cart_num = #{cart_num}
-	</delete>
 
-<<<<<<< HEAD
 		<resultMap type="RegionDTO" id="regionMap">
-=======
-		<resultMap type="RegionDTO"	 id="regionMap">
->>>>>>> 송재영2
+		
 		<id column="region_num" property="region_num"/>
 		<result column="region_name" property="region_name"/>
-=======
+		</resultMap>
+		
+		<resultMap type="AgencyDTO" id="agencyMap">
 		<id column="agency_num" property="agency_num" />
 		<result column="agency_location" property="agency_location" />
 		<result column="agency_name" property="agency_name" />
 		<result column="agency_phone" property="agency_phone" />
 		<association property="regionDTO" javaType="regionDTO"
 			resultMap="regionMap"></association>
->>>>>>> 오신웅2
 	</resultMap>
 
 	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
 		<id column="brand_num" property="brand_num" />
 		<result column="brand_name" property="brand_name" />
 	</resultMap>
-<<<<<<< HEAD
+	
 	<select id="myPageGetQuestionSelectMember"  resultMap="questionMap">
 		select a.*,b.mem_id from Question a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
 	</select>
@@ -154,10 +114,11 @@
 	<select id="getQuestion" parameterType="int" resultType="questionDTO">
 		select * from Question where question_num = #{question_num}
 	</select>
+	
 	<delete id="payCart" parameterType="int" >
 		delete from ProductCart where mem_num = #{mem_num}
-=======
-
+	</delete>
+	
 	<resultMap id="productCategoryMap" type="ProductCategoryDTO">
 		<id column="pc_num" property="pc_num" />
 		<result column="pc_name" property="pc_name" />
@@ -221,7 +182,6 @@
 	<delete id="deleteCart" parameterType="int">
 		delete from ProductCart
 		where cart_num = #{cart_num}
->>>>>>> 오신웅2
 	</delete>
 
 <!-- 리뷰 관련 map -->	
@@ -274,7 +234,6 @@
 		</association>
 	</resultMap>
 	
-<<<<<<< HEAD
 	<resultMap id="productMap" type="ProductDTO">
 		<id column="prod_num" property="prod_num"/>
 		<result column="prod_name" property="prod_name"/>
@@ -296,33 +255,8 @@
 		</association>
 	</resultMap>
 	
-<<<<<<< HEAD
-=======
 	
-	<!--  전용재 -->
->>>>>>> 전용재2
-	<resultMap id="reviewProductMap" type="ReviewProductDTO">
-		<id column="rp_num" property="rp_num"/>
-		<result column="rp_title" property="rp_title"/>
-		<result column="rp_sysdate" property="rp_sysdate"/>
-		<result column="rp_summaryContent" property="rp_summaryContent"/>
-		<result column="rp_content" property="rp_content"/>
-		<result column="rp_score" property="rp_score"/>
-		<result column="rp_image1" property="rp_image1"/>
-		<result column="rp_image2" property="rp_image2"/>
-		<result column="rp_image3" property="rp_image3"/>
-		<result column="rp_image4" property="rp_image4"/>
-		<result column="rp_image5" property="rp_image5"/>
-		<result column="rp_popular" property="rp_popular"/>
-		<result column="rp_readCount" property="rp_readCount"/>
-		<result column="rp_likeCount" property="rp_likeCount"/>
-		<result column="rp_adminConfirm" property="rp_adminConfirm"/>
-		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
-		</association>
-<<<<<<< HEAD
-		<association property="productDTO" javaType="ProductDTO" resultMap="productMap">
-		</association>
-	</resultMap>
+
 	<resultMap id="brandCategoryMap" type="BrandCategoryDTO">
 		<id column="brand_num" property="brand_num"/>
 		<result column="brand_name" property="brand_name"/>
@@ -351,12 +285,10 @@
 	<delete id="deleteReviewProduct" parameterType="int">
 		delete from ReviewProduct where rp_num = #{rp_num}
 	</delete>
-=======
 	<update id="updateCartLogPoint" parameterType="java.util.Map">
 		update Member set mem_point=mem_point-#{rental_usePoint}
 		where mem_num = #{mem_num}
 	</update>
-
 	<insert id="insertCartLog" parameterType="java.util.Map" statementType="CALLABLE">
 	{call cartToPay(
   					#{cart_num},#{rental_price},#{rental_usePoint})}
@@ -420,12 +352,31 @@
 
 	<!-- <select id="sendRentLog" parameterType="int" > select </select> -->
 
->>>>>>> 오신웅2
-=======
 	<!-- 	<association property="productDTO" javaType="ProductDTO" resultMap="productMap">
 		</association>  -->
+	
+	 	<!--  전용재 -->
+	<resultMap id="reviewProductMap" type="ReviewProductDTO">
+		<id column="rp_num" property="rp_num"/>
+		<result column="rp_title" property="rp_title"/>
+		<result column="rp_sysdate" property="rp_sysdate"/>
+		<result column="rp_summaryContent" property="rp_summaryContent"/>
+		<result column="rp_content" property="rp_content"/>
+		<result column="rp_score" property="rp_score"/>
+		<result column="rp_image1" property="rp_image1"/>
+		<result column="rp_image2" property="rp_image2"/>
+		<result column="rp_image3" property="rp_image3"/>
+		<result column="rp_image4" property="rp_image4"/>
+		<result column="rp_image5" property="rp_image5"/>
+		<result column="rp_popular" property="rp_popular"/>
+		<result column="rp_readCount" property="rp_readCount"/>
+		<result column="rp_likeCount" property="rp_likeCount"/>
+		<result column="rp_adminConfirm" property="rp_adminConfirm"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
+		</association>
+		<!-- <association property="productDTO" javaType="ProductDTO" resultMap="productMap">
+		</association> -->
 	</resultMap>
-	 
 	 
 	<!-- 용품리뷰 테이블이랑 용품리뷰 좋아요 테이블을 조인하는데 회원번호에 해당하는 데이터만 가져오면 된다 -->
 	<select id ="ReviewProductList" resultMap="reviewProductMap" parameterType="int">
@@ -462,7 +413,6 @@
 		<result column="review_likeCount" property="review_likeCount"/>
 		<result column="review_adminConfirm" property="review_adminConfirm"/>
 		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
-
 			</resultMap>
 	<select id ="ReviewRegionList" resultMap="reviewRegionMap" parameterType="int">
 		select a.*, b.* from ReviewRegion a join ReviewLikeLog b on a.review_num = b.review_num where b.mem_num = #{mem_num} 
@@ -487,7 +437,6 @@
 		 delete from ReviewLikeLog where review_num = #{review_num} and mem_num = #{mem_num}
 	</delete>
 	
-
 	
 <!-- 	<select id ="CountProductLikeLog" parameterType="Map" resultType="Integer">
 		select count(*) from ReviewProductLikeLog a,Member b
@@ -498,7 +447,6 @@
 	</delete> -->
 	
 	
->>>>>>> 전용재2
 </mapper>
 
 

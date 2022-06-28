@@ -51,11 +51,7 @@ public class HomeController {
 	
 	@RequestMapping("/index.do")
 	public String goIndex(HttpServletRequest req, HttpServletResponse resp) {
-<<<<<<< HEAD
-			
-=======
-	
->>>>>>> 박다슬2
+
 			return "index";
 
 	}

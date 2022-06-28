@@ -1,6 +1,7 @@
 package com.ezen.carCamping;
 
 import java.io.File; 
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,25 +32,23 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
-=======
+
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
->>>>>>> 전용재2
+
 import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
 import com.ezen.carCamping.service.ProductMapper;
 import com.ezen.carCamping.service.RegionMapper;
 import com.ezen.carCamping.service.S3FileService;
-=======
+
 import com.ezen.carCamping.dto.RentalLogDTO;
-import com.ezen.carCamping.service.MemberMapper;
-import com.ezen.carCamping.service.MyPageMapper;
->>>>>>> 오신웅2
+
+
 
 @Controller
 public class MyPageController {
@@ -57,38 +56,23 @@ public class MyPageController {
 	@Autowired
 	private MyPageMapper myPageMapper;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	@Autowired
 	private MemberMapper memberMapper;
-<<<<<<< HEAD
-=======
+
     @Autowired
     private S3FileService S3FileService;
-    
-    
-	@Autowired
-	private MemberMapper memberMapper;
 	
 	@Autowired
 	private RegionMapper RegionMapper;
 	@Autowired
 	private ProductMapper productMapper;
-=======
->>>>>>> 전용재2
 	
 	@Resource(name="uploadPath")
-			private String uploadPath;
+	private String uploadPath;
+	
 
 	private static Pagination pagination = Pagination.getInstance();
->>>>>>> 박다슬2
-=======
-	@Autowired
-	private MemberMapper memberMapper;
->>>>>>> 오신웅2
-
-	@Resource(name = "uploadPath")
-	private String uploadPath;
 
 	@RequestMapping("/myPageCart.myPage")
 	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from, String cart_to, int mem_num,
@@ -220,10 +204,6 @@ public class MyPageController {
 		if (cart == null) {
 			msg = "장바구니가 비었습니다!";
 			url = "productView.product";
-<<<<<<< HEAD
-
-=======
->>>>>>> 오신웅2
 		} else {
 			msg = "결제 페이지로 이동합니다!";
 			url = "Pay.myPage";
@@ -233,11 +213,8 @@ public class MyPageController {
 		return "message";
 	}
 
-<<<<<<< HEAD
+
 	@RequestMapping("Pay.myPage")//결제폼
-=======
-	@RequestMapping("Pay.myPage")
->>>>>>> 오신웅2
 	public String myPageCheckOut1(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
@@ -245,18 +222,7 @@ public class MyPageController {
 		session.setAttribute("cartList", list);
 		return "myPage/myPagePay";
 	}
-<<<<<<< HEAD
 
-	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
-	public String myPageCheckOut2(HttpServletRequest req) {
-		HttpSession session = req.getSession();
-		int mem_num = (int) session.getAttribute("mem_num");
-<<<<<<< HEAD
-=======
-		
->>>>>>> 송재영2
-		int res = myPageMapper.payCart(mem_num);
-=======
 	
 	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
 	public String myPageCheckOut2(HttpServletRequest req, int cart_num
@@ -281,7 +247,7 @@ public class MyPageController {
 		//로그 테이블에 인서트 할 곳
 		//int mem_num = (int) session.getAttribute("mem_num");
 		int res = myPageMapper.payCart(cart_num);
->>>>>>> 오신웅2
+
 		if (res > 0) {
 			System.out.println("결제후 장바구니 삭제 성공");
 		} else {
@@ -289,11 +255,9 @@ public class MyPageController {
 		}
 		return "myPage/myPageCheckOut";
 	}
-<<<<<<< HEAD
-=======
-	
+
 	//----------------------------------------------------------------------------------------------------
->>>>>>> 오신웅2
+
 
 	@RequestMapping("/myPageRental.myPage")
 	public String myPageRental(HttpServletRequest req) {
@@ -327,46 +291,44 @@ public class MyPageController {
 		return "myPage/myPageProfile";
 	}
 
-	@RequestMapping(value = "myPageProfile.myPage", method = RequestMethod.POST)
-	public String memberUpdateOk(HttpServletRequest req, @ModelAttribute MemberDTO dto, BindingResult result) {
-		MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
-		MultipartFile mf = mr.getFile("mem_image");
-		String filename = mf.getOriginalFilename();
-		dto.setMem_image(filename);
-		if (filename != null && !(filename.trim().equals(""))) {
-			File file = new File(uploadPath, filename);
-			try {
-				mf.transferTo(file);
-			} catch (IOException e) {
-			}
-		} else {
-			filename = req.getParameter("mem_image2");
-		}
-		dto.setMem_image(filename);
-		RegionDTO rdto = new RegionDTO();
-		rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
-		dto.setRegionDTO(rdto);
+	@RequestMapping(value="myPageProfile.myPage", method=RequestMethod.POST)
+	   public String memberUpdateOk(HttpServletRequest req, @ModelAttribute MemberDTO dto, BindingResult result) {
+	      MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+	      MultipartFile mf = mr.getFile("mem_image");
+	      RegionDTO rdto = new RegionDTO();
+	      String filename = mf.getOriginalFilename();
+	   
+	      if (filename != null && !(filename.trim().equals(""))) {
+	         File file = new File(uploadPath, filename);
+	         try {
+	            dto.setMem_image(S3FileService.upload(mf));
+	         } catch (IOException e1) {
+	            // TODO Auto-generated catch block
+	            e1.printStackTrace();
+	         }
+	         try {
+	            mf.transferTo(file);
+	         }catch(IOException e) {
+	            e.printStackTrace();
+	            }
+	      }
 
-		int res = memberMapper.updateMember(dto);
-		String msg = null, url = null;
-		if (res > 0) {
-			msg = "내정보 수정 성공!";
-			url = "myPageProfile.myPage";
-		} else {
-			msg = "내정보 수정 실패! 다시 시도해 주세요.";
-			url = "myPageProfile.myPage?mem_num=" + dto.getMem_num();
-		}
-		req.setAttribute("msg", msg);
-		req.setAttribute("url", url);
-		return "message";
-	}
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-	@RequestMapping("/myPageQuestion.myPage") // 마이페이지 문의목록
-	public String myPageQuestion(HttpServletRequest req, int mem_num) {
-		List<QuestionDTO> qdto = new ArrayList<QuestionDTO>();
-=======
+	      rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
+	      dto.setRegionDTO(rdto);
+	      
+	      int res = memberMapper.updateMember(dto);
+	      String msg = null, url = null;
+	      if (res>0) {
+	         msg = "내정보 수정 성공!";
+	         url = "myPageProfile.myPage";
+	      }else {
+	         msg = "내정보 수정 실패! 다시 시도해 주세요.";
+	         url = "myPageProfile.myPage?mem_num=" + dto.getMem_num();
+	      }
+	      req.setAttribute("msg", msg);
+	      req.setAttribute("url", url);
+	      return "message";
+	   }
 
 	
 	@RequestMapping("/myPageQuestion.myPage")//마이페이지 문의목록
@@ -375,12 +337,7 @@ public class MyPageController {
 		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
 		int mem_num = dto.getMem_num();
 		List<QuestionDTO> qdto =  new ArrayList<QuestionDTO>();
->>>>>>> 박다슬2
-=======
-	@RequestMapping("/myPageQuestion.myPage") // 마이페이지 문의목록
-	public String myPageQuestion(HttpServletRequest req, int mem_num) {
-		List<QuestionDTO> qdto = new ArrayList<QuestionDTO>();
->>>>>>> 오신웅2
+
 		qdto = myPageMapper.myPageGetQuestionSelectMember(mem_num);
 		req.setAttribute("listBoard", qdto);
 		req.setAttribute("pageCount", pagination.pageCount(qdto));
@@ -388,15 +345,8 @@ public class MyPageController {
 		return "myPage/myPageQuestion";
 	}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-	@RequestMapping(value = "myPageContactUs.myPage", method = RequestMethod.GET) // 마이페이지 컨텍어스
-=======
+
 	@RequestMapping(value="myPageContactUs.myPage", method=RequestMethod.GET)//마이페이지 컨텍어스
->>>>>>> 박다슬2
-=======
-	@RequestMapping(value = "myPageContactUs.myPage", method = RequestMethod.GET) // 마이페이지 컨텍어스
->>>>>>> 오신웅2
 	public String myPageContactUs() {
 		return "myPage/myPageContactUs";
 	}
@@ -430,15 +380,12 @@ public class MyPageController {
 		return "myPage/myPageQuestionReply";
 	}
 
-<<<<<<< HEAD
-	@RequestMapping("/myPageLikeReview.myPage")
-	public String myPagaLikeReview(HttpServletRequest req) {
-		System.out.println(req.getSession().getAttribute("mem_num"));
-=======
+
 	@RequestMapping("/myPageWriteReview.myPage")
 	public String myPagaWriteReview() {
 		return "myPage/myPageWriteReview";
 	}
+	
 	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("/myPageLikeReview.myPage")
 	public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode) {
@@ -460,7 +407,7 @@ public class MyPageController {
 		}
 		req.setAttribute("mode", mode);
 		System.out.println("모드 값:"+mode);
->>>>>>> 전용재2
+
 		return "myPage/myPageLikeReview";
 	}   
 	@RequestMapping("/myPageProductReview.myPage")
@@ -590,7 +537,7 @@ public class MyPageController {
 		return "message";
 	}
 	
-<<<<<<< HEAD
+
 	@RequestMapping("/myPageWriteReview.myPage")//마이페이지 내가 쓴 리뷰목록
 	public String myPageWriteReview(HttpServletRequest req, @RequestParam(required = false) String mode,
 		@RequestParam(required=false,defaultValue="1") int page) {
@@ -837,6 +784,4 @@ public class MyPageController {
 		return "message";
 	}
 		
-=======
->>>>>>> 전용재2
 }
