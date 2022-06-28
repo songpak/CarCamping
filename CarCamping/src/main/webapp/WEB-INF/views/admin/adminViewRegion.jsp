@@ -228,6 +228,63 @@
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<!-- 현재 이미지 캐러셀 -->
+					<div id="carouselExampleIndicators" class="carousel slide"
+							data-bs-ride="carousel">
+							<div class="carousel-indicators">
+								<button type="button"
+									data-bs-target="#carouselExampleIndicators"
+									data-bs-slide-to="0" class="active" aria-current="true"
+									aria-label="Slide 1"></button>
+								<button type="button"
+									data-bs-target="#carouselExampleIndicators"
+									data-bs-slide-to="1" aria-label="Slide 2"></button>
+								<button type="button"
+									data-bs-target="#carouselExampleIndicators"
+									data-bs-slide-to="2" aria-label="Slide 3"></button>
+							</div>
+							<div class="carousel-inner">
+								<c:if test="${not empty cdto.ccr_viewImage1}">
+									<div class="carousel-item active">
+										<img src="${upPath}/${cdto.ccr_viewImage1}" class="d-block w-100" alt="...">
+									</div>
+								</c:if>
+								<c:if test="${not empty cdto.ccr_viewImage2}">
+									<div class="carousel-item active">
+										<img src="${upPath}/${cdto.ccr_viewImage2}" class="d-block w-100" alt="...">
+									</div>
+								</c:if>
+								<c:if test="${not empty cdto.ccr_viewImage3}">
+									<div class="carousel-item active">
+										<img src="${upPath}/${cdto.ccr_viewImage3}" class="d-block w-100" alt="...">
+									</div>
+								</c:if>
+								<c:if test="${not empty cdto.ccr_viewImage4}">
+									<div class="carousel-item active">
+										<img src="${upPath}/${cdto.ccr_viewImage4}" class="d-block w-100" alt="...">
+									</div>
+								</c:if>
+								<c:if test="${not empty cdto.ccr_viewImage5}">
+									<div class="carousel-item active">
+										<img src="${upPath}/${cdto.ccr_viewImage5}" class="d-block w-100" alt="...">
+									</div>
+								</c:if>
+							</div>
+							<button class="carousel-control-prev" type="button"
+								data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button"
+								data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+				</td>
+			</tr>
+			<tr>
 				<td colspan="2">
 					<div class="accordion accordion-flush" id="accordionFlushExample">
 							<div class="accordion-item">

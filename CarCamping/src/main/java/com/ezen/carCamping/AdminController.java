@@ -3,15 +3,19 @@ package com.ezen.carCamping;
 import java.io.File;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +43,7 @@ import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
 import com.ezen.carCamping.service.AdminMapper;
+import com.ezen.carCamping.service.S3FileService;
 
 @Controller
 public class AdminController {
@@ -49,10 +54,14 @@ public class AdminController {
 	//Pagination Singleton Instance
 	private Pagination pagination = Pagination.getInstance();
 	
+	//AWS S3
+	@Autowired
+	private S3FileService S3FileService;
+	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
 		HttpSession session = req.getSession();
-		String upPath = session.getServletContext().getRealPath("/resources");
+		String upPath = "https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440";
 		List<RegionDTO> adminListRegion = adminMapper.adminListRegion();
 		
 		session.setAttribute("adminListRegion", adminListRegion);
@@ -136,41 +145,36 @@ public class AdminController {
 		if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
 		else dto.setCcr_river(1);
 		
-		String upPath = "images";
-		
 		//다중 파일 전송
-		
 		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();	
-
-			if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
-			else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
-			else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
-			else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
-			else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
-			
 			try {
-				f.transferTo(new File(upPath+"/images/region/"+filename));
-
-			}catch(Exception e) {
-				e.printStackTrace();
+				String str = S3FileService.upload(f); //이름바꾸고 아마존으로 업로드
+				
+				if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(str);
+				else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(str);
+				else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(str);
+				else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(str);
+				else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(str);
+			}catch(IOException e) {
+				
 			}
+
 		}
 			
-			int res = adminMapper.adminInsertRegion(dto);
-			String msg =null, url = null;
-			if (res>0) {
-				msg = "장소가 등록되었습니다";
-				url = "adminRegion.admin";
-			}else {
-				msg = "장소등록이 실패되었습니다. 서비스 센터에 문의하세요";
-				url = "adminRegion.admin";
-			}
-			ModelAndView mav = new ModelAndView("admin/message");
-			mav.addObject("msg", msg);
-			mav.addObject("url", url);
-			return mav;
+		int res = adminMapper.adminInsertRegion(dto);
+		String msg =null, url = null;
+		if (res>0) {
+			msg = "장소가 등록되었습니다";
+			url = "adminRegion.admin";
+		}else {
+			msg = "장소등록이 실패되었습니다. 서비스 센터에 문의하세요";
+			url = "adminRegion.admin";
 		}
+		ModelAndView mav = new ModelAndView("admin/message");
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		return mav;
+	}
 	
 	@RequestMapping("/adminViewRegion.admin")
 	public ModelAndView adminViewRegion(@RequestParam int ccr_num) {
@@ -183,7 +187,7 @@ public class AdminController {
 	@RequestMapping("/adminUpdateRegion.admin")
 	public ModelAndView  updateRegion(HttpServletRequest req,@RequestParam("ccr_viewImage") MultipartFile[] file,
 			@ModelAttribute CarCampingRegionDTO dto,@RequestParam Map<String,String> map) {
-//		CarCampingRegionDTO dto = adminMapper.getCarCampingRegion(Integer.parseInt(map.get("ccr_num")));
+
 		//차량접근
 		String ccr_car = "";
 		if (map.containsKey("ccr_car1")) ccr_car += "승용차  ";
@@ -218,27 +222,32 @@ public class AdminController {
 		if (map.containsKey("ccr_amenity5")) dto.setCcr_river(0);
 		else dto.setCcr_river(1);
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
 		
-		//다중파일 전송
+		//이미지 수정했을때
 		if (!file[0].isEmpty()) {
+			//기존 파일 삭제
+			if (map.containsKey("ccr_viewImageHidden1")) S3FileService.deleteImage(map.get("ccr_viewImageHidden1"));
+			if (map.containsKey("ccr_viewImageHidden2")) S3FileService.deleteImage(map.get("ccr_viewImageHidden2"));
+			if (map.containsKey("ccr_viewImageHidden3")) S3FileService.deleteImage(map.get("ccr_viewImageHidden3"));
+			if (map.containsKey("ccr_viewImageHidden4")) S3FileService.deleteImage(map.get("ccr_viewImageHidden4"));
+			if (map.containsKey("ccr_viewImageHidden5")) S3FileService.deleteImage(map.get("ccr_viewImageHidden5"));
+			
+			//새 파일 아마존으로 업로드
 			for (MultipartFile f : file) {
-				
-				String filename = f.getOriginalFilename();		
-				if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(filename);
-				else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(filename);
-				else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(filename);
-				else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(filename);
-				else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(filename);
-				
 				try {
-					f.transferTo(new File(upPath+"/images/region/"+filename));
-					
+					String str = S3FileService.upload(f); //이름바꾸고 아마존으로 업로드	
+					if (dto.getCcr_viewImage1()==null) dto.setCcr_viewImage1(str);
+					else if (dto.getCcr_viewImage2()==null) dto.setCcr_viewImage2(str);
+					else if (dto.getCcr_viewImage3()==null) dto.setCcr_viewImage3(str);
+					else if (dto.getCcr_viewImage4()==null) dto.setCcr_viewImage4(str);
+					else if (dto.getCcr_viewImage5()==null) dto.setCcr_viewImage5(str);
 				}catch(IOException e) {
 					e.printStackTrace();
 				}
 			}
+		//수정이미지 업로드 안했을때 (이미지 변경사항 X)	
 		}else {
+			
 			if (map.containsKey("ccr_viewImageHidden1")) dto.setCcr_viewImage1(map.get("ccr_viewImageHidden1"));
 			if (map.containsKey("ccr_viewImageHidden2")) dto.setCcr_viewImage2(map.get("ccr_viewImageHidden2"));
 			if (map.containsKey("ccr_viewImageHidden3")) dto.setCcr_viewImage3(map.get("ccr_viewImageHidden3"));
@@ -266,6 +275,16 @@ public class AdminController {
 	}
 	@RequestMapping("/adminDeleteRegion.admin")
 	public ModelAndView adminDeleteRegion(@RequestParam int ccr_num) {
+		
+		//기존 AWS 파일 삭제
+		CarCampingRegionDTO dto = adminMapper.getCarCampingRegion(ccr_num);
+		if (dto.getCcr_viewImage1()!=null) S3FileService.deleteImage(dto.getCcr_viewImage1());
+		if (dto.getCcr_viewImage2()!=null) S3FileService.deleteImage(dto.getCcr_viewImage2());
+		if (dto.getCcr_viewImage3()!=null) S3FileService.deleteImage(dto.getCcr_viewImage3());
+		if (dto.getCcr_viewImage4()!=null) S3FileService.deleteImage(dto.getCcr_viewImage4());
+		if (dto.getCcr_viewImage5()!=null) S3FileService.deleteImage(dto.getCcr_viewImage5());
+		
+		//DB에서 삭제
 		int res = adminMapper.adminDeleteRegion(ccr_num);
 		String msg =null, url = null;
 		if (res>0) {
@@ -505,23 +524,21 @@ public class AdminController {
 		cdto.setPc_num(Integer.parseInt(map.get("pc_num")));
 		dto.setProductCategoryDTO(cdto);
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
 		
 		//다중파일 전송
 		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
-			else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
-			else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
-			else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
-			else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
-			
 			try {
-				f.transferTo(new File(upPath+"/images/product/"+filename));
-
+				String str = S3FileService.upload(f);	
+				
+				if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(str);
+				else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(str);
+				else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(str);
+				else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(str);
+				else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(str);
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
+			
 		}
 		
 		int res = adminMapper.adminInsertProduct(dto);
@@ -555,25 +572,32 @@ public class AdminController {
 		if (!map.containsKey("prod_popular1")) dto.setProd_popular(1);
 		else dto.setProd_popular(0);
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
-		
-		//다중파일 전송
+		//용품 이미지 수정했을시
 		if (!file[0].isEmpty()) {
+			//기존 파일 삭제
+			if (map.containsKey("prod_viewImageHidden1")) S3FileService.deleteImage(map.get("prod_viewImageHidden1"));
+			if (map.containsKey("prod_viewImageHidden2")) S3FileService.deleteImage(map.get("prod_viewImageHidden2"));
+			if (map.containsKey("prod_viewImageHidden3")) S3FileService.deleteImage(map.get("prod_viewImageHidden3"));
+			if (map.containsKey("prod_viewImageHidden4")) S3FileService.deleteImage(map.get("prod_viewImageHidden4"));
+			if (map.containsKey("prod_viewImageHidden5")) S3FileService.deleteImage(map.get("prod_viewImageHidden5"));
+			
+			//새 이미지 업로드
 			for (MultipartFile f : file) {
-				String filename = f.getOriginalFilename();		
-				if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
-				else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
-				else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
-				else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
-				else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
-	
 				try {
-					f.transferTo(new File(upPath+"/images/product/"+filename));
-	
+					String filename = S3FileService.upload(f);
+					
+					if (dto.getProd_viewImage1()==null) dto.setProd_viewImage1(filename);
+					else if (dto.getProd_viewImage2()==null) dto.setProd_viewImage2(filename);
+					else if (dto.getProd_viewImage3()==null) dto.setProd_viewImage3(filename);
+					else if (dto.getProd_viewImage4()==null) dto.setProd_viewImage4(filename);
+					else if (dto.getProd_viewImage5()==null) dto.setProd_viewImage5(filename);
+		
 				}catch(IOException e) {
 					e.printStackTrace();
 				}
 			}
+			
+		//이미지 수정 안했을 때
 		}else {
 			if (map.containsKey("prod_viewImageHidden1")) dto.setProd_viewImage1(map.get("prod_viewImageHidden1"));
 			if (map.containsKey("prod_viewImageHidden2")) dto.setProd_viewImage2(map.get("prod_viewImageHidden2"));
@@ -599,6 +623,15 @@ public class AdminController {
 	
 	@RequestMapping("/adminDeleteProduct.admin")
 	public ModelAndView adminDeleteProduct(@RequestParam int prod_num) {
+		//기존 AWS 이미지 삭제
+		ProductDTO dto = adminMapper.adminGetProduct(prod_num);
+		if (dto.getProd_viewImage1()!=null) S3FileService.deleteImage(dto.getProd_viewImage1());
+		if (dto.getProd_viewImage2()!=null) S3FileService.deleteImage(dto.getProd_viewImage2());
+		if (dto.getProd_viewImage3()!=null) S3FileService.deleteImage(dto.getProd_viewImage3());
+		if (dto.getProd_viewImage4()!=null) S3FileService.deleteImage(dto.getProd_viewImage4());
+		if (dto.getProd_viewImage5()!=null) S3FileService.deleteImage(dto.getProd_viewImage5());
+		
+		//DB에서 삭제
 		int res = adminMapper.adminDeleteProduct(prod_num);
 		
 		String msg =null, url = null;
@@ -620,6 +653,7 @@ public class AdminController {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////회 원//////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	
 	@RequestMapping("/adminMember.admin")
@@ -748,6 +782,7 @@ public class AdminController {
 	}
 
 	
+	
 //////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////용 품 리 뷰////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -852,19 +887,16 @@ public class AdminController {
 	public ModelAndView adminInsertAnnounce(HttpServletRequest req,@ModelAttribute AdminAnnounceDTO dto,
 			@RequestParam("aa_image") MultipartFile[] file) {
 		
-		String upPath = (String)req.getSession().getAttribute("upPath");
-		//다중파일업로드
+		//AWS에 파일업로드
 		for (MultipartFile f : file) {
-			String filename = f.getOriginalFilename();		
-			if (dto.getAa_image1()==null) dto.setAa_image1(filename);
-			else if (dto.getAa_image2()==null) dto.setAa_image2(filename);
-			else if (dto.getAa_image3()==null) dto.setAa_image3(filename);
-			else if (dto.getAa_image4()==null) dto.setAa_image4(filename);
-			else if (dto.getAa_image5()==null) dto.setAa_image5(filename);
-
 			try {
-				f.transferTo(new File(upPath+"/images/announce/"+filename));
-
+				String str = S3FileService.upload(f);
+				
+				if (dto.getAa_image1()==null) dto.setAa_image1(str);
+				else if (dto.getAa_image2()==null) dto.setAa_image2(str);
+				else if (dto.getAa_image3()==null) dto.setAa_image3(str);
+				else if (dto.getAa_image4()==null) dto.setAa_image4(str);
+				else if (dto.getAa_image5()==null) dto.setAa_image5(str);
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
@@ -898,23 +930,31 @@ public class AdminController {
 			@ModelAttribute AdminAnnounceDTO dto,@RequestParam Map<String,String> map) {
 		String upPath = (String)req.getSession().getAttribute("upPath");
 		
-		//다중파일 전송
+		//이미지 수정했을때
 		if (!file[0].isEmpty()) {
+			//기존 파일 삭제
+			if (map.containsKey("aa_imageHidden1")) S3FileService.deleteImage(map.get("aa_imageHidden1"));
+			if (map.containsKey("aa_imageHidden2")) S3FileService.deleteImage(map.get("aa_imageHidden2"));
+			if (map.containsKey("aa_imageHidden3")) S3FileService.deleteImage(map.get("aa_imageHidden3"));
+			if (map.containsKey("aa_imageHidden4")) S3FileService.deleteImage(map.get("aa_imageHidden4"));
+			if (map.containsKey("aa_imageHidden5")) S3FileService.deleteImage(map.get("aa_imageHidden5"));
+			
+			//새 파일 AWS에 업로드
 			for (MultipartFile f : file) {
-				String filename = f.getOriginalFilename();		
-				if (dto.getAa_image1()==null) dto.setAa_image1(filename);
-				else if (dto.getAa_image2()==null) dto.setAa_image2(filename);
-				else if (dto.getAa_image3()==null) dto.setAa_image3(filename);
-				else if (dto.getAa_image4()==null) dto.setAa_image4(filename);
-				else if (dto.getAa_image5()==null) dto.setAa_image5(filename);
-
 				try {
-					f.transferTo(new File(upPath+"/images/announce/"+filename));
+					String str = S3FileService.upload(f);		
+					if (dto.getAa_image1()==null) dto.setAa_image1(str);
+					else if (dto.getAa_image2()==null) dto.setAa_image2(str);
+					else if (dto.getAa_image3()==null) dto.setAa_image3(str);
+					else if (dto.getAa_image4()==null) dto.setAa_image4(str);
+					else if (dto.getAa_image5()==null) dto.setAa_image5(str);
 
 				}catch(IOException e) {
 					e.printStackTrace();
 				}
 			}
+			
+		//이미지 수정 안했을 때
 		}else {
 			if (map.containsKey("aa_imageHidden1")) dto.setAa_image1(map.get("aa_imageHidden1"));
 			if (map.containsKey("aa_imageHidden2")) dto.setAa_image2(map.get("aa_imageHidden2"));

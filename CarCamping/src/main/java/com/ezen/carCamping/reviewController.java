@@ -29,8 +29,11 @@ import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.service.MemberMapper;
+import com.ezen.carCamping.service.ProductMapper;
 import com.ezen.carCamping.service.RegionMapper;
 import com.ezen.carCamping.service.ReviewMapper;
+import com.ezen.carCamping.service.S3FileService;
+
 
 @Controller
 public class reviewController {
@@ -40,10 +43,16 @@ public class reviewController {
 	
 	@Autowired 
 	private RegionMapper RegionMapper; 
+
+	@Autowired
+	private ProductMapper ProductMapper;
 	
+	@Autowired
+	private S3FileService S3FileService;
 	
 	@RequestMapping(value="field_review.review", method=RequestMethod.GET )
-	public String field_review(HttpServletRequest req) {
+	public String field_review(HttpServletRequest req,@RequestParam(required=false) Integer ccr_num) {
+	
 		HttpSession session = req.getSession();
 		String upPath = session.getServletContext().getRealPath("/resources");
 		session.setAttribute("upPath", upPath);
@@ -54,6 +63,12 @@ public class reviewController {
 			return "message";
 		}else {
 			req.setAttribute("mem_num", dto.getMem_num());
+		}
+		if(ccr_num!=null) {
+			CarCampingRegionDTO cdto = RegionMapper.selectRegionByCcrnum(ccr_num);
+			req.setAttribute("region_num",cdto.getRegionDTO().getRegion_num());
+			req.setAttribute("ccr_num",ccr_num);
+			req.setAttribute("ccr_name", cdto.getCcr_name());
 		}
 		return "review/field_review";
 	}
@@ -75,25 +90,31 @@ public class reviewController {
 	public String fileUploadFiled(
 			@RequestParam("review_Image") List<MultipartFile> multipartFile
 			, HttpServletRequest request,ReviewRegionDTO dto) {
-		String strResult = "{ \"result\":\"FAIL\" }";
+		String strResult ="bad";
 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
 		String fileRoot;
 		try {
 			// 파일이 있을때 
 			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
 				for(MultipartFile file:multipartFile) {
+					
 					fileRoot = contextRoot + "resources/images/";
-					System.out.println(fileRoot);
+					
 					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
 					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
 					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+					
 					//dto image setting
-					if (dto.getReview_regionImage1()==null) dto.setReview_regionImage1(savedFileName);
+					if (dto.getReview_regionImage1()==null) {
+						dto.setReview_regionImage1(savedFileName);
+						String str = S3FileService.upload(file);
+						System.out.println(str);
+					}
 					else if (dto.getReview_regionImage2()==null) dto.setReview_regionImage2(savedFileName);
 					else if (dto.getReview_regionImage3()==null) dto.setReview_regionImage3(savedFileName);
 					else if (dto.getReview_regionImage4()==null) dto.setReview_regionImage4(savedFileName);
 					else if (dto.getReview_regionImage5()==null) dto.setReview_regionImage5(savedFileName);
-					//System.out.println("dto의 1번이미지 : "+dto.getReview_regionImage1());
+					
 					File targetFile = new File(fileRoot + savedFileName);	
 					try {
 						InputStream fileStream = file.getInputStream();
@@ -106,11 +127,9 @@ public class reviewController {
 					}
 				}
 				int res = reviewMapper.insertReviewRegion(dto);	
-				strResult = "{ \"result\":\"OK\" }";
+				strResult = "good";
 			}
 			// 파일 아무것도 첨부 안했을때 
-			else
-				strResult = "{ \"result\":\"OK\" }";
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -119,7 +138,7 @@ public class reviewController {
 	
 	///////////////////////////////////////////product////////////////////////////////////////
 	@RequestMapping(value="goods_review.review", method=RequestMethod.GET )
-	public String prod_review(HttpServletRequest req) {
+	public String prod_review(HttpServletRequest req,@RequestParam(required=false) Integer prod_num) {
 		HttpSession session = req.getSession();
 		String upPath = session.getServletContext().getRealPath("/resources");
 		session.setAttribute("upPath", upPath);
@@ -132,6 +151,13 @@ public class reviewController {
 			req.setAttribute("mem_num", dto.getMem_num());
 			req.setAttribute("prodCateList", reviewMapper.listAllProdCate());
 			req.setAttribute("brandCateList", reviewMapper.listAllBrandCate());
+		}
+		if(prod_num!=null) {
+			ProductDTO pdto = ProductMapper.getProduct(prod_num);
+			req.setAttribute("pc_num",pdto.getProductCategoryDTO().getPc_num());
+			req.setAttribute("brand_num",pdto.getBrandCategoryDTO().getBrand_num());
+			req.setAttribute("prod_num",prod_num);
+			req.setAttribute("prod_name", pdto.getProd_name());
 		}
 		return "review/goods_review";
 	}
@@ -154,7 +180,7 @@ public class reviewController {
 	public String fileUploadGoods(
 			@RequestParam("review_Image") List<MultipartFile> multipartFile
 			, HttpServletRequest request,ReviewProductDTO dto) {
-		String strResult = "{ \"result\":\"FAIL\" }";
+		String strResult = "bad";
 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
 		String fileRoot;
 		try {
@@ -186,11 +212,8 @@ public class reviewController {
 					}
 				}
 				int res = reviewMapper.insertReviewProduct(dto);	
-				strResult = "{ \"result\":\"OK\" }";
+				strResult = "good";
 			}
-			// 파일 아무것도 첨부 안했을때 
-			else
-				strResult = "{ \"result\":\"OK\" }";
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -203,56 +226,5 @@ public class reviewController {
 		req.setAttribute("url",url);
 		return "message";
 	}
-	
-	/*
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value = "/prod_upload.review", method = RequestMethod.POST)
-	 * public String fileUpload(
-	 * 
-	 * @RequestParam("review_Image") List<MultipartFile> multipartFile ,
-	 * HttpServletRequest request,ReviewRegionDTO dto) {
-	 * 
-	 * String strResult = "{ \"result\":\"FAIL\" }"; String contextRoot = new
-	 * HttpServletRequestWrapper(request).getRealPath("/"); String fileRoot; try {
-	 * // 파일이 있을때 if(multipartFile.size() > 0 &&
-	 * !multipartFile.get(0).getOriginalFilename().equals("")) { for(MultipartFile
-	 * file:multipartFile) { fileRoot = contextRoot + "resources/images/";
-	 * System.out.println(fileRoot); String originalFileName =
-	 * file.getOriginalFilename(); //오리지날 파일명 String extension =
-	 * originalFileName.substring(originalFileName.lastIndexOf(".")); //파일 확장자
-	 * String savedFileName = UUID.randomUUID() + extension; //저장될 파일 명 //dto image
-	 * setting if (dto.getReview_regionImage1()==null)
-	 * dto.setReview_regionImage1(savedFileName); else if
-	 * (dto.getReview_regionImage2()==null)
-	 * dto.setReview_regionImage2(savedFileName); else if
-	 * (dto.getReview_regionImage3()==null)
-	 * dto.setReview_regionImage3(savedFileName); else if
-	 * (dto.getReview_regionImage4()==null)
-	 * dto.setReview_regionImage4(savedFileName); else if
-	 * (dto.getReview_regionImage5()==null)
-	 * dto.setReview_regionImage5(savedFileName);
-	 * //System.out.println("dto의 1번이미지 : "+dto.getReview_regionImage1()); File
-	 * targetFile = new File(fileRoot + savedFileName); try { InputStream fileStream
-	 * = file.getInputStream(); FileUtils.copyInputStreamToFile(fileStream,
-	 * targetFile); //파일 저장
-	 * 
-	 * } catch (Exception e) {//파일삭제 FileUtils.deleteQuietly(targetFile);//저장된 현재 파일
-	 * 삭제 e.printStackTrace(); break; } } int res =
-	 * reviewMapper.insertReviewRegion(dto); strResult = "{ \"result\":\"OK\" }"; }
-	 * // 파일 아무것도 첨부 안했을때 else strResult = "{ \"result\":\"OK\" }"; }catch(Exception
-	 * e){ e.printStackTrace(); } return strResult; }
-	 */
-	
-	/*
-	 * @RequestMapping(value="goods_review.review", method=RequestMethod.GET )
-	 * public String goods_review() { return "review/goods_review"; }
-	 * 
-	 * @RequestMapping(value="goods_review.review", method=RequestMethod.POST)
-	 * public String goods_reviewOk(HttpServletRequest req, ReviewProductDTO dto) {
-	 * int res = reviewMapper.insertReviewProduct(dto); if(res>0) {
-	 * req.setAttribute("msg", "占쏙옙占쏙옙 占쏙옙占� 占쏙옙占쏙옙!"); }else {
-	 * req.setAttribute("msg", "占쏙옙占쏙옙 占쏙옙占� 占쏙옙占싻ㅿ옙_占쏙옙"); req.setAttribute("url",
-	 * "goods_review.review"); } return "message"; }
-	 */
+
 }

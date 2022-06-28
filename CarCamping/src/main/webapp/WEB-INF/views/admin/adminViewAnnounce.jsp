@@ -66,27 +66,27 @@
 							<div class="carousel-inner">
 								<c:if test="${not empty adto.aa_image1}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image1}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image1}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image2}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image2}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image2}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image3}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image3}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image3}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image4}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image4}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image4}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image5}">
 									<div class="carousel-item active">
-										<img src="${upPath}/images/announce/${adto.aa_image5}" class="d-block w-100" alt="...">
+										<img src="${upPath}/${adto.aa_image5}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 							</div>
