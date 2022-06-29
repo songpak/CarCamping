@@ -4,7 +4,7 @@
 <%@ include file="left.jsp"%> 
 
 <!-- Content Column Grid -->
-<div class="col-md-8 themed-grid-col">
+	<div class="col-md-8 themed-grid-col">
 	
 	<div class="row" align="center">
 		<div class="col">

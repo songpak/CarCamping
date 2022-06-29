@@ -57,7 +57,7 @@
 	<!-- websocket handler -->
 	<beans:bean id="echoHandler" class="com.ezen.carCamping.socket.EchoHandler" />
 	<websocket:handlers>
-        <websocket:mapping path="/websocket/echo.do" handler="myHandler"/>
+        <websocket:mapping path="/echo-ws" handler="echoHandler"/>
     </websocket:handlers>
 
 	<!--이메일 인증 : 박혜성 0620 추가 -->
