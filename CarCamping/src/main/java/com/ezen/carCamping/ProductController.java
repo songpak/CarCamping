@@ -154,6 +154,7 @@ public class ProductController {
           }
           System.out.println("1 search searchString : " +search+ searchString);
           List<AgencyDTO> Alist = productMapper.getAgency();
+          req.setAttribute("countReviewProd", productMapper.countReviewProd(prod_num));
           req.setAttribute("getAgency", Alist);
           req.setAttribute("getProduct", productMapper.getProduct(prod_num));
           req.setAttribute("pageCount", pagination.pageCount(list));

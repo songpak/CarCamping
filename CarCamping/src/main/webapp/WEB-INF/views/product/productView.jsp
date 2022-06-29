@@ -116,7 +116,7 @@ body {
 						리 뷰 수
 						<button type="button" class="btn btn-dark rounded-pill" disabled
 							style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px;">
-							${getProduct.prod_reviewCount}</button>
+							${countReviewProd}</button>
 					</li>
 					<li
 						class="list-group-item d-flex justify-content-between align-items-center">

@@ -181,6 +181,11 @@ public class ProductMapper {
 		int count = sqlSession.selectOne("listProductMainCount");
 		return count;
 	}
+	
+		public int countReviewProd(int prod_num) {
+		int count = (int)sqlSession.selectOne("countReviewProd", prod_num);
+		return count;
+	}
 
 
 	/*0627 박혜성 추가*/

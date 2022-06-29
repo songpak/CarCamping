@@ -257,5 +257,10 @@
       desc
    </select> 
    
+   <select id="countReviewProd" parameterType="Integer" resultType="Integer">
+		SELECT count(*) from ReviewProduct a,Product b 
+		where a.prod_num = b.prod_num and b.prod_num = #{prod_num} and a.rp_adminConfirm=0
+	</select> 	
+   
 </mapper>
 
