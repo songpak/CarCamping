@@ -5,6 +5,17 @@
  <c:set var="ccr_num" value="${regionSelected.ccr_num }"/>
  <c:set var="mem_id" value="${sessionScope.mem_id}"/>
  
+<style>
+ .carousel-item img {
+	    width:400px;
+	    height:350px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
+
+</style>
+ <!-- 장소 상세보기모달 -->
 <div class="modal modal-center fade" id="regionContent" tabindex="-1"
 	role="dialog" aria-labelledby="regionContentLabel">
 	<div class="modal-dialog modal-center modal-lg" role="document">
@@ -15,6 +26,48 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
+			<!-- 현재 이미지 캐러셀 -->
+					&nbsp;
+					<div id="carouselExampleControls" class="carousel slide"
+						data-bs-ride="carousel">
+						<div class="carousel-inner">
+							
+						</div>
+						<div class="carousel-inner">
+							<div class="carousel-item active ">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage1}" class="d-block w-100" alt="...">
+							</div>
+							<c:if test="${not empty regionSelected.ccr_viewImage2}">
+							<div class="carousel-item ">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage2}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty regionSelected.ccr_viewImage3}">
+							<div class="carousel-item">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage3}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty regionSelected.ccr_viewImage4}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage4}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty regionSelected.ccr_viewImage5}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage5}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+						</div>
+						  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+   						 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+					</div>
+			 <hr class="mb-4">		
 			<div class="modal-body">${regionSelected.ccr_content}</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary"
@@ -79,6 +132,7 @@ body {
 }
 
 
+
 </style>
 <!-- <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
@@ -98,8 +152,8 @@ body {
 			<hr style="margin-top: 0px; margin-bottom: 5px;">
 			<ul id="regionInfo" class="nav nav-pills flex-column mb-auto"
 				style="margin-bottom: 0px; height: 600px;">
-				<li class="list-group-item d-flex justify-content-between align-items-center">
-					<img src="resources/images/sik.jpg" class="card-img-top" style="height: 250px;">
+				<li class="list-group-item d-flex justify-content-between align-items-center" style="padding-left: 0px; padding-right: 0px;">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage1}"  class="card-img-top">
 				</li>
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					좋 아 요
@@ -270,12 +324,9 @@ body {
 						<blockquote class="blockquote">
 							<p></p>
 						</blockquote>
-						<figcaption class="blockquote-footer">
-							<cite title="Source Title"></cite>
-						</figcaption>
 					</figure>
 				</div>
-				<h2 style="margin-bottom: 20px;">차박지 리뷰 목록</h2>
+				<h3 style="margin-bottom: 11px; padding-bottom: 0px; padding-top: 0px; padding-left: 0px; padding-right: 15px;">차박지 리뷰 목록</h3>
 			</div>
 			<div class="row">
 				<!-- 드랍 버튼 -->
@@ -298,6 +349,7 @@ body {
 					<button type="button" class="btn btn-success" style=" margin-left: 15px; background-color: #00205b; border-color: #00205b;" onclick="show_allList()">
 							전체보기
 					</button>
+					
 					<button type="button" class="btn btn-success" style="margin-left: 15px; background-color: #00205b; border-color: #00205b;" 
 							onclick="location.href='field_review.review?ccr_num=${ccr_num}'">
 							리뷰 등록 하기 
@@ -307,10 +359,11 @@ body {
 					<%-- regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${i} --%>
 				<!-- 리뷰 검색 -->
 				<div class="col" align="right">
-					<div class="input-group mb-3">
+				<div class="col-md-8 mb-2" >
+					<div class="input-group mb-1">
 						<input type="hidden" name="mode" value="find" /> <select
 							id="search" class="form-select"
-							aria-label="Default select example">
+							aria-label="Default select example" >
 							<option value="review_title" align="center">리뷰제목</option>
 							<option value="review_regionContent" align="center">리뷰내용</option>
 							<option value="mem_nickName" align="center">리뷰작성자</option>
@@ -321,6 +374,7 @@ body {
 							onclick="search_function();">검색</button>
 					</div>
 				</div>
+				</div>
 			</div>
 
 			<!-- 본문 -->
@@ -329,12 +383,14 @@ body {
 					<c:if test="${empty reviewList}">
 						<c:if test="${not empty searchString }"><td><h2 align="center">검색 하신 리뷰는 존재하지 않습니다.</h2></td></c:if>
 						<c:if test="${empty searchString }">
-						<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
+						<td><!--  <h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
 						<button type="button" class="btn btn-success" style="margin-left: 431px;align: center;
 						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
 							onclick="location.href='field_review.review?ccr_num=${ccr_num}'">
-							리뷰 등록 하기 
-						</button></td></c:if>
+							리뷰 등록 하기 </button> -->
+							<h2 align="center" style="margin-top: 200px;">제일 먼저 리뷰를 등록해보세요!</h2>
+							
+						</td></c:if>
 						</c:if>
 					<c:forEach var="review_ccr" items="${reviewList }">
 						<td>

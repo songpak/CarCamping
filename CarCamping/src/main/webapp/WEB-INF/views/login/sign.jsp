@@ -20,6 +20,14 @@ function regChk(){
 	      alert("아이디 중복체크를 해주세요.");
 	      return false;
 	           }
+   if(signCheck.emailDuplication.value != "emailCheck"){
+	         alert("이메일 중복체크를 해주세요.");
+	         return false;
+	            }
+   if($("#emailDoubleChk").val() == false){
+	   alert("인증번호가 일치하지 않습니다!");
+	   return false;
+   }
    var mem_password = document.signCheck.mem_password.value;
    var num = mem_password.search(/[0-9]/g);
    var eng = mem_password.search(/[a-z]/ig);
@@ -41,10 +49,7 @@ function regChk(){
        signCheck.mem_password.focus();
        return false;
     }
-    if(signCheck.emailDuplication.value != "emailCheck"){
-         alert("이메일 중복체크를 해주세요.");
-         return false;
-            }
+
     if(signCheck.nickDuplication.value != "nickCheck"){
       alert("닉네임 중복체크를 해주세요.");
       return false;
@@ -56,16 +61,6 @@ function regChk(){
          signCheck.mem_userName.focus();
          return false;
    }
-    if (signCheck.mem_summary.value==""){
-		alert("자기소개 요약을 입력하셔야 합니다.")
-		signCheck.mem_summary.focus() 
-		return false;
-	}
-   if (signCheck.mem_introduce.value==""){
-		alert("자기소개를 입력하셔야 합니다.")
-		signCheck.mem_introduce.focus() 
-		return false;
-	}
    var telRegExp = /^01+[016789]+[0-9]{7,8}$/;
    var mem_phone = signCheck.mem_phone.value;
    if(!telRegExp.test(mem_phone)){
@@ -89,10 +84,17 @@ function regChk(){
       signCheck.mem_image.focus();
       return false;
    }
-   if($("#emailDoubleChk").val() == false){
-	   alert("인증번호가 일치하지 않습니다!");
-	   return false;
-   }
+   
+   if (signCheck.mem_summary.value==""){
+		alert("자기소개 요약을 입력하셔야 합니다.")
+		signCheck.mem_summary.focus() 
+		return false;
+	}
+  if (signCheck.mem_introduce.value==""){
+		alert("자기소개를 입력하셔야 합니다.")
+		signCheck.mem_introduce.focus() 
+		return false;
+	}
           document.signCheck.submit()
 }       
            </script>
@@ -280,11 +282,11 @@ function CertifyEamil_fn(button_id){
     body {
       min-height: 100vh;
 
-      background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
-      background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-      background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-      background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-      background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
+      background: -webkit-gradient(linear, left bottom, right top, from(#efefef), to(#efefef));
+      background: -webkit-linear-gradient(bottom left, ##efefef 0%, ##efefef 100%);
+      background: -moz-linear-gradient(bottom left, ##efefef 0%, ##efefef 100%);
+      background: -o-linear-gradient(bottom left, ##efefef 0%, ##efefef 100%);
+      background: linear-gradient(to top right, ##efefef 0%, ##efefef 100%);
     }
 
     .input-form {
@@ -324,12 +326,14 @@ function CertifyEamil_fn(button_id){
   <div class="container">
     <div class="input-form-backgroud row">
       <div class="input-form col-md-12 mx-auto">
+      <!-- ***** Logo Start ***** -->
+							<a href="index.do" class="logo"> <img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
         <h3 class="mb-3" align="center"><B>회원가입</B></h3>
 	<form name="signCheck" action="sign.login" method="post" enctype="multipart/form-data">
           
           <div class="mb-3">
               <label for="code">회원가입 약관 </label><br>
-            <textarea class="outer" style="width: 100%; height:100px; resize: none;"cols="100" readonly>
+            <textarea class="outer" style="width: 100%; height:200px; resize: none;"cols="100" readonly>
   제 1 조 (목적)
 1. 본 약관은 해당 사이트가 제공하는 모든 서비스(이하 "서비스")의 이용조건 및 절차, 이용자와 해당 사이트의 권리, 의무, 책임사항과 기타 필요한 사항을 규정함을 목적으로 합니다.
 제 2 조 (약관의 효력과 변경)
@@ -391,88 +395,103 @@ function CertifyEamil_fn(button_id){
 1. 해당 사이트와 이용자 간에 발생한 서비스 이용에 관한 분쟁에 대하여는 대한민국 법을 적용하며, 본 분쟁으로 인한 소는 대한민국의 법원에 제기합니다.</textarea><br>
 <input type="radio" name ="agree"> 약관에 동의합니다.
             </div>
-          
-           	<div class="mb-3">
+          <div class="row">
+           	<div class="col-md-7 mb-4">
               <label for="id">아이디 </label>
               <div class="input-group">
+
                <input type="text" class="form-control onlyAlphabetAndNumber" id="mem_id" name="mem_id" data-rule-required="true" placeholder="12자이내의 알파벳, 언더스코어(_), 숫자만 입력 가능합니다." maxlength="12" onkeydown="inputIdChk()" required>
-    			 <button type = "button" class="btn btn-primary btn-xs" onclick = "fn_CheckId()" name="CheckId" class="CheckId" >중복 체크</button>
+    			               &ensp; 
+    			 <button type = "button" class="btn btn-dark btn-xs" style="background:#091835" onclick = "fn_CheckId()" name="CheckId" class="CheckId" >중복 체크</button>
                         <input type = "hidden" id = "idDuplication" name="idDuplication" value="idUncheck"/>
                         	</div>
                         </div>
-           
+           </div>
             <div class="row">
-             <div class="col-md-6 mb-3">
+             <div class="col-md-7 mb-4">
               <label for="email">이메일</label>
              <div class="input-group">
+             
               <input type="text" class="form-control" name="mem_email" id="mem_email" title="이메일" placeholder="이메일" onkeydown="inputEmailChk()" required /> 
-   <button type = "button" onclick = "fn_CheckEmail()" name="CheckEmail" class="btn btn-primary btn-xs">중복 체크</button>
-   <button type = "button" class="btn btn-primary btn-xs" name="CertifyEmail" id="CertifyEmail" onclick="CertifyEamil_fn(this.id);"disabled>인증번호 전송</button>
+   &ensp; 
+   <button type = "button" onclick = "fn_CheckEmail()" name="CheckEmail" style="background:#091835" class="btn btn-dark btn-xs">중복 체크</button>
+   <button type = "button" class="btn btn-dark btn-xs" style="background:#091835" name="CertifyEmail" id="CertifyEmail" onclick="CertifyEamil_fn(this.id);"disabled>인증번호 전송</button>
    <input type = "hidden" id = "emailDuplication" name="emailDuplication" value="emailUncheck"/>
    </div>
             </div>   
-		<div class="col-md-6 mb-3" >
+             
+           
+		<div class="col-md-4 mb-2" >
               <label for="number">인증번호</label>
-           <div class="input-group">
-              <input class="form-control" type="text" id="CertifyEmailNum" title="인증번호" placeholder="인증번호" size="10" disabled />
-		<button type = "button" class="btn btn-primary btn-xs" name="CertifyEmail_OK" id="CertifyEmail_OK" onclick="CertifyEamil_fn(this.id);" disabled>인증번호 확인</button>
+           <div class="input-group">         
+           <input class="form-control" type="text" id="CertifyEmailNum" title="인증번호" placeholder="인증번호" size="10" disabled />
+		&ensp; 
+		<button type = "button" class="btn btn-dark btn-xs" style="background:#091835" name="CertifyEmail_OK" id="CertifyEmail_OK" onclick="CertifyEamil_fn(this.id);" disabled>인증번호 확인</button>
 		</div>
 		<span class="point successEmailChk" style="display: block;font-size: 13px;">이메일 입력후 인증번호 전송을 눌러주세요.</span>
 		<input type="hidden" id="emailDoubleChk"/>
-		
+		 </div>
             </div>
-            </div>
+         
             
             
     <div class="row">
-             <div class="col-md-6 mb-3">
+             <div class="col-md-7 mb-4">
               <label for="password">비밀번호</label>         
             <input class="form-control" type="password" name="mem_password" required>
             </div>
-             <div class="col-md-6 mb-3">
+            </div>
+            <div class="row">
+             <div class="col-md-7 mb-4">
               <label for="password">비밀번호 확인</label>         
            <input class="form-control" type="password" name="mem_password2" onblur="passchk()" required>
             <input type="text" style="border-width: 0px; font-size: 13px;" size="20" name="chk" value="비밀번호를 입력하세요" readonly="readonly" >
             </div>
-            </div>
-            
-          <div class="mb-3">
+             </div>
+            <div class="row">
+          <div class="col-md-7 mb-4">
             <label for="userName">이름</label>
             <input class="form-control" type="text" name="mem_userName" required>
           </div>
-
-          <div class="mb-3">
+           </div>
+		<div class="row">
+          <div class="col-md-7 mb-4">
             <label for="nickName">닉네임</label>
             <div class="input-group">
             <input type="text" class="form-control" id="mem_nickName" name="mem_nickName" data-rule-required="true" placeholder="닉네임" maxlength="30" onkeydown="inputNickChk()" required>
-                       <button type = "button" class="btn btn-primary btn-xs" onclick = "fn_CheckNick()" name="CheckNick" class="CheckNick">중복 체크</button>
+                        &ensp; 
+                       <button type = "button" class="btn btn-dark btn-xs" style="background:#091835" onclick = "fn_CheckNick()" name="CheckNick" class="CheckNick">중복 체크</button>
                         <input type = "hidden" id = "nickDuplication" name="nickDuplication" value="nickUncheck"/>
          	</div>
+         	 </div>
           </div>
-		
-		<div class="mb-3">
+		<div class="row">
+		<div class="col-md-7 mb-4">
             <label for="image">프로필 사진</label>
             <input class="form-control" type="file" id="mem_image" name="mem_image"  required>
           </div>
-          
-          <div class="mb-3">
+           </div>
+          <div class="row">
+          <div class="col-md-7 mb-4">
             <label for="phone">전화번호</label>
             <input class="form-control" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"  id="mem_phone" name="mem_phone" placeholder="전화번호는 -를 빼고 입력해 주세요" maxlength="11" required /> 
           </div>
-          
-          <div class="mb-3">
+           </div>
+          <div class="row">
+          <div class="col-md-7 mb-4">
             <label for="phone">생년월일</label>
              <input class="form-control" type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" id="mem_birthday" name="mem_birthday"  placeholder="생년월일을 6자리로 입력해 주세요 ex:990101" maxlength="6" required /> 
           </div>
-          
-          <div class="mb-3">
+           </div>
+         <div class="row"> 
+          <div class="col-md-7 mb-4">
             <label for="gender">성별</label>
              <input type="radio" name="mem_gender" value="0" checked/>남자
   			 <input type="radio" name="mem_gender" value="1"/> 여자 
           </div>
-          
-         
-             <div class="mb-3">
+           </div>
+         <div class="row">
+             <div class="col-md-7 mb-4">
               <label for="region_num">관심지역</label>
               <select class="custom-select d-block w-100" name="region_num">
                  <option value="1">서울/경기도</option>
@@ -486,7 +505,7 @@ function CertifyEamil_fn(button_id){
                             <option value="9">제주도</option>
 			 </select>
             </div>
-           
+            </div>
             <div class="mb-3">
               <label for="code">자기소개 요약</label>
              <input class="form-control" type="text" name="mem_summary" required>
@@ -517,7 +536,7 @@ function CertifyEamil_fn(button_id){
          
           <hr class="mb-4">
           <div class="mb-4"></div>
-          <button class="btn btn-primary btn-lg btn-block" onclick="regChk();">회원가입</button>
+          <button class="btn btn-dark btn-lg btn-block" style="background:#091835" onclick="regChk();">회원가입</button>
         </form>
       </div>
     </div>
