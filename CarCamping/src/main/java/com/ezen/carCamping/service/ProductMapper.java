@@ -29,7 +29,6 @@ public class ProductMapper {
 			return null;
 	}
 
-
 	public List<ProductDTO> listProductPrice(int startRow, int endRow) {
 		java.util.Map<String, Object> map = new Hashtable<>();
 		
@@ -117,9 +116,6 @@ public class ProductMapper {
 	return listProductsearchPop;
 	}
 
-
-
-	
 	public List<ReviewProductDTO> listProdReview(int prod_num){
 		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview", prod_num);
 		return list; 
@@ -138,13 +134,18 @@ public class ProductMapper {
 		return list;
 	}
 
-	public List<ReviewProductDTO> R_orderByScore() {
-		List<ReviewProductDTO> list = sqlSession.selectList("R_orderByScore");
+	public List<ReviewProductDTO> R_orderByScore(int prod_num) {
+		List<ReviewProductDTO> list = sqlSession.selectList("R_orderByScore",prod_num);
 		return list;
 	}
 
-	public List<ReviewProductDTO> R_orderByRead() {
-		List<ReviewProductDTO> list = sqlSession.selectList("R_orderByRead");
+	public List<ReviewProductDTO> R_orderBysysdate(int prod_num) {
+		List<ReviewProductDTO> list = sqlSession.selectList("R_orderBysysdate",prod_num);
+		return list;
+	}
+	
+	public List<ReviewProductDTO> R_orderByLike(int prod_num) {
+		List<ReviewProductDTO> list = sqlSession.selectList("R_orderByLike",prod_num);
 		return list;
 	}
 

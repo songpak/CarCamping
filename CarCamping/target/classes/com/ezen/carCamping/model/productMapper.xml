@@ -73,7 +73,7 @@
 	</select>
 
 	<select id="listProdReview" resultType="ReviewProductDTO">
-		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num
+		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num and ReviewProduct.rp_adminConfirm=0
 	</select>
 	
 	<select id="findProdReview" parameterType="java.util.Map" resultType="ReviewProductDTO">
@@ -84,12 +84,16 @@
 		select a.*,b.mem_nickName,mem_image from ReviewProduct as a left join Member as b on a.mem_num = b.mem_num where a.rp_num = #{rp_num}
 	</select>
 	
-	<select id ="R_orderByScore" parameterType="String" resultMap="productMap"> 
-		select * from ReviewProduct order by rp_score
+	<select id ="R_orderByScore"  resultType="ReviewProductDTO"> 
+		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num and ReviewProduct.rp_adminConfirm=0 order by ReviewProduct.rp_score desc
 	</select>
 	
-	<select id ="R_orderByRead" parameterType="String" resultMap="productMap"> 
-		select * from ReviewProduct order by rp_readCount
+	<select id ="R_orderBysysdate"  resultType="ReviewProductDTO"> 
+		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num and ReviewProduct.rp_adminConfirm=0 order by ReviewProduct.rp_sysdate desc
+	</select>
+	
+	<select id ="R_orderByLike"  resultType="ReviewProductDTO"> 
+		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num and ReviewProduct.rp_adminConfirm=0 order by ReviewProduct.rp_likeCount desc
 	</select>
 
 	<!-- 시작 -->

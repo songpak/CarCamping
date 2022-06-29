@@ -7,6 +7,28 @@ function fn_account(val){
    window.open("<c:url value='productReviewView.product?rp_num="+val+"'/>",  
             "soyoInfoPop" ,"height=1000,width=700,top=100,left=200,scrollbars=yes,resizable=yes");
 }
+
+function popup(rp_num) {
+	var isEmpty = function(value){//빈값체크
+        if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
+          return true
+        }else{
+          return false
+        }
+      };
+	var mid = '${mem_num}';
+	if(!isEmpty(mid)){
+	var url = "productReviewView.product?rp_num="+rp_num;
+	var name = "popup";
+    var _left = Math.ceil(( window.screen.width - 800 )/2);
+	var _top = Math.ceil(( window.screen.height - 1000 )/2); 
+	var option = "width = 800, height = 900, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
+	window.open(url, name, option);
+	}else{
+		alert("리뷰를 보기위해서는 로그인이 필요합니다 !");
+	}
+}
+
       function popup1() {
          var url = "myPageContactUs.myPage";
          var name = "popup test";
@@ -156,7 +178,14 @@ function fn_account(val){
             >
 
             <!-- 정렬 기능 -->
-
+						<div >
+                        <a
+                           href="productViewOrder.product?mode=listReviewNew&prod_num=${prod_num}">최신순/</a>
+                        <a
+                           href="productViewOrder.product?mode=listReviewPop&prod_num=${prod_num}">인기순/</a>
+                            <a
+                           href="productViewOrder.product?mode=listReviewLike&prod_num=${prod_num}">좋아요순</a>
+                     </div>
             <!-- 정렬기능 끝 -->
 
             <br>
@@ -224,9 +253,10 @@ function fn_account(val){
                                  ${pdto.rp_readCount}&nbsp;&nbsp; | &nbsp;&nbsp;좋아요 :
                                  ${pdto.rp_likeCount}<br>작성일 : ${pdto.rp_sysdate}
                               </p>
-                              <button type="submit"
+                              <a href="javascript:popup(${pdto.rp_num })">
+                              <button type="button"
                                  style="background-color: #0D6EFD; color: white;"
-                                 onclick="fn_account(${pdto.rp_num}); return false;">내용</button>
+                                  >내용</button></a>
                            </div>
                         </div>
                      </td>
