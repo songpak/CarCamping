@@ -29,6 +29,7 @@ public class ProductMapper {
 			return null;
 	}
 
+
 	public List<ProductDTO> listProductPrice(int startRow, int endRow) {
 		java.util.Map<String, Object> map = new Hashtable<>();
 		
@@ -116,13 +117,17 @@ public class ProductMapper {
 	return listProductsearchPop;
 	}
 
+
+
+	
 	public List<ReviewProductDTO> listProdReview(int prod_num){
 		List<ReviewProductDTO>list= sqlSession.selectList("listProdReview", prod_num);
 		return list; 
 	}
 
-	public List<ReviewProductDTO> findReview(String search, String searchString) {
-		java.util.Map<String, String> map = new Hashtable<String, String>();
+	public List<ReviewProductDTO> findReview(int prod_num,String search, String searchString) {
+		java.util.Map<String, Object> map = new Hashtable<String, Object>();
+		map.put("prod_num",prod_num);
 		map.put("search", search);
 		map.put("searchString", searchString);
 		List<ReviewProductDTO> list = sqlSession.selectList("findProdReview", map);
@@ -131,21 +136,6 @@ public class ProductMapper {
 
 	public List<ReviewProductDTO> getReviewView(int rp_num) {
 		List<ReviewProductDTO> list = sqlSession.selectList("getReviewView", rp_num);
-		return list;
-	}
-
-	public List<ReviewProductDTO> R_orderByScore(int prod_num) {
-		List<ReviewProductDTO> list = sqlSession.selectList("R_orderByScore",prod_num);
-		return list;
-	}
-
-	public List<ReviewProductDTO> R_orderBysysdate(int prod_num) {
-		List<ReviewProductDTO> list = sqlSession.selectList("R_orderBysysdate",prod_num);
-		return list;
-	}
-	
-	public List<ReviewProductDTO> R_orderByLike(int prod_num) {
-		List<ReviewProductDTO> list = sqlSession.selectList("R_orderByLike",prod_num);
 		return list;
 	}
 
@@ -244,5 +234,51 @@ public class ProductMapper {
 	  public int listProductbrandSearch(String searchString){ 
 		  return sqlSession.selectOne("listProductbrandSearch", searchString); 
 	  }
+	  
+	  //조장님
+	  public List<ReviewProductDTO> listReviewsearchLike(String search,String searchString,int prod_num){
+	      java.util.Map<String,Object> map = new Hashtable<>();
+	      map.put("search", search);
+	      map.put("searchString", searchString);
+	      map.put("prod_num", prod_num);
+	      List<ReviewProductDTO> listReviewsearchLike = sqlSession.selectList("listReviewsearchLike", map);
+	      return listReviewsearchLike;
+	   }
+
+
+	   public List<ReviewProductDTO> listReviewsearchSysdate(String search,String searchString,int prod_num){
+	      java.util.Map<String,Object> map = new Hashtable<>();
+
+	      map.put("search", search);
+	      map.put("searchString", searchString);
+	      map.put("prod_num", prod_num);
+	      List<ReviewProductDTO> listReviewsearchSysdate = sqlSession.selectList("listReviewsearchSysdate", map);
+	      return listReviewsearchSysdate;
+	   }
+
+
+	   public List<ReviewProductDTO> listReviewsearchScore(String search,String searchString,int prod_num){
+	      java.util.Map<String,Object> map = new Hashtable<>();
+	      map.put("search", search);
+	      map.put("searchString", searchString);
+	      map.put("prod_num", prod_num);
+	      List<ReviewProductDTO> listReviewsearchScore = sqlSession.selectList("listReviewsearchScore", map);
+	   return listReviewsearchScore;
+	   }
+	   
+	   public List<ReviewProductDTO> R_orderByScore(int prod_num) {
+		      List<ReviewProductDTO> list = sqlSession.selectList("R_orderByScore",prod_num);
+		      return list;
+		   }
+
+		   public List<ReviewProductDTO> R_orderBysysdate(int prod_num) {
+		      List<ReviewProductDTO> list = sqlSession.selectList("R_orderBysysdate",prod_num);
+		      return list;
+		   }
+		   
+		   public List<ReviewProductDTO> R_orderByLike(int prod_num) {
+		      List<ReviewProductDTO> list = sqlSession.selectList("R_orderByLike",prod_num);
+		      return list;
+		   }
 
 }
