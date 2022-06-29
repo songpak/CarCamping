@@ -82,22 +82,22 @@
 									</div>
 								</c:if>
 								<c:if test="${not empty rdto.review_regionImage2}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${rdto.review_regionImage2}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty rdto.review_regionImage3}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${rdto.review_regionImage3}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty rdto.review_regionImage4}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${rdto.review_regionImage4}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty rdto.review_regionImage5}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${rdto.review_regionImage5}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>

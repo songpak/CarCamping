@@ -33,7 +33,7 @@
 						<a href="regionView.region?ccr_num=${hotRegion.ccr_num}">
 							<div class="carousel-cell" style="width: 300px; height: 380px">
 								<div class="card" style="width: 100%; height: 100%">
-									<img src="resources/images/${hotRegion.ccr_viewImage1}"
+									<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${hotRegion.ccr_viewImage1}"
 										class="card-img-top" alt="...">
 									<div class="card-body">
 										<h5 class="card-title">${hotRegion.ccr_name}</h5>
@@ -70,7 +70,7 @@
 					<a href="regionView.region?ccr_num=${recommandRegion.ccr_num}">
 						<div class="carousel-cell" style="width: 300px; height: 380px">
 							<div class="card" style="width: 100%; height: 100%">
-								<img src="resources/images/${recommandRegion.ccr_viewImage1}"
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${recommandRegion.ccr_viewImage1}"
 									class="card-img-top" alt="...">
 								<div class="card-body">
 									<h5 class="card-title">${recommandRegion.ccr_name}</h5>
