@@ -768,6 +768,23 @@ public class MyPageController {
 		HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
 		int mem_num = dto.getMem_num();
+		 ////////////////////아마존 이미지 삭제//////////////////////////
+	      ReviewProductDTO pdto = myPageMapper.getReviewProduct(rp_num);
+	      Class<? extends ReviewProductDTO> cls = pdto.getClass();
+	      for(int i=1;i<=5;i++) {
+	         String imageVar = "rp_image"+i;
+	         try {
+	            java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
+	            f.setAccessible(true);
+	            String imageSrc = (String)f.get(pdto);
+	            if(imageSrc!=null) {
+	               S3FileService.deleteImage(imageSrc);
+	            }
+	         }catch(Exception e){
+	               
+	            }
+	      }
+	      ////////////////////////////////////////////////////////   
 		int res = myPageMapper.deleteReviewProduct(rp_num);
 		String msg = null, url = null;
 		if (res>0) {
