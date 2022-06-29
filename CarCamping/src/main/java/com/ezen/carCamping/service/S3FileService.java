@@ -105,7 +105,7 @@ public class S3FileService {
 
 		String monthPath = yearPath + "." + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
 
-		String datePath = monthPath + "." + new DecimalFormat("00").format(cal.get(Calendar.DATE));
+		String datePath = monthPath + "." + new DecimalFormat("00").format(cal.get(Calendar.DATE)) + "/";
 
 	
 		return datePath;
