@@ -79,6 +79,18 @@ body {
 .border .border-4 {
 	border-color: red;
 }
+
+//0701박혜성
+div .cardbody {
+    display: block;  
+}
+#reviewTitle {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 </style>
 <!-- <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
@@ -295,7 +307,7 @@ body {
 									style="width: 284px; height: 200px;">
 								<div class="card-body">
 									<div class="card-body">
-										<h5 class="card-title">${pdto.rp_title}</h5>
+										<h5 id="reviewTitle" class="card-title">${pdto.rp_title}</h5>
 										<p class="card-text">${pdto.rp_summaryContent }</p>
 									</div>
 									<ul class="list-group list-group-flush">
@@ -348,10 +360,12 @@ body {
 											</div>
 										</li>
 									</ul>
+									<!-- 0701박혜성 추가 -->
 									<div class="card-body">
 										<a href="javascript:popup(${pdto.rp_num })"><button
-												type="button" class="btn btn-primary" style="width: 100%;">리뷰
-												보러가기</button></a>
+												type="button" class="btn btn-primary" style="width: 100%;">
+												${pdto.memberDTO.mem_nickName}</button></a>
+										<span style="float: left;font-size: 14px;">작성일자 : ${pdto.rp_sysdate }</span>
 									</div>
 								</div>
 							</div>
@@ -474,7 +488,7 @@ function popup(rp_num) {
 	             return false;
 	          }
 	          else if(indate<today){
-	             alert("현재 날짜보다 이전의 날짜는 선택하실 수 업습니다.");
+	             alert("현재 날짜보다 이전의 날짜는 선택하실 수 없습니다.");
 	             return false;
 	          }else if(indate>outdate){
 	             alert("반납 날짜를 다시 선택해주세요")

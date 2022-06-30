@@ -277,7 +277,7 @@ public class ProductController {
 	      
 	      //req.setAttribute("selectedReview", pdto);
 	      req.setAttribute("rp_imageList", rp_images); // 빐 떦 由щ럭 쓽  씠誘몄   씠由꾩쓣    옣
-	      return "myPage/myPageWriteReviewProductView";
+	      return "product/productReviewView";
 	   }
 
 	   // 용품 리뷰상세보기 컨트롤러

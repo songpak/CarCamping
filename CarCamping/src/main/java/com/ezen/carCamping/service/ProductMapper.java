@@ -139,10 +139,10 @@ public class ProductMapper {
 		return list;
 	}
 
-	public List<ReviewProductDTO> getReviewView(int rp_num) {
-		List<ReviewProductDTO> list = sqlSession.selectList("getReviewView", rp_num);
-		return list;
-	}
+	 public ReviewProductDTO getReviewView(int rp_num) {
+	      ReviewProductDTO dto = sqlSession.selectOne("getReviewView", rp_num);
+	      return dto;
+	   }
 
 	public List<AgencyDTO> getAgency() {
 		List<AgencyDTO> dto = sqlSession.selectList("getAgency");

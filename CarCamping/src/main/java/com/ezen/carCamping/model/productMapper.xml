@@ -92,17 +92,20 @@
 		select * from Product where prod_num = #{prod_num}
 	</select>
 
-	<select id="listProdReview" resultType="ReviewProductDTO">
-		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num and rp_adminConfirm=0
+	<select id="listProdReview" resultMap="reviewProductMap">
+			select a.*,m.* from ReviewProduct a join Member m on a.mem_num = m.mem_num
+			where a.prod_num=#{prod_num} and a.rp_adminConfirm=0
 	</select>
 	
 	<select id="findProdReview" parameterType="java.util.Map" resultMap="reviewProductMap">
-		select * from ReviewProduct where prod_num=${prod_num} and ${search} like concat('%',#{searchString},'%')  and rp_adminConfirm=0
+		select * from ReviewProduct a join Member m on a.mem_num = m.mem_num 
+		where prod_num=${prod_num} and ${search} like concat('%',#{searchString},'%') and 		rp_adminConfirm=0
 	</select>
 	
-	<select id="getReviewView" resultType="ReviewProductDTO">
-		select a.*,b.mem_nickName,mem_image from ReviewProduct as a left join Member as b on a.mem_num = b.mem_num where a.rp_num = #{rp_num}
-	</select>
+	<select id="getReviewView" parameterType="Integer"  resultMap="reviewProductMap">
+      select a.*,b.* from ReviewProduct as a left join Member as b on a.mem_num = b.mem_num 
+      where a.rp_num = #{rp_num}
+   </select>
 	
 
 	<!-- 시작 -->

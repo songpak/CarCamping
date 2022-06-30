@@ -198,11 +198,12 @@ public class MyPageController {
 	@RequestMapping("checkOut.myPage")//장바구니 결제버튼 눌렀을때
 	public String checkOut(HttpServletRequest req) {
 		HttpSession session = req.getSession();
-		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+		int mem_num = (int) session.getAttribute("mem_num");
+		List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 		String msg = null, url = null;
-		if (cart == null) {
-			msg = "장바구니가 비었습니다!";
-			url = "productView.product";
+		if (list.size() == 0) {
+			msg = "장바구니가 비었습니다! 상품을 추가해 주세요";
+			url = "goProduct.product";
 		} else {
 			msg = "결제 페이지로 이동합니다!";
 			url = "Pay.myPage";
