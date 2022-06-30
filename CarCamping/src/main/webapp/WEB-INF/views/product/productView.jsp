@@ -2,6 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
 
+<script>
+ 
+       </script>
+
 <c:set var="prod_num" value="${sessionScope.prod_num}" />
 <c:set var="mem_num" value="${sessionScope.mem_num}" />
 
@@ -88,7 +92,7 @@ body {
 	
 		<div class="d-flex flex-column flex-shrink-0 p-3 text-white border border-4 border-dark"
 			style="width: 332px; padding-left: 0px; padding-bottom: 0px; padding-right: 0px; padding-top: 0px; height: 632px; margin-right: 86px; margin-top: 50px;">
-			<form action="myPageCart.myPage" method="post" onsubmit="chk_rent()">
+		<form action="myPageCart.myPage" method="post" onsubmit="return chk_rent()">
 			<input type="hidden" name="prod_num" value="${getProduct.prod_num}">
             <c:if test="${not empty mem_num}">
                <input type="hidden" name="mem_num" value="${mem_num}">
@@ -451,6 +455,34 @@ function popup(rp_num) {
 	    	
 	    }
 
+	    function getTodayDate() {
+	           const today = new Date(); 
+	           const year = today.getFullYear(); // 2021
+	           const month = ('0' + (today.getMonth() + 1)).slice(-2); // 12
+	           const day = ('0' + today.getDate()).slice(-2); // 20
+	           const dateString = year + '-' + month + '-' + day; // 2021.12.20
+	           return dateString;
+	       }
+	       function chk_rent(){
+	          var today = getTodayDate();
+	          var indate = document.getElementById("indate1").value;
+	          var outdate = document.getElementById("outdate1").value;
+	         console.log(indate)
+	         console.log(outdate)
+	          if(indate == "" || outdate == ""){
+	             alert("대여 날짜와 반납 날짜를 선택해주세요 !")
+	             return false;
+	          }
+	          else if(indate<today){
+	             alert("현재 날짜보다 이전의 날짜는 선택하실 수 업습니다.");
+	             return false;
+	          }else if(indate>outdate){
+	             alert("반납 날짜를 다시 선택해주세요")
+	             return false;   
+	          }
+	          
+	          return true;   
+	       }
 		
 </script>
 

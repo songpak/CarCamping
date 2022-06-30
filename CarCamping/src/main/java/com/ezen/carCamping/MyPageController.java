@@ -88,7 +88,7 @@ public class MyPageController {
 			req.setAttribute("url", url);
 			return "message";
 		}
-		if (cart_from == "" || cart_to == "") {
+		/*if (cart_from == "" || cart_to == "") {
 			String msg = "대여날짜를 선택해 주세요!";
 			String url = "goProduct.product";
 			req.setAttribute("msg", msg);
@@ -113,17 +113,17 @@ public class MyPageController {
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
 			return "message";
-		} else {
+		} else {*/
 			int res = myPageMapper.insertCart(dto);
 			if (res > 0) {
 				System.out.println("장바구니 넣기 성공");
-			} else {
+			}
+			else {
 				System.err.println("장바구니 넣기 실패");
 			}
 			HttpSession session = req.getSession();
 			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 			session.setAttribute("cartList", list);
-		}
 		return "myPage/myPageCart";
 	}
 
