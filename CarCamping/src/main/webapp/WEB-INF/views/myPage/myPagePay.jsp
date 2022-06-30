@@ -27,7 +27,7 @@
 	<td><h2>결제하실 상품이 없습니다.</h2></td>
 	</tr>
 	<tr  align="center">
-	<td><button class="btn btn-success mb-3" onClick="location.href='goProduct.product'" style="width: 756px;">상품구매하러 가기</button></td>
+	<td><button class="btn btn-dark mb-3" onClick="location.href='goProduct.product'" style="width: 756px; background:#091835;">용품 대여하러  가기</button></td>
 	</tr>
 </table>
 </c:if>
@@ -80,7 +80,7 @@
         		  <input type="number" name="rental_usePoint"
 								value="0" pattern="[0-9]+" min="0" max="3000">
 								</c:if>
-        		 <button class="btn btn-lg btn-dark btn-block text-uppercase"
+        		 <button class="btn btn-lg btn-dark btn-block text-uppercase" style="background:#091835"
 			type="submit" >결제하기</button>
          </form>
 				</td>

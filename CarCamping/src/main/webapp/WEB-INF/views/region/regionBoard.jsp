@@ -16,8 +16,9 @@ form > table {
  text-align : center;
 }
 
-tr.regionRow:hover { background-color: #00205b75; }
+tr.regionRow:hover { background-color: #eff5ff; }
 </style>
+<section style=" margin-left: 298px; margin-right: 298px;">
 <div style="display: flex; float: right;">
 		<div class="btn-group">
 			<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #00205b; border-color: #00205b;">정렬</button>
@@ -30,14 +31,15 @@ tr.regionRow:hover { background-color: #00205b75; }
 		<select name="search2">
 			<option>제목</option>
 		</select>
-		<input class="form-control me-2" type="text" name="searchString2" placeholder="검색" aria-label="Search2" style="width:900px;"> 
+		<input class="form-control me-2" type="text" name="searchString2" placeholder="검색" aria-label="Search2" style="width:400px;"> 
 		<input type="submit" value="검색" style="padding-left: 0px; padding-right: 0px; width: 62px;">		
 </div>
-
-
-	<table  class="table table-striped-columns" width="800" bgcolor="white"  style="text-align: center;">
-		<tr bgcolor="white">
-			<th width="15%">지역번호</th>
+<br>
+<br>
+<br>
+	<div class="col-12">
+	<table  class="table table-striped" width="800" bgcolor="white"  style="text-align: center;">
+		<tr bgcolor="white" class="table-primary">
 			<th width="15%">장소</th>
 			<th width="10%">리뷰수</th>
 			<th width="10%">좋아요</th>
@@ -46,7 +48,6 @@ tr.regionRow:hover { background-color: #00205b75; }
 		</tr>  
 		<c:forEach items="${list}" var="bdto">
 			<tr onclick="location.href='regionView.region?ccr_num=${bdto.ccr_num}'" class="regionRow" > 
-				<th width="15%">${bdto.ccr_num}</th>
 				<th width="15%">${bdto.ccr_name }</th>
 				<th width="15%">${bdto.ccr_reviewCount}</th>
 				<th width="10%">${bdto.ccr_likeCount}</th>
@@ -59,8 +60,8 @@ tr.regionRow:hover { background-color: #00205b75; }
 				<th width="10%">${bdto.ccr_score}</th>
 		</c:forEach>
 	</table>
-	
-
+	</div>
+</section>
          <nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
 					<c:if test="${rowCount>0 }">

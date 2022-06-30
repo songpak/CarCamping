@@ -16,7 +16,16 @@
 		}
 	}
 </script>
+<style>
+ .carousel-item img {
+	    width:400px;
+	    height:350px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
 
+</style>
 <body>
 	<div align="center">
 		<form name="viewRentalLog" method="post" action="adminViewRentalLog.admin" enctype="multipart/form-data">

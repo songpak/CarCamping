@@ -148,6 +148,7 @@ CSS only
 					<!--지역별 HOT리뷰글 -->
 
 
+
 	<div class="region_content-hs rounded-4 ">
 		<ul class="list-group list-group-flush rounded-4 ">
 
@@ -173,8 +174,8 @@ CSS only
 						style="width: 107px; height: 107px;">
 						<div class="position-absolute top-50 start-50 translate-middle">
 							<i class="bi bi-trophy-fill" width="40" height="40"
-								fill="currentColor"></i> <a
-								href="regionView.region?ccr_num=${hl_region.ccr_num}">${hl_region.ccr_name}</a>
+								fill="currentColor"></i> <a 
+								href="regionView.region?ccr_num=${hl_region.ccr_num}" >${hl_region.ccr_name}</a>
 						</div></li>
 
 				</c:forEach>
