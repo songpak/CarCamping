@@ -2,37 +2,41 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
 <%@ include file="left.jsp"%>
-<script src="https://code.jquery.com/jquery-3.4.1.js"   
-	integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="   
-	crossorigin="anonymous">
-</script>
+
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<c:url var="root" value="/"></c:url>
 <script>
-//notifySend
-$('#notifySendBtn').click(function(e){
-    let modal = $('modal-content').has(e.target);
-    let type = '70';
-    let target = modal.find('#modal-body input').val();
-    let content = modal.find('#modal-body textarea').val();
-    let url = 'adminAgency.admin';
-    // 전송한 정보를 db에 저장	
-    $.ajax({
-        type: 'post',
-        url: 'adminAgency.admin',
-        dataType: 'text',
-        data: {
-            target: target,
-            content: content,
-            type: type,
-            url: url
-        },
-        success: function(){    // db전송 성공시 실시간 알림 전송
-            // 소켓에 전달되는 메시지
-            // 위에 기술한 EchoHandler에서 ,(comma)를 이용하여 분리시킨다.
-            socket.send("관리자,"+target+","+content+","+url);	
-        }
-    });
-    modal.find('#modal-body textarea').val('');	// textarea 초기화
-});
+	//웹소켓 연결하고 처리하는 부분
+	function connect(){
+		//브라우저에서 자체 지원
+		
+	}
+	
+	var ws = new SockJS("${root}carCamping");
+	 
+	ws.onopen = function(){ //이벤트 리스너 >> 커넥션되면 실행
+		console.log('Info: connection opened.');
+		
+	};
+	
+	ws.onmessage = function (event){
+		console.log(event.data+'\n');
+	};
+	
+	ws.onclose = function (event) {
+		console.log('Info: connection closed.');
+		setTimeout(function(){connect();},1000) // retry connection >> 1초에 한 번씩 다시 Connection을 맺겠다는 의미
+	};
+	
+	ws.onerror = function (event) {console.log('Error:'); };
+	
+	
+	$('#btnSend').on('click',function(evt){
+		evt.preventDefault();
+		if (socket.readyState !== 1) return;
+		let msg = $('input#msg').val();
+		ws.send(msg);
+	})
 </script>
 
 	
