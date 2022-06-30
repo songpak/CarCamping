@@ -205,7 +205,7 @@ public class ProductController {
 		req.setAttribute("getReviewProduct", pdto);
 		HttpSession session = req.getSession();
 		MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
-		int mem_num = mdto.getMem_num();
+		int mem_num = (int)session.getAttribute("mem_num");
 		if (mem_num > 0) {
 			session.setAttribute("mem_num", mdto.getMem_num());
 			session.setAttribute("mem_id", mdto.getMem_id());
