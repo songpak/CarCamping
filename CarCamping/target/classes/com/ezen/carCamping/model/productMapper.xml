@@ -116,6 +116,10 @@
 	select * from Product where prod_popular = 0
 	</select>
 	
+	<select id="popularProdRank" resultMap="productMap">
+	select * from Product where prod_popular = 0 order by prod_reviewScore limit 3
+	</select>
+	
 	
 	<select id="listProductPrice" resultMap="productMap" parameterType="java.util.Map">
 		select * from Product order by prod_price asc limit #{startRow},#{endRow}

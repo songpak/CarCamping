@@ -20,6 +20,11 @@ public class ProductMapper {
 		List<ProductDTO> popList = sqlSession.selectList("popularProd");
 		return popList;
 	}
+	
+	public List<ProductDTO> popularProdRank() {
+		List<ProductDTO> rank = sqlSession.selectList("popularProdRank");
+		return rank;
+	}
 
 	public ProductDTO getProduct(int prod_num) {
 		ProductDTO dto = sqlSession.selectOne("getProduct", prod_num);

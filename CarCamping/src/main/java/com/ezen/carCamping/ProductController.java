@@ -53,11 +53,7 @@ public class ProductController {
 	 public String goProduct(HttpServletRequest req,
 	         @RequestParam (required = false) String mode,
 	         @RequestParam Map<String,String>params) {
-	   
 	      List<ProductDTO> list=null;
-
-	    
-
 	      String pageNum = params.get("pageNum");
 	      mode=params.get("mode");
 	      String search=params.get("search");
@@ -121,6 +117,7 @@ public class ProductController {
 	      if (endPage > pageCount) endPage = pageCount;
 	      
 	      List<ProductDTO> popList = productMapper.popularProduct();
+	      req.setAttribute("prodrank3", productMapper.popularProdRank());
 	      req.setAttribute("mode", mode);
 	      req.setAttribute("rowCount",rowCount);
 	      req.setAttribute("pageCount", pageCount);
