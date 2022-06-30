@@ -474,7 +474,7 @@ function popup(rp_num) {
 	             return false;
 	          }
 	          else if(indate<today){
-	             alert("현재 날짜보다 이전의 날짜는 선택하실 수 업습니다.");
+	             alert("현재 날짜보다 이전의 날짜는 선택하실 수 없습니다.");
 	             return false;
 	          }else if(indate>outdate){
 	             alert("반납 날짜를 다시 선택해주세요")

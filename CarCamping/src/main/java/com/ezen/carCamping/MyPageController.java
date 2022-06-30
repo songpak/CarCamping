@@ -75,13 +75,11 @@ public class MyPageController {
 	private static Pagination pagination = Pagination.getInstance();
 
 	@RequestMapping("/myPageCart.myPage")
-	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from, String cart_to
-			) throws ParseException {
-		//System.out.println("로그인 체크"+ loginCheck);
+	public String myPageCart(HttpServletRequest req, ProductCartDTO dto){
 		HttpSession session = req.getSession();
 		int mem_num = (int)session.getAttribute("mem_num");
 		if (mem_num <= 0) {
-			String msg = ".로그인 하셔야 합니다!";
+			String msg = "로그인 해주세요!";
 			String url = "login.login";
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
@@ -198,11 +196,12 @@ public class MyPageController {
 	@RequestMapping("checkOut.myPage")//장바구니 결제버튼 눌렀을때
 	public String checkOut(HttpServletRequest req) {
 		HttpSession session = req.getSession();
-		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+		int mem_num = (int) session.getAttribute("mem_num");
+		List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 		String msg = null, url = null;
-		if (cart == null) {
-			msg = "장바구니가 비었습니다!";
-			url = "productView.product";
+		if (list.size() == 0) {
+			msg = "장바구니가 비었습니다! 용품을 장바구니에 추가해 주세요!";
+			url = "goProduct.product";
 		} else {
 			msg = "결제 페이지로 이동합니다!";
 			url = "Pay.myPage";
