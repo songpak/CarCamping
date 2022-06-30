@@ -75,14 +75,13 @@ public class MyPageController {
 	private static Pagination pagination = Pagination.getInstance();
 
 	@RequestMapping("/myPageCart.myPage")
-	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from, String cart_to, int mem_num,
-			int agency_num) throws ParseException {
-		// System.out.println(agency_num);
-		// System.out.println(sdf.format(indate));
-		// System.out.println(sdf.format(outdate));
-		if (mem_num == 0) {
+	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from, String cart_to
+			) throws ParseException {
+		//System.out.println("로그인 체크"+ loginCheck);
+		HttpSession session = req.getSession();
+		int mem_num = (int)session.getAttribute("mem_num");
+		if (mem_num <= 0) {
 			String msg = ".로그인 하셔야 합니다!";
-
 			String url = "login.login";
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
@@ -121,7 +120,7 @@ public class MyPageController {
 			else {
 				System.err.println("장바구니 넣기 실패");
 			}
-			HttpSession session = req.getSession();
+			
 			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 			session.setAttribute("cartList", list);
 		return "myPage/myPageCart";
@@ -157,7 +156,7 @@ public class MyPageController {
 			return "message";
 		} else {
 			for (ProductCartDTO cartDTO : cart) {
-				if (prod_num == cartDTO.getProd_num() && cart_from.equals(cartDTO.getCart_from())
+				if (prod_num == cartDTO.getProductDTO().getProd_num() && cart_from.equals(cartDTO.getCart_from())
 						&& cart_to.equals(cartDTO.getCart_to())) {
 					cartDTO.setCart_prodCount(cart_prodCount);
 					int res = myPageMapper.updateCart(cartDTO);
@@ -181,7 +180,7 @@ public class MyPageController {
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		for (ProductCartDTO cartDTO : cart) {
-			if (prod_num == cartDTO.getProd_num() && cart_from.equals(cartDTO.getCart_from())
+			if (prod_num == cartDTO.getProductDTO().getProd_num() && cart_from.equals(cartDTO.getCart_from())
 					&& cart_to.equals(cartDTO.getCart_to())) {
 				cart.remove(cartDTO);
 				int res = myPageMapper.deleteCart(cart_num);

@@ -93,13 +93,13 @@ body {
 		<div class="d-flex flex-column flex-shrink-0 p-3 text-white border border-4 border-dark"
 			style="width: 332px; padding-left: 0px; padding-bottom: 0px; padding-right: 0px; padding-top: 0px; height: 632px; margin-right: 86px; margin-top: 50px;">
 		<form action="myPageCart.myPage" method="post" onsubmit="return chk_rent()">
-			<input type="hidden" name="prod_num" value="${getProduct.prod_num}">
+			<input type="hidden" name="productDTO.prod_num" value="${getProduct.prod_num}">
             <c:if test="${not empty mem_num}">
-               <input type="hidden" name="mem_num" value="${mem_num}">
+               <input type="hidden" name="memberDTO.mem_num" value="${mem_num}">
             </c:if>
-            <c:if test="${empty mem_num}">
-               <input type="hidden" name="mem_num" value="0">
-            </c:if>
+          <%--   <c:if test="${empty mem_num}">
+               <input type="hidden" name="loginCheck" value='0'>
+            </c:if> --%>
 				<span class="fs-4 text-center" style="height: 40px;">
 					<button type="button" class="btn btn-primary"
 						data-bs-toggle="modal" data-bs-target="#prodContent"
@@ -202,7 +202,7 @@ body {
 						class="list-group-item d-flex justify-content-between align-items-center"
 						style="height: 31px;">대리점 선택
 						<div>
-							<select name="agency_num" style="border: transparent;">
+							<select name="agencyDTO.agency_num" style="border: transparent;">
 								<c:forEach items="${getAgency}" var="dto">
 									<option value="${dto.agency_num}">${dto.agency_name}</option>
 								</c:forEach>

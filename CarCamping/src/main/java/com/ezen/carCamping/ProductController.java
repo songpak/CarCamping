@@ -175,7 +175,6 @@ public class ProductController {
         if(mode.equals("listReviewNew")) {
            if(search!=null&&searchString!=null) {
               list = productMapper.listReviewsearchSysdate(search, searchString, prod_num);
-             // System.out.println("2 search searchString : " +search+ searchString);
            }else if(search==null||searchString==null||search.equals("")||searchString.equals("")) {
         	   list = productMapper.R_orderBysysdate(prod_num);
            }

@@ -37,8 +37,8 @@ tr.regionRow:hover { background-color: #00205b75; }
 
 	<table  class="table table-striped-columns" width="800" bgcolor="white"  style="text-align: center;">
 		<tr bgcolor="white">
-			<th width="15%">지역번호</th>
 			<th width="15%">장소</th>
+			<th width="15%">요약설명</th>
 			<th width="10%">리뷰수</th>
 			<th width="10%">좋아요</th>
 			<th width="20%">인기장소여부</th>
@@ -46,8 +46,8 @@ tr.regionRow:hover { background-color: #00205b75; }
 		</tr>  
 		<c:forEach items="${list}" var="bdto">
 			<tr onclick="location.href='regionView.region?ccr_num=${bdto.ccr_num}'" class="regionRow" > 
-				<th width="15%">${bdto.ccr_num}</th>
-				<th width="15%">${bdto.ccr_name }</th>
+				<th width="15%">${bdto.ccr_name}</th>
+				<th width="15%">${bdto.ccr_summary }</th>
 				<th width="15%">${bdto.ccr_reviewCount}</th>
 				<th width="10%">${bdto.ccr_likeCount}</th>
 				<c:if test="${ bdto.ccr_popular == 0}">
