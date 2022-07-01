@@ -14,6 +14,27 @@
 	    object-fit:cover;
 	}
 
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
 </style>
  <!-- 장소 상세보기모달 -->
 <div class="modal modal-center fade" id="regionContent" tabindex="-1"
@@ -360,7 +381,7 @@ body {
 				<!-- 리뷰 검색 -->
 				<div class="col" align="right">
 				<div class="col-md-8 mb-2" >
-					<div class="input-group mb-1">
+					<div class="input-group mb-1" style="left: 12px;">
 						<input type="hidden" name="mode" value="find" /> <select
 							id="search" class="form-select"
 							aria-label="Default select example" >
@@ -384,7 +405,7 @@ body {
 						<c:if test="${not empty searchString }"><td><h2 align="center">검색 하신 리뷰는 존재하지 않습니다.</h2></td></c:if>
 						<c:if test="${empty searchString }">
 						<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
-						<button type="button" class="btn btn-success" style="margin-left: 431px;align: center;
+						<button type="button" class="btn btn-dark" style="margin-left: 431px;align: center;
 						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
 							onclick="location.href='field_review.review?ccr_num=${ccr_num}'">
 							리뷰 등록 하기 
@@ -392,13 +413,14 @@ body {
 						</c:if>
 					<c:forEach var="review_ccr" items="${reviewList }">
 						<td>
-							<div class="card border-success" style="width: 18rem;">
-								<img src="resources/images/sik.jpg" class="card-img-top"
-									style="width: 284px; height: 200px;">
+							<div class="card border-dark" style="width: 18rem;">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${review_ccr.review_title}" class="card-img-top"
+									style="width: 284px; height: 200px;  display:inline-block;"><span style=" text-align:center; margin-top: 10px;">${review_ccr.memberDTO.mem_nickName}</span>
+									
 								<div class="card-body">
 									<div class="card-body">
-										<h5 id="reviewTitle"class="card-title">${review_ccr.review_title}</h5>
-										<p class="card-text">${review_ccr.review_summaryContent }</p>
+										<h5 id="reviewTitle"class="card-title" align="center">${review_ccr.review_title}</h5>
+										<p class="card-text" align="center">${review_ccr.review_summaryContent }</p>
 									</div>
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item">별점
@@ -451,8 +473,8 @@ body {
 										</li>
 									</ul>
 									<div class="card-body">
-										<a href="javascript:popup(${review_ccr.review_num })"><button type="button" class="btn btn-primary" style="width: 100%;">
-										${review_ccr.memberDTO.mem_nickName}</button></a>
+										<a href="javascript:popup(${review_ccr.review_num })"><button type="button" class="btn btn-dark" style="width: 100%; background:#091835;">
+										리뷰 보기</button></a>
 										<span style="float: left;font-size: 14px;">작성일자 : ${review_ccr.review_sysdate }</span>
 									</div>
 								</div>
@@ -489,7 +511,7 @@ body {
 						</c:if>
 					</c:if>	
 				</ul>
-				<button class="btn btn-primary" onclick="contact();"style="float: right;">문의하기</button>
+				<button class="btn btn-dark" onclick="contact();"style="float: right; background-color: #00205b;">문의하기</button>
 			</nav>
 		</div>
 	</div>
@@ -586,7 +608,7 @@ body {
 	    function contact() {
 	          var url = "myPageContactUs.myPage";
 	          var name = "popup test";
-	          var option = "width = 600, height = 500, top = 100, left = 200, location = no"
+	          var option = "width = 961, height = 400, top = 100, left = 200, location = no"
 	          window.open(url, name, option);
 	  	}
 		

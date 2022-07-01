@@ -28,7 +28,7 @@
 					style="width: 107px; height: 107px;">
 					<div class="position-absolute top-50 start-50 translate-middle">
 						<i class="bi bi-trophy-fill" width="40" height="40" style="color:#ffc107;"></i>
-						<a href="regionView.region?ccr_num=${hl_region.ccr_num}" style="color:#050a16; font-weight: bold;">${hl_region.ccr_name}</a>
+						<a href="regionView.region?ccr_num=${hl_region.ccr_num}" >${hl_region.ccr_name}</a>
 					</div></li>
 
 			</c:forEach>

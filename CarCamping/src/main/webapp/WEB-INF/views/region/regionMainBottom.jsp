@@ -29,7 +29,7 @@
 					navbarexample" 
 					style="margin-bottom: 0px; background-color: #dc3545d4;"> -->
 					<div class="container">
-						<font size="5"><b>✨ H O T 차 박 지 </b></font>
+						<font size="5"><b>🔥 H O T 차 박 지 </b></font>
 						<hr style="border: 0;height: 2px;background-color: #585858d4;">
 					</div>
 				<!-- </nav> -->

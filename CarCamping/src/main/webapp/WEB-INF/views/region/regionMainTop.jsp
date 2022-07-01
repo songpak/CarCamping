@@ -43,6 +43,40 @@
 		var option = "width = 700, height = 1000, top = 100, left = 200, location = no"
 		window.open(url, name, option);
 	}
+	
+	function changeHotRegion(region_num, mem_id){
+		console.log(region_num);
+		console.log(mem_id);
+		var send_region_num = region_num;
+		var send_mem_id = mem_id;
+		$.ajax({
+			url: "changeHotRegion.region", //컨트롤러 맵핑
+            type: "GET",
+            data: { //사용자가 데이터를 정의한다	
+            	"regionNum" : region_num,
+            	"memId" : mem_id
+            },
+            contentType: "application/json",
+            success: function (result) {
+		   			alert("성공");
+		   			const ultag = document.getElementById('hotRegion_list');//ul - id : hotRegion_list 비우기
+		   		 	const items = ultag.getElementsByTagName('li');   		
+		   			 while (ultag.firstChild) {                   
+		   				ultag.removeChild(ultag.firstChild);                
+		   			}
+		   		 $("#hotRegion_list").append(result);
+		   		
+		   		
+           	},
+            error: function() {
+                alert("에러 발생");
+            }
+
+            });
+		
+		
+		
+	}
 </script>
 
 <div id="ccm-doc-hs" class="ccm-t7-hs">
@@ -136,7 +170,11 @@
 													kakao.maps.event.addListener(marker,'click',function() {//해당지역 인기글 변경
 														document.hotRegionLocation.region_num.value = i + 1
 														document.hotRegionLocation.mem_id = '${sessionScope.id}'
-														document.hotRegionLocation.submit()
+														//document.hotRegionLocation.submit()
+														var region_num = i+1;
+														var mem_id = '${sessionScope.id}';
+														changeHotRegion(region_num,mem_id);
+														
 														});
 											kakao.maps.event.addListener(marker,'mouseover', function() {
 												customOverlay.setVisible(true);

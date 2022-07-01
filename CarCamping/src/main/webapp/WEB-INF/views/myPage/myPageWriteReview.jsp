@@ -9,16 +9,16 @@
 <!-- Content Column Grid -->
 	<script>
 		function popup_region(a){
-			var url = "myPageWriteReviewRegionView.myPage?&review_num="+a
+			var url = "regionReviewView.region?review_num="+a
 			var name = "내가 쓴 리뷰"
-			var option = "width=800,height=400,top=100,left=300,location=no"
+			var option = "width=800,height=1000,top=100,left=300,location=no"
 			window.open(url,name,option);
 		}
 
 		function popup_product(a){
-			var url = "myPageWriteReviewProductView.myPage?rp_num="+a
+			var url = "productReviewView.product?rp_num="+a
 			var name = "내가 쓴 리뷰"
-			var option = "width=800,height=400,top=100,left=300,location=no"
+			var option = "width=800,height=1000,top=100,left=300,location=no"
 			window.open(url,name,option);
 		}
 		</script>
@@ -169,7 +169,7 @@
 	</c:if>
 </table>	
 
-	
+<c:if test="${empty param.mode}">	
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<c:if test="${page-3>1}">
@@ -188,6 +188,27 @@
          </c:if>
 		</ul>
 	</nav>
+	</c:if>
+	<c:if test="${not empty param.mode}">	
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			<c:if test="${page-3>1}">
+            <li class="page-item"><a class="page-link" href="myPageWriteReview.myPage?page=${page-1}&mem_num=${sessionScope.mem_num}&mode=product">Previous</a></li>
+         </c:if>
+      <c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
+         <c:if test="${i==page}">
+            <li class="page-item"><a class="page-link" href="myPageWriteReview.myPage?page=${i}&mem_num=${sessionScope.mem_num}&mode=product" style="color:blue;">${i}</a></li>
+         </c:if>
+         <c:if test="${i!=page}">
+            <li class="page-item"><a class="page-link" href="myPageWriteReview.myPage?page=${i}&mem_num=${sessionScope.mem_num}&mode=product">${i}</a></li>
+         </c:if>
+      </c:forEach>
+         <c:if test="${page+3<pageCount}">
+            <li class="page-item"><a class="page-link" href="myPageWriteReview.myPage?page=${page+1}&mem_num=${sessionScope.mem_num}&mode=product">Next</a></li>
+         </c:if>
+		</ul>
+	</nav>
+	</c:if>
 </div>
 
 <%@ include file="../bottom.jsp"%>

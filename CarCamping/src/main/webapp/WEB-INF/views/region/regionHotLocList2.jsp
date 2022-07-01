@@ -22,7 +22,7 @@
 					</div></li>
 			</c:if> <c:forEach var="hl_region" items="${hotList_Region}">
 				<li class="list-group-item position-relative"><img
-					src="resources/images/${hl_region.ccr_viewImage1}"
+					src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${hl_region.ccr_viewImage1}"
 					class="img-responsive rounded-circle"
 					style="width: 107px; height: 107px;">
 					<div class="position-absolute top-50 start-50 translate-middle">
