@@ -77,38 +77,6 @@ public class MyPageController {
 	@RequestMapping("/myPageCart.myPage")
 	public String myPageCart(HttpServletRequest req, ProductCartDTO dto){
 		HttpSession session = req.getSession();
-		/*
-		 * MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto"); if (mdto == null)
-		 * { String msg = "로그인 해주세요!"; String url = "login.login";
-		 * req.setAttribute("msg", msg); req.setAttribute("url", url); return "message";
-		 * }
-		 */
-		/*if (cart_from == "" || cart_to == "") {
-			String msg = "대여날짜를 선택해 주세요!";
-			String url = "goProduct.product";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date indate = sdf.parse(cart_from);
-		Date outdate = sdf.parse(cart_to);
-		Date time = new Date();
-		String time1 = sdf.format(time);
-		Date now = sdf.parse(time1);
-		if (indate.compareTo(outdate) > 0) {
-			String msg = "반납날짜보다 빌린날짜가 먼저여야 합니다!";
-			String url = "goProduct.product";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		} else if (indate.compareTo(now) < 0) {
-			String msg = "지난 날짜는 선택 할 수 없습니다.!";
-			String url = "goProduct.product";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		} else {*/
 			int res = myPageMapper.insertCart(dto);
 			if (res > 0) {
 				System.out.println("장바구니 넣기 성공");
@@ -780,3 +748,36 @@ public class MyPageController {
 	}
 		
 }
+
+/*
+ * MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto"); if (mdto == null)
+ * { String msg = "로그인 해주세요!"; String url = "login.login";
+ * req.setAttribute("msg", msg); req.setAttribute("url", url); return "message";
+ * }
+ */
+/*if (cart_from == "" || cart_to == "") {
+	String msg = "대여날짜를 선택해 주세요!";
+	String url = "goProduct.product";
+	req.setAttribute("msg", msg);
+	req.setAttribute("url", url);
+	return "message";
+}
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+Date indate = sdf.parse(cart_from);
+Date outdate = sdf.parse(cart_to);
+Date time = new Date();
+String time1 = sdf.format(time);
+Date now = sdf.parse(time1);
+if (indate.compareTo(outdate) > 0) {
+	String msg = "반납날짜보다 빌린날짜가 먼저여야 합니다!";
+	String url = "goProduct.product";
+	req.setAttribute("msg", msg);
+	req.setAttribute("url", url);
+	return "message";
+} else if (indate.compareTo(now) < 0) {
+	String msg = "지난 날짜는 선택 할 수 없습니다.!";
+	String url = "goProduct.product";
+	req.setAttribute("msg", msg);
+	req.setAttribute("url", url);
+	return "message";
+} else {*/
