@@ -432,6 +432,7 @@ function popup(rp_num) {
 	}
 		
 		function search_function(){
+			
 			var searchSelect = document.getElementById("search");
 			var search = searchSelect.options[searchSelect.selectedIndex].value;
 			var searchString = document.getElementById("searchString").value;
@@ -478,6 +479,18 @@ function popup(rp_num) {
 	           return dateString;
 	       }
 	       function chk_rent(){
+	    	   var isEmpty = function(value){//빈값체크
+			        if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
+			          return true
+			        }else{
+			          return false
+			        }
+			      };
+			   var mid = '${mem_num}';
+			   if(isEmpty(mid)){
+				   alert("대여하기 위해서는 로그인이 필요합니다 !");
+				   return false;
+			   }
 	          var today = getTodayDate();
 	          var indate = document.getElementById("indate1").value;
 	          var outdate = document.getElementById("outdate1").value;

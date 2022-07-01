@@ -77,14 +77,12 @@ public class MyPageController {
 	@RequestMapping("/myPageCart.myPage")
 	public String myPageCart(HttpServletRequest req, ProductCartDTO dto){
 		HttpSession session = req.getSession();
-		MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
-		if (mdto == null) {
-			String msg = "로그인 해주세요!";
-			String url = "login.login";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		}
+		/*
+		 * MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto"); if (mdto == null)
+		 * { String msg = "로그인 해주세요!"; String url = "login.login";
+		 * req.setAttribute("msg", msg); req.setAttribute("url", url); return "message";
+		 * }
+		 */
 		/*if (cart_from == "" || cart_to == "") {
 			String msg = "대여날짜를 선택해 주세요!";
 			String url = "goProduct.product";
