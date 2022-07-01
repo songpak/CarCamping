@@ -54,16 +54,6 @@
 			value="C:\git\CarCamping\src\main\webapp\resources\images" />
 	</beans:bean>
 
-	<!-- websocket handler -->
-	<!-- handshake >> Session을 다루기 위한 객체 -->
-	<!-- namespace지정해주기 -->
-	<beans:bean id="replyEchoHandler" class="com.ezen.carCamping.socket.ReplyEchoHandler" /> 
-	<websocket:handlers> 
-		<websocket:mapping path="/carCamping" handler="replyEchoHandler"/>
-        <websocket:handshake-interceptors> 
-    		<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>    	
-        </websocket:handshake-interceptors>
-    </websocket:handlers>
 
 	<!--이메일 인증 : 박혜성 0620 추가 -->
 	 <context:annotation-config/>

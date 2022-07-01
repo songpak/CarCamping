@@ -3,42 +3,7 @@
 <%@ include file="../top.jsp"%>
 <%@ include file="left.jsp"%>
 
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<c:url var="root" value="/"></c:url>
-<script>
-	//웹소켓 연결하고 처리하는 부분
-	function connect(){
-		//브라우저에서 자체 지원
-		
-	}
-	
-	var ws = new SockJS("${root}carCamping");
-	 
-	ws.onopen = function(){ //이벤트 리스너 >> 커넥션되면 실행
-		console.log('Info: connection opened.');
-		
-	};
-	
-	ws.onmessage = function (event){
-		console.log(event.data+'\n');
-	};
-	
-	ws.onclose = function (event) {
-		console.log('Info: connection closed.');
-		setTimeout(function(){connect();},1000) // retry connection >> 1초에 한 번씩 다시 Connection을 맺겠다는 의미
-	};
-	
-	ws.onerror = function (event) {console.log('Error:'); };
-	
-	
-	$('#btnSend').on('click',function(evt){
-		evt.preventDefault();
-		if (socket.readyState !== 1) return;
-		let msg = $('input#msg').val();
-		ws.send(msg);
-	})
-</script>
-
+<!-- //////////////////////////////////////////////////////////////////////////// -->
 	
 
 <link rel="stylesheet"

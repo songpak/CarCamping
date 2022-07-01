@@ -14,7 +14,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
 	<script type="text/javascript">
+		//소켓 생성 (mem_num이 있고 session.getId()가 없을때)
 		var sock = new SockJS("${root}echo");
+		//알림 받는 영역
 		sock.onmessage = function(msg){
 			console.log(msg.data);
 			$('#target').append(msg.data+"<br/>");
@@ -33,7 +35,7 @@
 				
 			
 		};
-		
+		//각 등록&결제 버튼
 		$(function(){
 			
 			$('button').click(function(){
