@@ -77,8 +77,8 @@ public class MyPageController {
 	@RequestMapping("/myPageCart.myPage")
 	public String myPageCart(HttpServletRequest req, ProductCartDTO dto){
 		HttpSession session = req.getSession();
-		int mem_num = (int)session.getAttribute("mem_num");
-		if (mem_num <= 0) {
+		MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
+		if (mdto == null) {
 			String msg = "로그인 해주세요!";
 			String url = "login.login";
 			req.setAttribute("msg", msg);
@@ -118,7 +118,7 @@ public class MyPageController {
 			else {
 				System.err.println("장바구니 넣기 실패");
 			}
-			
+			int mem_num = (int)session.getAttribute("mem_num");
 			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 			session.setAttribute("cartList", list);
 		return "myPage/myPageCart";

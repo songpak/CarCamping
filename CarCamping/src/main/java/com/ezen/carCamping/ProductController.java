@@ -132,8 +132,7 @@ public class ProductController {
  
 	@RequestMapping("/productView.product")//이부분 수정함
     public String productView(HttpServletRequest req, @RequestParam Map<String, String> params,
-          String mode, @RequestParam(required=false,defaultValue="1") int page) {
-          System.out.println("모드값" + mode);
+           String mode, @RequestParam(required=false,defaultValue="1") int page) {
            HttpSession session = req.getSession();
            int prod_num = Integer.parseInt(params.get("prod_num"));
            session.setAttribute("prod_num", prod_num);
@@ -149,7 +148,6 @@ public class ProductController {
              session.setAttribute("prodsearch", search);
              session.setAttribute("prodsearchString", searchString);
           }
-          System.out.println("1 search searchString : " +search+ searchString);
           List<AgencyDTO> Alist = productMapper.getAgency();
           req.setAttribute("countReviewProd", productMapper.countReviewProd(prod_num));
           req.setAttribute("getAgency", Alist);

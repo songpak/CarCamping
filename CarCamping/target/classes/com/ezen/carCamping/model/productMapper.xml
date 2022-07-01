@@ -120,7 +120,7 @@
 	</select>
 	
 	<select id="popularProdRank" resultMap="productMap">
-	select * from Product where prod_popular = 0 order by prod_reviewScore limit 3
+	select * from Product where prod_popular = 0 order by prod_reviewScore desc limit 3
 	</select>
 	
 	

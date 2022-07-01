@@ -116,6 +116,25 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
+		<!-- 추가한것 -->
+		<!-- java version 1.6 > 1.8 -->
+		<!-- org.apache.maven.plugins 1.6 > 1.8 (둘다) -->
+		<!-- Servlet-api 버전 변경 (상단) -->
+		<!-- Spring framework version 5.1.9.RELEASE로 변경 -->
+		<!-- Test의 junit version 4.12로 변경 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.9.9.3</version>
+		</dependency>
 
 		<!-- AspectJ -->
 		<dependency>
