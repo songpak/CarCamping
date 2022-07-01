@@ -164,8 +164,7 @@ img, svg {
           checkSection();
         });
     </script>
-
-	
+    
 	  <div class="footer" style="padding-bottom: 0px;margin-top: 0px;padding-top: 0px;">
       <p style=" background-color:#2c3e50; color:#fff;margin-bottom: 0px;">Copyright © 2022 <a href="#">WITHCAR Co.</a> Ltd. All Rights Reserved. 
           <br>
@@ -243,7 +242,6 @@ img, svg {
           checkSection();
         });
     </script>
-
 </body>
 </html>
 

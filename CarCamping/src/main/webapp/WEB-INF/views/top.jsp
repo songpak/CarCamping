@@ -50,9 +50,55 @@
 
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
       
-<!-- sockJS -->
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+<!-- 07-01 Web Socket연결 - 송재영 -->
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+<c:url var="root" value="/"></c:url>
+<c:out value="${root}"/>
+
+	<!-- 웹소켓 부분 -->
+	<script type="text/javascript">
+		var mbdto_id = '<c:out value="${mbdto.mem_id}"/>';	
+		var sock = null;
+		
+		if (mbdto_id != null && mbdto_id !=""){
+			sock = new SockJS("${root}carCamping");
+		}
+		document.write(mbdto_id);		
+		
+		//알림 받는 영역
+		sock.onmessage = function(msg){
+		console.log(msg.data);
+		$('.container').append(msg.data+"<br/>");
+		
+		// toast생성 및 추가
+		    var data = msg.data;
+		    // toast
+		    let toast = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
+		    toast += "<div class='toast-header'><i class='fas fa-bell mr-2'></i><strong class='mr-auto'>알림</strong>";
+		    toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
+		    toast += "<span aria-hidden='true'>&times;</span></button>";
+		    toast += "</div> <div class='toast-body'>" + data + "</div></div>";
+		    $(".container").append(toast);   // msgStack div에 생성한 toast 추가
+		    $(".toast").toast({"animation": true, "autohide": false});
+		    $('.toast').toast('show');
+		    
+		};
+	</script>
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
 
 
 <style>

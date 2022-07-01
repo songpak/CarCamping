@@ -1,6 +1,7 @@
 package com.ezen.carCamping;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 
 import com.ezen.carCamping.dto.AdminAnnounceDTO;
 import com.ezen.carCamping.dto.AgencyDTO;
@@ -33,7 +37,7 @@ import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
 import com.ezen.carCamping.service.AdminMapper;
 import com.ezen.carCamping.service.S3FileService;
-import com.ezen.carCamping.socket.ReplyEchoHandler; 
+ 
 
 
 @Controller
@@ -49,11 +53,11 @@ public class AdminController {
 	@Autowired
 	private S3FileService S3FileService;
 	
-	ReplyEchoHandler echo = new ReplyEchoHandler();
 	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
 		HttpSession session = req.getSession();
+		
 		String upPath = "https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440";
 		List<RegionDTO> adminListRegion = adminMapper.adminListRegion();
 		
