@@ -32,7 +32,8 @@ import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
 import com.ezen.carCamping.service.AdminMapper;
-import com.ezen.carCamping.service.S3FileService; 
+import com.ezen.carCamping.service.S3FileService;
+import com.ezen.carCamping.socket.ReplyEchoHandler; 
 
 
 @Controller
@@ -47,6 +48,8 @@ public class AdminController {
 	//AWS S3
 	@Autowired
 	private S3FileService S3FileService;
+	
+	ReplyEchoHandler echo = new ReplyEchoHandler();
 	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
