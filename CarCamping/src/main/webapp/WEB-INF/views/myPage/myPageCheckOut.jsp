@@ -19,8 +19,8 @@
   						<p class="section-description">주문번호를 확인해 주세요!</p>
   						<c:set var="ran"><%= java.lang.Math.round(java.lang.Math.random() * 1234567) %></c:set>
 								<h2>주문번호 :	${ran}</h2>
-								<button class="btn btn-success mb-3" onClick="location.href='checkOut.myPage'" style="width: 756px;">다른상품 구매하러 가기</button>
-								<button class="btn btn-success mb-3" onClick="location.href='index.do'" style="width: 756px;">홈으로 가기</button>
+								<button class="btn btn-dark mb-3" onClick="location.href='checkOut.myPage'" style="width: 756px; background:#091835;">다른상품 구매하러 가기</button>
+								<button class="btn btn-dark mb-3" onClick="location.href='index.do'" style="width: 756px; background:#091835;">홈으로 가기</button>
 							</div>
 						</div>
   					</div>

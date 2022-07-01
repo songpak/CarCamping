@@ -15,7 +15,7 @@
 	href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 
-	<div class="col-md-8 themed-grid-col">
+	<div class="col-md-8 themed-grid-col" style="padding-left: 20px;padding-right: 20px;">
 	<div id="carouselExampleIndicators" class="carousel slide"
 		data-bs-ride="carousel">
 		<div class="carousel-indicators">

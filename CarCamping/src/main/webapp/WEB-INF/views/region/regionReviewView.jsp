@@ -55,6 +55,13 @@
 				<div class="card-body">
 					<img src="resources/images/sik.jpg" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
 					<ul class="list-group">
+						<li id="reviewWriter" class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
+							<h5>작 성 자</h5>
+							<button  type="button" class="btn btn-dark rounded-pill" style="padding-top: 0px;padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
+							${selectedReview.memberDTO.mem_nickName}
+							</button>
+						</li>
+						
 						<li class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>좋 아 요</h5>
 							<c:if test="${check==0}">
@@ -166,6 +173,7 @@
 							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" readonly>
 							${selectedReview.review_regionContent}
 							</textarea>
+							<span style="float: left;font-size: 15px;">작성일자 : ${selectedReview.review_sysdate}</span>
 						</div>
 					</div>
 				</div>
@@ -197,7 +205,7 @@
 				 isRun = true;
 					//클릭시 로딩 이미지 호출
 				  var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
-				    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>'; 		   
+				    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"/></div></div>'; 		   
 				    $('body').fadeTo( "fast", 0.4 ).append(loadingHtml);
 					var like_button = document.getElementById("likeCount");
 	   				var like_color = like_button.style.backgroundColor;

@@ -4,7 +4,7 @@
 <%@ include file="left.jsp"%> 
 
 <!-- Content Column Grid -->
-<div class="col-md-8 themed-grid-col">
+<div class="col-md-8 themed-grid-col" style="padding-left: 20px;padding-right: 20px;">
 	
 	<div class="row" align="center">
 		<div class="col">
@@ -84,7 +84,7 @@
 		function popupView(ccr_num){
 			var url = "adminViewRegion.admin?ccr_num="+ccr_num
 			var name = "장소 보기"
-			var option = "width=470,height=700,top=100,left=200,location=no,resizable=no"
+			var option = "width=550,height=700,top=100,left=200,location=no,resizable=no"
 			window.open(url,name,option);
 		}
 	</script>
