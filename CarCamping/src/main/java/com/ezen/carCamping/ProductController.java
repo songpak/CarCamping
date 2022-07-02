@@ -165,8 +165,8 @@ public class ProductController {
     //String search =params.get("search");
      //String searchString =params.get("searchString");
      HttpSession session = req.getSession();
-     String search = (String) session.getAttribute("search");
-     String searchString = (String) session.getAttribute("searchString");
+     String search = (String) session.getAttribute("prodsearch");
+     String searchString = (String) session.getAttribute("prodsearchString");
      int prod_num = (int)session.getAttribute("prod_num");
         List<ReviewProductDTO> list = null;
         System.out.println("모드값" + mode);
