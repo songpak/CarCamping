@@ -5,7 +5,40 @@
 <div class="container" align="center" class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
 	<div class="row" align="center">
 		</div>
-		
+<style>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+.list-group-item{
+	border:0;
+}
+
+ .card img {
+	    width:286px;
+	    height:190px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
+
+</style>		
 <!-- Content Column Grid -->
 	<script>
 		function popup_region(a){
@@ -39,7 +72,7 @@
 		<c:forEach var="rdto" items="${listRegion}">
 			<td>
 				<div class="card" style="width: 18rem;">
-					<img src="Region1.jpg" class="card-img-top">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rdto.review_regionImage1}" class="card-img-top">
 					<div class="card-body">
 						<h5 class="card-title">${rdto.review_title}</h5>
 						<p class="card-text">
@@ -109,7 +142,7 @@
 		<c:forEach var="pdto" items="${listProduct}">
 			<td>
 				<div class="card" style="width: 18rem;">
-					<img src="Region1.jpg" class="card-img-top">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.rp_image1}" class="card-img-top">
 					<div class="card-body">
 						<h5 class="card-title">${pdto.rp_title}</h5>
 						<p class="card-text">
@@ -209,6 +242,8 @@
 		</ul>
 	</nav>
 	</c:if>
+	<br>
+	<br>
 </div>
 
 <%@ include file="../bottom.jsp"%>

@@ -32,6 +32,7 @@ import com.ezen.carCamping.dto.MemberDTO;
 import com.ezen.carCamping.dto.RegionDTO;
 import com.ezen.carCamping.service.LoginLogMapper;
 import com.ezen.carCamping.service.MemberMapper;
+import com.ezen.carCamping.service.S3FileService;
 
 
 
@@ -49,6 +50,9 @@ public class MemberController {
 
    @Resource(name="uploadPath")
 	private String uploadPath;
+   
+   @Autowired
+   private S3FileService S3FileService;
    
    @RequestMapping(value="login.login", method=RequestMethod.GET)
    public String login(HttpServletRequest req) {
@@ -241,17 +245,24 @@ public class MemberController {
    public String signOK(HttpServletRequest req,@ModelAttribute MemberDTO dto, BindingResult result) {
 	   MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
 		MultipartFile mf = mr.getFile("mem_image");
+		RegionDTO rdto = new RegionDTO();
 		String filename = mf.getOriginalFilename();
-		dto.setMem_image(filename);
+	
 		if (filename != null && !(filename.trim().equals(""))) {
 			File file = new File(uploadPath, filename);
+			try {
+				dto.setMem_image(S3FileService.upload(mf));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			try {
 				mf.transferTo(file);
 			}catch(IOException e) {
 				e.printStackTrace();
 				}
 		}
-	  RegionDTO rdto = new RegionDTO();
+	  
       rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
       dto.setRegionDTO(rdto);
       int res = memberMapper.insertMember(dto);
@@ -332,7 +343,7 @@ public class MemberController {
   public String CertifyEmail(@RequestParam("mem_email") String mem_email) throws Exception{
     int serti = (int)((Math.random()* (99999 - 10000 + 1)) + 10000);
     
-    String from = "ektmf1101@naver.com";//보내는 이 메일주소
+    String from = "qkzptjd5440@naver.com";//보내는 이 메일주소
     String to = mem_email;
     String title = "회원가입시 필요한 인증번호 입니다.";
     String content = "[인증번호] "+ serti +" 입니다. <br/> 인증번호 확인란에 기입해주십시오.";

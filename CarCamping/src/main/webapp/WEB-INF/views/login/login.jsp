@@ -63,11 +63,11 @@
                 <label>${message}</label>
               </c:if>
               </div>
-
+			  <a href="javascript:void(0)" onclick="findID()">아이디 찾기</a>/ 
+              <a href="javascript:void(0)" onclick="findPW()">비밀번호 찾기</a>
               <button class="btn btn-lg btn-default btn-block text-uppercase" style="background:#091835" type="submit"><font color="white">로그인</font></button>
               <hr class="my-4">
-             <a href="javascript:void(0)" onclick="findID()">아이디 찾기</a>/ 
-              <a href="javascript:void(0)" onclick="findPW()">비밀번호 찾기</a>
+            
               <button class="btn btn-lg btn-default btn-block text-uppercase" style="background:#97abbd" onclick="location='sign.login'"><font color="white">회원가입</font></button>
             </form>
           </div>

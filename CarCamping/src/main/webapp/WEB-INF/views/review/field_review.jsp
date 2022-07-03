@@ -250,8 +250,11 @@
 					for="review_summaryContent">장소 한줄리뷰</label> <input
 					class="form-control" id="review_summaryContent"
 					name="review_summaryContent" placeholder="ex)화장실이 있어요" type="text"
-					required /> <br> <label for="review_regionContent">리뷰상세</label>
-				<textarea class="form-control" id="review_regionContent"name="review_regionContent" rows="18" requiredstyle="resize: none;" placeholder="리뷰 상세"></textarea>
+					required /> <br> <label for="review_regionContent">리뷰
+					상세</label>
+				<textarea class="form-control" id="review_regionContent"
+					name="review_regionContent" placeholder="리뷰 상세" rows="18" required
+					style="resize: none;"></textarea>
 				<br>
 				<div style="text-align: center;">
 					<button class="btn btn-warning mb-3" type="submit"

@@ -47,7 +47,7 @@
 	<div id="wrapper">
 		<!-- Begin Header -->
 		<div align="center" id="header">
-			<div class="card border-success mb-3"
+			<div class="card border-dark mb-3"
 				style="width: 700px;height: 1000px;padding-top: 0px;padding-bottom: 20px;border-bottom-width: 1px;">
 				<div class="card-header" style="background-color: #83BD75;">
 					<h2 style="margin-bottom: 0px;">${getReviewProduct.rp_title}</h2>

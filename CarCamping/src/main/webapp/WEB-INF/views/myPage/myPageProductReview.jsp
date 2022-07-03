@@ -43,6 +43,7 @@
 <body>
 
 	<c:set var="mem_num" value="${mem_num}"/> 
+	<c:set var="mem_id" value="${sessionScope.mem_id}"/>
 	<div id="wrapper">
 		<!-- Begin Header -->
 		<div align="center" id="header">
@@ -125,8 +126,8 @@
 					</div>
 					<div align="center" id="leftcolumn"
 						style="width: 666px;margin-top: 5px; background:#fff;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-right-width: 0px;">
-						<%-- <div class="slider-gr" style="width:640px;">
-							<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
+						 <div class="slider-gr" style="width:640px;">
+							<c:forEach var="i" begin="1" end="${fn:length(ProductreviewImageList)}"> 
 									<input type="radio" name="slide" id="slide${i}" checked />
 								</c:forEach>
 							<!-- <input type="radio" name="slide" id="slide1" checked /> <input
@@ -134,22 +135,22 @@
 								name="slide" id="slide3" /> <input type="radio" name="slide"
 								id="slide4" /> -->
 							<ul id="imgholder" class="imgs">
-								<c:forEach var="reviewImages" items="${reviewImageList}">
-									<li><img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${reviewImages}" style="width:640px; height:300px;">/></li>
+								<c:forEach var="reviewImages" items="${ProductreviewImageList}">
+									<li><img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${reviewImages}" style="width:640px; height:300px;"></li>
 								</c:forEach>
 								
-								<!-- <li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>
+							<!-- 	 <li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>
 								<li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>
-								<li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li> -->
+								<li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>  -->
 							</ul>
 							<div class="bullets">
-									<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
+									<c:forEach var="i" begin="1" end="${fn:length(ProductreviewImageList )}"> 
 									<label for="slide${i}">&nbsp;</label>
 									</c:forEach>
 								<!-- <label for="slide1">&nbsp;</label> <label for="slide2">&nbsp;</label>
 								<label for="slide3">&nbsp;</label> <label for="slide4">&nbsp;</label> -->
 							</div>
-						</div> --%>
+						</div> 
 						<p></p>
 						<div class="progress" style="background-color: #83BD75;">
 							<div
@@ -222,7 +223,7 @@
 		               		}   
 		                	isRun  = false;
 		                }
-					});
+					}); 
 			}	
 		}
 		
