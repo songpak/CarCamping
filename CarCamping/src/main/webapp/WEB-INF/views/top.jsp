@@ -63,7 +63,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
 <c:url var="root" value="/"></c:url>
-<c:out value="${root}"/>
 
 	<!-- 웹소켓 부분 -->
 	<script type="text/javascript">
@@ -73,7 +72,6 @@
 		if (mbdto_id != null && mbdto_id !=""){
 			sock = new SockJS("${root}carCamping");
 		}
-		document.write(mbdto_id);		
 		
 		//알림 받는 영역
 		sock.onmessage = function(msg){
