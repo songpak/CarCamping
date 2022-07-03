@@ -137,7 +137,7 @@ public class ProductController {
            int prod_num = Integer.parseInt(params.get("prod_num"));
            session.setAttribute("prod_num", prod_num);
            ProductDTO dto = productMapper.getProduct(prod_num);
-           req.setAttribute("getProduct", dto);
+           session.setAttribute("getProduct", dto);
           List<ReviewProductDTO> list = null;
           String search = params.get("search");
           String searchString = params.get("searchString");
@@ -151,7 +151,7 @@ public class ProductController {
           List<AgencyDTO> Alist = productMapper.getAgency();
           req.setAttribute("countReviewProd", productMapper.countReviewProd(prod_num));
           req.setAttribute("getAgency", Alist);
-          req.setAttribute("getProduct", productMapper.getProduct(prod_num));
+          //req.setAttribute("getProduct", productMapper.getProduct(prod_num));
           req.setAttribute("pageCount", pagination.pageCount(list));
           req.setAttribute("listBoard", pagination.getPagePost(page,list));
 
