@@ -42,8 +42,6 @@
 .d-flex .card {
 	margin-right: 20px;
 }
-
-
 </style>
 
 <i class="fa-brands fa-searchengin"></i>
@@ -60,32 +58,82 @@
 				</nav>
 			</div>
 
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style=" margin-left: 255px;margin-right: 255px;"">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="resources/images/banner1.jpg" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="resources/images/banner2.jpg" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="resources/images/banner3.jpg" class="d-block w-100" alt="...">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>				<!-- 이전 버튼 -->
+			<div id="ccm-doc-hs" class="ccm-t7-hs">
+				<div id="ccm-bd-hs">
+					<div id="ccm-main-hs">
+						<div class="ccm-b-hs">
+							<div class="ccm-gc-hs">
+								<div class="ccm-u-hs first">
+									<div class="carousel"
+										data-flickity='{
+									"cellAlign": "left", "contain": true ,
+ 									"autoPlay": 0,"pauseAutoPlayOnHover": false,
+									"dragThreshold": 10,"imagesLoaded": true,
+									"freeScroll": true,"wrapAround": true,
+									"prevNextButtons": false,
+									"pageDots": false}'>						
+										<c:forEach items="${popList}" var="proddto">
+
+											<%-- <a href="productView.product?prod_num=${proddto.prod_num}"> --%>
+												<div class="carousel-cell" style="width: 300px; height: 380px">
+													<div class="card" style="width: 70%; height: 100%" onclick="location.href='productView.product?prod_num=${proddto.prod_num}'">
+														<!-- 이미지 불러오기 수정해야함 -->
+														<img src="resources/images/sik.jpg" class="card-img-top"
+															alt="...">
+														<div class="card-body">
+															<h5 class="card-title">${proddto.prod_name}</h5>
+															<hr>
+															<p class="card-text">${proddto.prod_summary}</p>
+														</div>
+													</div>
+												</div>
+											<!-- </a> -->
+
+										</c:forEach>
+									</div>
+								</div>
+							<div class="ccm-u-hs border rounded-4 border-4" style="height: 400px;">
+								<div class="region_content-hs rounded-4 " style="height: 402px;">
+									<ul class="list-group list-group-flush rounded-4 ">
+
+										<li class="list-group-item fs-2 text-center"><button
+												disabled class="btn btn-outline-warning btn-lg"
+												type="button"
+												style="-bs-btn-padding-x: 70px; - -bs-btn-padding-y: 15px;">
+												<i class="bi bi-trophy-fill" width="40" height="40"
+													fill="currentColor"></i> 인기용품 TOP 3 <i
+													class="bi bi-trophy-fill" width="40" height="40"
+													fill="currentColor"></i>
+											</button> 
+										 <c:forEach items="${prodrank3}" var="proddto">  <!-- 1,2,3위만 잘라서 가져와야 할듯 -->
+										<li class="list-group-item position-relative"><img
+											src="resources/images/logoyogo-1-261.jpg"
+											class="img-responsive rounded-circle"
+											style="width: 88px; height: 88px;">
+											<div
+												class="position-absolute top-50 start-50 translate-middle">
+												<i width="40" height="40"
+													fill="currentColor">${proddto.prod_name }</i>
+											</div>
+											</li>
+									</c:forEach> 
+									</ul>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 이전 버튼 -->
 				<!-- 페이징 -->
 				<div class="swiper-pagination"></div>
 			</div>
 
-			
+			<nav
+				class="navbar navbar-expand-lg border rounded-4 border-4 aria-label="
+				Eighth
+				navbarexample" 
+					style="margin-bottom: 20px; background-color: #0d6efd; border-left-width: 100px; margin-left: 213px; margin-right: 213px; margin-top: 10px;">
 				<div class="container-fluid" align="left">
 					<div class="container">
 			<input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked
@@ -168,15 +216,14 @@
 						<div class="card"
 							style="width: 18rem; margin-right: 30px; margin-bottom: 50px;">
 							<a href="productView.product?prod_num=${pdto.prod_num}"><img
-								src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.prod_viewImage1}" width="286" height="200"
-								></a>
+								src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.prod_viewImage1}" width="300" height="200"></a>
 							<div class="card-body">
 								<p class="card-text">
 
-									<b>${pdto.prod_name}</b><br /> 
-									브랜드 :${pdto.brandCategoryDTO.brand_name}<br /> 
-									평점 :${pdto.prod_reviewScore }<br /> 
-									
+									용품명 :${pdto.prod_name}<br /> 브랜드명
+									:${pdto.brandCategoryDTO.brand_name}<br /> 평점 :
+									${pdto.prod_reviewScore } 용품명 :${pdto.prod_name}<br> 브랜드명
+									:${pdto.brandCategoryDTO.brand_name}
 
 								</p>
 								<br>

@@ -1,6 +1,7 @@
 package com.ezen.carCamping;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,7 @@ public class RegionController {
 		ChkSignIn(req);
 		RegionDTO dto = RegionMapper.selectRegion(region_num);
 		List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(region_num);
+		
 		System.out.print(region_num);
 		req.setAttribute("regionDTO", dto);
 		req.setAttribute("hotList_Region", list);
@@ -64,6 +66,39 @@ public class RegionController {
 		return "region/regionHotLocList";
 
 	}
+	
+	@RequestMapping(value = "changeHotRegion.region", method=RequestMethod.GET,produces = "application/text; charset=UTF-8")
+	   @ResponseBody
+	   public String changeHotRegion(HttpServletRequest req,@RequestParam("regionNum") int regionNum,@RequestParam(required = false) String memId) {
+	      ChkSignIn(req);
+	      System.out.println(regionNum);
+	      //int region_num = Integer.parseInt(regionNum);
+	      RegionDTO dto = RegionMapper.selectRegion(regionNum);
+	      List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(regionNum);
+	      
+	      String hotList_html ="<li class=\"list-group-item fs-2 text-center\"><button\r\n" + 
+	            "            class=\"btn btn-outline-warning btn-lg\" type=\"button\" onclick=\"location.href='board.region?region_num="+dto.getRegion_num()+"'\"\r\n" + 
+	            "            style=\"-bs-btn-padding-x: 70px; - -bs-btn-padding-y: 15px;\">\r\n" + 
+	            "            <i class=\"bi bi-trophy-fill\" width=\"40\" height=\"40\"\r\n" + 
+	            "               fill=\"currentColor\"></i>"+dto.getRegion_name()+" 차박지 더 많이 보기<i\r\n" + 
+	            "               class=\"bi bi-trophy-fill\" width=\"40\" height=\"40\"\r\n" + 
+	            "               fill=\"currentColor\"></i></button></li>";
+	      for(int i=0;i<list.size();i++) {
+	         hotList_html+="<li class='"+"list-group-item position-relative'><img src='"
+	               +"https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/"+list.get(i).getCcr_viewImage1()
+	               +"' class='img-responsive rounded-circle' style='"+"width: 107px; height: 107px;'>"
+	               +"<div class='position-absolute top-50 start-50 translate-middle'>"
+	               +"<i class='bi bi-trophy-fill' width='40' height='40' style='color:#ffc107;'></i>"
+	               +"<a href ='regionView.region?ccr_num="
+	               +list.get(i).getCcr_num()+"'style=\'color:#050a16; font-weight: bold;\'>"
+	               +list.get(i).getCcr_name()+"</a></div></li>";
+	      }
+
+	      return hotList_html;
+	   }
+	   
+	
+	
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/regionView.region")
@@ -85,7 +120,7 @@ public class RegionController {
 		}
 		
 		List<ReviewRegionDTO> list = null;
-		int pageSize = 3;
+		int pageSize = 9;
 		String pageNum = params.get("pageNum");
 		int currentPage;
 		if (pageNum == null) {
@@ -108,7 +143,7 @@ public class RegionController {
 		
 		if (rowCount > 0) {
 			if(mode.equals("none")) {
-			list = RegionMapper.listCcrReview(ccr_num,startRow-1,3,orderBy);
+			list = RegionMapper.listCcrReview(ccr_num,startRow-1,endRow,orderBy);
 			System.out.println(list.size());
 			}
 			else if(mode.equals("searchReview")) {
@@ -118,10 +153,10 @@ public class RegionController {
 				System.out.println(searchString);
 				if(search.equals("mem_nickName")) {
 				rowCount = RegionMapper.countRevieWrietrSearch(ccr_num, search, searchString);
-				list = RegionMapper.listCcrReviewWriterSearch(ccr_num,  startRow-1, 3, orderBy, search, searchString);	
+				list = RegionMapper.listCcrReviewWriterSearch(ccr_num,  startRow-1, endRow, orderBy, search, searchString);	
 				}else {
 				rowCount = RegionMapper.countReviewSearch(ccr_num, search, searchString);
-				list = RegionMapper.listCcrReviewSearch(ccr_num, startRow-1, 3, orderBy, search, searchString);
+				list = RegionMapper.listCcrReviewSearch(ccr_num, startRow-1, endRow, orderBy, search, searchString);
 				}
 				req.setAttribute("search", search);
 				req.setAttribute("searchString", searchString);
@@ -326,6 +361,8 @@ public class RegionController {
 	return "/region/regionBoard";
 	}
 	
+	
+	
 	private void ChkSignIn(HttpServletRequest req) {
 		 HttpSession session = req.getSession();
 		  MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
@@ -334,4 +371,6 @@ public class RegionController {
 			  session.setAttribute("mem_id", dto.getMem_id());
 		  }
 	}
+	
+	
 }

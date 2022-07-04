@@ -293,15 +293,20 @@ public class MyPageController {
 
 	@RequestMapping(value="myPageProfile.myPage", method=RequestMethod.POST)
 	   public String memberUpdateOk(HttpServletRequest req, @ModelAttribute MemberDTO dto, BindingResult result) {
-	      MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+		 MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
 	      MultipartFile mf = mr.getFile("mem_image");
 	      RegionDTO rdto = new RegionDTO();
 	      String filename = mf.getOriginalFilename();
-	   
+	      String PreFile = req.getParameter("mem_image2");
+	      
+	 
 	      if (filename != null && !(filename.trim().equals(""))) {
-	         File file = new File(uploadPath, filename);
+	    	  S3FileService.deleteImage(PreFile);
+	    	  File file = new File(uploadPath, filename);
+	    	
 	         try {
 	            dto.setMem_image(S3FileService.upload(mf));
+	            System.out.println("filename"+mf); 
 	         } catch (IOException e1) {
 	            // TODO Auto-generated catch block
 	            e1.printStackTrace();
@@ -311,8 +316,12 @@ public class MyPageController {
 	         }catch(IOException e) {
 	            e.printStackTrace();
 	            }
+	     
+	      }else {
+				
+				dto.setMem_image(PreFile);
 	      }
-
+				
 	      rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
 	      dto.setRegionDTO(rdto);
 	      
@@ -329,7 +338,7 @@ public class MyPageController {
 	      req.setAttribute("url", url);
 	      return "message";
 	   }
-
+	
 	
 	@RequestMapping("/myPageQuestion.myPage")//마이페이지 문의목록
 	public String myPageQuestion(HttpServletRequest req, @RequestParam(required=false,defaultValue="1") int page) {

@@ -15,9 +15,10 @@
 <div class="container" >
     <div class="row"  >
       <div class=" col-lg-5 mx-auto" style="float: none; margin:100 auto;">
+      
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h3 class="card-title text-center"><font color="naivy"><b>Log in</b></font></h3>
+<a href="index.do" class="logo" style="height: 90px;"><img src="resources/images/withcar.png" style="width: 170px;height: 70px;"/></a>
             <form class="form-signin" method="post" action="login.login">
               <div class="form-label-group">
             <nobr>
@@ -62,19 +63,21 @@
                 <label>${message}</label>
               </c:if>
               </div>
-
-              <button class="btn btn-lg btn-dark btn-block text-uppercase" type="submit">로그인</button>
-              <hr class="my-4">
-             <a href="javascript:void(0)" onclick="findID()">아이디 찾기</a>/ 
+			  <a href="javascript:void(0)" onclick="findID()">아이디 찾기</a>/ 
               <a href="javascript:void(0)" onclick="findPW()">비밀번호 찾기</a>
-              <button class="btn btn-lg btn-dark btn-block text-uppercase" onclick="location='sign.login'">회원가입</button>
+              <button class="btn btn-lg btn-default btn-block text-uppercase" style="background:#091835" type="submit"><font color="white">로그인</font></button>
+              <hr class="my-4">
+            
+              <button class="btn btn-lg btn-default btn-block text-uppercase" style="background:#97abbd" onclick="location='sign.login'"><font color="white">회원가입</font></button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <script>
   
+  </script>
   <script type="text/javascript">
   function findID(){
       var url="findID.login";

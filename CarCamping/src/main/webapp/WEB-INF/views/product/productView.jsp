@@ -14,6 +14,37 @@ function fn_account(val){
          window.open(url, name, option);
       }
     </script>
+    <style>
+ .carousel-item img {
+	    width:598px;
+	    height:400px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
+
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+</style>
 <!-- 부트스트랩 영역 -->
 <link
    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
@@ -53,7 +84,7 @@ function fn_account(val){
          <!-- 이미지 영역 -->
          <div align="center">
             <h4>
-               <img src="${getProduct.prod_viewImage1}" />
+               <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage1}" />
             </h4> <br>
                상품명 : ${getProduct.prod_name }<br>
                일일대여 요금 : ${getProduct.prod_price }원<br><br>
@@ -128,8 +159,8 @@ function fn_account(val){
                      <!--  <button style="background-color: #0D6EFD; color: white;"
                         onclick="location.href='javascript:dateCheck()'">대여하기</button>-->
                       <input type="submit" value="대여하기"  style="background-color: #0D6EFD; color: white;">
-                     <input type="button" style="background-color: #0D6EFD; color: white;"
-                        onclick="location.href='javascript:popup1()'" value="문의하기" >
+                    	<button type="button" class="btn btn-dark"
+                        onclick="location.href='javascript:popup1()'" >문의하기</button>
                   </div>
                </div>
 

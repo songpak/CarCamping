@@ -5,6 +5,38 @@
  <c:set var="ccr_num" value="${regionSelected.ccr_num }"/>
  <c:set var="mem_id" value="${sessionScope.mem_id}"/>
  
+<style>
+ .carousel-item img {
+	    width:598px;
+	    height:400px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
+
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+</style>
+ <!-- 장소 상세보기모달 -->
 <div class="modal modal-center fade" id="regionContent" tabindex="-1"
 	role="dialog" aria-labelledby="regionContentLabel">
 	<div class="modal-dialog modal-center modal-lg" role="document">
@@ -12,13 +44,55 @@
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">${regionSelected.ccr_name}의
 					정보</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
+				<button type="button" class="btn-close" data-bs-dismiss="modal" 
 					aria-label="Close"></button>
 			</div>
+			<!-- 현재 이미지 캐러셀 -->
+					&nbsp;
+					<div id="carouselExampleControls" class="carousel slide"
+						data-bs-ride="carousel">
+						<div class="carousel-inner">
+							
+						</div>
+						<div class="carousel-inner">
+							<div class="carousel-item active ">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage1}" class="d-block w-100" alt="...">
+							</div>
+							<c:if test="${not empty regionSelected.ccr_viewImage2}">
+							<div class="carousel-item ">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage2}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty regionSelected.ccr_viewImage3}">
+							<div class="carousel-item">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage3}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty regionSelected.ccr_viewImage4}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage4}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty regionSelected.ccr_viewImage5}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage5}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+						</div>
+						  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+   						 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+					</div>
+			 <hr class="mb-4">		
 			<div class="modal-body">${regionSelected.ccr_content}</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary"
-					data-bs-dismiss="modal" style="width: 100%;">Close</button>
+				<button type="button" class="btn btn-dark" 
+					data-bs-dismiss="modal" style="width: 100%; background:#091835;">Close</button>
 			</div>
 			    
 		</div>
@@ -79,6 +153,7 @@ body {
 }
 
 
+
 </style>
 <!-- <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
@@ -90,7 +165,7 @@ body {
 	<div class="row mb-3">
 		<div class="d-flex flex-column flex-shrink-0 p-3 text-white border border-4 border-dark"
 			style="width: 332px; padding-left: 0px; padding-bottom: 0px; padding-right: 0px; padding-top: 0px; height: 632px; margin-right: 86px; margin-top: 50px;">
-			<span class="fs-4 text-center" style="height: 40px;">
+			<span class="fs-4 text-center" style="height: 40px; margin-top: 0px; margin-bottom: 10px;">
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#regionContent" style=" background-color: #00205b; border-color: #00205b;">${regionSelected.ccr_name}</button>
 			</span>
@@ -98,8 +173,8 @@ body {
 			<hr style="margin-top: 0px; margin-bottom: 5px;">
 			<ul id="regionInfo" class="nav nav-pills flex-column mb-auto"
 				style="margin-bottom: 0px; height: 600px;">
-				<li class="list-group-item d-flex justify-content-between align-items-center">
-					<img src="resources/images/sik.jpg" class="card-img-top" style="height: 250px;">
+				<li class="list-group-item d-flex justify-content-between align-items-center" style="padding-left: 0px; padding-right: 0px;">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage1}"  class="card-img-top">
 				</li>
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					좋 아 요
@@ -270,12 +345,9 @@ body {
 						<blockquote class="blockquote">
 							<p></p>
 						</blockquote>
-						<figcaption class="blockquote-footer">
-							<cite title="Source Title"></cite>
-						</figcaption>
 					</figure>
 				</div>
-				<h2 style="margin-bottom: 20px;">차박지 리뷰 목록</h2>
+				<h3 style="margin-bottom: 11px; padding-bottom: 0px; padding-top: 0px; padding-left: 0px; padding-right: 15px;">차박지 리뷰 목록</h3>
 			</div>
 			<div class="row">
 				<!-- 드랍 버튼 -->
@@ -295,10 +367,11 @@ body {
 								별점순</a></li>
 						</ul>
 					</div>
-					<button type="button" class="btn btn-success" style=" margin-left: 15px; background-color: #00205b; border-color: #00205b;" onclick="show_allList()">
+					<button type="button" class="btn btn-dark" style=" margin-left: 15px; background-color: #00205b; border-color: #00205b;" onclick="show_allList()">
 							전체보기
 					</button>
-					<button type="button" class="btn btn-success" style="margin-left: 15px; background-color: #00205b; border-color: #00205b;" 
+					
+					<button type="button" class="btn btn-dark" style="margin-left: 15px; background-color: #00205b; border-color: #00205b;" 
 							onclick="location.href='field_review.review?ccr_num=${ccr_num}'">
 							리뷰 등록 하기 
 					</button>
@@ -307,19 +380,21 @@ body {
 					<%-- regionView.region?ccr_num=${ccr_num}&orderBy=${orderBy }&mode=${mode}&search=${search}&searchString=${searchString}&pageNum=${i} --%>
 				<!-- 리뷰 검색 -->
 				<div class="col" align="right">
-					<div class="input-group mb-3">
+				<div class="col-md-8 mb-2" >
+					<div class="input-group mb-1" style="left: 12px;">
 						<input type="hidden" name="mode" value="find" /> <select
 							id="search" class="form-select"
-							aria-label="Default select example">
+							aria-label="Default select example" >
 							<option value="review_title" align="center">리뷰제목</option>
 							<option value="review_regionContent" align="center">리뷰내용</option>
 							<option value="mem_nickName" align="center">리뷰작성자</option>
 						</select> <input type="text" id="searchString" class="form-control"
 							placeholder="리뷰를 검색하세요 !" aria-label="Recipient's username"
 							aria-describedby="button-addon2">
-						<button class="btn btn-primary" type="button" id="button-addon2" style="background-color: #00205b; border-color: #00205b;"
+						<button class="btn btn-dark" type="button" id="button-addon2" style="background-color: #00205b; border-color: #00205b;"
 							onclick="search_function();">검색</button>
 					</div>
+				</div>
 				</div>
 			</div>
 
@@ -330,7 +405,7 @@ body {
 						<c:if test="${not empty searchString }"><td><h2 align="center">검색 하신 리뷰는 존재하지 않습니다.</h2></td></c:if>
 						<c:if test="${empty searchString }">
 						<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
-						<button type="button" class="btn btn-success" style="margin-left: 431px;align: center;
+						<button type="button" class="btn btn-dark" style="margin-left: 431px;align: center;
 						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
 							onclick="location.href='field_review.review?ccr_num=${ccr_num}'">
 							리뷰 등록 하기 
@@ -338,13 +413,14 @@ body {
 						</c:if>
 					<c:forEach var="review_ccr" items="${reviewList }">
 						<td>
-							<div class="card border-success" style="width: 18rem;">
-								<img src="resources/images/sik.jpg" class="card-img-top"
-									style="width: 284px; height: 200px;">
+							<div class="card border-dark" style="width: 18rem;">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${review_ccr.review_title}" class="card-img-top"
+									style="width: 284px; height: 200px;  display:inline-block;"><span style=" text-align:center; margin-top: 10px;">${review_ccr.memberDTO.mem_nickName}</span>
+									
 								<div class="card-body">
 									<div class="card-body">
-										<h5 class="card-title">${review_ccr.review_title}</h5>
-										<p class="card-text">${review_ccr.review_summaryContent }</p>
+										<h5 id="reviewTitle"class="card-title" align="center">${review_ccr.review_title}</h5>
+										<p class="card-text" align="center">${review_ccr.review_summaryContent }</p>
 									</div>
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item">별점
@@ -397,12 +473,18 @@ body {
 										</li>
 									</ul>
 									<div class="card-body">
-										<a href="javascript:popup(${review_ccr.review_num })"><button
-												type="button" class="btn btn-primary" style="width: 100%;">리뷰 보러가기</button></a>
+										<a href="javascript:popup(${review_ccr.review_num })"><button type="button" class="btn btn-dark" style="width: 100%; background:#091835;">
+										리뷰 보기</button></a>
+										<span style="float: left;font-size: 14px;">작성일자 : ${review_ccr.review_sysdate }</span>
 									</div>
 								</div>
 							</div>
 						</td>
+						  <c:set var="count" value="${count+1 }" />
+                     <c:if test="${count%3==0 }">
+               </tr>
+               <tr>
+                  </c:if>
 					</c:forEach>
 				</tr>
 			</table>	
@@ -429,6 +511,7 @@ body {
 						</c:if>
 					</c:if>	
 				</ul>
+				<button class="btn btn-dark" onclick="contact();"style="float: right; background-color: #00205b;">문의하기</button>
 			</nav>
 		</div>
 	</div>
@@ -521,6 +604,13 @@ body {
 			location.href = "regionView.region?ccr_num=${ccr_num}";
 			
 		}
+		
+	    function contact() {
+	          var url = "myPageContactUs.myPage";
+	          var name = "popup test";
+	          var option = "width = 961, height = 400, top = 100, left = 200, location = no"
+	          window.open(url, name, option);
+	  	}
 		
 </script>
 

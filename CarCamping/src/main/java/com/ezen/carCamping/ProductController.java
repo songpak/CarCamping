@@ -133,48 +133,93 @@ public class ProductController {
 	      return "product/productMain";
 	   }
  
-	@RequestMapping("/productView.product")
-	   public String productView(HttpServletRequest req, @RequestParam Map<String, String> params, int prod_num,
-	         @RequestParam(required=false,defaultValue="1") int page) {
-	          HttpSession session = req.getSession();
-	          ProductDTO dto = (ProductDTO)session.getAttribute("dto");  
-	          req.setAttribute("getProduct", dto);
+	@RequestMapping("/productView.product")//이부분 수정함
+    public String productView(HttpServletRequest req, @RequestParam Map<String, String> params,
+          String mode, @RequestParam(required=false,defaultValue="1") int page,int prod_num) {
+          System.out.println("모드값" + mode);
+           HttpSession session = req.getSession();
+           
+           //int prod_num = Integer.parseInt(params.get("prod_num"));
+           session.setAttribute("prod_num", prod_num);
+           ProductDTO dto = productMapper.getProduct(prod_num);
+           req.setAttribute("getProduct", dto);
+          List<ReviewProductDTO> list = null;
+          String search = params.get("search");
+          String searchString = params.get("searchString");
+          if (searchString == null||searchString.equals("")) {
+             list = productMapper.listProdReview(prod_num);
+          }else {
+             list = productMapper.findReview(prod_num,search, searchString);
+             session.setAttribute("prodsearch", search);
+             session.setAttribute("prodsearchString", searchString);
+          }
+          System.out.println("1 search searchString : " +search+ searchString);
+          List<AgencyDTO> Alist = productMapper.getAgency();
+          req.setAttribute("getAgency", Alist);
+          req.setAttribute("getProduct", productMapper.getProduct(prod_num));
+          req.setAttribute("pageCount", pagination.pageCount(list));
+          req.setAttribute("listBoard", pagination.getPagePost(page,list));
 
-	         List<ReviewProductDTO> list = null;
-	         String search = params.get("search");
-	         String searchString = params.get("searchString");
-	         if (searchString == null) {
-	            list = productMapper.listProdReview(prod_num);
-	         } else {
-	            list = productMapper.findReview(search, searchString);
-	         }
-	         List<AgencyDTO> Alist = productMapper.getAgency();
-	         req.setAttribute("getAgency", Alist);
-	         req.setAttribute("getProduct", productMapper.getProduct(prod_num));
-//	         req.setAttribute("ReList", list);
-	         
-	         req.setAttribute("pageCount", pagination.pageCount(list));
-	         req.setAttribute("listBoard", pagination.getPagePost(page,list));
-
-	      return "product/productView";
-	   }
+       return "product/test";
+    }
+ 
+ @RequestMapping("/productViewOrder.product")//이 부분 추가
+     public String productView2(HttpServletRequest req,String mode,@RequestParam(required=false,defaultValue="1") int page
+           , @RequestParam Map<String,String> params) {
+    
+    //String search =params.get("search");
+     //String searchString =params.get("searchString");
+     HttpSession session = req.getSession();
+     String search = (String) session.getAttribute("search");
+     String searchString = (String) session.getAttribute("searchString");
+     //int prod_num = Integer.parseInt(params.get("prod_num"));
+     int prod_num = (int)session.getAttribute("prod_num");
+     //System.out.println("상품번호"+ prod_num);
+        List<ReviewProductDTO> list = null;
+        System.out.println("모드값" + mode);
+        if(mode.equals("listReviewNew")) {
+           if(search!=null&&searchString!=null) {
+              list = productMapper.listReviewsearchSysdate(search, searchString, prod_num);
+             // System.out.println("2 search searchString : " +search+ searchString);
+           }else if(search==null||searchString==null||search.equals("")||searchString.equals("")) {
+        	   list = productMapper.R_orderBysysdate(prod_num);
+           }
+        }else if(mode.equals("listReviewPop")) {
+           if(search!=null&&searchString!=null) {
+              list = productMapper.listReviewsearchScore(search, searchString, prod_num);
+           }else if(search==null&&searchString==null||search.equals("")&&searchString.equals("")) {
+        	   list = productMapper.R_orderByScore(prod_num);
+           }
+        }else if(mode.equals("listReviewLike")) {
+        	 if(search!=null&&searchString!=null) {
+                 list = productMapper.listReviewsearchLike(search, searchString, prod_num);
+              }else if(search==null&&searchString==null||search.equals("")&&searchString.equals("")) {
+        		 list = productMapper.R_orderByLike(prod_num); 
+        	 }
+        		
+          
+        }
+       
+        req.setAttribute("pageCount", pagination.pageCount(list));
+          req.setAttribute("listBoard", pagination.getPagePost(page,list));
+        return "product/test";
+ }
 	
-	@RequestMapping("/productReviewView.product")
-	   public String myPageWriteReviewProductView(HttpServletRequest req, HttpServletResponse rep, @RequestParam int rp_num) {
-	      ReviewProductDTO pdto = myPageMapper.getReviewProduct(rp_num);
-	      req.setAttribute("getReviewProduct", pdto);
-	      ///////////////////////////////////////////////////////////////////////////
-	      HttpSession session = req.getSession();
-	      MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
-	      if(mdto!=null) {
-	      session.setAttribute("mem_num", mdto.getMem_num());
-	      session.setAttribute("mem_id", mdto.getMem_id());
-	      }else if(mdto == null){
-	      System.out.println("로그인안해쓴ㄴ데여?");
-	      req.setAttribute("msg", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
-	      req.setAttribute("url","login.login");
-	      return "message";
-	      }
+ @RequestMapping("/productReviewView.product")
+ public String myPageWriteReviewProductView(HttpServletRequest req, HttpServletResponse rep, @RequestParam int rp_num) {
+		ReviewProductDTO pdto = myPageMapper.getReviewProduct(rp_num);
+		req.setAttribute("getReviewProduct", pdto);
+		HttpSession session = req.getSession();
+		MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
+		int mem_num = mdto.getMem_num();
+		if (mem_num > 0) {
+			session.setAttribute("mem_num", mdto.getMem_num());
+			session.setAttribute("mem_id", mdto.getMem_id());
+		} else if (mem_num <= 0) {
+			req.setAttribute("msg", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
+			req.setAttribute("url", "login.login");
+			return "message";
+		}
 	      
 	      Cookie[] cookies = req.getCookies();
 	      Cookie viewCookie = null;//鍮꾧탳荑좏궎
@@ -238,7 +283,7 @@ public class ProductController {
 	      
 	      //req.setAttribute("selectedReview", pdto);
 	      req.setAttribute("rp_imageList", rp_images); // 빐 떦 由щ럭 쓽  씠誘몄   씠由꾩쓣    옣
-	      return "myPage/myPageWriteReviewProductView";
+	      return "product/productReviewView";
 	   }
 
 	   // 용품 리뷰상세보기 컨트롤러

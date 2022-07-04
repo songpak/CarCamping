@@ -22,7 +22,16 @@
 		}
 	}
 </script>
+<style>
+ .carousel-item img {
+	    width:400px;
+	    height:350px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
 
+</style>
 <body>
 	<div align="center">
 		<form name="viewProduct" method="post" action="adminViewProduct.admin" enctype="multipart/form-data"
@@ -91,22 +100,22 @@
 									</div>
 								</c:if>
 								<c:if test="${not empty pdto.prod_viewImage2}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${pdto.prod_viewImage2}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty pdto.prod_viewImage3}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${pdto.prod_viewImage3}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty pdto.prod_viewImage4}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${pdto.prod_viewImage4}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty pdto.prod_viewImage5}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${pdto.prod_viewImage5}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>

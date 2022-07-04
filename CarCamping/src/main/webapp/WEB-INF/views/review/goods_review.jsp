@@ -267,7 +267,8 @@ $(document).ready(function() {
 <script type="text/javascript">
 	var pc_num = '${pc_num}';
 	var brand_num = '${brand_num}';
-	var prod_num = ${prod_num};
+	var prod_num = ${requestScope.prod_num};
+	alert(prod_num);
 	var prod_name ='${prod_name}';
 	if(prod_num != null){
 		var prodCateSelect = document.getElementById("review_prodCate")
@@ -295,4 +296,4 @@ $(document).ready(function() {
 	
 	
 </script>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../bottom.jsp"%>			

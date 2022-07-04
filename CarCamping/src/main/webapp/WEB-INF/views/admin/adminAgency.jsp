@@ -3,7 +3,30 @@
 <%@ include file="../top.jsp"%>
 <%@ include file="left.jsp"%>   
 <!-- Content Column Grid -->
-<div class="col-md-8 themed-grid-col">
+<style>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+</style>
+
+<div class="col-md-8 themed-grid-col" style="padding-left: 20px;padding-right: 20px;">
 	<div class="row" align="center">
 		<div class="col">
 			<p class="h2"><strong>대리점 목록</strong></p>
@@ -83,7 +106,8 @@
 			window.open(url,name,option);
 		}
 	</script>
-	
+
+
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<c:if test="${page-3>1}">

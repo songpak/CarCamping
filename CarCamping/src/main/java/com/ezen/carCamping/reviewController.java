@@ -97,36 +97,12 @@ public class reviewController {
 			// 파일이 있을때 
 			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
 				for(MultipartFile file:multipartFile) {
-					
-					fileRoot = contextRoot + "resources/images/";
-					
-					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
-					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-					
 					//dto image setting
-
-					if (dto.getReview_regionImage1()==null) {
-						dto.setReview_regionImage1(savedFileName);
-						String str = S3FileService.upload(file);
-						System.out.println(str);
-					}
-					else if (dto.getReview_regionImage2()==null) dto.setReview_regionImage2(savedFileName);
-					else if (dto.getReview_regionImage3()==null) dto.setReview_regionImage3(savedFileName);
-					else if (dto.getReview_regionImage4()==null) dto.setReview_regionImage4(savedFileName);
-					else if (dto.getReview_regionImage5()==null) dto.setReview_regionImage5(savedFileName);
-
-					
-					File targetFile = new File(fileRoot + savedFileName);	
-					try {
-						InputStream fileStream = file.getInputStream();
-						FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
-						
-					} catch (Exception e) {//파일삭제
-						FileUtils.deleteQuietly(targetFile);//저장된 현재 파일 삭제
-						e.printStackTrace();
-						break;
-					}
+					if (dto.getReview_regionImage1()==null) dto.setReview_regionImage1(S3FileService.upload(file));
+					else if (dto.getReview_regionImage2()==null) dto.setReview_regionImage2(S3FileService.upload(file));
+					else if (dto.getReview_regionImage3()==null) dto.setReview_regionImage3(S3FileService.upload(file));
+					else if (dto.getReview_regionImage4()==null) dto.setReview_regionImage4(S3FileService.upload(file));
+					else if (dto.getReview_regionImage5()==null) dto.setReview_regionImage5(S3FileService.upload(file));
 				}
 				int res = reviewMapper.insertReviewRegion(dto);	
 				strResult = "good";
@@ -155,6 +131,7 @@ public class reviewController {
 			req.setAttribute("brandCateList", reviewMapper.listAllBrandCate());
 		}
 		if(prod_num!=null) {
+			System.out.println(prod_num);
 			ProductDTO pdto = ProductMapper.getProduct(prod_num);
 			req.setAttribute("pc_num",pdto.getProductCategoryDTO().getPc_num());
 			req.setAttribute("brand_num",pdto.getBrandCategoryDTO().getBrand_num());
@@ -189,29 +166,12 @@ public class reviewController {
 			// 파일이 있을때 
 			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
 				for(MultipartFile file:multipartFile) {
-					fileRoot = contextRoot + "resources/images/";
-					System.out.println(fileRoot);
-					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
-					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-				
 					//dto image setting
 					if (dto.getRp_image1()==null) dto.setRp_image1(S3FileService.upload(file));
 					else if (dto.getRp_image2()==null) dto.setRp_image2(S3FileService.upload(file));
 					else if (dto.getRp_image3()==null) dto.setRp_image3(S3FileService.upload(file));
 					else if (dto.getRp_image4()==null) dto.setRp_image4(S3FileService.upload(file));
 					else if (dto.getRp_image5()==null) dto.setRp_image5(S3FileService.upload(file));
-					
-					File targetFile = new File(fileRoot + savedFileName);	
-					try {
-						InputStream fileStream = file.getInputStream();
-						FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
-						
-					} catch (Exception e) {//파일삭제
-						FileUtils.deleteQuietly(targetFile);//저장된 현재 파일 삭제
-						e.printStackTrace();
-						break;
-					}
 				}
 				int res = reviewMapper.insertReviewProduct(dto);	
 				strResult = "good";

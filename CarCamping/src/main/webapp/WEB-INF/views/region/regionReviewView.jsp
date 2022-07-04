@@ -53,7 +53,7 @@
 					<h2 style="margin-bottom: 0px;">${selectedReview.review_title}</h2>
 				</div>
 				<div class="card-body">
-					<img src="resources/images/sik.jpg" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${selectedReview.review_regionImage1}" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>좋 아 요</h5>
@@ -136,7 +136,7 @@
 								id="slide4" /> -->
 							<ul id="imgholder" class="imgs">
 								<c:forEach var="reviewImages" items="${reviewImageList}">
-									<li><img src="resources/images/${reviewImages }" style="width:640px; height:300px;">/></li>
+									<li><img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${reviewImages }" style="width:640px; height:300px;">/></li>
 								</c:forEach>
 								
 								<!-- <li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>

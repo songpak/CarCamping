@@ -24,6 +24,27 @@
 <script type="text/javascript">
 var right = 0;
 function regChk(){
+  var signCheck = document.signCheck;
+      if (signCheck.mem_phone.value==""){
+		   alert("전화번호를 입력하셔야 합니다.")
+		   signCheck.mem_introduce.focus() 
+		   return false;
+	      }
+     if (signCheck.mem_birthday.value==""){
+		   alert("생년월일을 입력하셔야 합니다.")
+		   signCheck.mem_introduce.focus() 
+		   return false;
+	      }
+	 if (signCheck.mem_summary.value==""){
+			alert("자기소개 요약을 입력하셔야 합니다.")
+			signCheck.mem_summary.focus() 
+			return false;
+		  } 
+	 if (signCheck.mem_introduce.value==""){
+			alert("자기소개를 입력하셔야 합니다.")
+			signCheck.mem_introduce.focus() 
+			return false;
+		  }
    var mem_password = document.signCheck.mem_password.value;
    var num = mem_password.search(/[0-9]/g);
    var eng = mem_password.search(/[a-z]/ig);
@@ -64,14 +85,18 @@ function regChk(){
          signCheck.mem_birthday.focus();
          return false; 
       }
-   var fileName = $("#mem_image").val();           
-   var ext = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
-   if (!(ext == "gif" || ext == "jpg" || ext == "png")) {
-      alert("이미지파일 (.jpg, .png, .gif ) 만 업로드 가능합니다.");   
-      signCheck.mem_image.focus();
+   var nickregExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+   var mem_nickName = signCheck.mem_nickName.value;
+   if(mem_nickName.length==0||mem_nickName==""){
+      alert("닉네임을 입력해 주세요.");
+      signCheck.mem_nickName.focus();
       return false;
    }
-  
+   if( nickregExp.test(mem_nickName) ){
+      alert("특수문자는 입력하실수 없습니다.");
+      return false;
+   }
+ 
           document.signCheck.submit()
 }       
            </script>
@@ -97,7 +122,7 @@ function regChk(){
        }
  
    </script>
-   
+    
 </head>
 <body>
 <div class="container">
@@ -125,13 +150,16 @@ function regChk(){
                       <tr>
                         <td>이메일</td>
                         <td>
-                        <input type="text" value="${getMember.mem_email}" name="mem_email" class="form-control" disabled>
+                        <input type="text" value="${getMember.mem_email}" id="mem_email" name="mem_email" class="form-control" disabled>
                         </td>
                       </tr>
+                      <tr><td>닉네임  </td>
+                      <td>
+                       <input type="text" value="${getMember.mem_nickName}" id="mem_nickName" name="mem_nickName" class="form-control"  required>
                        <tr>
                         <td>프로필 사진</td>
                         <td>
-                        <img src="${uploadPath}/${getMember.mem_image}" width="150" height="150">
+                        <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getMember.mem_image}" width="150" height="150">
                      <input type="file" id="mem_image" name="mem_image">
                      <input type="hidden" id="mem_image2" name="mem_image2" value="${getMember.mem_image}">
                         </td>
@@ -372,8 +400,8 @@ function regChk(){
                       <tr>
                         <td>비밀번호 확인</td>
                         <td>
-                        <input type="password"  id="mem_password2" name="mem_password2" class="form-control" onblur="passchk()" required>
-                        <input type="text" style="border-width: 0px" size="20" name="chk" value="비밀번호를 입력하세요" readonly="readonly">
+                        <input type="password" id="mem_password2" name="mem_password2" class="form-control" onblur="passchk()" required>
+                        <input type="text" style="border-width: 0px; background-color:#ddd" size="16" name="chk" value="비밀번호를 입력하세요" readonly="readonly">
                          <br><br>
                         </td>
                       </tr>

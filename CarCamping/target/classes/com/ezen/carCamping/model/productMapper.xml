@@ -65,32 +65,45 @@
 		<id column="region_num" property="region_num"/>
 		<result column="region_name" property="region_name"/>
 	</resultMap>
-	
+	<resultMap id="reviewProductMap" type="ReviewProductDTO">
+		<id column="rp_num" property="rp_num"/>
+		<result column="rp_title" property="rp_title"/>
+		<result column="rp_sysdate" property="rp_sysdate"/>
+		<result column="rp_summaryContent" property="rp_summaryContent"/>
+		<result column="rp_content" property="rp_content"/>
+		<result column="rp_score" property="rp_score"/>
+		<result column="rp_image1" property="rp_image1"/>
+		<result column="rp_image2" property="rp_image2"/>
+		<result column="rp_image3" property="rp_image3"/>
+		<result column="rp_image4" property="rp_image4"/>
+		<result column="rp_image5" property="rp_image5"/>
+		<result column="rp_popular" property="rp_popular"/>
+		<result column="rp_readCount" property="rp_readCount"/>
+		<result column="rp_likeCount" property="rp_likeCount"/>
+		<result column="rp_adminConfirm" property="rp_adminConfirm"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
+		</association>
+		<association property="productDTO" javaType="ProductDTO" resultMap="productMap">
+		</association>
+	</resultMap>
 	
 
-	<select id="getProduct" parameterType="int" resultType="ProductDTO">
+	<select id="getProduct" parameterType="int" resultMap="productMap">
 		select * from Product where prod_num = #{prod_num}
 	</select>
 
 	<select id="listProdReview" resultType="ReviewProductDTO">
-		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num
+		select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num} and ReviewProduct.prod_num = Product.prod_num and rp_adminConfirm=0
 	</select>
 	
-	<select id="findProdReview" parameterType="java.util.Map" resultType="ReviewProductDTO">
-		select * from ReviewProduct where ${search} = #{searchString} or rp_title like concat('%',#{searchString},'%')
+	<select id="findProdReview" parameterType="java.util.Map" resultMap="reviewProductMap">
+		select * from ReviewProduct where prod_num=${prod_num} and ${search} like concat('%',#{searchString},'%')  and rp_adminConfirm=0
 	</select>
 	
 	<select id="getReviewView" resultType="ReviewProductDTO">
 		select a.*,b.mem_nickName,mem_image from ReviewProduct as a left join Member as b on a.mem_num = b.mem_num where a.rp_num = #{rp_num}
 	</select>
 	
-	<select id ="R_orderByScore" parameterType="String" resultMap="productMap"> 
-		select * from ReviewProduct order by rp_score
-	</select>
-	
-	<select id ="R_orderByRead" parameterType="String" resultMap="productMap"> 
-		select * from ReviewProduct order by rp_readCount
-	</select>
 
 	<!-- 시작 -->
 
@@ -197,5 +210,52 @@
 	<select resultType="int" id="listProductbrandSearch" parameterType="String">
 		select count(*) from Product as a left join BrandCategory as b on a.brand_num = b.brand_num where brand_name like concat('%',#{searchString},'%')
 	</select> 
+	
+	<select id="listReviewsearchLike" resultMap="reviewProductMap"
+      parameterType="java.util.Map">
+      select * from ReviewProduct,Product
+      where ReviewProduct.prod_num=#{prod_num} and
+      ReviewProduct.prod_num = Product.prod_num and
+      ReviewProduct.rp_adminConfirm=0 and ${search} like
+      concat('%',#{searchString},'%') order by ReviewProduct.rp_likeCount desc
+   </select>
+
+   <select id="listReviewsearchSysdate" resultMap="reviewProductMap"
+      parameterType="java.util.Map">
+      select * from ReviewProduct,Product
+      where ReviewProduct.prod_num=#{prod_num} and
+      ReviewProduct.prod_num = Product.prod_num and
+      ReviewProduct.rp_adminConfirm=0 and ${search} like
+      concat('%',#{searchString},'%') order by ReviewProduct.rp_sysdate desc
+   </select>
+
+   <select id="listReviewsearchScore" resultMap="reviewProductMap"
+      parameterType="java.util.Map">
+      select * from ReviewProduct,Product
+      where ReviewProduct.prod_num=#{prod_num} and
+      ReviewProduct.prod_num = Product.prod_num and
+      ReviewProduct.rp_adminConfirm=0 and ${search} like
+      concat('%',#{searchString},'%') order by ReviewProduct.rp_score desc
+   </select>
+   
+   <select id="R_orderByScore" resultMap="reviewProductMap">
+      select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num}
+      and ReviewProduct.prod_num = Product.prod_num and
+      ReviewProduct.rp_adminConfirm=0 order by ReviewProduct.rp_score desc
+   </select>
+
+   <select id="R_orderBysysdate" resultMap="reviewProductMap">
+      select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num}
+      and ReviewProduct.prod_num = Product.prod_num and
+      ReviewProduct.rp_adminConfirm=0 order by ReviewProduct.rp_sysdate desc
+   </select>
+
+   <select id="R_orderByLike" resultMap="reviewProductMap">
+      select * from ReviewProduct,Product where ReviewProduct.prod_num=#{prod_num}
+      and ReviewProduct.prod_num = Product.prod_num and
+      ReviewProduct.rp_adminConfirm=0 order by ReviewProduct.rp_likeCount
+      desc
+   </select> 
+   
 </mapper>
 

@@ -44,7 +44,7 @@
 	var isRun = false; // ajax 동시 호출 막기(ajax가 호출되는 동안 버튼이 클릭돼도 중복으로 실행되는것을 막기위함)
 
 	function SelectRegion() {
-		
+		alert('${mem_num}');
 		if (isRun == true) {
 			return;
 		}
@@ -172,7 +172,6 @@
 				if (data == "good") {
 					alert("리뷰 업로드 성공");
 					location.href = "goRegion.region";
-					
 				} else
 					alert("서버내 오류 또는 게시글의 내용이 너무 깁니다. 잠시후 시도 하시거나 내용을 변경해주세요");
 			},
@@ -198,6 +197,7 @@
 </style>
 
 <form name="dataForm" id="dataForm" onsubmit="return registerAction()">
+
 	<input type="hidden" name="memberDTO.mem_num" value="${mem_num}" />
 	<div class="container">
 		<div class="row">
@@ -218,60 +218,66 @@
 					</fieldset>
 				</div>
 			</div>
-		</div>
-		<div class="col-md-8 col-md-offset-2">
-			<div style="display: flex; margin-top: 10px">
+			<div class="col-md-8 col-md-offset-2">
+				<div style="display: flex; margin-top: 10px">
 
-				<label for="review_region"
-					style="padding-top: 9px; margin-right: 10px;">지역</label> <select
-					class="form-control" id="review_region" name="review_region"
-					onchange="SelectRegion();" required
-					style="width: 226.22222px; margin-right: 90px;">
-					<option value="" selected disabled>지역을 선택해주세요---------</option>
-					<option value="1">서울|경기도</option>
-					<option value="2">강원도</option>
-					<option value="3">충청북도</option>
-					<option value="4">충청남도</option>
-					<option value="5">경상북도</option>
-					<option value="6">경상남도</option>
-					<option value="7">전라북도</option>
-					<option value="8">전라남도</option>
-					<option value="9">제주도</option>
-				</select> <label for="review_ccr"
-					style="padding-top: 9px; margin-right: 10px;">장소</label> <select
-					class="form-control" name="carCampingRegionDTO.ccr_num"
-					id="review_ccr" required style="width: 357px;">
-					<option value="" selected disabled>------------지역을 먼저
-						선택해주세요------------</option>
-				</select>
-			</div>
-			<br> <label for="review_title">제목</label> <input
-				class="form-control" id="review_title" name="review_title"
-				type="text" required /> <br> <label
-				for="review_summaryContent">장소 한줄리뷰</label> <input
-				class="form-control" id="review_summaryContent"
-				name="review_summaryContent" placeholder="ex)화장실이 있어요" type="text"
-				required /> <br> <label for="review_regionContent">리뷰
-				상세</label>
-			<textarea class="form-control" id="review_regionContent"
-				name="review_regionContent" placeholder="리뷰 상세" rows="18" required
-				style="resize: none;"></textarea>
-			<br>
-			<button id="btn-upload" type="button"
-				style="border: 1px solid #ddd; outline: none;">이미지 파일 추가</button>
-			<input id="input_file" multiple="multiple" type="file"
-				style="display: none;" accept="image/*"> <span
-				style="font-size: 10px; color: gray;">※이미지 파일은 최대 5개까지 등록이
-				가능합니다.</span>
-			<div class="data_file_txt" id="data_file_txt" style="margin: 40px;">
-				<span>이미지 파일</span> <br />
-				<div id="reviewImageBox">
-					<!-- //articlefileChange -->
-
+					<label for="review_region"
+						style="padding-top: 9px; margin-right: 10px;">지역</label> <select
+						class="form-control" id="review_region" name="review_region"
+						onchange="SelectRegion();" required
+						style="width: 226.22222px; margin-right: 90px;">
+						<option value="" selected disabled>지역을 선택해주세요---------</option>
+						<option value="1">서울|경기도</option>
+						<option value="2">강원도</option>
+						<option value="3">충청북도</option>
+						<option value="4">충청남도</option>
+						<option value="5">경상북도</option>
+						<option value="6">경상남도</option>
+						<option value="7">전라북도</option>
+						<option value="8">전라남도</option>
+						<option value="9">제주도</option>
+					</select> <label for="review_ccr"
+						style="padding-top: 9px; margin-right: 10px;">장소</label> <select
+						class="form-control" name="carCampingRegionDTO.ccr_num"
+						id="review_ccr" required style="width: 357px;">
+						<option value="" selected disabled>------------지역을 먼저
+							선택해주세요------------</option>
+					</select>
+				</div>
+				<br> <label for="review_title">제목</label> <input
+					class="form-control" id="review_title" name="review_title"
+					type="text" required /> <br> <label
+					for="review_summaryContent">장소 한줄리뷰</label> <input
+					class="form-control" id="review_summaryContent"
+					name="review_summaryContent" placeholder="ex)화장실이 있어요" type="text"
+					required /> <br> <label for="review_regionContent">리뷰
+					상세</label>
+				<textarea class="form-control" id="review_regionContent"
+					name="review_regionContent" placeholder="리뷰 상세" rows="18" required
+					style="resize: none;"></textarea>
+				<br>
+				<div style="text-align: center;">
+					<button class="btn btn-warning mb-3" type="submit"
+						style="margin-right: 60px;">리뷰 작성</button>
+					<button class="btn btn-danger mb-3" type="reset">취소</button>
+				</div>
+				<button id="btn-upload" type="button"
+					style="border: 1px solid #ddd; outline: none;">이미지 파일 추가</button>
+				<input id="input_file" multiple="multiple" type="file"
+					style="display: none;" accept="image/*"> <span
+					style="font-size: 10px; color: gray;">※이미지 파일은 최대 5개까지 등록이
+					가능합니다.</span>
+				<div class="data_file_txt" id="data_file_txt" style="margin: 40px;">
+					<span>이미지 파일</span> <br />
+					<div id="reviewImageBox"
+						style="overflow-x: hidden; width: 100%; height: 200px;">
+						<!-- //articlefileChange -->
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </form>
 <script type="text/javascript">
 	var isEmpty = function(value) { //빈값체크

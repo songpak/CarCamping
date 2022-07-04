@@ -42,64 +42,70 @@
 </head>
 <body>
 
-<c:set var="mem_num" value="${mem_num}"/> 
-<c:set var="mem_id" value="${sessionScope.mem_id}"/>
+	<c:set var="review_num" value="${selectedReview.review_num }"/>
+ 	<c:set var="mem_id" value="${sessionScope.mem_id}"/>
 	<div id="wrapper">
 		<!-- Begin Header -->
 		<div align="center" id="header">
-			<div class="card border-success mb-3"
-				style="width: 700px; height: 960px">
-				<div class="card-header" style="background-color: #83BD75;">
-					<h2 style="margin-bottom: 0px;">${rrlist.review_title}</h2>
+			<div class="card border-dark mb-3"
+				style="width: 550px;height: 1000px;padding-top: 0px;padding-bottom: 20px;border-bottom-width: 1px;">
+					<div class="card-header" style="background-color: #f3f3f3;">
+					<h2 style="margin-bottom: 0px;">${selectedReview.review_title}</h2>
 				</div>
 				<div class="card-body">
-					<img src="resources/images/sik.jpg" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
-					<ul class="list-group">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${selectedReview.memberDTO.mem_image}" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
+					<ul class="list-group" style="padding-left: 30px; padding-right: 10px;">
+						<!--<li id="reviewWriter" class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
+							<h5>작 성 자</h5>
+							<button  type="button" class="btn btn-dark rounded-pill" style="padding-top: 0px;padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
+							${selectedReview.memberDTO.mem_nickName}
+							</button>
+						</li>  -->
 						<li class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>좋 아 요</h5>
 							<c:if test="${check==0}">
 								<button type="button" id="likeCount" class="btn rounded-pill" onclick="Like_function();" style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px; background-color:#ffffff;">
-									${rrlist.review_likeCount}💖
+									${selectedReview.review_likeCount}💖
 								</button>
 							</c:if>
 							<c:if test="${check==1 }">
 								<button type="button" id="likeCount" class="btn rounded-pill" onclick="Like_function();" style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px; background-color:#bb2d3b;">
-									${rrlist.review_likeCount}💖
+									${selectedReview.review_likeCount}💖
 								</button>
 							</c:if>
 						</li>
 						<li id="viewCount" class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>조 회 수</h5>
 							<button  type="button" class="btn btn-dark rounded-pill" style="padding-top: 0px;padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
-							${rrlist.review_readCount}
+							${selectedReview.review_readCount}
 							</button>
 						</li>
 						<li class="list-group-item d-flex justify-content-between align-items-center">
-							<h5 style="padding-right: 180px;">별점 (${rrlist.review_regionScore}/5)</h5>
+							<h5 style="padding-right: 100px;">별점 (${selectedReview.review_regionScore}/5)</h5>
 							<div class="container" style="width: 424px;margin-left: 0px;margin-right: 0px;padding-right: 0px;padding-left: 0px;">
 								<div class="row">
 									<div id="myform">
 										<fieldset style="float:right;">
 										<c:choose>
-				 				<c:when test="${rrlist.review_regionScore >= 1 && rrlist.review_regionScore < 2 }">
+				 				<c:when test="${selectedReview.review_regionScore >= 1 && selectedReview.review_regionScore < 2 }">
 				  							<label for="rate1">⭐</label>
 				 				</c:when>
-				 				<c:when test="${rrlist.review_regionScore >= 2 && rrlist.review_regionScore < 3 }">
+				 				<c:when test="${selectedReview.review_regionScore >= 2 && selectedReview.review_regionScore < 3 }">
 				  						<label for="rate1">⭐</label>
 				  						<label for="rate2">⭐</label>
 				 				</c:when>
-								 <c:when test="${rrlist.review_regionScore >= 3 && rrlist.review_regionScore < 4 }">
+								 <c:when test="${selectedReview.review_regionScore >= 3 && selectedReview.review_regionScore < 4 }">
 				  						<label for="rate1">⭐</label>
 				  						<label for="rate2">⭐</label>
 				  						<label for="rate3">⭐</label>
 				 				</c:when>
-				 				<c:when test="${rrlist.review_regionScore >= 4 && rrlist.review_regionScore < 5 }">
+				 				<c:when test="${selectedReview.review_regionScore >= 4 && selectedReview.review_regionScore < 5 }">
 				  						<label for="rate1">⭐</label>
 				  						<label for="rate2">⭐</label>
 				  						<label for="rate3">⭐</label>
 				  						 <label for="rate4">⭐</label>
 				 				</c:when>
-				 				<c:when test="${rrlist.review_regionScore eq 5 }">
+				 				<c:when test="${selectedReview.review_regionScore eq 5 }">
 				  						<label for="rate1">⭐</label>
 				  						<label for="rate2">⭐</label>
 				  						<label for="rate3">⭐</label>
@@ -117,7 +123,10 @@
 						</li>
 					
 					</ul>
-					<p></p>
+					<div celar="left">
+						<label style="float: left"><b style="padding-left: 50px;">${selectedReview.memberDTO.mem_nickName}</b></label>
+						</div>
+						<br></br>
 					<div class="progress" >
 						<div
 							class="progress-bar progress-bar-striped progress-bar-animated"
@@ -125,9 +134,9 @@
 							aria-valuemax="100" style="width: 100%; background-color: #83BD75;" ></div>
 					</div>
 					<div align="center" id="leftcolumn"
-						style="width: 666px;margin-top: 5px; background:#fff;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-right-width: 0px;">
-						<div class="slider-gr" style="width:640px;">
-							<c:forEach var="i" begin="1" end="${fn:length(RegionreviewImageList)}"> 
+						style="width: 500px;margin-top: 5px; background:#fff;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-right-width: 0px;">
+						<div class="slider-gr" style="width:500px;">
+							<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
 									<input type="radio" name="slide" id="slide${i}" checked />
 								</c:forEach>
 							<!-- <input type="radio" name="slide" id="slide1" checked /> <input
@@ -135,8 +144,8 @@
 								name="slide" id="slide3" /> <input type="radio" name="slide"
 								id="slide4" /> -->
 							<ul id="imgholder" class="imgs">
-								<c:forEach var="reviewImages" items="${RegionreviewImageList}">
-									<li><img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${reviewImages }" style="width:640px; height:300px;"></li>
+								<c:forEach var="reviewImages" items="${reviewImageList}">
+									<li><img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${reviewImages }" style="width:500px; height:300px;">/></li>
 								</c:forEach>
 								
 								<!-- <li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>
@@ -144,7 +153,7 @@
 								<li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li> -->
 							</ul>
 							<div class="bullets">
-									<c:forEach var="i" begin="1" end="${fn:length(RegionreviewImageList)}"> 
+									<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
 									<label for="slide${i}">&nbsp;</label>
 									</c:forEach>
 								<!-- <label for="slide1">&nbsp;</label> <label for="slide2">&nbsp;</label>
@@ -156,18 +165,18 @@
 							<div
 								class="progress-bar progress-bar-striped progress-bar-animated"
 								role="progressbar" aria-valuenow="75" aria-valuemin="0"
-								aria-valuemax="100" style="width: 100%; background-color: #83BD75;""></div>
+								aria-valuemax="100" style="width: 100%; background-color: #83BD75;"></div>
 						</div>
 						<div class="form-group">
 							
 							<blockquote class="blockquote">
 								<p class="mb-0">REVIEW</p>
 							</blockquote>
-							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" readonly>
-							${rrlist.review_regionContent}
+							<textarea class="form-control" id="reviewTextarea" rows="10" readonly style="background-color: #ffffff;">
+							${selectedReview.review_regionContent}
 							</textarea>
+							<span style="float: left;font-size: 15px;">작성일자 : ${selectedReview.review_sysdate}</span>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -198,7 +207,7 @@
 				 isRun = true;
 					//클릭시 로딩 이미지 호출
 				  var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
-				    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>'; 		   
+				    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"/></div></div>'; 		   
 				    $('body').fadeTo( "fast", 0.4 ).append(loadingHtml);
 					var like_button = document.getElementById("likeCount");
 	   				var like_color = like_button.style.backgroundColor;
@@ -209,13 +218,13 @@
 		                data: { //사용자가 데이터를 정의한다	
 		                	mem_id: '${mem_id}',
 		                	review_num: ${review_num}
-		                },          
+		                },         
 		                success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
 					       	// $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
 					       	 $('body').fadeTo( "slow", 1 ).find('#loading').remove();
-		                 	$("#likeCount").text(res+"💖");
+		                	$("#likeCount").text(res+"💖");
 		                	if(like_color == 'rgb(255, 255, 255)'){
-		                 		 alert("회원님의 좋아요가 성공적으로 등록되었습니다 !!😍"); 
+		                		 alert("회원님의 좋아요가 성공적으로 등록되었습니다 !!😍"); 
 		                		$("#likeCount").css("background-color","#bb2d3b");//#bb2d3b  rgb(187, 45, 59)
 		               		}else if(like_color == 'rgb(187, 45, 59)'){          
 		               			alert("회원님의 좋아요가 취소되었습니다 !!😢"); 

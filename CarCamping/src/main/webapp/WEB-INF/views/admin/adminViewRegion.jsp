@@ -23,6 +23,16 @@
 		}
 	}
 </script>
+<style>
+ .carousel-item img {
+	    width:400px;
+	    height:350px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
+
+</style>
 <body>
 	
 	<div align="center">
@@ -251,22 +261,22 @@
 									</div>
 								</c:if>
 								<c:if test="${not empty cdto.ccr_viewImage2}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${cdto.ccr_viewImage2}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty cdto.ccr_viewImage3}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${cdto.ccr_viewImage3}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty cdto.ccr_viewImage4}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${cdto.ccr_viewImage4}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty cdto.ccr_viewImage5}">
-									<div class="carousel-item active">
+									<div class="carousel-item">
 										<img src="${upPath}/${cdto.ccr_viewImage5}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
