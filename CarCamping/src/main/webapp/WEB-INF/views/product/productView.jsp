@@ -301,10 +301,7 @@ max-width: 200px;
 						</c:if>
 						<c:if test="${empty searchString }">
 							<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
-								<button type="button" class="btn btn-success"
-									style="margin-left: 431px; align: center; background-color: #00205b; border-color: #00205b; margin-top: 121px; height: 124px; width: 332px;"
-									onclick="goods_review.review?prod_num=${getProduct.prod_num}">
-									리뷰 등록 하기</button></td>
+								</td>
 						</c:if>
 					</c:if>
 					<c:forEach var="pdto" items="${listBoard }">
