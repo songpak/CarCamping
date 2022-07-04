@@ -54,10 +54,7 @@
       <div id="secondary">
          <div id="leftcolumn">
             <!-- 중앙 정렬을 위해서 d-flex justify-content-center는 지우면 안됩니다 !! -->
-            <nav class="navbar d-flex justify-content-center"
-               style="margin-bottom: 5px;">
-               <h2>🔥 인기 용품을 지금 바로 만나보세요 🔥</h2>
-            </nav>
+            
          </div>
 
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style=" margin-left: 255px;margin-right: 255px;"">
@@ -69,7 +66,7 @@
       <img src="resources/images/banner2.JPG" class="d-block w-100" alt="...">
     </div>
     <div class="carousel-item">
-      <img src="resources/images/banner3.JPG" class="d-block w-100" alt="...">
+      <img src="resources/images/banner_2.PNG" class="d-block w-100" alt="...">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -85,31 +82,15 @@
             <div class="swiper-pagination"></div>
          </div>
 
-         
-            <div class="container-fluid" align="left">
-               <div class="container">
-         <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked
-            onclick="location.href ='goProduct.product'">
-            <label class="btn btn-outline-success" for="success-outlined">전 체 용 품 보 기</label>
-               <!--       <button type="button"
-                     style="width: 150px; height: 40px; font-size: revert; margin-right: 10px;"
-                     onclick="location.href ='goProduct.product'">전 체 용 품 보 기</button> -->
-                  <!-- <a class="navbar-brand text-light"  href="#" text style="width=500px;">전 체 용 품 목 록 보 기 </a> -->
-               </div>
+        
 
 
-               <nav
-            class="navbar navbar-expand-lg "
-            Eighth
-            navbarexample" 
-               style="margin-bottom: 20px; background-color: #fff; border-left-width: 100px; margin-left: 213px; margin-right: 213px; margin-top: 10px;">
-            <div class="container-fluid" align="center">
+               <nav class="navbar navbar-expand-lg "Eighthnavbarexample" 
+               style="margin-bottom: 0px;background-color: #fff;border-left-width: 100px;margin-left: 213px;margin-right: 213px;margin-top: 10px;">
+           
 
                <div class="container">
-                  <a class="navbar-brand text-dark" href="#" text>전 체 용 품 목 록 </a>
-               </div>
-
-
+                  <a class="navbar-brand text-dark" ><span>전 체 용 품 목 록</span> </a>
                <!-- 검색 form  #091835-->
                <div class="d-flex" style="width: 500px; height: 40px;">
                   <button type="button"
@@ -140,16 +121,20 @@
                               href="goProduct.product?search=${search}&searchString=${searchString }&mode=listProductPrice">가격순</a>
                         </div>
                      </div>
+                    
                   </form>
-
+				</div>
+				         <hr style="border: 0;height: 2px;background-color: #585858d4;">
                </div>
+               
          </nav>
 
-
+          </div>
+ 
          <c:set var="i" value="0" />
          <c:set var="j" value="4" />
          <table align="center"
-            style="border: 1px solid; border-left-width: 50px; border-color: transparent;">
+            style="border: 1px solid;border-left-width: 0px;border-color: transparent;">
             <c:forEach items="${listProduct}" var="pdto">
                <c:if test="${i%j == 0 }">
                   <tr>
