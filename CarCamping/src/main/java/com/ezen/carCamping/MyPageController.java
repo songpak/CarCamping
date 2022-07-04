@@ -277,67 +277,65 @@ public class MyPageController {
 	}
 
 	@RequestMapping(value = "myPageProfile.myPage", method = RequestMethod.GET)
-	public String memberUpdate(HttpServletRequest req) {
-		HttpSession session = req.getSession();
-		MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
-		req.setAttribute("getMember", dto);
-
-		return "myPage/myPageProfile";
-	}
-
-	@RequestMapping("/myPageProfile.myPage") // 프로필 상세보기
-	public String myPageProfile() {
-
-		return "myPage/myPageProfile";
-	}
-
-	@RequestMapping(value="myPageProfile.myPage", method=RequestMethod.POST)
-	   public String memberUpdateOk(HttpServletRequest req, @ModelAttribute MemberDTO dto, BindingResult result) {
-		 MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
-	      MultipartFile mf = mr.getFile("mem_image");
-	      RegionDTO rdto = new RegionDTO();
-	      String filename = mf.getOriginalFilename();
-	      String PreFile = req.getParameter("mem_image2");
+	   public String memberUpdate(HttpServletRequest req) {
+	      HttpSession session = req.getSession();
+	      MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");  
+	      int mem_num = dto.getMem_num();
+	      MemberDTO res = memberMapper.getMember(mem_num);
+	      req.setAttribute("getMember", res);
 	      
-	 
-	      if (filename != null && !(filename.trim().equals(""))) {
-	    	  S3FileService.deleteImage(PreFile);
-	    	  File file = new File(uploadPath, filename);
-	    	
-	         try {
-	            dto.setMem_image(S3FileService.upload(mf));
-	            System.out.println("filename"+mf); 
-	         } catch (IOException e1) {
-	            // TODO Auto-generated catch block
-	            e1.printStackTrace();
-	         }
-	         try {
-	            mf.transferTo(file);
-	         }catch(IOException e) {
-	            e.printStackTrace();
-	            }
-	     
-	      }else {
-				
-				dto.setMem_image(PreFile);
-	      }
-				
-	      rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
-	      dto.setRegionDTO(rdto);
-	      
-	      int res = memberMapper.updateMember(dto);
-	      String msg = null, url = null;
-	      if (res>0) {
-	         msg = "내정보 수정 성공!";
-	         url = "myPageProfile.myPage";
-	      }else {
-	         msg = "내정보 수정 실패! 다시 시도해 주세요.";
-	         url = "myPageProfile.myPage?mem_num=" + dto.getMem_num();
-	      }
-	      req.setAttribute("msg", msg);
-	      req.setAttribute("url", url);
-	      return "message";
+
+	      return "myPage/myPageProfile";
 	   }
+
+
+	   @RequestMapping(value="myPageProfile.myPage", method=RequestMethod.POST)
+	      public String memberUpdateOk(HttpServletRequest req, @ModelAttribute MemberDTO dto, BindingResult result) {
+	       MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+	         MultipartFile mf = mr.getFile("mem_image");
+	         RegionDTO rdto = new RegionDTO();
+	         String filename = mf.getOriginalFilename();
+	         String PreFile = req.getParameter("mem_image2");
+	         
+	    
+	         if (filename != null && !(filename.trim().equals(""))) {
+	            S3FileService.deleteImage(PreFile);
+	            File file = new File(uploadPath, filename);
+	          
+	            try {
+	               dto.setMem_image(S3FileService.upload(mf));
+	               System.out.println("filename"+mf); 
+	            } catch (IOException e1) {
+	               // TODO Auto-generated catch block
+	               e1.printStackTrace();
+	            }
+	            try {
+	               mf.transferTo(file);
+	            }catch(IOException e) {
+	               e.printStackTrace();
+	               }
+	        
+	         }else {
+	            
+	            dto.setMem_image(PreFile);
+	         }
+	            
+	         rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
+	         dto.setRegionDTO(rdto);
+	         
+	         int res = memberMapper.updateMember(dto);
+	         String msg = null, url = null;
+	         if (res>0) {
+	            msg = "내정보 수정 성공!";
+	            url = "index.do";
+	         }else {
+	            msg = "내정보 수정 실패! 다시 시도해 주세요.";
+	            url = "myPageProfile.myPage?mem_num=" + dto.getMem_num();
+	         }
+	         req.setAttribute("msg", msg);
+	         req.setAttribute("url", url);
+	         return "message";
+	      }
 	
 	
 	@RequestMapping("/myPageQuestion.myPage")//마이페이지 문의목록

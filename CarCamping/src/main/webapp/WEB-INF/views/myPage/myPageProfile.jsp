@@ -26,25 +26,25 @@ var right = 0;
 function regChk(){
   var signCheck = document.signCheck;
       if (signCheck.mem_phone.value==""){
-		   alert("전화번호를 입력하셔야 합니다.")
-		   signCheck.mem_introduce.focus() 
-		   return false;
-	      }
+         alert("전화번호를 입력하셔야 합니다.")
+         signCheck.mem_introduce.focus() 
+         return false;
+         }
      if (signCheck.mem_birthday.value==""){
-		   alert("생년월일을 입력하셔야 합니다.")
-		   signCheck.mem_introduce.focus() 
-		   return false;
-	      }
-	 if (signCheck.mem_summary.value==""){
-			alert("자기소개 요약을 입력하셔야 합니다.")
-			signCheck.mem_summary.focus() 
-			return false;
-		  } 
-	 if (signCheck.mem_introduce.value==""){
-			alert("자기소개를 입력하셔야 합니다.")
-			signCheck.mem_introduce.focus() 
-			return false;
-		  }
+         alert("생년월일을 입력하셔야 합니다.")
+         signCheck.mem_introduce.focus() 
+         return false;
+         }
+    if (signCheck.mem_summary.value==""){
+         alert("자기소개 요약을 입력하셔야 합니다.")
+         signCheck.mem_summary.focus() 
+         return false;
+        } 
+    if (signCheck.mem_introduce.value==""){
+         alert("자기소개를 입력하셔야 합니다.")
+         signCheck.mem_introduce.focus() 
+         return false;
+        }
    var mem_password = document.signCheck.mem_password.value;
    var num = mem_password.search(/[0-9]/g);
    var eng = mem_password.search(/[a-z]/ig);
@@ -408,7 +408,7 @@ function regChk(){
 
                     <tr>
                         <td colspan="2" class="text-center">
-                         <input type="button" value="수정" class="btn btn-dark" onclick="regChk();">
+                         <button type="button" class="btn btn-dark" onclick="location.href='javascript:regChk();'">수정</button>
                          <input type="button" value="회원탈퇴" class="btn btn-dark" onclick="showPopup();">
                        </td>    
                     </tr>
@@ -421,4 +421,4 @@ function regChk(){
 </div>
 </body>
  <%@ include file="../bottom.jsp" %>
-</html>	
+</html>   

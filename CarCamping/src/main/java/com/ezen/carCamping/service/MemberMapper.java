@@ -67,7 +67,7 @@ public class MemberMapper {
 		int res = sqlSession.update("updateMember", dto);
 		return res;
 	}
-   public MemberDTO getMember(int mem_num, String string){
+   public MemberDTO getMember(int mem_num){
 		MemberDTO dto = sqlSession.selectOne("getMember", mem_num);
 		return dto;
 	}

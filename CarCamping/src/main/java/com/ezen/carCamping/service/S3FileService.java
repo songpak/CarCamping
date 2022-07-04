@@ -1,5 +1,6 @@
 package com.ezen.carCamping.service;
 import com.amazonaws.AmazonClientException;
+
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -105,13 +106,8 @@ public class S3FileService {
 
 		String monthPath = yearPath + "." + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
 
-<<<<<<< HEAD
 		String datePath = monthPath + "." + new DecimalFormat("00").format(cal.get(Calendar.DATE))+"/";
-=======
-		String datePath = monthPath + "." + new DecimalFormat("00").format(cal.get(Calendar.DATE)) + "/";
->>>>>>> 송재영3
 
-	
 		return datePath;
 	}
 
