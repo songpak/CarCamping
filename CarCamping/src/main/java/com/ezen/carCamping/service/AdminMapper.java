@@ -215,6 +215,11 @@ public class AdminMapper {
 		return list;
 	}
 	
+	public List<MemberDTO> adminListMemberSearchAndSort(Map<String,String> map){
+		List<MemberDTO> list = sqlSession.selectList("adminListMemberSearchAndSort", map);
+		return list;
+	}
+	
 	public MemberDTO adminGetMember(int mem_num) {
 		MemberDTO dto = sqlSession.selectOne("adminGetMember",mem_num);
 		return dto;
@@ -246,6 +251,11 @@ public class AdminMapper {
 	
 	public List<ReviewRegionDTO> adminListReviewRegionSearch(Map<String,String> map){
 		List<ReviewRegionDTO> list = sqlSession.selectList("adminListReviewRegionSearch",map);
+		return list;
+	}
+	
+	public List<ReviewRegionDTO> adminListReviewRegionSearchAndSort(Map<String,String> map){
+		List<ReviewRegionDTO> list = sqlSession.selectList("adminListReviewRegionSearchAndSort",map);
 		return list;
 	}
 	
@@ -281,6 +291,11 @@ public class AdminMapper {
 
 	public List<ReviewProductDTO> adminListReviewProductSearch(Map<String,String> map){
 		List<ReviewProductDTO> list = sqlSession.selectList("adminListReviewProductSearch",map);
+		return list;
+	}
+	
+	public List<ReviewProductDTO> adminListReviewProductSearchAndSort(Map<String,String> map){
+		List<ReviewProductDTO> list = sqlSession.selectList("adminListReviewProductSearchAndSort",map);
 		return list;
 	}
 
@@ -387,7 +402,12 @@ public class AdminMapper {
 	}
 	
 	public List<RentalLogDTO> adminListRentalLogSearch(String search) {
-		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSearch","%"+search+"%");
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSearch",search);
+		return list;
+	}
+	
+	public List<RentalLogDTO> adminListRentalLogSearchAndSort(Map<String,String> map) {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSearchAndSort",map);
 		return list;
 	}
 	

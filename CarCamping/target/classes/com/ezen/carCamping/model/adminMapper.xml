@@ -262,6 +262,10 @@
 		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num where ${name1} like CONCAT('%',trim(#{name2}),'%')
 	</select>
 	
+	<select id="adminListMemberSearchAndSort" resultMap="memberMap" parameterType="java.util.Map">
+		select a.*,b.region_name from Member a join Region b on a.region_num = b.region_num where ${name1} like CONCAT('%',trim(#{name2}),'%') order by ${sort} DESC
+	</select>
+	
 	<update id="adminDenyMember" parameterType="java.util.Map">
 		update Member set mem_denied = #{mem_denied} where mem_num = #{mem_num}
 	</update>
@@ -306,7 +310,12 @@
 	
 	<select id="adminListReviewRegionSearch" resultMap="reviewRegionMap" parameterType="java.util.Map">
 		select a.*,b.*,c.* from ReviewRegion a join Member b join CarCampingRegion c on a.mem_num = b.mem_num and a.ccr_num = c.ccr_num 
-		where review_title like #{search} or review_summaryContent like #{search} or review_regionContent like #{search}
+		where review_title like CONCAT('%',trim(#{search}),'%') or review_summaryContent like CONCAT('%',trim(#{search}),'%') or review_regionContent like CONCAT('%',trim(#{search}),'%')
+	</select>
+	
+	<select id="adminListReviewRegionSearchAndSort" resultMap="reviewRegionMap" parameterType="java.util.Map">
+		select a.*,b.*,c.* from ReviewRegion a join Member b join CarCampingRegion c on a.mem_num = b.mem_num and a.ccr_num = c.ccr_num 
+		where review_title like CONCAT('%',trim(#{search}),'%') or review_summaryContent like CONCAT('%',trim(#{search}),'%') or review_regionContent like CONCAT('%',trim(#{search}),'%') order by ${sort} DESC
 	</select>
 	
 	<select id="adminGetReviewRegion" resultMap="reviewRegionMap" parameterType="int">
@@ -358,7 +367,12 @@
 	
 	<select id="adminListReviewProductSearch" resultMap="reviewProductMap" parameterType="java.util.Map">
 		select a.*,b.*,c.* from ReviewProduct a join Member b join Product c on a.mem_num = b.mem_num and a.prod_num = c.prod_num 
-		where rp_title like #{search} or rp_summaryContent like #{search} or rp_content like #{search}
+		where rp_title like CONCAT('%',trim(#{search}),'%') or rp_summaryContent like CONCAT('%',trim(#{search}),'%') or rp_content like CONCAT('%',trim(#{search}),'%')
+	</select>
+	
+	<select id="adminListReviewProductSearchAndSort" resultMap="reviewProductMap" parameterType="java.util.Map">
+		select a.*,b.*,c.* from ReviewProduct a join Member b join Product c on a.mem_num = b.mem_num and a.prod_num = c.prod_num 
+		where rp_title like CONCAT('%',trim(#{search}),'%') or rp_summaryContent like CONCAT('%',trim(#{search}),'%') or rp_content like CONCAT('%',trim(#{search}),'%') order by ${sort} DESC
 	</select>
 	
 	<select id="adminGetReviewProduct" resultMap="reviewProductMap" parameterType="int">
@@ -490,7 +504,13 @@
 	<select id="adminListRentalLogSearch" parameterType="String" resultMap="rentalLogMap">
 		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
-		where b.mem_id like #{String} or c.prod_name like #{String}
+		where b.mem_id like CONCAT('%',trim(#{String}),'%') or c.prod_name like CONCAT('%',trim(#{String}),'%')
+	</select>
+	
+	<select id="adminListRentalLogSearchAndSort" parameterType="String" resultMap="rentalLogMap">
+		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
+		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
+		where a.rental_return = #{sort} and b.mem_id like CONCAT('%',trim(#{String}),'%') or c.prod_name like CONCAT('%',trim(#{String}),'%')
 	</select>
 	
 	<select id="adminGetRentalLog" resultMap="rentalLogMap" parameterType="int">
