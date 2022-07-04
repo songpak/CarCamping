@@ -73,7 +73,7 @@ background: #fff;
   position: fixed; 
   right: 37%; 
   top: 55%; 
-  margin-right: -720px;
+  margin-right: -680px;
   text-align:center;
   width: 120px;
 }   
@@ -198,7 +198,7 @@ background: #fff;
          </div>
       </div>
       <div class="floating">
-          <img src="resources/images/notification.png" onclick="location.href='uesrAnnounce.admin'"/>
+          <img src="resources/images/warning.png" onclick="location.href='uesrAnnounce.admin'"/>
       </div>
    </header>
    <section>

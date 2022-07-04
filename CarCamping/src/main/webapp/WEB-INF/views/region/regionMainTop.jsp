@@ -49,6 +49,9 @@
 		console.log(mem_id);
 		var send_region_num = region_num;
 		var send_mem_id = mem_id;
+		var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:40%;left:45%; text-align:center;"> ';
+		loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/carLoading.gif"/>"  /></div></div>';
+		$('body').fadeTo("fast", 1).append(loadingHtml);
 		$.ajax({
 			url: "changeHotRegion.region", //컨트롤러 맵핑
             type: "GET",
@@ -58,7 +61,7 @@
             },
             contentType: "application/json",
             success: function (result) {
-		   			alert("성공");
+            	$('body').fadeTo("slow", 1).find('#loading').remove();
 		   			const ultag = document.getElementById('hotRegion_list');//ul - id : hotRegion_list 비우기
 		   		 	const items = ultag.getElementsByTagName('li');   		
 		   			 while (ultag.firstChild) {                   
@@ -69,6 +72,7 @@
 		   		
            	},
             error: function() {
+            	$('body').fadeTo("slow", 1).find('#loading').remove();
                 alert("에러 발생");
             }
 
@@ -114,10 +118,10 @@
 									var PositionArr = [
 											new Position(37.540705, 126.956764,"서울&경기도"),//서울=1
 											new Position( 37.58682247087561, 128.26747425295994    ,"강원도"),//강원도 2 
-											new Position(36.628503, 127.929344,"경상북도"),//경상북도 5 
-											new Position(36.557229, 126.779757,"경상남도"),//경상남도 6 
-											new Position(36.248647, 128.664734,"충청북도"),//충청북도 3
-											new Position(35.259787, 128.664734,"충청남도"),//충청남도 4 
+											new Position(36.628503, 127.929344,"충청북도"),//경상북도 5 
+											new Position(36.557229, 126.779757,"충청남도"),//경상남도 6 
+											new Position(36.248647, 128.664734,"경상북도"),//충청북도 3
+											new Position(35.259787, 128.664734,"경상남도"),//충청남도 4 
 											new Position(35.716705, 127.144185,"전라북도"),//전라북도 7 
 											new Position(34.819400, 126.893113,"전라남도"),//전라남도 8
 											new Position(33.364805, 126.542671,"제주도") //제주도=9
