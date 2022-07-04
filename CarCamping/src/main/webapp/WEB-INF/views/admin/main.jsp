@@ -3,19 +3,51 @@
 <%@ include file="../top.jsp"%>
 <%@ include file="left.jsp"%>
 
-<!-- <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-	crossorigin="anonymous"></script> -->
-<!-- CSS only -->
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+	
 
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 <link rel="stylesheet"
 	href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<<<<<<< HEAD
 
 	<div class="col-md-8 themed-grid-col" style="padding-left: 20px;padding-right: 20px;">
+=======
+	
+	<div class="col-md-8 themed-grid-col">
+		
+		<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	  알림전송
+	</button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">알림전송</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      
+	      <div class="modal-body">
+	        <div class="mb-3">
+			  <label for="modal-body textarea" class="form-label">내용</label>
+			  <textarea class="form-control" id="modal-body textarea" rows="3"></textarea>
+			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+	        <button type="button" class="btn btn-primary" id="notifySendBtn">알림전송</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+		
+	
+>>>>>>> 송재영3
 	<div id="carouselExampleIndicators" class="carousel slide"
 		data-bs-ride="carousel">
 		<div class="carousel-indicators">

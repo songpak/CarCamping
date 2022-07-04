@@ -181,9 +181,14 @@ img, svg {
           checkSection();
         });
     </script>
+<<<<<<< HEAD
 
    
      <div class="footer" style="padding-bottom: 0px;margin-top: 0px;padding-top: 0px;">
+=======
+    
+	  <div class="footer" style="padding-bottom: 0px;margin-top: 0px;padding-top: 0px;">
+>>>>>>> 송재영3
       <p style=" background-color:#2c3e50; color:#fff;margin-bottom: 0px;">Copyright © 2022 <a href="#">WITHCAR Co.</a> Ltd. All Rights Reserved. 
           <br>
           Design: <a href="#">WITHCAR DESIGN TEAM</a>
@@ -260,7 +265,6 @@ img, svg {
           checkSection();
         });
     </script>
-
 </body>
 </html>
 

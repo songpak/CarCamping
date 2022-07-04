@@ -131,10 +131,10 @@
 				<th>인기리뷰</th>
 				<c:choose>
 					<c:when test="${rdto.review_popular==0}">
-						<td><input type="checkbox" name="review_popular1" checked>체크시(예)</td>
+						<td><input type="checkbox" name="review_popular1" id="checkPopular" checked>체크시(예)</td>
 					</c:when>
 					<c:otherwise>
-						<td><input type="checkbox" name="review_popular1">체크시(예)</td>
+						<td><input type="checkbox" name="review_popular1" id="checkPopular">체크시(예)</td>
 					</c:otherwise>
 				</c:choose>
 			</tr>
@@ -142,22 +142,51 @@
 				<th>승인여부</th>
 				<c:choose>
 					<c:when test="${rdto.review_adminConfirm==0}">
-						<td><input type="checkbox" name="review_adminConfirm1" checked>체크시(예)</td>
+						<td><input type="checkbox" name="review_adminConfirm1" id="checkConfirm" checked>체크시(예)</td>
 					</c:when>
 					<c:otherwise>
-						<td><input type="checkbox" name="review_adminConfirm1">체크시(예)</td>
+						<td><input type="checkbox" name="review_adminConfirm1" id="checkConfirm">체크시(예)</td>
 					</c:otherwise>
 				</c:choose>
 			</tr>
 			<tr>
 				<td align="center" colspan="2">
 					<button type="reset" class="btn btn-primary">취소</button>
-					<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">변경하기</button>
+					<button type="button" class="btn btn-primary" id="sendMessage" onclick="location.href='javascript:con()'">변경하기</button>
 				</td>
 			</tr>
 		</table>
 		</form>
 	</div>
+	
+	<!-- Web Socket -->
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+<c:url var="root" value="/"></c:url>
+
+	<!-- 웹소켓 부분 -->
+	<script type="text/javascript">
+		
+		var sock = new SockJS("${root}carCamping");
+		
+		var msg = '${rdto.memberDTO.mem_num}/'
+		msg += new Date()+'/';
+
+		$(function(){	
+			$('#sendMessage').click(function(){
+				if($('#checkConfirm').val() != null){
+					msg += '2/';
+					msg += '${rdto.memberDTO.mem_nickName}님의 리뷰(제목 : ${rdto.review_title})가 승인되었습니다/';
+					msg += 'myPageLikeReview.myPage?mem_num=${rdto.memberDTO.mem_num}/';
+					msg += '${rdto.review_num}';
+					
+					sock.send(msg);
+				}
+				
+			});
+		});
+	</script>
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
