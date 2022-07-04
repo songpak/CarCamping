@@ -123,7 +123,7 @@ div .cardbody {
 					style="margin-bottom: 0px; height: 490px;">
 					<li
 						class="list-group-item d-flex justify-content-between align-items-center">
-						<img src="resources/images/sik.jpg" class="card-img-top"
+						<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage1}" class="card-img-top"
 						style="height: 250px;">
 					</li>
 

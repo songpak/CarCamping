@@ -80,7 +80,7 @@
 													style="width: 300px; height: 380px">
 													<div class="card" style="width: 70%; height: 100%">
 														<!-- 이미지 불러오기 수정해야함 -->
-														<img src="resources/images/sik.jpg" class="card-img-top"
+														<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${proddto.prod_viewImage1}" class="card-img-top"
 															alt="...">
 														<div class="card-body">
 															<h5 class="card-title">${proddto.prod_name}</h5>
@@ -108,14 +108,19 @@
 													fill="currentColor"></i>
 											</button> 
 										 <c:forEach items="${prodrank3}" var="proddto">  <!-- 1,2,3위만 잘라서 가져와야 할듯 -->
-										<li class="list-group-item position-relative"><img
-											src="resources/images/logoyogo-1-261.jpg"
+										<li class="list-group-item position-relative">
+										<a href="productView.product?prod_num=${proddto.prod_num}">
+										<img
+											src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${proddto.prod_viewImage1}"
 											class="img-responsive rounded-circle"
 											style="width: 88px; height: 88px;">
+											</a>
 											<div
 												class="position-absolute top-50 start-50 translate-middle">
+												<a href="productView.product?prod_num=${proddto.prod_num}">
 												<i width="40" height="40"
 													fill="currentColor">${proddto.prod_name }</i>
+													</a>
 											</div></li>
 									</c:forEach> 
 									</ul>
@@ -131,14 +136,14 @@
 			</div>
 
 			<nav
-				class="navbar navbar-expand-lg border rounded-4 border-4 aria-label="
+				class="navbar navbar-expand-lg "
 				Eighth
 				navbarexample" 
-					style="margin-bottom: 20px; background-color: #0d6efd; border-left-width: 100px; margin-left: 213px; margin-right: 213px; margin-top: 10px;">
+					style="margin-bottom: 20px; background-color: #fff; border-left-width: 100px; margin-left: 213px; margin-right: 213px; margin-top: 10px;">
 				<div class="container-fluid" align="center">
 
 					<div class="container">
-						<a class="navbar-brand text-light" href="#" text>전 체 용 품 목 록 </a>
+						<a class="navbar-brand text-dark" href="#" text>전 체 용 품 목 록 </a>
 					</div>
 
 

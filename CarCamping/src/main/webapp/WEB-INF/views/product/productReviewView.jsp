@@ -53,7 +53,7 @@
 					<h2 style="margin-bottom: 0px;">${getReviewProduct.rp_title}</h2>
 				</div>
 				<div class="card-body">
-					<img src="resources/images/sik.jpg" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getReviewProduct.rp_image1}" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
 					<ul class="list-group">
 						<li id="reviewWriter" class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>작 성 자</h5>
