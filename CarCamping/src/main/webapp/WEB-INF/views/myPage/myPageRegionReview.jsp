@@ -43,6 +43,7 @@
 <body>
 
 <c:set var="mem_num" value="${mem_num}"/> 
+<c:set var="mem_id" value="${sessionScope.mem_id}"/>
 	<div id="wrapper">
 		<!-- Begin Header -->
 		<div align="center" id="header">
@@ -126,7 +127,7 @@
 					<div align="center" id="leftcolumn"
 						style="width: 666px;margin-top: 5px; background:#fff;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-right-width: 0px;">
 						<div class="slider-gr" style="width:640px;">
-							<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
+							<c:forEach var="i" begin="1" end="${fn:length(RegionreviewImageList)}"> 
 									<input type="radio" name="slide" id="slide${i}" checked />
 								</c:forEach>
 							<!-- <input type="radio" name="slide" id="slide1" checked /> <input
@@ -134,8 +135,8 @@
 								name="slide" id="slide3" /> <input type="radio" name="slide"
 								id="slide4" /> -->
 							<ul id="imgholder" class="imgs">
-								<c:forEach var="reviewImages" items="${reviewImageList}">
-									<li><img src="resources/images/${reviewImages }" style="width:640px; height:300px;">/></li>
+								<c:forEach var="reviewImages" items="${RegionreviewImageList}">
+									<li><img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${reviewImages }" style="width:640px; height:300px;"></li>
 								</c:forEach>
 								
 								<!-- <li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>
@@ -143,7 +144,7 @@
 								<li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li> -->
 							</ul>
 							<div class="bullets">
-									<c:forEach var="i" begin="1" end="${fn:length(reviewImageList)}"> 
+									<c:forEach var="i" begin="1" end="${fn:length(RegionreviewImageList)}"> 
 									<label for="slide${i}">&nbsp;</label>
 									</c:forEach>
 								<!-- <label for="slide1">&nbsp;</label> <label for="slide2">&nbsp;</label>
@@ -212,7 +213,7 @@
 		                success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
 					       	// $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
 					       	 $('body').fadeTo( "slow", 1 ).find('#loading').remove();
-		                	$("#likeCount").text(res+"💖");
+		                 	$("#likeCount").text(res+"💖");
 		                	if(like_color == 'rgb(255, 255, 255)'){
 		                 		 alert("회원님의 좋아요가 성공적으로 등록되었습니다 !!😍"); 
 		                		$("#likeCount").css("background-color","#bb2d3b");//#bb2d3b  rgb(187, 45, 59)

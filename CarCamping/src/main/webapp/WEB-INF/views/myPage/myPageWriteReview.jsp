@@ -5,20 +5,53 @@
 <div class="container" align="center" class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
 	<div class="row" align="center">
 		</div>
-		
+<style>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+.list-group-item{
+	border:0;
+}
+
+ .card img {
+	    width:286px;
+	    height:190px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
+
+</style>		
 <!-- Content Column Grid -->
 	<script>
 		function popup_region(a){
-			var url = "myPageWriteReviewRegionView.myPage?&review_num="+a
+			var url = "regionReviewView.region?review_num="+a
 			var name = "내가 쓴 리뷰"
-			var option = "width=800,height=400,top=100,left=300,location=no"
+			var option = "width=800,height=1000,top=100,left=300,location=no"
 			window.open(url,name,option);
 		}
 
 		function popup_product(a){
-			var url = "myPageWriteReviewProductView.myPage?rp_num="+a
+			var url = "productReviewView.product?rp_num="+a
 			var name = "내가 쓴 리뷰"
-			var option = "width=800,height=400,top=100,left=300,location=no"
+			var option = "width=800,height=1000,top=100,left=300,location=no"
 			window.open(url,name,option);
 		}
 		</script>
@@ -39,7 +72,7 @@
 		<c:forEach var="rdto" items="${listRegion}">
 			<td>
 				<div class="card" style="width: 18rem;">
-					<img src="Region1.jpg" class="card-img-top">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rdto.review_regionImage1}" class="card-img-top">
 					<div class="card-body">
 						<h5 class="card-title">${rdto.review_title}</h5>
 						<p class="card-text">
@@ -109,7 +142,7 @@
 		<c:forEach var="pdto" items="${listProduct}">
 			<td>
 				<div class="card" style="width: 18rem;">
-					<img src="Region1.jpg" class="card-img-top">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.rp_image1}" class="card-img-top">
 					<div class="card-body">
 						<h5 class="card-title">${pdto.rp_title}</h5>
 						<p class="card-text">
@@ -169,7 +202,7 @@
 	</c:if>
 </table>	
 
-	
+<c:if test="${empty param.mode}">	
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<c:if test="${page-3>1}">
@@ -188,6 +221,29 @@
          </c:if>
 		</ul>
 	</nav>
+	</c:if>
+	<c:if test="${not empty param.mode}">	
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			<c:if test="${page-3>1}">
+            <li class="page-item"><a class="page-link" href="myPageWriteReview.myPage?page=${page-1}&mem_num=${sessionScope.mem_num}&mode=product">Previous</a></li>
+         </c:if>
+      <c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
+         <c:if test="${i==page}">
+            <li class="page-item"><a class="page-link" href="myPageWriteReview.myPage?page=${i}&mem_num=${sessionScope.mem_num}&mode=product" style="color:blue;">${i}</a></li>
+         </c:if>
+         <c:if test="${i!=page}">
+            <li class="page-item"><a class="page-link" href="myPageWriteReview.myPage?page=${i}&mem_num=${sessionScope.mem_num}&mode=product">${i}</a></li>
+         </c:if>
+      </c:forEach>
+         <c:if test="${page+3<pageCount}">
+            <li class="page-item"><a class="page-link" href="myPageWriteReview.myPage?page=${page+1}&mem_num=${sessionScope.mem_num}&mode=product">Next</a></li>
+         </c:if>
+		</ul>
+	</nav>
+	</c:if>
+	<br>
+	<br>
 </div>
 
 <%@ include file="../bottom.jsp"%>

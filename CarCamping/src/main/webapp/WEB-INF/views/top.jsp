@@ -50,6 +50,7 @@
 
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+            
 
 
 <style>
@@ -64,6 +65,18 @@ background: transparent;
 padding-left: 0px;
 }
 
+.list-group-flush > a : hover{
+background: #fff;
+}
+
+.floating {
+  position: fixed; 
+  right: 37%; 
+  top: 55%; 
+  margin-right: -720px;
+  text-align:center;
+  width: 120px;
+}   
 </style>
 
 </head>
@@ -97,7 +110,7 @@ padding-left: 0px;
                         </ul></li>
                      <li class="has-sub"><a href="javascript:void(0)">리뷰쓰기</a>
                      <ul class="sub-menu" >
-                           <li><a style="background: transparent; " onclick="location.href='field_review.review'">장소 리뷰</a></li>
+                               <li><a style="background: transparent; " onclick="location.href='field_review.review'">장소 리뷰</a></li>
                            <li><a style="background: transparent;" onclick="location.href='goods_review.review'">용품 리뷰</a></li>
                         </ul></li>
                      <li class="scroll-to-section">
@@ -107,43 +120,72 @@ padding-left: 0px;
                         </button>
                      </li>
                             <div class="offcanvas offcanvas-start" tabindex="-1"
-                        id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                        <div class="offcanvas-header">
-                           <h5 class="offcanvas-title" id="offcanvasExampleLabel"><b><font color="green">내 메뉴</b></font></h5>
+                        id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="background-color: #091835;">
+                        <div class="offcanvas-header" style="padding-left: 90px; background-color: #091835;">
+                           <h5 class="offcanvas-title" id="offcanvasExampleLabel"><b><font style="
+                              color: #c4c3cb;" size="12">My Menu</b></font></h5>
                            <button type="button" class="btn-close text-reset"
                               data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
-                        <div class="offcanvas-body">
+                        <div class="offcanvas-body" style="background-color: #091835;">
                            <div>
+                           <c:if test="${empty mbdto}">   
                                       <img src="sik.jpg" class="card-img rounded-circle"
-                                  style="width: 150px; height: 150px" />
-                              닉네임/프로필사진
+                                  style="width: 150px;height: 150px;display: inline-block; border-left-width: 150px;margin-left: 100px;" />
+                                  </c:if>
+                                  <c:if test="${not empty mbdto}">
+                                  <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${mbdto.mem_image}" class="card-img rounded-circle"
+                                 style="width: 150px;height: 150px;display: inline-block; border-left-width: 150px;margin-left: 100px;" />
+                                  <br></br>
+                              <span style=" margin:auto ; color: #c4c3cb;"><b style="margin-left: 160px;">${mbdto.mem_nickName}</b></span>
+                                  </c:if>
+                              
                            </div>
-                           <div class="list-group">
+                           <div class="list-group-flush" style="margin-bottom: 0px;margin-top: 40px; margin-right: 10px; ">
                               <a href="myPageProfile.myPage"
-                                 class="list-group-item list-group-item-action list-group-item-light p-3">      
+                                 class="list-group-item list-group-item-action list-group-item-light p-3" style="color:#c4c3cb; background-color: #091934">      
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                                 내 정보 </a> 
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                 </svg>
+                                 &nbsp;내 정보 </a> 
                               <a href="myPageWriteReview.myPage"
-                                 class="list-group-item list-group-item-action list-group-item-light p-3">
+                                 class="list-group-item list-group-item-action list-group-item-light p-3" style="color: #c4c3cb; background-color: #091934">
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                                 내가 쓴 리뷰</a> 
-                              <a href="myPageLikeReview.myPage?mem_num=${mem_num}"
-                                 class="list-group-item list-group-item-action list-group-item-light p-3">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                 </svg>
+                                 &nbsp;내가 쓴 리뷰</a> 
+                              <a href="myPageLikeReview.myPage"
+                                 class="list-group-item list-group-item-action list-group-item-light p-3" style="color: #c4c3cb; background-color: #091934">
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                                 내가 좋아한 리뷰</a> 
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                   <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                 </svg>
+                                 &nbsp;내가 좋아한 리뷰</a> 
                               <a href="myPageCart2.myPage"
-                                 class="list-group-item list-group-item-action list-group-item-light p-3">
+                                 class="list-group-item list-group-item-action list-group-item-light p-3" style="color: #c4c3cb; background-color: #091934">
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                                 장바구니</a> 
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                   <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                 </svg>
+                                 &nbsp;장바구니</a> 
                               <a href="myPageRental.myPage"
-                                 class="list-group-item list-group-item-action list-group-item-light p-3">
+                                 class="list-group-item list-group-item-action list-group-item-light p-3" style="color: #c4c3cb; background-color: #091934">
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                                 대여내역</a>
-                              <a href="myPageQuestion.myPage"
-                                 class="list-group-item list-group-item-action list-group-item-light p-3">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                                   <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                                   <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                                 </svg>
+                                 &nbsp;대여내역</a>
+                              <a href="myPageQuestion.myPage?mem_num=${mem_num}"
+                                 class="list-group-item list-group-item-action list-group-item-light p-3" style="color: #c4c3cb; background-color: #091934">
                                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                                 문의하기</a>    
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                 </svg>
+                                 &nbsp;문의내역</a>    
                            </div>
                         </div>
                      </div>
@@ -155,7 +197,11 @@ padding-left: 0px;
             </div>
          </div>
       </div>
+      <div class="floating">
+          <img src="resources/images/notification.png" onclick="location.href='uesrAnnounce.admin'"/>
+      </div>
    </header>
+   <section>
    
    
    <!-- ***** Header Area End ***** -->

@@ -1,6 +1,7 @@
 package com.ezen.carCamping;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import com.ezen.carCamping.dto.AdminAnnounceDTO;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
@@ -32,7 +34,8 @@ import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
 import com.ezen.carCamping.service.AdminMapper;
-import com.ezen.carCamping.service.S3FileService; 
+import com.ezen.carCamping.service.S3FileService;
+ 
 
 
 @Controller
@@ -48,9 +51,11 @@ public class AdminController {
 	@Autowired
 	private S3FileService S3FileService;
 	
+	
 	@RequestMapping("/goAdmin.admin")
 	public String goAdmin(HttpServletRequest req) {
 		HttpSession session = req.getSession();
+		
 		String upPath = "https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440";
 		List<RegionDTO> adminListRegion = adminMapper.adminListRegion();
 		
@@ -69,13 +74,15 @@ public class AdminController {
 	
 	@RequestMapping("/adminRegion.admin")
 	public String adminRegion(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
-			@RequestParam(required=false) String region_num) {
+			@RequestParam(required=false) String region_num_admin) {
 		List<CarCampingRegionDTO> adminListCarCampingRegion = new ArrayList<CarCampingRegionDTO>();
 		
-		if (region_num==null) {
+		if (region_num_admin==null || region_num_admin.equals("")) {
 			adminListCarCampingRegion = adminMapper.adminListCarCampingRegion();
+			
 		}else {
-			adminListCarCampingRegion = adminMapper.adminListCarCampingRegionSelectRegion(Integer.parseInt(region_num));
+			adminListCarCampingRegion = adminMapper.adminListCarCampingRegionSelectRegion(Integer.parseInt(region_num_admin));
+			req.setAttribute("region_num_admin", region_num_admin);
 		}
 		
 		//현재 페이지
@@ -300,12 +307,14 @@ public class AdminController {
 	
 	@RequestMapping("/adminAgency.admin")
 	public String adminAgency(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
-			@RequestParam(required=false) String region_num) {
+			@RequestParam(required=false) String region_num_admin) {
 			List<AgencyDTO> adminListAgency = new ArrayList<AgencyDTO>();
-		if (region_num == null) {
+			
+		if (region_num_admin == null || region_num_admin.equals("")) {
 			adminListAgency = adminMapper.adminListAgency();
 		}else {
-			adminListAgency = adminMapper.adminListAgencySort(Integer.parseInt(region_num));
+			adminListAgency = adminMapper.adminListAgencySort(Integer.parseInt(region_num_admin));
+			req.setAttribute("region_num_admin", region_num_admin);
 		}
 		//현재 페이지
 		req.setAttribute("page", page);
@@ -475,10 +484,12 @@ public class AdminController {
 		List<BrandCategoryDTO> adminListBrand = adminMapper.adminListBrand();
 		List<ProductCategoryDTO> adminListProductCategory = adminMapper.adminListProductCategoty();
 		List<ProductDTO> adminListProduct = new ArrayList<ProductDTO>();
-		if (search==null) {
+		
+		if (search==null || search.equals("")) {
 			adminListProduct = adminMapper.adminListProduct();
 		}else {
 			adminListProduct = adminMapper.adminFindProduct(search.trim());
+			req.setAttribute("search", search.trim());
 		}
 		
 		req.setAttribute("adminListBrand", adminListBrand);
@@ -647,18 +658,25 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminMember.admin")
-	public String adminMember(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,@RequestParam(value="page",defaultValue="1") int page) {
-		List<MemberDTO> adminListMember = new ArrayList<MemberDTO>();
-		
-		if(map.containsKey("sort")) {
+	public String adminMember(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,@RequestParam(required=false) Map<String,String> map) {
+		List<MemberDTO> adminListMember = adminMapper.adminListMember();
+			
+		// 정렬만 있을때
+		if((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("name1") == null || map.get("name1").equals(""))) {
 			adminListMember = adminMapper.adminListMemberSort(map);
 		}
-		else if(map.containsKey("name1")) {
+		// 검색만 있을때
+		if((map.get("name1") != null && !map.get("name1").equals("")) && (map.get("sort") == null || map.get("sort").equals(""))) {
 			adminListMember = adminMapper.adminListMemberSearch(map);
 		}
-		else {
-			adminListMember = adminMapper.adminListMember();
+		// 둘 다 있을때
+		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("name1") != null && !map.get("name1").equals(""))) {
+			adminListMember = adminMapper.adminListMemberSearchAndSort(map);
 		}
+		
+		req.setAttribute("sort", map.get("sort"));
+		req.setAttribute("name1", map.get("name1"));
+		req.setAttribute("name2", map.get("name2"));
 		
 		//현재 페이지
 		req.setAttribute("page", page);
@@ -709,20 +727,27 @@ public class AdminController {
 	
 	
 	@RequestMapping("/adminReviewRegion.admin")
-	public String adminReviewRegion(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
-			@RequestParam(value="page",defaultValue="1") int page) {
+	public String adminReviewRegion(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,@RequestParam(required=false) Map<String,String> map) {
 		
-		List<ReviewRegionDTO> adminListReviewRegion = new ArrayList<ReviewRegionDTO>();
+		List<ReviewRegionDTO> adminListReviewRegion = adminMapper.adminListReviewRegion();
 		
-		if (map.containsKey("sort")) {
+		//정렬만 있을때
+		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") == null || map.get("search").equals(""))) {
 			adminListReviewRegion = adminMapper.adminListReviewRegionSort(map);
-		}else if (map.containsKey("search")) {
-			String search = "%"+map.get("search").trim()+"%";
-			map.put("search", search);
-			adminListReviewRegion = adminMapper.adminListReviewRegionSearch(map);
-		}else {
-			adminListReviewRegion = adminMapper.adminListReviewRegion();
 		}
+		
+		//검색만 있을때
+		if ((map.get("search") != null && !map.get("search").equals("")) && (map.get("sort") == null || map.get("sort").equals(""))) {
+			adminListReviewRegion = adminMapper.adminListReviewRegionSearch(map);
+		}
+		
+		//둘다 있을때
+		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") != null && !map.get("search").equals(""))){
+			adminListReviewRegion = adminMapper.adminListReviewRegionSearchAndSort(map);
+		}
+		
+		req.setAttribute("sort", map.get("sort"));
+		req.setAttribute("search", map.get("search"));
 		
 		//현재 페이지
 		req.setAttribute("page", page);
@@ -782,17 +807,26 @@ public class AdminController {
 	@RequestMapping("/adminReviewProduct.admin")
 	public String adminReviewProduct(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
 			@RequestParam(value="page",defaultValue="1") int page) {
-		List<ReviewProductDTO> adminListReviewProduct = new ArrayList<ReviewProductDTO>();
+		List<ReviewProductDTO> adminListReviewProduct = adminMapper.adminListReviewProduct();
 		
-		if (map.containsKey("sort")) {
+		//정렬만 있을때
+		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") == null || map.get("search").equals(""))) {
 			adminListReviewProduct = adminMapper.adminListReviewProductSort(map);
-		}else if (map.containsKey("search")) {
-			String search = "%"+map.get("search").trim()+"%";
-			map.put("search", search);
-			adminListReviewProduct = adminMapper.adminListReviewProductSearch(map);
-		}else {
-			adminListReviewProduct = adminMapper.adminListReviewProduct();
 		}
+		
+		//검색만 있을때
+		if ((map.get("search") != null && !map.get("search").equals("")) && (map.get("sort") == null || map.get("sort").equals(""))) {	
+			adminListReviewProduct = adminMapper.adminListReviewProductSearch(map);
+		}
+		
+		//둘다 있을때
+		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") != null && !map.get("search").equals(""))){
+			adminListReviewProduct = adminMapper.adminListReviewProductSearchAndSort(map);
+		}
+		
+		req.setAttribute("sort", map.get("sort"));
+		req.setAttribute("search", map.get("search"));
+		
 		//현재 페이지
 		req.setAttribute("page", page);
 		//총 페이지
@@ -918,7 +952,6 @@ public class AdminController {
 	@RequestMapping(value="/adminViewAnnounce.admin", method=RequestMethod.POST)
 	public ModelAndView adminViewAnnounce(HttpServletRequest req,@RequestParam("aa_image") MultipartFile[] file,
 			@ModelAttribute AdminAnnounceDTO dto,@RequestParam Map<String,String> map) {
-		String upPath = (String)req.getSession().getAttribute("upPath");
 		
 		//이미지 수정했을때
 		if (!file[0].isEmpty()) {
@@ -1054,15 +1087,23 @@ public class AdminController {
 	@RequestMapping("/adminRental.admin")
 	public String adminRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
 			@RequestParam(required=false) Map<String,String> map) {
-		List<RentalLogDTO> list = new ArrayList<RentalLogDTO>();
+		List<RentalLogDTO> list = adminMapper.adminListRentalLog();
 		
-		if (map.containsKey("search")) {
-			list = adminMapper.adminListRentalLogSearch(map.get("search"));
-		}else if (map.containsKey("sort")){
+		//정렬만 있을때
+		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") == null || map.get("search").equals(""))) {
 			list = adminMapper.adminListRentalLogSort(Integer.parseInt(map.get("sort")));
-		}else {
-			list = adminMapper.adminListRentalLog();
 		}
+		//검색만 있을때
+		if ((map.get("search") != null && !map.get("search").equals("")) && (map.get("sort") == null || map.get("sort").equals(""))) {
+			list = adminMapper.adminListRentalLogSearch(map.get("search"));
+		}
+		//둘다 있을때
+		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") != null && !map.get("search").equals(""))) {
+			list = adminMapper.adminListRentalLogSearchAndSort(map);
+		}
+		
+		req.setAttribute("sort", map.get("sort"));
+		req.setAttribute("search", map.get("search"));
 		
 		//현재 페이지
 		req.setAttribute("page", page);

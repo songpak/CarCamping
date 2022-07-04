@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
 <%@ include file="left.jsp"%>
-<div class="col-md-8 themed-grid-col">
+<div class="col-md-8 themed-grid-col" style="padding-left: 20px;padding-right: 20px;">
 	<div class="row" align="center">
 		<div class="col">
 			<p class="h2"><strong>카테고리 목록</strong></p>
 		</div>
 		
-		<div class="row justify-content-md-center">
+		<div class="row justify-content-md-center" >
 
 			<!-- 카테고리 등록 버튼 -->
 			<div class="col" align="right">

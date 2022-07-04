@@ -1,5 +1,6 @@
 package com.ezen.carCamping.service;
 import com.amazonaws.AmazonClientException;
+
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -107,7 +108,6 @@ public class S3FileService {
 
 		String datePath = monthPath + "." + new DecimalFormat("00").format(cal.get(Calendar.DATE))+"/";
 
-	
 		return datePath;
 	}
 

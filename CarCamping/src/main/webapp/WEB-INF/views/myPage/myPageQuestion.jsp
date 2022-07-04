@@ -47,14 +47,14 @@
 		</tr>
 				<c:if test="${empty listBoard}">
 			<tr>
-				<td colspan="4">등록된 게시글이 없습니다.</td>
+				<td colspan="4">등록된 문의사항이 없습니다.</td>
 			</tr>
 		</c:if>			
 		<c:forEach var="dto" items="${listBoard}">
 			<tr>
-				<td align="center"><a href="myPageContactUsView.myPage?question_num=${dto.question_num}">
+				<td align="center" onclick="location.href='myPageContactUsView.myPage?question_num=${dto.question_num}'">
 						${dto.question_title}
-					</a></td>
+					</td>
 				<td align="center">${dto.memberDTO.mem_id}</td>
 				<td align="center">${dto.question_sysdate}</td>
 				<c:if test="${empty dto.question_reply}">
@@ -93,8 +93,7 @@
 	</nav>
 </div>
 </div>
-		
-	
+
 </body>
 <%@ include file="../bottom.jsp"%>
 </html>

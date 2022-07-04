@@ -2,8 +2,30 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
 <%@ include file="left.jsp"%>   
+<style>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+</style>
 <!-- Content Column Grid -->
-<div class="col-md-8 themed-grid-col">
+<div class="col-md-8 themed-grid-col" style="padding-left: 20px;padding-right: 20px;">
 
 	<div class="row" align="center">
 		<div class="col">
@@ -89,18 +111,18 @@
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<c:if test="${page-3>1}">
-				<li class="page-item"><a class="page-link" href="adminProduct.admin?page=${page-1}">Previous</a></li>
+				<li class="page-item"><a class="page-link" href="adminProduct.admin?page=${page-1}&search=${search}">Previous</a></li>
 			</c:if>
 		<c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
 			<c:if test="${i==page}">
-				<li class="page-item"><a class="page-link" href="adminProduct.admin?page=${i}" style="color:blue;">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="adminProduct.admin?page=${i}&search=${search}" style="color:blue;">${i}</a></li>
 			</c:if>
 			<c:if test="${i!=page}">
-				<li class="page-item"><a class="page-link" href="adminProduct.admin?page=${i}">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="adminProduct.admin?page=${i}&search=${search}">${i}</a></li>
 			</c:if>
 		</c:forEach>
 			<c:if test="${page+3<pageCount}">
-				<li class="page-item"><a class="page-link" href="adminProduct.admin?page=${page+1}">Next</a></li>
+				<li class="page-item"><a class="page-link" href="adminProduct.admin?page=${page+1}&search=${search}">Next</a></li>
 			</c:if>
 		</ul>
 	</nav>

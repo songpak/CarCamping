@@ -35,7 +35,51 @@
 		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
 		</association>
 	</resultMap>
-	
+		<resultMap id="reviewRegionMap" type="ReviewRegionDTO">
+		<id column="review_num" property="review_num"/>
+		<result column="review_title" property="review_title"/>
+		<result column="review_sysdate" property="review_sysdate"/>
+		<result column="review_summaryContent" property="review_summaryContent"/>
+		<result column="review_regionContent" property="review_regionContent"/>
+		<result column="review_regionScore" property="review_regionScore"/>
+		<result column="review_regionImage1" property="review_regionImage1"/>
+		<result column="review_regionImage2" property="review_regionImage2"/>
+		<result column="review_regionImage3" property="review_regionImage3"/>
+		<result column="review_regionImage4" property="review_regionImage4"/>
+		<result column="review_regionImage5" property="review_regionImage5"/>
+		<result column="review_popular" property="review_popular"/>
+		<result column="review_readCount" property="review_readCount"/>
+		<result column="review_likeCount" property="review_likeCount"/>
+		<result column="review_adminConfirm" property="review_adminConfirm"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap">
+		</association>
+		<association property="carCampingRegionDTO" javaType="CarCampingRegionDTO" resultMap="carCampingRegionMap">
+		</association>
+	</resultMap>
+	<resultMap type="MemberDTO" id="memberMap">
+		<id column="mem_num" property="mem_num"/>
+		<result column="mem_id" property="mem_id"/>
+		<result column="mem_email" property="mem_email"/>
+		<result column="mem_password" property="mem_password"/>
+		<result column="mem_userName" property="mem_userName"/>
+		<result column="mem_nickName" property="mem_nickName"/>
+		<result column="mem_phone" property="mem_phone"/>
+		<result column="mem_birthday" property="mem_birthday"/>
+		<result column="mem_gender" property="mem_gender"/>
+		<result column="mem_point" property="mem_point"/>
+		<result column="mem_rentalCount" property="mem_rentalCount"/>
+		<result column="mem_sysdate" property="mem_sysdate"/>
+		<result column="mem_accept_email" property="mem_accept_email"/>
+		<result column="mem_accept_phone" property="mem_accept_phone"/>
+		<result column="mem_accept_privacy" property="mem_accept_privacy"/>
+		<result column="mem_denied" property="mem_denied"/>
+		<result column="mem_image" property="mem_image"/>
+		<result column="mem_summary" property="mem_summary"/>
+		<result column="mem_introduce" property="mem_introduce"/>
+		<result column="mem_reviewCount" property="mem_reviewCount"/>
+		<association property="regionDTO" javaType="RegionDTO" resultMap="regionMap">
+		</association>
+	</resultMap>
 	
 	<select id="listRegion" resultType="RegionDTO"> 
 		select * from Region 
@@ -69,10 +113,11 @@
 	</select>
 	
 	
-	<select id="listCcrReview" parameterType="Map" resultType="ReviewRegionDTO">
-		select c.* from
+	<select id="listCcrReview" parameterType="Map" resultMap="reviewRegionMap">
+		select c.*,m.*from
 		(select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b
-		where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by ${orderBy} desc) c limit #{startRow},#{endRow}
+		where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 order by ${orderBy} desc) c join Member m 
+		on c.mem_num = m.mem_num limit #{startRow},#{endRow}
 	</select>
 	
 	<select id="countReviewCcrnum" parameterType="Integer" resultType="Integer">
@@ -81,10 +126,12 @@
 
 
 	<!-- 검색 -->
-	<select id="listCcrReviewSearch" parameterType="Map" resultType="ReviewRegionDTO">
-		select c.* from
-		(select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 and a.${search} like CONCAT('%',#{searchString},'%')
-		order by ${orderBy} desc) c limit #{startRow},#{endRow}
+	<select id="listCcrReviewSearch" parameterType="Map" resultMap="reviewRegionMap">
+		select c.*,m.* from
+		(select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.* from ReviewRegion a,(select @ROWNUM:=0) b 
+		where a.ccr_num=#{ccr_num} and a.review_adminConfirm=0 and a.${search} like CONCAT('%',#{searchString},'%')
+		order by ${orderBy} desc) c join Member m  on c.mem_num = m.mem_num
+		limit #{startRow},#{endRow}
 	</select>
 	
 	<select id="countReviewSearch" parameterType="Map" resultType="Integer">
@@ -94,7 +141,7 @@
 	</select>
 	
 	<!--작성자 검색  -->
-	<select id="listCcrReviewWriterSearch" parameterType="Map" resultType="ReviewRegionDTO">
+	<select id="listCcrReviewWriterSearch" parameterType="Map" resultMap="reviewRegionMap">
 	select * from
 	(select @ROWNUM :=@ROWNUM +1 as ROWNUM,a.*
 	from ReviewRegion as a,(select @ROWNUM:=0) b
@@ -132,8 +179,8 @@
 	</update>
 
 	<!--리뷰 상세보기   -->
-	<select id="selectReviewDetail" parameterType="Integer" resultType="ReviewRegionDTO">
-		select * from ReviewRegion where review_num = #{review_num}
+	<select id="selectReviewDetail" parameterType="Integer" resultMap="reviewRegionMap">
+		select * from ReviewRegion c join Member m on c.mem_num = m.mem_num where review_num = #{review_num}
 	</select>
 	<!-- 지역  좋아요 -->
 	<!-- 지역 좋아요 수 가져오기  -->

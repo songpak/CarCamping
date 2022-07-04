@@ -129,7 +129,8 @@
 				draggable : true, 	//드래그 가능 여부 
             });
           });
-    </script>
 
+    </script>
+    
 </body>
 </html>

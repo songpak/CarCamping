@@ -92,6 +92,7 @@
 		select * from Product where prod_num = #{prod_num}
 	</select>
 
+		
 	<select id="listProdReview" resultMap="reviewProductMap">
 			select a.*,m.* from ReviewProduct a join Member m on a.mem_num = m.mem_num
 			where a.prod_num=#{prod_num} and a.rp_adminConfirm=0
@@ -100,6 +101,7 @@
 	<select id="findProdReview" parameterType="java.util.Map" resultMap="reviewProductMap">
 		select * from ReviewProduct a join Member m on a.mem_num = m.mem_num 
 		where prod_num=${prod_num} and ${search} like concat('%',#{searchString},'%') and 		rp_adminConfirm=0
+
 	</select>
 	
 	<select id="getReviewView" parameterType="Integer"  resultMap="reviewProductMap">

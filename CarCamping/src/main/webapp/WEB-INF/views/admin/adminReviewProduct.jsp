@@ -2,8 +2,30 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
 <%@ include file="left.jsp"%>   
+<style>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+</style>
 <!-- Content Column Grid -->
-<div class="col-md-8 themed-grid-col">
+<div class="col-md-8 themed-grid-col" style="padding-left: 20px;padding-right: 20px;">
 	<div class="row" align="center">
 		<div class="col">
 			<p class="h2"><strong>용품 리뷰 목록</strong></p>
@@ -18,6 +40,7 @@
 					<option value="rp_sysdate">최신순</option>
 					<option value="rp_adminConfirm">승인안됨</option>	
 				</select>
+				<input type="hidden" name="search" value="${search}">
 				<button type="submit">정렬</button>
 			</form>
 		</div>
@@ -26,6 +49,7 @@
 		<div class="col" align="right">
 			<form name="searchForm" action="adminReviewProduct.admin" method="post" enctype="multipart/form-data">
 				<input type="search" name="search" placeholder="제목|내용">
+				<input type="hidden" name="sort" value="${sort}">
 				<button type="submit">검색</button>
 			</form>
 		</div>
@@ -86,18 +110,18 @@
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<c:if test="${page-3>1}">
-				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${page-1}">Previous</a></li>
+				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${page-1}&sort=${sort}&search=${search}">Previous</a></li>
 			</c:if>
 		<c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
 			<c:if test="${i==page}">
-				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${i}" style="color:blue;">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${i}&sort=${sort}&search=${search}" style="color:blue;">${i}</a></li>
 			</c:if>
 			<c:if test="${i!=page}">
-				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${i}">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${i}&sort=${sort}&search=${search}">${i}</a></li>
 			</c:if>
 		</c:forEach>
 			<c:if test="${page+3<pageCount}">
-				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${page+1}">Next</a></li>
+				<li class="page-item"><a class="page-link" href="adminReviewProduct.admin?page=${page+1}&sort=${sort}&search=${search}">Next</a></li>
 			</c:if>
 		</ul>
 	</nav>

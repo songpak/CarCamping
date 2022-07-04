@@ -3,7 +3,30 @@
 <%@ include file="../top.jsp"%>
 <%@ include file="left.jsp"%>   
 <!-- Content Column Grid -->
-<div class="col-md-8 themed-grid-col">
+<style>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+</style>
+
+<div class="col-md-8 themed-grid-col" style="padding-left: 20px;padding-right: 20px;">
 	<div class="row" align="center">
 		<div class="col">
 			<p class="h2"><strong>대리점 목록</strong></p>
@@ -13,7 +36,7 @@
 		<!-- 정렬 지역 버튼 -->
 		<div class="col" align="left">
 			<form name="searchRegion" method="post" action="adminAgency.admin">
-				<select name="region_num">
+				<select name="region_num_admin">
 					<c:forEach items="${adminListRegion}" var="dto">
 						<option value="${dto.region_num}">${dto.region_name}</option>
 					</c:forEach>
@@ -83,22 +106,23 @@
 			window.open(url,name,option);
 		}
 	</script>
-	
+
+
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<c:if test="${page-3>1}">
-				<li class="page-item"><a class="page-link" href="adminAgency.admin?page=${page-1}">Previous</a></li>
+				<li class="page-item"><a class="page-link" href="adminAgency.admin?page=${page-1}&region_num_admin=${region_num_admin}">Previous</a></li>
 			</c:if>
 		<c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
 			<c:if test="${i==page}">
-				<li class="page-item"><a class="page-link" href="adminAgency.admin?page=${i}" style="color:blue;">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="adminAgency.admin?page=${i}&region_num_admin=${region_num_admin}" style="color:blue;">${i}</a></li>
 			</c:if>
 			<c:if test="${i!=page}">
-				<li class="page-item"><a class="page-link" href="adminAgency.admin?page=${i}">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="adminAgency.admin?page=${i}&region_num_admin=${region_num_admin}">${i}</a></li>
 			</c:if>
 		</c:forEach>
 			<c:if test="${page+3<pageCount}">
-				<li class="page-item"><a class="page-link" href="adminAgency.admin?page=${page+1}">Next</a></li>
+				<li class="page-item"><a class="page-link" href="adminAgency.admin?page=${page+1}&region_num_admin=${region_num_admin}">Next</a></li>
 			</c:if>
 		</ul>
 	</nav>

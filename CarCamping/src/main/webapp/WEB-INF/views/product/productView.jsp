@@ -90,6 +90,13 @@ div .cardbody {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+   
+#reviewSummary {
+max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
 </style>
 <!-- <script
@@ -308,7 +315,7 @@ div .cardbody {
 								<div class="card-body">
 									<div class="card-body">
 										<h5 id="reviewTitle" class="card-title">${pdto.rp_title}</h5>
-										<p class="card-text">${pdto.rp_summaryContent }</p>
+										<p class="card-text" id="reviewSummary">${pdto.rp_summaryContent }</p>
 									</div>
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item">별점 (${pdto.rp_score}/5)
