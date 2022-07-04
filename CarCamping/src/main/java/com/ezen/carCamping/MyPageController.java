@@ -93,16 +93,16 @@ public class MyPageController {
 	@RequestMapping("/myPageCart2.myPage") // 탑에서 장바구니 갈때
 	public String myPageCart2(HttpServletRequest req) {
 		HttpSession session = req.getSession();
-		if (session.getAttribute("mem_num") == null) {
+		if (session.getAttribute("mem_num") == null) {//로그인시 session에 저장된 mem_num을 가져와 로그인 유무 판단
 			String msg = "로그인 하셔야 합니다";
 			String url = "login.login";
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
 			return "message";
 		} else {
-			int mem_num = (int) session.getAttribute("mem_num");
-			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
-			session.setAttribute("cartList", list);
+			int mem_num = (int) session.getAttribute("mem_num");//session의 mem_num을 가져와
+			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);//해당 회원의 장바구니에 insert
+			session.setAttribute("cartList", list);//리스트를session에 저장
 		}
 		return "myPage/myPageCart";
 	}
@@ -110,18 +110,16 @@ public class MyPageController {
 	@RequestMapping("mall_cartEdit.myPage") // 카트수정
 	public String mall_cartEdit(HttpServletRequest req, int cart_prodCount, int prod_num, String cart_from,
 			String cart_to) {
-		System.out.println("prodNum" + prod_num);
-		System.out.println("cart_from" + cart_to);
 		HttpSession session = req.getSession();
-		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
-		if (cart_prodCount <= 0) {
+		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");//session에 저장된 List를 가져온다
+		if (cart_prodCount <= 0) {//상품갯수를 0으로 하고 수정버튼을 누르면 장바구니에서 상품을 삭제한다
 			session.setAttribute("msg", "등록된 상품을 삭제 했습니다.");
 			session.setAttribute("url", "mall_cartDel.myPage?prod_num=" + prod_num);
 			return "message";
 		} else {
 			for (ProductCartDTO cartDTO : cart) {
 				if (prod_num == cartDTO.getProductDTO().getProd_num() && cart_from.equals(cartDTO.getCart_from())
-						&& cart_to.equals(cartDTO.getCart_to())) {
+						&& cart_to.equals(cartDTO.getCart_to())) {//상품번호와 상품의 대여기간을 기준으로 하여 해당 상품의 갯수를 수정
 					cartDTO.setCart_prodCount(cart_prodCount);
 					int res = myPageMapper.updateCart(cartDTO);
 					if (res > 0) {
@@ -139,13 +137,11 @@ public class MyPageController {
 	@RequestMapping("mall_cartDel.myPage") // 카트삭제
 	public String mall_cartDel(HttpServletRequest req, @RequestParam int prod_num, int cart_num, String cart_from,
 			String cart_to) {
-		// System.out.println("cart_from" + cart_from);
-		// System.out.println("cart_from" + cart_to);
 		HttpSession session = req.getSession();
-		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");////session에 저장된 List를 가져온다
 		for (ProductCartDTO cartDTO : cart) {
 			if (prod_num == cartDTO.getProductDTO().getProd_num() && cart_from.equals(cartDTO.getCart_from())
-					&& cart_to.equals(cartDTO.getCart_to())) {
+					&& cart_to.equals(cartDTO.getCart_to())) {//상품번호와 상품의 대여기간을 기준으로 하여 해당 상품의 갯수를 삭제
 				cart.remove(cartDTO);
 				int res = myPageMapper.deleteCart(cart_num);
 				if (res > 0) {
@@ -159,13 +155,13 @@ public class MyPageController {
 		return "myPage/myPageCart";
 	}
 
-	@RequestMapping("checkOut.myPage")//장바구니 결제버튼 눌렀을때
+	@RequestMapping("checkOut.myPage")//장바구니 결제버튼 눌렀을때 컨트롤러
 	public String checkOut(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
 		List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 		String msg = null, url = null;
-		if (list.size() == 0) {
+		if (list.size() == 0) {//장바구니에 추가된 상품이 아무것도 없다면
 			msg = "장바구니가 비었습니다! 상품을 추가해 주세요";
 			msg = "장바구니가 비었습니다! 용품을 장바구니에 추가해 주세요!";
 			url = "goProduct.product";
@@ -192,27 +188,20 @@ public class MyPageController {
 	@RequestMapping("myPageCheckOut.myPage")//결제폼에서 결제버튼 눌렀을떄
 	public String myPageCheckOut2(HttpServletRequest req, int cart_num
 			,RentalLogDTO dto, @RequestParam Map<String, String> params,@RequestParam Map<String, String> params2, int rental_usePoint) {
-		System.out.println("포인트" + rental_usePoint);
-		//System.out.println("대여날짜" + cart_from);
-		HttpSession session = req.getSession();
-		//List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
-				int res2 = myPageMapper.insertCartLog(params);
+				int res2 = myPageMapper.insertCartLog(params);//구매와 동시에 구매로그 테이블에 누가 어떤 물품을 몇개를 언제까지 대여하는지 기록
 				if (res2 > 0) {
 					System.out.println("로그 입력 성공");
 				} else {
 					System.out.println("삭로그 입력제 실패");
 				}
-				int res3 = myPageMapper.updateCartLogPoint(params2);
+				int res3 = myPageMapper.updateCartLogPoint(params2);//구매시 해당 회원이 포인트를 사용하면 해당맴버 포인트 차감
 				if (res3 > 0) {
 					System.out.println("포인트 변경 성공");
 				} else {
 					System.out.println("포인트 변경 실패");
 				}
 				
-		//로그 테이블에 인서트 할 곳
-		//int mem_num = (int) session.getAttribute("mem_num");
-		int res = myPageMapper.payCart(cart_num);
-
+		int res = myPageMapper.payCart(cart_num);//결제 후 장바구니 비우기
 		if (res > 0) {
 			System.out.println("결제후 장바구니 삭제 성공");
 		} else {

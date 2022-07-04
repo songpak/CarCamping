@@ -42,10 +42,12 @@
 <!-- 기타 js -->
 <script type="text/javascript">
 	var isRun = false; // ajax 동시 호출 막기(ajax가 호출되는 동안 버튼이 클릭돼도 중복으로 실행되는것을 막기위함)
-
+	//top을 통하여 리뷰 등록을 하러 갔을 경우 지역에 대하여 선택을 해야하기 때문에 사용자에게 select를 제공
+	//region에 따라서 carCampingRegion이 달라지기 때문에 별도의 페이지 이동없이 컨트롤러에서 해당 carCampingRegion리스트를
+	//가져와야 하기 때문에 ajax사용
 	function SelectRegion() {
 		alert('${mem_num}');
-		if (isRun == true) {
+		if (isRun == true) {//동시호출 막기
 			return;
 		}
 		isRun = true;
@@ -53,25 +55,23 @@
 		var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
 		loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>';
 		$('body').fadeTo("fast", 0.4).append(loadingHtml);
-		var selectedRegionNum = $("#review_region option:selected").val(); // region_num 저장
+		var selectedRegionNum = $("#review_region option:selected").val(); // select태그에서 선택된 option의 region_num 저장
 
 		//ajax호출
 		$.ajax({
 			url : "ccr_list.review",/* 컨트롤러 맵핑  */
 			type : "post",
 			data : {
-				region_num : selectedRegionNum
+				region_num : selectedRegionNum//선택된 region_num
 			},
 
 			success : function(list) {
 				$('body').fadeTo("slow", 1).find('#loading').remove();
-				$('#review_ccr').empty();
-				//alert(listsize);
-				$('#review_ccr').append(list);
-				//$('#review_ccr').select2();
+				$('#review_ccr').empty();//carCampingRegion select태그를 비운다
+				$('#review_ccr').append(list);// ajax로 리턴받은 html형식의 carCampingRegion option태그들을 region select 태그 밑에다 append한다
 				alert("지역이 변경됐습니다. 장소를 다시 선택해주세요 !");
 				$('#review_ccr').select2();
-				isRun = false;
+				isRun = false; //검색가능한 select js를 적용
 			},
 			error : function(request, status, error) {
 				console.log("차박장소 리스트를 불러오는 중 오류 발생 !");
@@ -89,7 +89,7 @@
 
 	// 첨부파일로직
 	$(function() {
-		$('#btn-upload').click(function(e) {
+		$('#btn-upload').click(function(e) {//이미지 파일 추가 버튼하고  input태그를 연결 버튼 누르면 input태그를 누른거와 같은 효과를 가지게끔
 			e.preventDefault();
 			$('#input_file').click();
 		});
@@ -107,18 +107,18 @@
 			$.alert('이미지 파일은 최대 ' + totalCount + '개까지 업로드 할 수 있습니다.');
 			return;
 		} else {
-			fileCount = fileCount + filesArr.length;
+			fileCount = fileCount + filesArr.length;//파일이 늘어날때마다 파일카운트를 증가
 		}
 		// 각각의 파일 배열담기 및 기타
 		filesArr.forEach(function(f) {
 			var reader = new FileReader();
-			reader.onload = function(e) {
+			reader.onload = function(e) {// reder객체에서 미리 이미지의 소르를 가져옴
 				content_files.push(f);
 				$('#reviewImageBox').append(
 						'<div id="file' + fileNum + '" class="imagefile" onclick="fileDelete(\'file' + fileNum
 								+ '\')">' + '<p style="font-size:12px">'
 								+ f.name + '💣</p>' + '<img src="'
-								+ e.target.result
+								+ e.target.result//첨부된 이미지를 미리보기
 								+ '"style="width: 25%; display: inline;"/>'
 								+ '</div>');
 				fileNum++;
@@ -141,36 +141,31 @@
 	//폼 submit 로직
 	function registerAction() {
 		var form = $("form")[0];
-		var formData = new FormData(form);
+		var formData = new FormData(form);//formData객체 생성
 		for (var x = 0; x < content_files.length; x++) {
 			if (!content_files[x].is_delete) { // 삭제 안한것만 담아 준다
-				formData.append("review_Image", content_files[x]);/*//article_file  */
+				formData.append("review_Image", content_files[x]);//formData에 첨부한 이미지만을 append
 			}
 		}
 
 		var fieldReview = document.dataForm;
 		var fileList = document.getElementById("reviewImageBox");
 		
-		if (fieldReview.review_summaryContent.value.length < 20) {
-	         alert("리뷰 한줄 리뷰는 20자 이상 입력해주세요 😅");
-	         fieldReview.review_summaryContent.focus();
-	         return false;
-	      }
-		if (fieldReview.review_regionContent.value.length < 30) {
+		if (fieldReview.review_regionContent.value.length < 30) { //리뷰내용 유효성
 			alert("리뷰 내용은 30자 이상 입력해주세요 😅");
 			fieldReview.review_regionContent.focus();
 			return false;
 		}
-		if(document.getElementsByClassName('imagefile').length==0){
+		if(document.getElementsByClassName('imagefile').length==0){//리뷰 이미지유효성검사
 			alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
 			return false;
 		}
 		//파일업로드 multiple ajax처리  
 		$.ajax({
-			type : "POST",
-			enctype : "multipart/form-data",
-			url : "fieldReview_upload.review",
-			data : formData,
+			type : "POST",//파일 업로드를 위하여 post
+			enctype : "multipart/form-data",//이미지이므로 multipart/form-data
+			url : "fieldReview_upload.review",//컨트롤러 맵핑
+			data : formData,//첨부된 이미지를 formData에 append하고 컨트롤러로 전송
 			processData : false,
 			contentType : false,
 			success : function(data) {

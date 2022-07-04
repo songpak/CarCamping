@@ -54,8 +54,6 @@ public class reviewController {
 	public String field_review(HttpServletRequest req,@RequestParam(required=false) Integer ccr_num) {
 
 		HttpSession session = req.getSession();
-		String upPath = session.getServletContext().getRealPath("/resources");
-		session.setAttribute("upPath", upPath);
 		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");
 		if(dto==null) {
 			req.setAttribute("msg","리뷰 등록을 위해서는 로그인이 필요합니다");
@@ -75,6 +73,8 @@ public class reviewController {
 
 	@RequestMapping(value = "ccr_list.review", method=RequestMethod.POST,produces = "application/text; charset=UTF-8")
 	@ResponseBody
+	//비동기통신을 하기위해서는 클라이언트에서 서버로 요청 메세지를 보낼 때, 본문에 데이터를 담아서 보내야 하고, 서버에서 클라이언트로 응답을 보낼때에도 본문에 데이터를 담아서 보내야 한다. 
+	//이 본문이 바로 body 이다. 즉, 요청본문 requestBody, 응답본문 responseBody 을 담아서 보내야 한다. 
 	public String ccr_list(HttpServletRequest req,HttpServletResponse res ,@RequestParam String region_num) {
 		List<CarCampingRegionDTO> list = RegionMapper.listCcr(Integer.parseInt(region_num));
 		String ccrListHtml ="";
@@ -91,13 +91,10 @@ public class reviewController {
 			@RequestParam("review_Image") List<MultipartFile> multipartFile
 			, HttpServletRequest request,ReviewRegionDTO dto) {
 		String strResult ="bad";
-		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
-		String fileRoot;
 		try {
 			// 파일이 있을때 
 			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
 				for(MultipartFile file:multipartFile) {
-					//dto image setting
 					if (dto.getReview_regionImage1()==null) dto.setReview_regionImage1(S3FileService.upload(file));
 					else if (dto.getReview_regionImage2()==null) dto.setReview_regionImage2(S3FileService.upload(file));
 					else if (dto.getReview_regionImage3()==null) dto.setReview_regionImage3(S3FileService.upload(file));
