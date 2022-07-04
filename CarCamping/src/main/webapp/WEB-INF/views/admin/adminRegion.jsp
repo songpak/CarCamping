@@ -25,11 +25,11 @@
 }
 </style>
 <!-- Content Column Grid -->
-<<<<<<< HEAD
+
 <div class="col-md-8 themed-grid-col" style="padding-left: 20px;padding-right: 20px;">
-=======
+
 	<div class="col-md-8 themed-grid-col">
->>>>>>> 송재영3
+
 	
 	<div class="row" align="center">
 		<div class="col">

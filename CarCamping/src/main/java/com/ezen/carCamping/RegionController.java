@@ -27,11 +27,11 @@ import com.ezen.carCamping.service.RegionMapper;
 
 @Controller
 public class RegionController {
+	
 	@Autowired
-
 	private RegionMapper RegionMapper;
 
-	private Hashtable<String, Object> ht = RegionMapper.getInstance();
+	private Hashtable<String, Object> ht = RegionMapper.getInstance(); 
 
 	@RequestMapping(value = "goRegion.region", method = RequestMethod.GET)
 	public String goRegion(HttpServletRequest req) {

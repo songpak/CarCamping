@@ -58,9 +58,6 @@ public class MemberController {
    public String login(HttpServletRequest req) {
 	   HttpSession session = req.getSession();
 	   String referer = req.getHeader("Referer");
-	  
-	   
-	   
 	      if(referer.indexOf("login.login")>0) {//이전 페이지가 로그인 페이지라면
 			  session.setAttribute("re_url",session.getAttribute("re_url"));
 		   }else {

@@ -133,12 +133,17 @@ function fileDelete(fileNum){
 		}
 	}
 
-	 var fieldReview = document.dataForm;
+	 var goodsReview = document.dataForm;
 	 var fileList = document.getElementById("reviewImageBox");
 	 
-	 if (fieldReview.rp_content.value.length < 30) {
+	 if (goodsReview.rp_summaryContent.value.length < 20) {
+         alert("한줄 리뷰는 20자 이상 입력해주세요 😅");
+         goodsReview.rp_summaryContent.focus();
+         return false;
+      }
+	 if (goodsReview.rp_content.value.length < 30) {
 			alert("리뷰 내용은 30자 이상 입력해주세요 😅");
-			fieldReview.rp_content.focus();
+			goodsReview.rp_content.focus();
 			return false;
 	 }
 	if(document.getElementsByClassName('imagefile').length==0){

@@ -99,8 +99,8 @@
 	</select>
 
 	<insert id="insertCart" parameterType="ProductCartDTO">
-		insert into ProductCart
-		values(null, #{mem_num}, #{prod_num}, #{agency_num},
+		insert into ProductCart(cart_num,mem_num,prod_num,agency_num,cart_prodCount,cart_from,cart_to)
+		values(null, #{memberDTO.mem_num}, #{productDTO.prod_num}, #{agencyDTO.agency_num},
 		#{cart_prodCount}, #{cart_from}, #{cart_to})
 	</insert>
 

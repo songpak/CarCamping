@@ -20,6 +20,11 @@ public class ProductMapper {
 		List<ProductDTO> popList = sqlSession.selectList("popularProd");
 		return popList;
 	}
+	
+	public List<ProductDTO> popularProdRank() {
+		List<ProductDTO> rank = sqlSession.selectList("popularProdRank");
+		return rank;
+	}
 
 	public ProductDTO getProduct(int prod_num) {
 		ProductDTO dto = sqlSession.selectOne("getProduct", prod_num);
@@ -134,10 +139,10 @@ public class ProductMapper {
 		return list;
 	}
 
-	public List<ReviewProductDTO> getReviewView(int rp_num) {
-		List<ReviewProductDTO> list = sqlSession.selectList("getReviewView", rp_num);
-		return list;
-	}
+	 public ReviewProductDTO getReviewView(int rp_num) {
+	      ReviewProductDTO dto = sqlSession.selectOne("getReviewView", rp_num);
+	      return dto;
+	   }
 
 	public List<AgencyDTO> getAgency() {
 		List<AgencyDTO> dto = sqlSession.selectList("getAgency");
@@ -179,6 +184,11 @@ public class ProductMapper {
 
 	public int listProductMainCount() {
 		int count = sqlSession.selectOne("listProductMainCount");
+		return count;
+	}
+	
+		public int countReviewProd(int prod_num) {
+		int count = (int)sqlSession.selectOne("countReviewProd", prod_num);
 		return count;
 	}
 

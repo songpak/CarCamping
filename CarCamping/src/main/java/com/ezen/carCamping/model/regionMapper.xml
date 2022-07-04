@@ -256,6 +256,7 @@
 	  where a.region_num = #{region_num} limit #{startRow},#{endRow}
 	</select>
 		
+		<!-- 차박지 보드 그냥 정렬 눌렀을때 -->
 	<select id="listRegionReviewCount" resultMap="carCampingRegionMap" parameterType="int">
 		 SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ccr_reviewCount DESC limit #{startRow},#{endRow}
 	</select>
@@ -267,7 +268,25 @@
 	<select id="listRegionscore" resultMap="carCampingRegionMap" parameterType="int">
 		 SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ccr_score DESC limit #{startRow},#{endRow}
 	</select>
+	 <!-- 차박지 보드 그냥 정렬 눌렀을때 끝 -->
 	 
-
+	 
+	 
+	 <!-- 차박지 보드 검색 후 정렬 눌렀을떄 -->
+	 <!-- <select id="listProductsearchPrice" resultMap="productMap" parameterType="carCampingRegionMap">
+		select a.*, b.* from Product as a left join BrandCategory as b on a.brand_num = b.brand_num 
+		where ${search} like concat('%',#{searchString},'%') order by prod_price desc limit #{startRow},#{endRow}
+	</select>
+	
+	<select id="listProductsearchNew" resultMap="productMap" parameterType="java.util.Map">
+		select a.*, b.* from Product as a left join BrandCategory as b on a.brand_num = b.brand_num
+     	 where ${search} like concat('%',#{searchString},'%') order by prod_num desc limit #{startRow},#{endRow}
+	</select>
+	
+	<select id="listProductsearchPop" resultMap="productMap" parameterType="java.util.Map">
+		select a.*, b.* from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num 
+		where  ${search}  like concat('%',#{searchString},'%') and prod_popular=0 order by prod_reviewScore desc limit #{startRow},#{endRow}
+	</select> -->
+	<!-- 차박지 보드 검색 후 정렬 눌렀을떄 끝 -->
 	
 </mapper>

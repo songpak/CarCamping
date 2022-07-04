@@ -75,55 +75,18 @@ public class MyPageController {
 	private static Pagination pagination = Pagination.getInstance();
 
 	@RequestMapping("/myPageCart.myPage")
-	public String myPageCart(HttpServletRequest req, ProductCartDTO dto, String cart_from, String cart_to, int mem_num,
-			int agency_num) throws ParseException {
-		// System.out.println(agency_num);
-		// System.out.println(sdf.format(indate));
-		// System.out.println(sdf.format(outdate));
-		if (mem_num == 0) {
-			String msg = ".로그인 하셔야 합니다!";
-
-			String url = "login.login";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		}
-		if (cart_from == "" || cart_to == "") {
-			String msg = "대여날짜를 선택해 주세요!";
-			String url = "goProduct.product";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date indate = sdf.parse(cart_from);
-		Date outdate = sdf.parse(cart_to);
-		Date time = new Date();
-		String time1 = sdf.format(time);
-		Date now = sdf.parse(time1);
-		if (indate.compareTo(outdate) > 0) {
-			String msg = "반납날짜보다 빌린날짜가 먼저여야 합니다!";
-			String url = "goProduct.product";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		} else if (indate.compareTo(now) < 0) {
-			String msg = "지난 날짜는 선택 할 수 없습니다.!";
-			String url = "goProduct.product";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		} else {
+	public String myPageCart(HttpServletRequest req, ProductCartDTO dto){
+		HttpSession session = req.getSession();
 			int res = myPageMapper.insertCart(dto);
 			if (res > 0) {
 				System.out.println("장바구니 넣기 성공");
-			} else {
+			}
+			else {
 				System.err.println("장바구니 넣기 실패");
 			}
-			HttpSession session = req.getSession();
+			int mem_num = (int)session.getAttribute("mem_num");
 			List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 			session.setAttribute("cartList", list);
-		}
 		return "myPage/myPageCart";
 	}
 
@@ -157,7 +120,7 @@ public class MyPageController {
 			return "message";
 		} else {
 			for (ProductCartDTO cartDTO : cart) {
-				if (prod_num == cartDTO.getProd_num() && cart_from.equals(cartDTO.getCart_from())
+				if (prod_num == cartDTO.getProductDTO().getProd_num() && cart_from.equals(cartDTO.getCart_from())
 						&& cart_to.equals(cartDTO.getCart_to())) {
 					cartDTO.setCart_prodCount(cart_prodCount);
 					int res = myPageMapper.updateCart(cartDTO);
@@ -181,7 +144,7 @@ public class MyPageController {
 		HttpSession session = req.getSession();
 		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
 		for (ProductCartDTO cartDTO : cart) {
-			if (prod_num == cartDTO.getProd_num() && cart_from.equals(cartDTO.getCart_from())
+			if (prod_num == cartDTO.getProductDTO().getProd_num() && cart_from.equals(cartDTO.getCart_from())
 					&& cart_to.equals(cartDTO.getCart_to())) {
 				cart.remove(cartDTO);
 				int res = myPageMapper.deleteCart(cart_num);
@@ -199,11 +162,13 @@ public class MyPageController {
 	@RequestMapping("checkOut.myPage")//장바구니 결제버튼 눌렀을때
 	public String checkOut(HttpServletRequest req) {
 		HttpSession session = req.getSession();
-		List<ProductCartDTO> cart = (List) session.getAttribute("cartList");
+		int mem_num = (int) session.getAttribute("mem_num");
+		List<ProductCartDTO> list = myPageMapper.cartProduct(mem_num);
 		String msg = null, url = null;
-		if (cart == null) {
-			msg = "장바구니가 비었습니다!";
-			url = "productView.product";
+		if (list.size() == 0) {
+			msg = "장바구니가 비었습니다! 상품을 추가해 주세요";
+			msg = "장바구니가 비었습니다! 용품을 장바구니에 추가해 주세요!";
+			url = "goProduct.product";
 		} else {
 			msg = "결제 페이지로 이동합니다!";
 			url = "Pay.myPage";
@@ -790,3 +755,36 @@ public class MyPageController {
 	}
 		
 }
+
+/*
+ * MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto"); if (mdto == null)
+ * { String msg = "로그인 해주세요!"; String url = "login.login";
+ * req.setAttribute("msg", msg); req.setAttribute("url", url); return "message";
+ * }
+ */
+/*if (cart_from == "" || cart_to == "") {
+	String msg = "대여날짜를 선택해 주세요!";
+	String url = "goProduct.product";
+	req.setAttribute("msg", msg);
+	req.setAttribute("url", url);
+	return "message";
+}
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+Date indate = sdf.parse(cart_from);
+Date outdate = sdf.parse(cart_to);
+Date time = new Date();
+String time1 = sdf.format(time);
+Date now = sdf.parse(time1);
+if (indate.compareTo(outdate) > 0) {
+	String msg = "반납날짜보다 빌린날짜가 먼저여야 합니다!";
+	String url = "goProduct.product";
+	req.setAttribute("msg", msg);
+	req.setAttribute("url", url);
+	return "message";
+} else if (indate.compareTo(now) < 0) {
+	String msg = "지난 날짜는 선택 할 수 없습니다.!";
+	String url = "goProduct.product";
+	req.setAttribute("msg", msg);
+	req.setAttribute("url", url);
+	return "message";
+} else {*/

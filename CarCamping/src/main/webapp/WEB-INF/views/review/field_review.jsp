@@ -150,7 +150,12 @@
 
 		var fieldReview = document.dataForm;
 		var fileList = document.getElementById("reviewImageBox");
-
+		
+		if (fieldReview.review_summaryContent.value.length < 20) {
+	         alert("리뷰 한줄 리뷰는 20자 이상 입력해주세요 😅");
+	         fieldReview.review_summaryContent.focus();
+	         return false;
+	      }
 		if (fieldReview.review_regionContent.value.length < 30) {
 			alert("리뷰 내용은 30자 이상 입력해주세요 😅");
 			fieldReview.review_regionContent.focus();
@@ -194,6 +199,7 @@
 .select2-container .select2-selection--single {
 	height: 35px;
 }
+
 </style>
 
 <form name="dataForm" id="dataForm" onsubmit="return registerAction()">

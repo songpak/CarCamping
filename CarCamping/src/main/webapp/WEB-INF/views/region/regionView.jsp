@@ -35,6 +35,22 @@
   background-color: #fafafa; 
   border-color: #ccc;
 }
+div .cardbody {
+    display: block;  
+}
+#reviewTitle {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+   
+#reviewSummary{
+max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 </style>
  <!-- 장소 상세보기모달 -->
 <div class="modal modal-center fade" id="regionContent" tabindex="-1"
@@ -152,7 +168,21 @@ body {
 	border-color : red;
 }
 
-
+div .cardbody {
+    display: block;  
+}
+#reviewTitle {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#reviewSummary {
+max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}   
 
 </style>
 <!-- <script
@@ -420,7 +450,7 @@ body {
 								<div class="card-body">
 									<div class="card-body">
 										<h5 id="reviewTitle"class="card-title" align="center">${review_ccr.review_title}</h5>
-										<p class="card-text" align="center">${review_ccr.review_summaryContent }</p>
+										<p class="card-text" id="reviewSummary" align="center">${review_ccr.review_summaryContent }</p>
 									</div>
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item">별점
