@@ -293,22 +293,6 @@
          <scope>provided</scope>
       </dependency>
 		
-		
-		<!-- Web Socket -->
-		<!-- main -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-websocket</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.9.9.3</version>
-		</dependency>
-
         
 <!-- /////////////////////////////////////////////////////////////////////////////// -->        
 				

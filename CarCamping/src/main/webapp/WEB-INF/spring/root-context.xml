@@ -45,17 +45,4 @@
 		</property>
 	</bean>
 	
-	
-	<!-- Web Socket -->
-	<bean id="webSocketHandler" class="com.ezen.carCamping.socket.EchoHandler"></bean>
-	
-	<websocket:handlers>
-		<websocket:mapping handler="webSocketHandler" path="/carCamping"/>
-		<websocket:handshake-interceptors>
-			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></bean>
-		</websocket:handshake-interceptors>
-		<websocket:sockjs></websocket:sockjs>
-	</websocket:handlers>
-	
-	
 </beans>
