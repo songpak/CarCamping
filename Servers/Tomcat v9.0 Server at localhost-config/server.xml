@@ -155,7 +155,7 @@
 
       <Context docBase="CarCamping" path="/carCamping" reloadable="true" source="org.eclipse.jst.jee.server:CarCamping"/>
    
-    <Context docBase="socket01" path="/sock01" reloadable="true" source="org.eclipse.jst.jee.server:socket01"/></Host>
+    </Host>
     </Engine>
   </Service>
 </Server>
