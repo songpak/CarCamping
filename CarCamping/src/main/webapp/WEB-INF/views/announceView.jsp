@@ -45,46 +45,35 @@
 						<!-- 현재 이미지 캐러셀 --> &nbsp;
 						<div id="carouselExampleIndicators" class="carousel slide"
 							data-bs-ride="carousel">
-							<div class="carousel-indicators">
-								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
-									data-bs-slide-to="0" class="active" aria-current="true"
-									aria-label="Slide 1"></button>
-								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
-									data-bs-slide-to="1" aria-label="Slide 2"></button>
-								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
-									data-bs-slide-to="2" aria-label="Slide 3"></button>
-							</div>
+
 							<div class="carousel-inner">
 								<c:if test="${not empty adto.aa_image1}">
 									<div class="carousel-item active">
-										<img src="${upPath}/${adto.aa_image1}" class="d-block w-100"
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${adto.aa_image1}" class="d-block w-100"
 											alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image2}">
 									<div class="carousel-item active">
-										<img src="${upPath}/${adto.aa_image2}" class="d-block w-100"
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${adto.aa_image2}" class="d-block w-100"
 											alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image3}">
 									<div class="carousel-item active">
-										<img src="${upPath}/${adto.aa_image3}" class="d-block w-100"
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${adto.aa_image3}" class="d-block w-100"
 											alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image4}">
 									<div class="carousel-item active">
-										<img src="${upPath}/${adto.aa_image4}" class="d-block w-100"
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${adto.aa_image4}" class="d-block w-100"
 											alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty adto.aa_image5}">
 									<div class="carousel-item active">
-										<img src="${upPath}/${adto.aa_image5}" class="d-block w-100"
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${adto.aa_image5}" class="d-block w-100"
 											alt="...">
 									</div>
 								</c:if>
