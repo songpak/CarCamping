@@ -68,13 +68,11 @@ public class RegionController {
 	}
 	
 	@RequestMapping(value = "changeHotRegion.region", method=RequestMethod.GET,produces = "application/text; charset=UTF-8")
-	   @ResponseBody
+	   @ResponseBody //ajax return시 ResponseBody선언
 	   public String changeHotRegion(HttpServletRequest req,@RequestParam("regionNum") int regionNum,@RequestParam(required = false) String memId) {
-	      ChkSignIn(req);
-	      System.out.println(regionNum);
-	      //int region_num = Integer.parseInt(regionNum);
-	      RegionDTO dto = RegionMapper.selectRegion(regionNum);
-	      List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(regionNum);
+	      ChkSignIn(req);//로그인 되어있으면 세션에 member 정보를 저장
+	      RegionDTO dto = RegionMapper.selectRegion(regionNum);//region_num에 해당하는 regionDTO를 반환하는 쿼리문을 사용
+	      List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(regionNum); // 해당 region_num을 가지고 있는 carCampingRegionDTO를 인기 순위로 오름차순 정렬후 상위 4곳을 가져오는 쿼리 사용
 	      
 	      String hotList_html ="<li class=\"list-group-item fs-2 text-center\"><button\r\n" + 
 	            "            class=\"btn btn-outline-warning btn-lg\" type=\"button\" onclick=\"location.href='board.region?region_num="+dto.getRegion_num()+"'\"\r\n" + 
@@ -82,7 +80,7 @@ public class RegionController {
 	            "            <i class=\"bi bi-trophy-fill\" width=\"40\" height=\"40\"\r\n" + 
 	            "               fill=\"currentColor\"></i>"+dto.getRegion_name()+" 차박지 더 많이 보기<i\r\n" + 
 	            "               class=\"bi bi-trophy-fill\" width=\"40\" height=\"40\"\r\n" + 
-	            "               fill=\"currentColor\"></i></button></li>";
+	            "               fill=\"currentColor\"></i></button></li>";// ul태그의 상단 부분: (해당지역)더 많이 보기
 	      for(int i=0;i<list.size();i++) {
 	         hotList_html+="<li class='"+"list-group-item position-relative'><img src='"
 	               +"https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/"+list.get(i).getCcr_viewImage1()
@@ -91,7 +89,7 @@ public class RegionController {
 	               +"<i class='bi bi-trophy-fill' width='40' height='40' style='color:#ffc107;'></i>"
 	               +"<a href ='regionView.region?ccr_num="
 	               +list.get(i).getCcr_num()+"'style=\'color:#050a16; font-weight: bold;\'>"
-	               +list.get(i).getCcr_name()+"</a></div></li>";
+	               +list.get(i).getCcr_name()+"</a></div></li>";//ul태그 하단부분 : (해당지역)에 carCampingRegionDTO를 인기순위로 정렬한 상단의 4곳을 보여줌
 	      }
 
 	      return hotList_html;

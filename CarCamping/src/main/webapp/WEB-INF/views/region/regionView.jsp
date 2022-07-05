@@ -206,6 +206,9 @@ max-width: 200px;
 				<li class="list-group-item d-flex justify-content-between align-items-center" style="padding-left: 0px; padding-right: 0px;">
 					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${regionSelected.ccr_viewImage1}"  class="card-img-top">
 				</li>
+				<!-- 로그인한 사용자가 region에 대하여 좋아요한 내역이 있으면 바탕색을 빨간색 없으면 흰색으로 하여 사용자로 하여금 자신의 좋아요 유무를 알 수 있도록 함
+					 좋아요 버튼을 누를시, Like_funtion을 통해 ajax를 사용하여 좋아요가 바로 증가되도록 함
+				 -->
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					좋 아 요
 					<c:if test="${check==0}">
@@ -564,10 +567,10 @@ max-width: 200px;
 				alert("로그인을 해주세요 !!");
 				
 			}else{ //아이디가 있으면			
-				 if(isRun == true) {
+				 if(isRun == true) {//ajax가 실행되고 있으면 isRun이 true이므로 실행되지 않고 return됨
 				        return;
 				    }
-				 isRun = true;
+				 isRun = true;//ajax가 실행되고 있지 않으면 isRun을 true로 바꿔 더이상 중복되지 않게함
 					//클릭시 로딩 이미지 호출
 				  var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
 				    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>'; 
