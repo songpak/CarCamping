@@ -42,19 +42,17 @@
 <!-- 기타 js -->
 <script type="text/javascript">
 	var isRun = false; // ajax 동시 호출 막기(ajax가 호출되는 동안 버튼이 클릭돼도 중복으로 실행되는것을 막기위함)
-
 	function SelectRegion() {
-		alert('${mem_num}');
 		if (isRun == true) {
 			return;
 		}
 		isRun = true;
 		//클릭시 로딩 이미지 호출
-		var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
-		loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>';
-		$('body').fadeTo("fast", 0.4).append(loadingHtml);
+		var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:40%;left:45%; text-align:center;"> ';
+		loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/carLoading.gif"/>"  /></div></div>';
+		$('body').fadeTo("fast", 1).append(loadingHtml);
 		var selectedRegionNum = $("#review_region option:selected").val(); // region_num 저장
-
+	
 		//ajax호출
 		$.ajax({
 			url : "ccr_list.review",/* 컨트롤러 맵핑  */
@@ -74,6 +72,7 @@
 				isRun = false;
 			},
 			error : function(request, status, error) {
+				$('body').fadeTo("slow", 1).find('#loading').remove();
 				console.log("차박장소 리스트를 불러오는 중 오류 발생 !");
 			}
 		});
@@ -82,6 +81,8 @@
 </script>
 
 <script>
+	var isRun = false;
+	
 	$(document).ready(function()// input file 파일 첨부시 fileCheck 함수 실행
 	{
 		$("#input_file").on("change", fileCheck);
@@ -140,6 +141,10 @@
 
 	//폼 submit 로직
 	function registerAction() {
+		   if (isRun == true) {
+		         return;
+		      }
+		   isRun = true;
 		var form = $("form")[0];
 		var formData = new FormData(form);
 		for (var x = 0; x < content_files.length; x++) {
@@ -151,40 +156,80 @@
 		var fieldReview = document.dataForm;
 		var fileList = document.getElementById("reviewImageBox");
 		
-		if (fieldReview.review_summaryContent.value.length < 20) {
-	         alert("리뷰 한줄 리뷰는 20자 이상 입력해주세요 😅");
-	         fieldReview.review_summaryContent.focus();
-	         return false;
-	      }
-		if (fieldReview.review_regionContent.value.length < 30) {
-			alert("리뷰 내용은 30자 이상 입력해주세요 😅");
-			fieldReview.review_regionContent.focus();
-			return false;
-		}
-		if(document.getElementsByClassName('imagefile').length==0){
-			alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
-			return false;
-		}
-		//파일업로드 multiple ajax처리  
-		$.ajax({
-			type : "POST",
-			enctype : "multipart/form-data",
-			url : "fieldReview_upload.review",
-			data : formData,
-			processData : false,
-			contentType : false,
-			success : function(data) {
-				if (data == "good") {
-					alert("리뷰 업로드 성공");
-					location.href = "goRegion.region";
-				} else
-					alert("서버내 오류 또는 게시글의 내용이 너무 깁니다. 잠시후 시도 하시거나 내용을 변경해주세요");
-			},
-			error : function(xhr, status, error) {
-				alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
-				return false;
-			}
-		});
+		if (fieldReview.review_title.value.length >= 20) {
+            alert("리뷰 제목은 20자 까지 입력 가능합니다 😅");
+            fieldReview.review_summaryContent.focus();
+            return false;
+         }
+      if (fieldReview.review_title.value.length < 10) {
+            alert("리뷰 제목을 10자 이상 입력해주세요");
+            fieldReview.review_summaryContent.focus();
+            return false;
+         }
+      if (fieldReview.review_summaryContent.value.length >= 20) {
+            alert("리뷰 한줄 리뷰는 20자 까지 입력 가능합니다 😅");
+            fieldReview.review_summaryContent.focus();
+            return false;
+         }
+      if (fieldReview.review_summaryContent.value.length < 10) {
+            alert("리뷰 한줄 리뷰를 10자 이상 입력해주세요");
+            fieldReview.review_summaryContent.focus();
+            return false;
+         }
+      if (fieldReview.review_regionContent.value.length < 30) {
+         alert("리뷰 내용을 30자 이상 입력해주세요 😅");
+         fieldReview.review_regionContent.focus();
+         return false;
+      }
+      if (fieldReview.review_regionContent.value.length > 1000) {
+         alert("리뷰 내용은 1000자 까지 입력 가능합니다😅");
+         fieldReview.review_regionContent.focus();
+         return false;
+      }
+      if(document.getElementsByClassName('imagefile').length==0){
+         alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
+         return false;
+      } 
+		
+      if (!confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+          // 취소(아니오) 버튼 클릭 시 이벤트
+          	isRun=false;
+             return false;
+              } else {
+          // 확인(예) 버튼 클릭 시 이벤트
+            $("#submitButton").attr("disabled",true);
+          	var uploadingHtml = '<div id="uploading" style="z-index: 1005;position: absolute; top:20%;left:30%; text-align:center;"> ';
+               uploadingHtml += '<div class="uoloading_box"><img src="<c:url value="/resources/images/uploadLoading.gif"/>"  /></div></div>';
+               $('body').fadeTo("fast", 1).append(uploadingHtml);
+
+               $.ajax({
+                  type : "POST",
+                  enctype : "multipart/form-data",
+                  url : "fieldReview_upload.review",
+                  data : formData,
+                  processData : false,
+                  contentType : false,
+                  success : function(data) {
+                     if (data == "good") {
+                        $('body').fadeTo("slow", 1).find('#uploading').remove();
+                        alert("리뷰 업로드 성공");
+                        location.href = "goRegion.region";
+                   		 $("#submitButton").attr("disabled",false);
+                        isRun=false;
+                       
+                     } else{
+                    	 $("#submitButton").attr("disabled",false);
+                        alert("서버내 오류 또는 게시글의 내용이 너무 깁니다. 잠시후 시도 하시거나 내용을 변경해주세요");
+                     }
+                  },
+                  error : function(xhr, status, error) {
+                 	 $("#submitButton").attr("disabled",false);
+                     $('body').fadeTo("slow", 1).find('#uploading').remove();
+                     alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+                     return false;
+                  }
+               });
+            }
 		return false;
 	}
 </script>
@@ -263,7 +308,7 @@
 					style="resize: none;"></textarea>
 				<br>
 				<div style="text-align: center;">
-					<button class="btn btn-warning mb-3" type="submit"
+					<button class="btn btn-warning mb-3" type="submit" id="submitButton"
 						style="margin-right: 60px;">리뷰 작성</button>
 					<button class="btn btn-danger mb-3" type="reset">취소</button>
 				</div>

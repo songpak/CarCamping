@@ -1140,4 +1140,33 @@ public class AdminController {
 		return mav;
 	}
 	
+	//공지사항 보기 - user  박혜성 추가 0701
+	   @RequestMapping("/uesrAnnounce.admin")
+	   public String uesrAnnounce(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+	         @RequestParam(value="page",defaultValue="1") int page) {
+	      List<AdminAnnounceDTO> list = new ArrayList<AdminAnnounceDTO>();
+	      
+	      if (map.containsKey("sort")) {
+	         list = adminMapper.adminListAnnounceSort(map);
+	      }else {
+	         list = adminMapper.adminListAnnounce();
+	      }
+	      //현재 페이지
+	      req.setAttribute("page", page);
+	      //총 페이지
+	      req.setAttribute("pageCount", pagination.pageCount(list));
+	      //현재 페이지에 맞는 게시물 리스트
+	      req.setAttribute("adminListAnnounce", pagination.getPagePost(page, list));
+	      
+	      return "announce";
+	   }
+	   
+	   @RequestMapping(value="/userViewAnnounce.admin", method=RequestMethod.GET)
+	   public String userViewAnnounce(HttpServletRequest req,@RequestParam int aa_num) {
+	      AdminAnnounceDTO dto = adminMapper.adminGetAnnounce(aa_num);
+	      req.setAttribute("adto", dto);
+	      
+	      return "announceView";
+	   }
+	
 }

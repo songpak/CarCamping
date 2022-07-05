@@ -95,13 +95,13 @@
 	<select id="listCarCampingRegionHotRegion" parameterType="Integer" resultType="CarCampingRegionDTO"> <!-- 지역별 차박지 HOT차박지  -->
 		select c.* from (
 		select a.* from CarCampingRegion a,Region b where b.region_num = #{region_num} and a.region_num = b.region_num)c
-		order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount + c.ccr_score desc limit 4
+		order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount*3 + c.ccr_score*100 desc limit 4
 	</select>
 	
 	<select id="listHotRegion" resultType="CarCampingRegionDTO"> <!-- HOT 차박지 -->
 	select c.* from (
 	select a.* from CarCampingRegion a where a.ccr_popular = 0)c
-	order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount + c.ccr_score desc limit 10
+	order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount *3+ c.ccr_score*100 desc limit 10
 	</select>
 	
 	<select id="listRecommandRegion" resultType="CarCampingRegionDTO"> <!-- 추천 차박지 -->
@@ -229,16 +229,6 @@
 		where a.ccr_num = b.ccr_num and b.ccr_num = #{ccr_num} and a.review_adminConfirm=0
 	</select> 	
 
-<!-- 	<select id="test" parameterType="Integer" resultType="HashMap">
-		select d.* from 
-		(select c.region_num region_num ,c.ccr_num ccr_num,c.ccr_name ccr_name,
-		(select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0)reviewCount,c.ccr_likeCount ccr_likeCount ,c.ccr_popular ccr_popular,c.ccr_score ccr_score
-		from (select a.* from CarCampingRegion a)c)d where d.reviewCount>0 and d.region_num =#{region_num}
-	</select> -->
-
-
-
-
 	
 	<select resultMap="carCampingRegionMap" id="listPopRegion" parameterType="int">
 	 select a.*,b.* from CarCampingRegion a join Region b on a.region_num = b.region_num and a.region_num = #{region_num}
@@ -249,7 +239,6 @@
 	<select resultType="int" id="listRegionCount" parameterType="int">
 	 select count(*) from CarCampingRegion where region_num = #{region_num} 
 	</select> 
-
 
 	<select resultMap="carCampingRegionMap" id="listRegionMain" parameterType="int">
 		 select a.*,b.* from CarCampingRegion a join Region b on a.region_num = b.region_num and a.region_num = #{region_num}
@@ -268,25 +257,6 @@
 	<select id="listRegionscore" resultMap="carCampingRegionMap" parameterType="int">
 		 SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ccr_score DESC limit #{startRow},#{endRow}
 	</select>
-	 <!-- 차박지 보드 그냥 정렬 눌렀을때 끝 -->
-	 
-	 
-	 
-	 <!-- 차박지 보드 검색 후 정렬 눌렀을떄 -->
-	 <!-- <select id="listProductsearchPrice" resultMap="productMap" parameterType="carCampingRegionMap">
-		select a.*, b.* from Product as a left join BrandCategory as b on a.brand_num = b.brand_num 
-		where ${search} like concat('%',#{searchString},'%') order by prod_price desc limit #{startRow},#{endRow}
-	</select>
-	
-	<select id="listProductsearchNew" resultMap="productMap" parameterType="java.util.Map">
-		select a.*, b.* from Product as a left join BrandCategory as b on a.brand_num = b.brand_num
-     	 where ${search} like concat('%',#{searchString},'%') order by prod_num desc limit #{startRow},#{endRow}
-	</select>
-	
-	<select id="listProductsearchPop" resultMap="productMap" parameterType="java.util.Map">
-		select a.*, b.* from songsama.Product as a left join songsama.BrandCategory as b on a.brand_num = b.brand_num 
-		where  ${search}  like concat('%',#{searchString},'%') and prod_popular=0 order by prod_reviewScore desc limit #{startRow},#{endRow}
-	</select> -->
-	<!-- 차박지 보드 검색 후 정렬 눌렀을떄 끝 -->
+
 	
 </mapper>
