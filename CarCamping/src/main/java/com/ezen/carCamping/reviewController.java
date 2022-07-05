@@ -179,6 +179,7 @@ public class reviewController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		System.out.println(strResult);
 		return strResult;
 	}	
 	

@@ -40,9 +40,11 @@ public class HomeController {
 	    for(int i=0; i < cookie.length; i++){
 	         if(cookie[i].getName().equals("loginCookie")){
 	        	 String value = cookie[i].getValue();
-	        	  MemberDTO dto = memberMapper.getMemberId(value);
-	        	 session.setAttribute("mem_num",  dto.getMem_num());
-	             session.setAttribute("mbdto", dto);
+	        	 try {
+		        	  MemberDTO dto = memberMapper.getMemberId(value);
+		        	 session.setAttribute("mem_num",  dto.getMem_num());
+		             session.setAttribute("mbdto", dto);
+	        	 }catch(Exception e) {}
 	         }
 	    }
 	
