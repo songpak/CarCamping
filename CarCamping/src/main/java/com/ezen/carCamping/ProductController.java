@@ -132,7 +132,7 @@ public class ProductController {
 	}
 
 	@RequestMapping("/productView.product")//이부분 수정함
-<<<<<<< HEAD
+
     public String productView(HttpServletRequest req, @RequestParam Map<String, String> params,
            String mode, @RequestParam(required=false,defaultValue="1") int page) {
            HttpSession session = req.getSession();
@@ -161,34 +161,10 @@ public class ProductController {
           //req.setAttribute("getProduct", productMapper.getProduct(prod_num));
           req.setAttribute("pageCount", pagination.pageCount(list));
           req.setAttribute("listBoard", pagination.getPagePost(page,list));
-=======
-	public String productView(HttpServletRequest req, @RequestParam Map<String, String> params,
-			String mode, @RequestParam(required=false,defaultValue="1") int page) {
-		HttpSession session = req.getSession();
-		int prod_num = Integer.parseInt(params.get("prod_num"));
-		session.setAttribute("prod_num", prod_num);
-		ProductDTO dto = productMapper.getProduct(prod_num);
-		session.setAttribute("getProduct", dto);
-		List<ReviewProductDTO> list = null;
-		String search = params.get("search");
-		String searchString = params.get("searchString");
-		if (searchString == null||searchString.equals("")) {
-			list = productMapper.listProdReview(prod_num);
-		}else {
-			list = productMapper.findReview(prod_num,search, searchString);
-			session.setAttribute("prodsearch", search);
-			session.setAttribute("prodsearchString", searchString);
-		}
-		List<AgencyDTO> Alist = productMapper.getAgency();
-		session.setAttribute("countReviewProd", productMapper.countReviewProd(prod_num));
-		session.setAttribute("getAgency", Alist);
-		//req.setAttribute("getProduct", productMapper.getProduct(prod_num));
-		req.setAttribute("pageCount", pagination.pageCount(list));
-		req.setAttribute("listBoard", pagination.getPagePost(page,list));
->>>>>>> 53e138f239b5c53c2d0f6fde7ed6c09830bdfc00
-
-		return "product/productView";
+          return "product/productView";
 	}
+
+	
 
 	@RequestMapping("/productViewOrder.product")//이 부분 추가
 	public String productView2(HttpServletRequest req,String mode,@RequestParam(required=false,defaultValue="1") int page

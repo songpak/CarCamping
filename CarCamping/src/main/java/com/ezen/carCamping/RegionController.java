@@ -257,17 +257,22 @@ public class RegionController {
 	@RequestMapping(value="updateRegionLike.region",method=RequestMethod.POST)
 	@ResponseBody
 	public String updateRegionLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int ccr_num) {
+		/*
+		 * HttpSession session = req.getSession(); MemberDTO mdto = (MemberDTO)
+		 * session.getAttribute("mbdto"); if(mdto!=null) {
+		 * session.setAttribute("mem_num", mdto.getMem_num());
+		 * session.setAttribute("mem_id", mdto.getMem_id()); }else if(mdto == null){
+		 * req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
+		 * req.setAttribute("url","login.login"); return "message"; }
+		 */
 		
-		HttpSession session = req.getSession();
-		  MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
-		  if(mdto!=null) {
-			  session.setAttribute("mem_num", mdto.getMem_num());
-			  session.setAttribute("mem_id", mdto.getMem_id());
-		  }else if(mdto == null){
-			  req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
+		  
+		  if(ChkSignIn(req)==false) {
+			  req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\\n로그인창으로 이동합니다.");
 			  req.setAttribute("url","login.login");
 			  return "message";
 		  }
+		  
 		  
 		int check = RegionMapper.checkRegionLikeLog(mem_id, ccr_num);
 		int count = 0;
@@ -288,13 +293,18 @@ public class RegionController {
 	@ResponseBody
 	public String updateReviewLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam int review_num) {
 		
-		HttpSession session = req.getSession();
-		  MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
-		  if(mdto!=null) {
-			  session.setAttribute("mem_num", mdto.getMem_num());
-			  session.setAttribute("mem_id", mdto.getMem_id());
-		  }else if(mdto == null){
-			  req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
+		/*
+		 * HttpSession session = req.getSession(); MemberDTO mdto = (MemberDTO)
+		 * session.getAttribute("mbdto"); if(mdto!=null) {
+		 * session.setAttribute("mem_num", mdto.getMem_num());
+		 * session.setAttribute("mem_id", mdto.getMem_id()); }else if(mdto == null){
+		 * req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\n로그인창으로 이동합니다.");
+		 * req.setAttribute("url","login.login"); return "message"; }
+		 */
+		
+		  
+		  if(ChkSignIn(req)==false) {
+			  req.setAttribute("msg", "로그인을 하셔야 좋아요를 누를수 있습니다 !\\n로그인창으로 이동합니다.");
 			  req.setAttribute("url","login.login");
 			  return "message";
 		  }
