@@ -31,45 +31,29 @@ public class RegionController {
 	@Autowired
 	private RegionMapper RegionMapper;
 
-	private Hashtable<String, Object> ht = RegionMapper.getInstance(); 
+	//private Hashtable<String, Object> ht = RegionMapper.getInstance(); 
 
 	@RequestMapping(value = "goRegion.region", method = RequestMethod.GET)
 	public String goRegion(HttpServletRequest req) {
 		List<CarCampingRegionDTO> hot_list = RegionMapper.listHotRegion();
 		List<CarCampingRegionDTO> recommand_list = RegionMapper.listRecommandRegion();
-		ht.put("hot_list", hot_list);
-		ht.put("recommand_list", recommand_list);
 		req.setAttribute("hotRegionList", hot_list);
 		req.setAttribute("recommandRegionList", recommand_list);
-		HttpSession session = req.getSession();
+		ChkSignIn(req);
+		/*HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
 		if(session.getAttribute("mbdto")!=null) {
 			session.setAttribute("mem_num", dto.getMem_num());
 			session.setAttribute("mem_id", dto.getMem_id());
-		 }
+		 }*/
 		return "region/regionMain";
 	}
 
-	@RequestMapping("/regionHotLocList.region")
-	public String goRegionHOT(HttpServletRequest req, @RequestParam int region_num) {
-		ChkSignIn(req);
-		RegionDTO dto = RegionMapper.selectRegion(region_num);
-		List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(region_num);
-		
-		System.out.print(region_num);
-		req.setAttribute("regionDTO", dto);
-		req.setAttribute("hotList_Region", list);
-		req.setAttribute("hotRegionList", ht.get("hot_list"));
-		req.setAttribute("recommandRegionList", ht.get("recommand_list"));
-		
-		
-		return "region/regionHotLocList";
 
-	}
 	
 	@RequestMapping(value = "changeHotRegion.region", method=RequestMethod.GET,produces = "application/text; charset=UTF-8")
 	   @ResponseBody
-	   public String changeHotRegion(HttpServletRequest req,@RequestParam("regionNum") int regionNum,@RequestParam(required = false) String memId) {
+	   public String changeHotRegion(HttpServletRequest req,@RequestParam("regionNum") int regionNum) {
 	      ChkSignIn(req);
 	      System.out.println(regionNum);
 	      //int region_num = Integer.parseInt(regionNum);
@@ -134,7 +118,7 @@ public class RegionController {
 		}
 		int startRow = (currentPage - 1) * pageSize + 1;//3-1 4 8
 		int endRow = startRow + pageSize - 1;
-		int rowCount = RegionMapper.countReviewCcrnum(ccr_num);
+		int rowCount = RegionMapper.countReviewCcr(ccr_num);
 		
 		if (endRow > rowCount)
 			endRow = rowCount;
@@ -144,13 +128,10 @@ public class RegionController {
 		if (rowCount > 0) {
 			if(mode.equals("none")) {
 			list = RegionMapper.listCcrReview(ccr_num,startRow-1,endRow,orderBy);
-			System.out.println(list.size());
 			}
 			else if(mode.equals("searchReview")) {
 				String search  = params.get("search");
-				System.out.println(search);
 				String searchString = params.get("searchString");
-				System.out.println(searchString);
 				if(search.equals("mem_nickName")) {
 				rowCount = RegionMapper.countRevieWrietrSearch(ccr_num, search, searchString);
 				list = RegionMapper.listCcrReviewWriterSearch(ccr_num,  startRow-1, endRow, orderBy, search, searchString);	

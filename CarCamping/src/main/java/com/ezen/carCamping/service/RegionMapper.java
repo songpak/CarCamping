@@ -17,17 +17,6 @@ public class RegionMapper{
 
 	@Autowired
 	private SqlSession sqlSession;
-
-	private static Hashtable<String,Object> ht = new Hashtable<>();
-	
-	public static Hashtable<String,Object> getInstance(){
-
-		/*
-		 * for(int i=1;i<=9;i++) {
-		 * ht.put(String.valueOf(i),listCarCampingRegionHotRegion(i)); }
-		 */
-		return ht;
-	}
 	
 	public List<RegionDTO> listRegion() {
 		List<RegionDTO> list = sqlSession.selectList("listRegion");

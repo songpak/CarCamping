@@ -32,6 +32,7 @@ img, svg {
    margin-left:15%;
    margin-right:15%;
 }
+
 </style>
 
 
@@ -130,8 +131,8 @@ img, svg {
          <source src="resources/video/highway-loop.mp4" type="video/mp4">
       </video>
       <div class="jb-text">
-         <a class="ghost-button" href="goRegion.region">차박장소</a> 
-         <a class="ghost-button" href="goProduct.product">용품대여</a>
+         <a class="ghost-button" href="goRegion.region" class="goMain">차박장소</a> 
+         <a class="ghost-button" href="goProduct.product"class="goMain">용품대여</a>
          <a class="ghost-button" href="goAdmin.admin">관리자페이지</a>
       </div>
    </div>
@@ -258,6 +259,12 @@ img, svg {
         $(window).scroll(function () {
           checkSection();
         });
+        
+        /* hover - logo */
+        $(".goMain").hover{
+        	$(this).css("background-color","yellow");
+        }
+        
     </script>
 </body>
 </html>

@@ -44,17 +44,17 @@
 		window.open(url, name, option);
 	}
 	
-	function changeHotRegion(region_num, mem_id){
+	function changeHotRegion(region_num){
 		console.log(region_num);
-		console.log(mem_id);
+	
 		var send_region_num = region_num;
-		var send_mem_id = mem_id;
+		
 		$.ajax({
 			url: "changeHotRegion.region", //컨트롤러 맵핑
             type: "GET",
             data: { //사용자가 데이터를 정의한다	
             	"regionNum" : region_num,
-            	"memId" : mem_id
+            	
             },
             contentType: "application/json",
             success: function (result) {
@@ -168,12 +168,8 @@
 										customOverlay.setMap(map);
 										customOverlay.setVisible(false);
 													kakao.maps.event.addListener(marker,'click',function() {//해당지역 인기글 변경
-														document.hotRegionLocation.region_num.value = i + 1
-														document.hotRegionLocation.mem_id = '${sessionScope.id}'
-														//document.hotRegionLocation.submit()
-														var region_num = i+1;
-														var mem_id = '${sessionScope.id}';
-														changeHotRegion(region_num,mem_id);
+														var region_num = i+1;	
+														changeHotRegion(region_num);
 														
 														});
 											kakao.maps.event.addListener(marker,'mouseover', function() {
@@ -187,12 +183,7 @@
 								</script> 
 							</div>
 						</div>
-					</div>
-					<form name="hotRegionLocation" action="regionHotLocList.region" method="post">
-						<input type="hidden" name="region_num"/>
-						<input type="hidden" name="mem_id"/>
-					</form>
-								
+					</div>							
 					<!--지역별 HOT리뷰글  -->
 					<div class="ccm-u-hs border rounded-4 border-4"
 						style="height: 600px;">

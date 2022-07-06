@@ -1,6 +1,8 @@
 package com.ezen.carCamping;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -146,9 +148,14 @@ public class ProductController {
           if (searchString == null||searchString.equals("")) {
              list = productMapper.listProdReview(prod_num);
           }else {
-             list = productMapper.findReview(prod_num,search, searchString);
-             session.setAttribute("prodsearch", search);
-             session.setAttribute("prodsearchString", searchString);
+        	 try {
+				searchString = URLDecoder.decode(params.get("searchString"), "UTF-8");
+				 list = productMapper.findReview(prod_num,search, searchString);
+	             session.setAttribute("prodsearch", search);
+	             session.setAttribute("prodsearchString", searchString);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
           }
           List<AgencyDTO> Alist = productMapper.getAgency();
           req.setAttribute("countReviewProd", productMapper.countReviewProd(prod_num));
