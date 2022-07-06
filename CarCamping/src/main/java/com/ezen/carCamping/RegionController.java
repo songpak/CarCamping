@@ -83,6 +83,7 @@ public class RegionController {
 	            "               fill=\"currentColor\"></i>"+dto.getRegion_name()+" 차박지 더 많이 보기<i\r\n" + 
 	            "               class=\"bi bi-trophy-fill\" width=\"40\" height=\"40\"\r\n" + 
 	            "               fill=\"currentColor\"></i></button></li>";
+	      if(list.size()!=0) {
 	      for(int i=0;i<list.size();i++) {
 	         hotList_html+="<li class='"+"list-group-item position-relative'><img src='"
 	               +"https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/"+list.get(i).getCcr_viewImage1()
@@ -93,7 +94,15 @@ public class RegionController {
 	               +list.get(i).getCcr_num()+"'style=\'color:#050a16; font-weight: bold;\'>"
 	               +list.get(i).getCcr_name()+"</a></div></li>";
 	      }
-
+	      }else {
+	    	 hotList_html += "<li class=\"list-group-item position-relative\"><img\r\n" + 
+	    	 		"						src=\"resources/images/sik.jpg\"\r\n" + 
+	    	 		"						class=\"img-responsive rounded-circle\"\r\n" + 
+	    	 		"						style=\"width: 107px; height: 107px;\">\r\n" + 
+	    	 		"						<div class=\"position-absolute top-50 start-50 translate-middle\">\r\n" + 
+	    	 		"							지도에서 마커를 클릭해주세요 ! \r\n" + 
+	    	 		"				</div></li>"; 
+	      }
 	      return hotList_html;
 	   }
 	   
@@ -190,11 +199,18 @@ public class RegionController {
 	public String regionReviewView(HttpServletRequest req,HttpServletResponse rep, @RequestParam int review_num) {
 		  HttpSession session = req.getSession();
 		  MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");
+		  /*
 		  if(mdto!=null) {
 			  session.setAttribute("mem_num", mdto.getMem_num());
 			  session.setAttribute("mem_id", mdto.getMem_id());
 		  }else if(mdto == null){
 			  System.out.println("로그인안해쓴ㄴ데여?");
+			  req.setAttribute("msg", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
+			  req.setAttribute("url","login.login");
+			  return "message";
+		  }*/
+		  
+		  if(ChkSignIn(req)==false) {
 			  req.setAttribute("msg", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
 			  req.setAttribute("url","login.login");
 			  return "message";
@@ -363,13 +379,15 @@ public class RegionController {
 	
 	
 	
-	private void ChkSignIn(HttpServletRequest req) {
+	private Boolean ChkSignIn(HttpServletRequest req) {
 		 HttpSession session = req.getSession();
 		  MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
 		  if(session.getAttribute("mbdto")!=null) {
 			  session.setAttribute("mem_num", dto.getMem_num());
 			  session.setAttribute("mem_id", dto.getMem_id());
+			  return true;
 		  }
+		  else return false;
 	}
 	
 	

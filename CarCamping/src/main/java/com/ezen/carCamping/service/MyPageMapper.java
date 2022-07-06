@@ -104,6 +104,17 @@ public class MyPageMapper {
 			List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct",mem_num);
 			return pdto;
 	} 
+	 
+	 public List<ReviewRegionDTO> myPageGetWriteReviewRegion_1(int mem_num){
+			List<ReviewRegionDTO> rdto = sqlSession.selectList("myPageGetWriteReviewRegion_1",mem_num);
+			return rdto;
+	}
+	 public List<ReviewProductDTO> myPageGetWriteReviewProduct_1(int mem_num){
+			List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct_1",mem_num);
+			return pdto;
+	} 
+	 
+	 
 	 public ReviewRegionDTO getReviewRegion(int review_num){
 		 	ReviewRegionDTO rdto = sqlSession.selectOne("getReviewRegion", review_num);
 			return rdto;

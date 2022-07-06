@@ -169,6 +169,11 @@
 	<update id="plusLikeCount" parameterType="Integer">
 		update ReviewProduct set rp_likeCount=rp_likeCount+1 where rp_num = #{rp_num}
 	</update>
+	
+	<update id="minusLikeCount" parameterType="Integer">
+		update ReviewProduct set rp_likeCount=rp_likeCount-1 where rp_num = #{rp_num}
+	</update>
+	
 
 	
 

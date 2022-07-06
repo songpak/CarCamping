@@ -160,6 +160,9 @@ public class ProductMapper {
 	public int plusLikeCount(int rp_num) {
 		return sqlSession.update("plusLikeCount", rp_num);
 	}
+	public int minusLikeCount(int rp_num) {
+		return sqlSession.update("minusLikeCount", rp_num);
+	}
 
 	public List<ProductDTO> findProduct(String search, String searchString, int startRow, int endRow) {
 		Map<String, Object> map = new Hashtable<>();
@@ -212,7 +215,7 @@ public class ProductMapper {
 		Map<String,Object> map = new Hashtable<>();
 		map.put("mem_id", mem_id);
 		map.put("rp_num",rp_num);
-		int ud = sqlSession.update("addProductReviewReadCount", rp_num);
+		int ud = sqlSession.update("plusLikeCount", rp_num);
 		if(ud>0) sqlSession.insert("insertProductReviewLikeLog", map);
 		int res =(int)sqlSession.selectOne("recountProductReviewLike", rp_num);
 		return res;
@@ -220,8 +223,8 @@ public class ProductMapper {
 	public int deleteProductReviewLikeLog(String mem_id,int rp_num) {
 		Map<String,Object> map = new Hashtable<>();
 		map.put("mem_id", mem_id);
-		map.put("review_num", rp_num);
-		int ud = sqlSession.update("subLikeCountReview", rp_num);
+		map.put("rp_num", rp_num);
+		int ud = sqlSession.update("minusLikeCount", rp_num);
 		if(ud>0) sqlSession.delete("deleteProductReviewLikeLog", map);
 		int res =(int)sqlSession.selectOne("recountProductReviewLike", rp_num);
 		return res;
