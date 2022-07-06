@@ -324,17 +324,14 @@ max-width: 200px;
 		
 		<div class="col-md-8 themed-grid-col">
 			<div class="row" align="center">
-				<div class="row">
+					<div class="row">
 					<figure class="text-center">
 						<blockquote class="blockquote">
 							<p></p>
 						</blockquote>
-						<figcaption class="blockquote-footer">
-							<cite title="Source Title"></cite>
-						</figcaption>
 					</figure>
 				</div>
-				<h2 style="margin-bottom: 20px;">${getProduct.prod_name}리뷰 목록</h2>
+				<h3 style="margin-bottom: 11px; padding-bottom: 0px; padding-top: 0px; padding-left: 0px; padding-right: 15px;">${getProduct.prod_name} 리뷰 목록</h3>
 			</div>
 			<div class="row">
 				<!-- 드랍 버튼 -->
@@ -363,10 +360,10 @@ max-width: 200px;
 				</div>
 
 				<div class="col" align="right">
-					<div class="input-group mb-3">
-						<input type="hidden" name="mode" value="find" /> <select
-							id="search" class="form-select"
-							aria-label="Default select example">
+				<div class="col-md-8 mb-2" >
+					<div class="input-group mb-1" style="left: 12px;">
+						<input type="hidden" name="mode" value="find" /> 
+						<select	id="search" class="form-select"	aria-label="Default select example">
 							<option value="rp_title" align="center">리뷰제목</option>
 							<option value="rp_content" align="center">리뷰내용</option>
 							<!-- <option value="mem_nickName" align="center">리뷰작성자</option> -->
@@ -379,7 +376,7 @@ max-width: 200px;
 					</div>
 				</div>
 			</div>
-
+		</div>	
 			<!-- 본문 -->
 			<table class="table table-borderless">
 				<tr>
@@ -389,8 +386,8 @@ max-width: 200px;
 						</c:if>
 						<c:if test="${empty searchString }">
 							<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
-								<button type="button" class="btn btn-success"
-									style="margin-left: 431px; align: center; background-color: #00205b; border-color: #00205b; margin-top: 121px; height: 124px; width: 332px;"
+						<button type="button" class="btn btn-dark" style="margin-left: 431px;align: center;
+						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
 									onclick="goods_review.review?prod_num=${getProduct.prod_num}">
 									리뷰 등록 하기</button></td>
 						</c:if>
@@ -398,7 +395,7 @@ max-width: 200px;
 					<c:forEach var="pdto" items="${listBoard }">
 						<td>
 							<div class="card border-success" style="width: 18rem;">
-								<img src="resources/images/sik.jpg" class="card-img-top"
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.rp_image1}" class="card-img-top"
 									style="width: 284px; height: 200px;">
 								<div class="card-body">
 									<div class="card-body">
@@ -497,7 +494,7 @@ max-width: 200px;
 					</c:if>
 				</ul>
 				<button class="btn btn-primary" onclick="contact();"
-					style="float: right;">문의하기</button>
+					style="float: right; background-color: #00205b; border-color: #00205b;">문의하기</button>
 			</nav>
 		</div>
 	</div>
@@ -557,7 +554,7 @@ function popup(rp_num) {
 	    function contact() {
 	          var url = "myPageContactUs.myPage";
 	          var name = "popup test";
-	          var option = "width = 600, height = 500, top = 100, left = 200, location = no"
+	          var option = "width = 800, height = 400, top = 100, left = 200, location = no"
 	          window.open(url, name, option);
 	  	}
 	    

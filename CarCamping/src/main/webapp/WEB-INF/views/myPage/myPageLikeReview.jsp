@@ -3,7 +3,40 @@
 <%@ include file="../top.jsp"%>
 
 <!-- Content Column Grid -->
+<style>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
 
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+.list-group-item{
+	border:0;
+}
+
+ .card img {
+	    width:286px;
+	    height:190px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
+
+</style>		
 <div class="container" align="center"
 	class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
 	<div class="row" align="center">
@@ -356,6 +389,7 @@
 			</c:if>
 		</ul>
 	</nav> 
+	<br><br>
 </div>
 <!-- <script>
 		function popup(review_num) {

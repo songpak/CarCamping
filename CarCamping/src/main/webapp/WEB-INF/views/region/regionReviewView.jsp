@@ -163,7 +163,7 @@
 							<blockquote class="blockquote">
 								<p class="mb-0">REVIEW</p>
 							</blockquote>
-							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" readonly>
+							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>
 							${selectedReview.review_regionContent}
 							</textarea>
 						</div>

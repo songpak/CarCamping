@@ -92,17 +92,15 @@
 	<select id="listCcr" parameterType="Integer" resultType ="CarCampingRegionDTO">
 		select a.* from CarCampingRegion a, Region b where a.region_num = b.region_num and b.region_num =#{region_num}
 	</select>
-	<select id="listCarCampingRegionHotRegion" parameterType="Integer" resultType="CarCampingRegionDTO"> <!-- 지역별 차박지 HOT차박지  -->
-		select c.* from (
-		select a.* from CarCampingRegion a,Region b where b.region_num = #{region_num} and a.region_num = b.region_num)c
-		order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount*3 + c.ccr_score*100 desc limit 4
-	</select>
-	
-	<select id="listHotRegion" resultType="CarCampingRegionDTO"> <!-- HOT 차박지 -->
-	select c.* from (
-	select a.* from CarCampingRegion a where a.ccr_popular = 0)c
-	order by (select count(*) from ReviewRegion rr where rr.ccr_num = c.ccr_num and rr.review_adminConfirm=0) + c.ccr_likeCount *3+ c.ccr_score*100 desc limit 10
-	</select>
+	<select id="listCarCampingRegionHotRegion" parameterType="Integer" resultMap="carCampingRegionMap"> <!-- 지역별 차박지 HOT차박지  -->
+      select a.* from CarCampingRegion a where region_num = #{region_num} and a.ccr_popular=0
+      order by ratingRegion(a.ccr_num,a.ccr_likeCount,a.ccr_reviewCount) desc limit 4
+   </select>
+   
+   <select id="listHotRegion" resultMap="carCampingRegionMap"> <!-- HOT 차박지 -->
+   select a.* from CarCampingRegion a where a.ccr_popular = 0
+   order by ratingRegion(a.ccr_num,a.ccr_likeCount,a.ccr_reviewCount) desc limit 10
+   </select>
 	
 	<select id="listRecommandRegion" resultType="CarCampingRegionDTO"> <!-- 추천 차박지 -->
 		SELECT * FROM CarCampingRegion where ccr_popular=1 and ccr_score>=4 order by ccr_score desc limit 10

@@ -412,9 +412,8 @@ max-width: 200px;
 				<div class="col" align="right">
 				<div class="col-md-8 mb-2" >
 					<div class="input-group mb-1" style="left: 12px;">
-						<input type="hidden" name="mode" value="find" /> <select
-							id="search" class="form-select"
-							aria-label="Default select example" >
+						<input type="hidden" name="mode" value="find" /> 
+						<select	id="search" class="form-select"	aria-label="Default select example" >
 							<option value="review_title" align="center">리뷰제목</option>
 							<option value="review_regionContent" align="center">리뷰내용</option>
 							<option value="mem_nickName" align="center">리뷰작성자</option>
