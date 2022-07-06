@@ -2,7 +2,31 @@
     pageEncoding="UTF-8"%>
 <%@ include file="top.jsp"%>
 <!-- Content Column Grid -->
-<div class="col-md-8 themed-grid-col">
+<style>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+
+
+</style>		
+<div class="col-lg-9 themed-grid-col" style="margin-left: 200px;margin-right: 200px;">
 
 	<div class="row" align="center">
 		<div class="col">
@@ -11,13 +35,15 @@
 	
 	<div class="row justify-content-md-center">
 		<!-- 드랍 버튼 -->
-			<div class="col" align="left">
+			<div class="col-md-2 mb-1"  align="left">
 				<form name="sortForm" method="post" action="adminAnnounce.admin">
-					<select name="sort">
+				<div class="input-group">
+					<select name="sort" class="form-control" style="margin-top: 20px;">
 							<option value="desc">최신순</option>
 							<option value="asc">오래된순</option>
 					</select>
-					<button type="submit">정렬</button>
+					<button class="btn btn-dark" type="submit" style="margin-top: 20px;">정렬</button>
+					</div>
 				</form>
 			</div>
 		<!-- 드랍 버튼 끝 -->
@@ -29,28 +55,28 @@
 		function con_view(a){
 			var url = "userViewAnnounce.admin?aa_num="+a
 			var name = "공지사항 보기"
-			var option = "width=500,height=500,top=100,left=200,location=no"
+			var option = "width=550,height=1000,top=100,left=200,location=no"
 			window.open(url,name,option);
 		}
 	</script>
 	
 	<!-- 본문 -->
 	
-	<table class="table table-striped">
-		<tr class="table-info">
-			<th>제목</th>
-			<th>게시일</th>
-			<th>최종 수정일</th>
+	<table class="table table-striped" >
+		<tr class="table-info" align="center" style="--bs-table-striped-bg: #091835;">
+			<th><font color=white>제목</font></th>
+			<th><font color=white>게시일</font></th>
+			<th><font color=white>최종 수정일</font></th>
 			<th> </th>
 		</tr>
 		<c:if test="${not empty adminListAnnounce}">
 			<c:forEach items="${adminListAnnounce}" var="dto">
-				<tr>
-					<td>${dto.aa_title}</td>
-					<td>${dto.aa_sysdate}</td>
-					<td>${dto.aa_update}</td>
-					<td>
-						<button type="button" class="btn btn-info"
+				<tr align="center">
+					<td width="50%">${dto.aa_title}</td>
+					<td width="20%">${dto.aa_sysdate}</td>
+					<td width="20%">${dto.aa_update}</td>
+					<td width="30%">
+						<button type="button" class="btn btn-outline-dark"
 								onclick="location.href='javascript:con_view(${dto.aa_num})'">
 								보기</button>
 					</td>
@@ -82,6 +108,7 @@
 			</c:if>
 		</ul>
 	</nav>
+	<br><br>
 </div>
 <!-- End Content Coulmn Grid -->
 <%@ include file="bottom.jsp"%>

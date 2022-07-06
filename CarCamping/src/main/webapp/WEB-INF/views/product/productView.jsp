@@ -1,10 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
+<style>
+ .carousel-item img {
+	    width:598px;
+	    height:400px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
 
-<script>
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
  
-       </script>
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+div .cardbody {
+    display: block;  
+}
+#reviewTitle {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+   
+#reviewSummary{
+max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>
+
 
 <c:set var="prod_num" value="${sessionScope.prod_num}" />
 <c:set var="mem_num" value="${sessionScope.mem_num}" />
@@ -19,10 +63,54 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
+
+			    
+					<!-- 현재 이미지 캐러셀 -->
+					&nbsp;
+					<div id="carouselExampleControls" class="carousel slide"
+						data-bs-ride="carousel">
+						<div class="carousel-inner">
+							
+						</div>
+						<div class="carousel-inner">
+							<div class="carousel-item active ">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage1}" class="d-block w-100" alt="...">
+							</div>
+							<c:if test="${not empty getProduct.prod_viewImage2}">
+							<div class="carousel-item ">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage2}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty getProduct.prod_viewImage3}">
+							<div class="carousel-item">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage3}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty getProduct.prod_viewImage4}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage4}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty getProduct.prod_viewImage5}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage5}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+						</div>
+						  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+   						 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+					</div>
+			 <hr class="mb-4">		
 			<div class="modal-body">${getProduct.prod_viewContent}</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary"
-					data-bs-dismiss="modal" style="width: 100%;">Close</button>
+				<button type="button" class="btn btn-dark" 
+					data-bs-dismiss="modal" style="width: 100%; background:#091835;">Close</button>
 			</div>
 			    
 		</div>
