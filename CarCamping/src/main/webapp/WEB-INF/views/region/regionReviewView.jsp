@@ -48,13 +48,14 @@
 		<!-- Begin Header -->
 		<div align="center" id="header">
 			<div class="card border-success mb-3"
-				style="width: 700px; height: 960px">
+				style="width: 700px; height: 1000px">
 				<div class="card-header" style="background-color: #83BD75;">
 					<h2 style="margin-bottom: 0px;">${selectedReview.review_title}</h2>
 				</div>
 				<div class="card-body">
-					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${selectedReview.review_regionImage1}" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
-					<ul class="list-group">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${selectedReview.memberDTO.mem_image}" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
+					
+					<ul class="list-group" style="padding-left: 30px; padding-right: 10px;">
 						<li class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>좋 아 요</h5>
 							<c:if test="${check==0}">
@@ -110,6 +111,7 @@
 										 ☆☆☆☆☆
 								 </c:otherwise>
 								</c:choose>
+								
 										</fieldset>
 									</div>
 								</div>
@@ -117,6 +119,10 @@
 						</li>
 					
 					</ul>
+					<div celar="left">
+						<label style="float: left"><b style="padding-left: 50px;">${selectedReview.memberDTO.mem_nickName}</b></label>
+						</div>
+						<br>
 					<p></p>
 					<div class="progress" >
 						<div
@@ -163,9 +169,10 @@
 							<blockquote class="blockquote">
 								<p class="mb-0">REVIEW</p>
 							</blockquote>
-							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" readonly>
+							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>
 							${selectedReview.review_regionContent}
 							</textarea>
+							<span style="float: left;font-size: 15px;">작성일자 : ${selectedReview.review_sysdate}</span>
 						</div>
 					</div>
 				</div>

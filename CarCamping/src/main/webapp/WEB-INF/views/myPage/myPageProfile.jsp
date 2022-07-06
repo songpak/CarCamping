@@ -160,7 +160,7 @@ function regChk(){
                         <td>프로필 사진</td>
                         <td>
                         <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getMember.mem_image}" width="150" height="150">
-                     <input type="file" id="mem_image" name="mem_image">
+                     <input type="file" id="mem_image" name="mem_image" width="150" height="150">
                      <input type="hidden" id="mem_image2" name="mem_image2" value="${getMember.mem_image}">
                         </td>
                       </tr>

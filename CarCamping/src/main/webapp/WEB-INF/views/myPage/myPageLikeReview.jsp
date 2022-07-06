@@ -3,7 +3,40 @@
 <%@ include file="../top.jsp"%>
 
 <!-- Content Column Grid -->
+<style>
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
 
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+.list-group-item{
+	border:0;
+}
+
+ .card img {
+	    width:286px;
+	    height:190px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
+
+</style>		
 <div class="container" align="center"
 	class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
 	<div class="row" align="center">
@@ -21,7 +54,7 @@
 		<div class="col" align="right">
 			<div class="btn-group">
 				<button type="button" class="btn btn-dark dropdown-toggle"
-					data-bs-toggle="dropdown" aria-expanded="false" style=" border-top-width: 0px;border-bottom-width: 0px; padding-bottom: 6px;">정렬</button>
+					data-bs-toggle="dropdown" aria-expanded="false" style=" border-top-width: 0px;border-bottom-width: 0px; padding-bottom: 6px;">리뷰보기</button>
 				<ul class="dropdown-menu" style="">
 					<li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewProductList">용품순</a></li>
 					<li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewRegionList">지역순</a></li>
@@ -356,6 +389,7 @@
 			</c:if>
 		</ul>
 	</nav> 
+	<br><br>
 </div>
 <!-- <script>
 		function popup(review_num) {

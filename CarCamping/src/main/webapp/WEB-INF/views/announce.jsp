@@ -36,7 +36,7 @@
 	<div class="row justify-content-md-center">
 		<!-- 드랍 버튼 -->
 			<div class="col-md-2 mb-1"  align="left">
-				<form name="sortForm" method="post" action="adminAnnounce.admin">
+				<form name="sortForm" method="post" action="uesrAnnounce.admin">
 				<div class="input-group">
 					<select name="sort" class="form-control" style="margin-top: 20px;">
 							<option value="desc">최신순</option>

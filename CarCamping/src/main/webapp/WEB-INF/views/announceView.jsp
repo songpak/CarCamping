@@ -20,28 +20,10 @@
 			class="row g-3 needs-validation" novalidate>
 			<input type="hidden" name="aa_num" value="${adto.aa_num}">
 			<table class="table table-sm">
-				<tr>
-					<td>
-						<div class="form-floating mb-3">
-							<input type="text" name="aa_title" value="${adto.aa_title}"
-								class="form-control" id="validationCustom01" maxlength="20"
-								placeholder="1" required> <label
-								for="validationCustom01">제목</label>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="form-floating mb-3">
-							<textarea name="aa_content" style="resize: none;"
-								class="form-control" id="validationCustom02" maxlength="1000"
-								placeholder="1" required>${adto.aa_content}</textarea>
-							<label for="validationCustom02">내용</label>
-						</div>
-					</td>
-				</tr>
+				
 				<tr>
 					<td colspan="2">
+						${adto.aa_content}
 						<!-- 현재 이미지 캐러셀 --> &nbsp;
 						<div id="carouselExampleIndicators" class="carousel slide"
 							data-bs-ride="carousel">

@@ -48,20 +48,13 @@
       <!-- Begin Header -->
       <div align="center" id="header">
          <div class="card border-success mb-3"
-            style="width: 700px; height: 960px">
+            style="width: 700px; height: 1000px">
             <div class="card-header" style="background-color: #83BD75;">
                <h2 style="margin-bottom: 0px;">${getReviewProduct.rp_title}</h2>
             </div>
             <div class="card-body">
-               <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getReviewProduct.rp_image1}" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
-               <ul class="list-group">
-                  <li id="reviewWriter" class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
-                     <h5>작 성 자</h5>
-                     <button  type="button" class="btn btn-dark rounded-pill" style="padding-top: 0px;padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
-                     ${getReviewProduct.memberDTO.mem_nickName}
-                     </button>
-                  </li>
-                  
+               <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getReviewProduct.memberDTO.mem_image}" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
+               <ul class="list-group" style="padding-left: 30px; padding-right: 10px;">       
                   <li class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
                      <h5>좋 아 요</h5>
                      <c:if test="${check==0}">
@@ -114,9 +107,10 @@
                                 <label for="rate5">⭐</label> 
                          </c:when>
                          <c:otherwise>
-                               ☆☆☆☆☆
+                     		         ☆☆☆☆☆
                          </c:otherwise>
                         </c:choose>
+                        
                               </fieldset>
                            </div>
                         </div>
@@ -124,6 +118,10 @@
                   </li>
                
                </ul>
+               <div celar="left">
+						<label style="float: left"><b style="padding-left: 50px;">${getReviewProduct.memberDTO.mem_nickName}</b></label>
+						</div>
+						<br>
                <p></p>
                <div class="progress" >
                   <div
@@ -143,7 +141,7 @@
                         id="slide4" /> -->
                      <ul id="imgholder" class="imgs">
                         <c:forEach var="rp_images" items="${rp_imageList}">
-                           <li><img src="resources/images/${rp_images }" style="width:640px; height:300px;">/></li>
+                           <li><img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rp_images }" style="width:640px; height:300px;">/></li>
                         </c:forEach>
                         
                         <!-- <li><img style="width: 100%; height: 100%;" src="sik.jpg" /></li>
@@ -170,7 +168,7 @@
                      <blockquote class="blockquote">
                         <p class="mb-0">REVIEW</p>
                      </blockquote>
-                     <textarea class="form-control border border-5" id="reviewTextarea" rows="10" readonly>
+						<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>
                      ${getReviewProduct.rp_content}
                      </textarea>
                      <span style="float: left;font-size: 15px;">작성일자 : ${getReviewProduct.rp_sysdate}</span>
@@ -215,7 +213,7 @@
                       type: "POST",
                       data: { //사용자가 데이터를 정의한다   
                          mem_id: '${sessionScope.mem_id}',
-                         rp_num: ${getReviewProduct.rp_num}
+                         rp_num: '${getReviewProduct.rp_num}'
                       },         
                       success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
                          // $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.

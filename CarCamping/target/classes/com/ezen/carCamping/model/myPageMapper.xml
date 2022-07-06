@@ -90,6 +90,25 @@
 			javaType="ProductCategoryDTO" resultMap="productCategoryMap">
 		</association>
 	</resultMap>
+	
+	<resultMap id="rentalLogMap" type="RentalLogDTO">
+		<id column="rental_num" property="rental_num"/>
+		<result column="rental_productCount" property="rental_productCount"/>
+		<result column="rental_from" property="rental_from"/>
+		<result column="rental_to" property="rental_to"/>
+		<result column="rental_return" property="rental_return"/>
+		<result column="rental_extend" property="rental_extend"/>
+		<result column="rental_notReturn" property="rental_notReturn"/>
+		<result column="rental_price" property="rental_price"/>
+		<result column="rental_usePoint" property="rental_usePoint"/>
+		<result column="rental_pay" property="rental_pay"/>
+		<result column="rental_extendPrice" property="rental_extendPrice"/>
+		<result column="rental_notReturnPrice" property="rental_notReturnPrice"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
+		<association property="productDTO" javaType="ProductDTO" resultMap="productMap"/>
+		<association property="agencyDTO" javaType="AgencyDTO" resultMap="agencyMap"/>
+	</resultMap>
+	
 
 	<select id="cartProduct" parameterType="int"
 		resultMap="productCartMap"><!-- 용품을 장바구니에 추가만 하는 쿼리문 -->
@@ -144,10 +163,10 @@
 	</resultMap>
 	
 	<select id="myPageGetWriteReviewRegion"  resultMap="reviewRegionMap">
-		select a.*,b.* from ReviewRegion a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
+		select a.*,b.* from ReviewRegion a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and review_adminConfirm=0;
 	</select>	
 	<select id="myPageGetWriteReviewProduct"  resultMap="reviewProductMap">
-		select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
+		select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and rp_adminConfirm=0;
 	</select>	
 		<select id="getReviewRegion" parameterType="int" resultMap="reviewRegionMap">
 		select * from ReviewRegion where review_num = #{review_num}
@@ -309,6 +328,7 @@
 	</delete>
 	
 	
+	
 <!-- 	<select id ="CountProductLikeLog" parameterType="Map" resultType="Integer">
 		select count(*) from ReviewProductLikeLog a,Member b
 		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.rp_num = #{rp_num}
@@ -316,12 +336,27 @@
 <!-- 	<delete id="adminDeleteRegion" parameterType="int">
 		delete from CarCampingRegion where ccr_num = #{ccr_num} 
 	</delete> -->
+
+	
+	   <select id="myPageGetWriteReviewRegion_1"  resultMap="reviewRegionMap">
+      select a.*,b.* from ReviewRegion a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and a.review_adminConfirm=1;
+   </select>   
+   <select id="myPageGetWriteReviewProduct_1"  resultMap="reviewProductMap">
+      select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and a.rp_adminConfirm=1;
+   </select>  
+   
+    <select id="getRentalLog" parameterType="int" resultMap="rentalLogMap">
+		select a.*,b.*, c.*,d.* from RentalLog as a left join Product as b on
+		a.prod_num = b.prod_num left join Agency as c on a.agency_num =
+		c.agency_num left join Member as d on a.mem_num=d.mem_num where a.mem_num = #{mem_num}
+	</select> 
+   
 	
 	
 </mapper>
 
 
 
-
+	
 
 

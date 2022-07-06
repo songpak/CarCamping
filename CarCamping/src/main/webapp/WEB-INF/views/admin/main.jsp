@@ -60,7 +60,7 @@
 				<img src="resources/images/flag.jpg" class="d-block w-100" alt="...">
 			</div>
 			<div class="carousel-item">
-				<img src="${upPath}/adminMain.jsp" class="d-block w-100" alt="...">
+				<img src="resources/images/qqq.PNG" class="d-block w-100" alt="...">
 			</div>
 		</div>
 		<button class="carousel-control-prev" type="button"

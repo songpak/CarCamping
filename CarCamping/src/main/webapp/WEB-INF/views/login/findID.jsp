@@ -50,8 +50,8 @@
 							<br />
 							<div class="row">
 								<div class="col-md-12 form-group">
-									<button class="btn btn-success mb-3" type="submit" style="width: 150px;">아이디 찾기</button>
-									<button class="btn btn-success mb-3" type="submit" style="width: 150px;">로그인</button>
+									<button class="btn btn-dark mb-3" type="submit" style="width: 150px; background:#091835; color: #fff;" >아이디 찾기</button>
+									<button class="btn btn-dark mb-3" type="submit" style="width: 150px; background:#091835; color: #fff;" >로그인</button>
 								</div>
 							</div>
 						</form>

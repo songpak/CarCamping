@@ -4,21 +4,21 @@
 <div class="banner_slide"> <!--바케성 0613 배너  -->
 	<div class="card text-center"> 
 		<div class="card-body" >
-			<a href="https://www.naver.com">
-				<img src="resources/images/banner1.PNG" style="width:1870px; height:150px; padding:0px;"/>
+			<a href="#">
+				<img src="resources/images/banner_bottom1.png" style="width:1870px; height:150px; padding:0px;"/>
 			</a>
 		</div>
 	</div>
 	<div class="card text-center">
 		<div class="card-body" >
-			<a href="https://www.naver.com">
-				<img src="resources/images/banner2.PNG" style="width:1870px; height:150px; padding:0px;"/>
+			<a href="#">
+				<img src="resources/images/banner_bottom2.png" style="width:1870px; height:150px; padding:0px;"/>
 			</a>
 		</div>
 	</div>
 	<div class="card text-center">
 		<div class="card-body" >
-			<a href="https://www.naver.com">
+			<a href="#">
 				<img src="resources/images/banner3.PNG" style="width:1870px; height:150px; padding:0px;"/>
 			</a>
 		</div>
