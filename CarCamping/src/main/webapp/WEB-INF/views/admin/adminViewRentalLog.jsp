@@ -105,19 +105,19 @@
 				<td colspan="2" align="center">
 					반납상태 수정:<select name="rental_return">
 								<c:choose>
-									<c:when test="${rdto.rental_return==0}">
-										<option value="0" selected>대여중</option>
+									<c:when test="${rdto.rental_return==1}">
+										<option value="1" selected>대여중</option>
 									</c:when>
 									<c:otherwise>
-										<option value="0">대여중</option>
+										<option value="1">대여중</option>
 									</c:otherwise>
 								</c:choose>
 								<c:choose>
-									<c:when test="${rdto.rental_return==1}">
-										<option value="1" selected>반납완료</option>
+									<c:when test="${rdto.rental_return==2}">
+										<option value="2" selected>반납완료</option>
 									</c:when>
 									<c:otherwise>
-										<option value="1">반납완료</option>
+										<option value="2">반납완료</option>
 									</c:otherwise>
 								</c:choose>
 								<%-- <c:choose>
