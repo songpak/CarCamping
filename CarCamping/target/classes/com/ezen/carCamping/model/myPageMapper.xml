@@ -144,11 +144,18 @@
 	</resultMap>
 	
 	<select id="myPageGetWriteReviewRegion"  resultMap="reviewRegionMap">
-		select a.*,b.* from ReviewRegion a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
+		select a.*,b.* from ReviewRegion a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and a.adminConfirm=0;
 	</select>	
 	<select id="myPageGetWriteReviewProduct"  resultMap="reviewProductMap">
-		select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num}
+		select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and a.adminConfirm=0;
 	</select>	
+	<select id="myPageGetWriteReviewRegion_1"  resultMap="reviewRegionMap">
+		select a.*,b.* from ReviewRegion a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and a.adminConfirm=1;
+	</select>	
+	<select id="myPageGetWriteReviewProduct_1"  resultMap="reviewProductMap">
+		select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and a.adminConfirm=1;
+	</select>	
+	
 		<select id="getReviewRegion" parameterType="int" resultMap="reviewRegionMap">
 		select * from ReviewRegion where review_num = #{review_num}
 	</select>

@@ -32,10 +32,47 @@ img, svg {
    margin-left:15%;
    margin-right:15%;
 }
+<<<<<<< HEAD
+=======
+.jb-box {
+  overflow: hidden;
+  margin: 0px auto;
+  position: relative;
+}
+.hoverLogo {
+  position: absolute;
+ left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  display:none;
+}
+
+.hoverLogo #hoverLogoImage {
+	width:0px; /*450 350 */
+	height:0px;
+}
+
+
+>>>>>>> 53e138f239b5c53c2d0f6fde7ed6c09830bdfc00
 
 </style>
-
-
+	
+<script src="resources/js/jquery.js"></script>
+    <script>
+    $( document ).ready( function() {
+    	$(".jb-text #goMainButton").click(function(){
+    		  $( '.hoverLogo' ).fadeIn(3000);
+    		  $('#hoverLogoImage').animate(
+    		  	{width:'450px',height :'350px'},
+    		  	3000,
+    		  	function() {
+    		  	  $( '.hoverLogo' ).fadeOut(3000);	    		
+    		  	}
+    	 		);
+    	});
+    });
+    	      
+    </script>
 </head>
 <body style="padding-top: 0px;">
    <div class="jb-box">
@@ -130,11 +167,28 @@ img, svg {
       <video muted autoplay loop>
          <source src="resources/video/highway-loop.mp4" type="video/mp4">
       </video>
+      <div class="hoverLogo">
+    	<img src="resources/images/123.png" id="hoverLogoImage" style=" pointer-events: none; "/>
+  	  </div>
       <div class="jb-text">
+<<<<<<< HEAD
          <a class="ghost-button" href="goRegion.region" class="goMain">차박장소</a> 
          <a class="ghost-button" href="goProduct.product"class="goMain">용품대여</a>
          <a class="ghost-button" href="goAdmin.admin">관리자페이지</a>
       </div>
+=======
+
+			<div class="button-row" id="goMainButton">
+				<div style="display: flex;">
+					<a title="차박지" href="goRegion.region"></a>
+				</div>
+				<div style="display: flex;">
+					<a title="용품 " href="goProduct.product"></a>
+				</div>
+			</div>
+
+		</div>
+>>>>>>> 53e138f239b5c53c2d0f6fde7ed6c09830bdfc00
    </div>
    <script>
         //according to loftblog tut

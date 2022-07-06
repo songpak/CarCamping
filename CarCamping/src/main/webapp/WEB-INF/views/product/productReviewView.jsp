@@ -58,7 +58,7 @@
                   <li id="reviewWriter" class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
                      <h5>작 성 자</h5>
                      <button  type="button" class="btn btn-dark rounded-pill" style="padding-top: 0px;padding-bottom: 0px; padding-left: 10px; padding-right: 10px;">
-                     ${getReviewProduct.memberDTO.mem_nickName}
+                     ${getReviewProduct.memberDTO.mem_num}
                      </button>
                   </li>
                   
@@ -185,6 +185,7 @@
       var isRun = false; // ajax 동시 호출 막기(ajax가 호출되는 동안 버튼이 클릭돼도 중복으로 실행되는것을 막기위함)
       
       function Like_function(){
+    	 console.log('${getReviewProduct.rp_num}');
          var mid = '${sessionScope.mem_id}';
          var isEmpty = function(value){//빈값체크
                if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
@@ -211,11 +212,11 @@
                   var like_color = like_button.style.backgroundColor;
                   
                   $.ajax({
-                  url: "updateProductReviewLike.product", //컨트롤러 맵핑
+                  	  url: "updateProductReviewLike.product", //컨트롤러 맵핑
                       type: "POST",
                       data: { //사용자가 데이터를 정의한다   
                          mem_id: '${sessionScope.mem_id}',
-                         rp_num: ${getReviewProduct.rp_num}
+                         rp_num: '${getReviewProduct.rp_num}'
                       },         
                       success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
                          // $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
