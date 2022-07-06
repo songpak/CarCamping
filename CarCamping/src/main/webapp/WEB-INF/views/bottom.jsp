@@ -5,21 +5,35 @@
 	<div class="card text-center"> 
 		<div class="card-body" >
 			<a href="#">
-				<img src="resources/images/banner_bottom1.png" style="width:1870px; height:150px; padding:0px;"/>
+				<img src="resources/images/banner_bottom1.jpg" style="width:1870px; height:150px; padding:0px;"/>
 			</a>
 		</div>
 	</div>
 	<div class="card text-center">
 		<div class="card-body" >
 			<a href="#">
-				<img src="resources/images/banner_bottom2.png" style="width:1870px; height:150px; padding:0px;"/>
+				<img src="resources/images/banner_bottom2.jpg" style="width:1870px; height:150px; padding:0px;"/>
 			</a>
 		</div>
 	</div>
 	<div class="card text-center">
 		<div class="card-body" >
 			<a href="#">
-				<img src="resources/images/banner3.PNG" style="width:1870px; height:150px; padding:0px;"/>
+				<img src="resources/images/banner_bottom3.jpg" style="width:1870px; height:150px; padding:0px;"/>
+			</a>
+		</div>
+	</div>
+	<div class="card text-center"> 
+		<div class="card-body" >
+			<a href="#">
+				<img src="resources/images/banner_bottom4.jpg" style="width:1870px; height:150px; padding:0px;"/>
+			</a>
+		</div>
+	</div>
+	<div class="card text-center"> 
+		<div class="card-body" >
+			<a href="#">
+				<img src="resources/images/banner_bottom5.jpg" style="width:1870px; height:150px; padding:0px;"/>
 			</a>
 		</div>
 	</div>

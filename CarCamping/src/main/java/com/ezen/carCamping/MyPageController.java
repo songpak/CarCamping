@@ -347,26 +347,35 @@ public class MyPageController {
 
 
 
-	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ + 페이징 추가 (송재영)
 	@RequestMapping("/myPageLikeReview.myPage")
-	public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode) {
+	public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode,
+			@RequestParam(value="page",defaultValue="1")int page) {
 		HttpSession session = req.getSession();
 		int mem_num = (int) session.getAttribute("mem_num");
 		if(mode==null||mode.equals("")) {
 			List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-			System.out.println("모드가 널 일때 값 :" + list);
-			session.setAttribute("ReviewProductList", list);
+//			System.out.println("모드가 널 일때 값 :" + list);
+			session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
+			req.setAttribute("page", page);
+			req.setAttribute("pageCount", pagination.pageCount(list));
+			
 		}else if(mode.equals("ReviewProductList")) {  
 			List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-			System.out.println("모드가 용품 일때 값 :" + list);
-			session.setAttribute("ReviewProductList", list);
+//			System.out.println("모드가 용품 일때 값 :" + list);
+			session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
+			req.setAttribute("page", page);
+			req.setAttribute("pageCount", pagination.pageCount(list));
+			
 		}else if(mode.equals("ReviewRegionList")) {
 			List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
-			System.out.println("모드가 지역 일때 값 :" + list);
-			session.setAttribute("ReviewRegionList", list);
+//			System.out.println("모드가 지역 일때 값 :" + list);
+			session.setAttribute("ReviewRegionList", pagination.getPagePost(page, list));
+			req.setAttribute("page", page);
+			req.setAttribute("pageCount", pagination.pageCount(list));
 		}
 		req.setAttribute("mode", mode);
-		System.out.println("모드 값:"+mode);
+//		System.out.println("모드 값:"+mode);
 
 		return "myPage/myPageLikeReview";
 	}   

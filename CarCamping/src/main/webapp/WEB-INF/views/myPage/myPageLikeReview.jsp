@@ -111,7 +111,7 @@
 		 </c:if>
 			<td>
 				<div class="card" style="width: 18rem;">
-					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${ProductreviewImageList}" class="card-img-top">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rpdto.rp_image1}" class="card-img-top">
 					<div class="card-body">
 						<h5 class="card-title">제목:${rpdto.rp_title}</h5>
 						
@@ -193,7 +193,7 @@
 		 </c:if> 
 			<td>
 				<div class="card" style="width: 18rem;">
-					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${RegionreviewImageList}" class="card-img-top">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rvdto.review_regionImage1}" class="card-img-top">
 					<div class="card-body">
 						<h5 class="card-title">제목:${rvdto.review_title}</h5>
 						
