@@ -238,7 +238,6 @@
                         </c:choose>
                               <br>
                      조회수:${rvdto.review_readCount}&nbsp;|&nbsp;좋아요:${rvdto.review_likeCount}<br> 작성일:${rvdto.review_sysdate}<br>
-                     ????:${rvdto.review_adminConfirm}
                   </p>
                   <button type="button" class="btn btn-dark"
 							onclick="location.href='javascript:popup_region(${rvdto.review_num})'">
