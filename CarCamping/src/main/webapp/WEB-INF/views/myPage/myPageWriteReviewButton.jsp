@@ -9,7 +9,7 @@
 <body>
 <div class="container" align="center" class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
 	<div class="row" align="center">
-		<h3>리뷰 목록</h3><br><br>
+		<h3 class="fw-bolder">내가 쓴 리뷰</h3><br><br>
 
 		<!-- 드랍 버튼 -->
 		<div class="col" align="right">

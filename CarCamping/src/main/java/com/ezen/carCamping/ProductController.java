@@ -1,6 +1,8 @@
 package com.ezen.carCamping;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -130,32 +132,37 @@ public class ProductController {
 	}
 
 	@RequestMapping("/productView.product")//이부분 수정함
-	public String productView(HttpServletRequest req, @RequestParam Map<String, String> params,
-			String mode, @RequestParam(required=false,defaultValue="1") int page) {
-		HttpSession session = req.getSession();
-		int prod_num = Integer.parseInt(params.get("prod_num"));
-		session.setAttribute("prod_num", prod_num);
-		ProductDTO dto = productMapper.getProduct(prod_num);
-		session.setAttribute("getProduct", dto);
-		List<ReviewProductDTO> list = null;
-		String search = params.get("search");
-		String searchString = params.get("searchString");
-		if (searchString == null||searchString.equals("")) {
-			list = productMapper.listProdReview(prod_num);
-		}else {
-			list = productMapper.findReview(prod_num,search, searchString);
-			session.setAttribute("prodsearch", search);
-			session.setAttribute("prodsearchString", searchString);
-		}
-		List<AgencyDTO> Alist = productMapper.getAgency();
-		session.setAttribute("countReviewProd", productMapper.countReviewProd(prod_num));
-		session.setAttribute("getAgency", Alist);
-		//req.setAttribute("getProduct", productMapper.getProduct(prod_num));
-		req.setAttribute("pageCount", pagination.pageCount(list));
-		req.setAttribute("listBoard", pagination.getPagePost(page,list));
+    public String productView(HttpServletRequest req, @RequestParam Map<String, String> params,
+           String mode, @RequestParam(required=false,defaultValue="1") int page) {
+           HttpSession session = req.getSession();
+           int prod_num = Integer.parseInt(params.get("prod_num"));
+           session.setAttribute("prod_num", prod_num);
+           ProductDTO dto = productMapper.getProduct(prod_num);
+           session.setAttribute("getProduct", dto);
+          List<ReviewProductDTO> list = null;
+          String search = params.get("search");
+          String searchString = params.get("searchString");
+          if (searchString == null||searchString.equals("")) {
+             list = productMapper.listProdReview(prod_num);
+          }else {
+            try {
+            searchString = URLDecoder.decode(params.get("searchString"), "UTF-8");
+             list = productMapper.findReview(prod_num,search, searchString);
+                session.setAttribute("prodsearch", search);
+                session.setAttribute("prodsearchString", searchString);
+         } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+         }
+          }
+          List<AgencyDTO> Alist = productMapper.getAgency();
+          req.setAttribute("countReviewProd", productMapper.countReviewProd(prod_num));
+          req.setAttribute("getAgency", Alist);
+          //req.setAttribute("getProduct", productMapper.getProduct(prod_num));
+          req.setAttribute("pageCount", pagination.pageCount(list));
+          req.setAttribute("listBoard", pagination.getPagePost(page,list));
 
-		return "product/productView";
-	}
+       return "product/productView";
+    }
 
 	@RequestMapping("/productViewOrder.product")//이 부분 추가
 	public String productView2(HttpServletRequest req,String mode,@RequestParam(required=false,defaultValue="1") int page
@@ -267,7 +274,6 @@ public class ProductController {
 	@RequestMapping(value="updateProductReviewLike.product",method=RequestMethod.POST)
 	   @ResponseBody
 	   public String updateProductReviewLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam String rp_num) {
-	      System.out.println(rp_num);
 	      HttpSession session = req.getSession();
 	      
 	      MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");

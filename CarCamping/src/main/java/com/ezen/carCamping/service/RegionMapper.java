@@ -235,51 +235,46 @@ public class RegionMapper{
 		return listPopRegion;
 	}
 
-	//페이지 카운트처리
-	public int listRegionCount(int region_num ) {
-		System.out.println("매퍼의 리즌넘:" + region_num);
-		int count =sqlSession.selectOne("listRegionCount",region_num);
-		return count; 	
-}
+
 	
-
-	public List<CarCampingRegionDTO>listRegionMain(int region_num ,int startRow , int endRow){
-		Map<String,Object> map = new Hashtable<>();
-		map.put("region_num",region_num);
-		map.put("startRow",startRow); 
-		map.put("endRow",endRow);
-		List<CarCampingRegionDTO>listRegionMain = sqlSession.selectList("listRegionMain",map);
-		System.out.println("매퍼의 listRegionMainCount : " + listRegionMain);
-		return listRegionMain;
-	}
-
-	public List<CarCampingRegionDTO> listRegionReviewCount(int region_num ,int startRow , int endRow){
-		Map<String,Object> map = new Hashtable<>();
-		map.put("region_num",region_num);
-		map.put("startRow",startRow);
-		map.put("endRow",endRow);
-		List<CarCampingRegionDTO> listRegionReviewCount = sqlSession.selectList("listRegionReviewCount",map);
-		System.out.println("매퍼의listRegionReviewCount : " + listRegionReviewCount);
-		return listRegionReviewCount;
-	}
-	public List<CarCampingRegionDTO>listRegionLikeCount(int region_num ,int startRow , int endRow){
-		Map<String,Object> map = new Hashtable<>();
-		map.put("region_num",region_num);
-		map.put("startRow",startRow);
-		map.put("endRow",endRow);
-		System.out.println("쿼리 날리기전 map : " + map);
-		List<CarCampingRegionDTO>listRegionLikeCount = sqlSession.selectList("listRegionLikeCount",map);
-		System.out.println("매퍼의listRegionLikeCount : " + listRegionLikeCount);
-		return listRegionLikeCount;
-	}
-	public List<CarCampingRegionDTO>listRegionscore(int region_num ,int startRow , int endRow){
-		Map<String,Object> map = new Hashtable<>();
-		map.put("region_num",region_num);
-		map.put("startRow",startRow);
-		map.put("endRow",endRow);
-		System.out.println("쿼리 날리기전 map : " + map);
-		List<CarCampingRegionDTO>listRegionscore =sqlSession.selectList("listRegionscore",map);
-		System.out.println("매퍼의listRegionscore : " + listRegionscore);
-		return listRegionscore;
-	}
+	   //페이지 카운트처리
+	   public int listRegionCount(int region_num ) {
+	      System.out.println("매퍼의 리즌넘:" + region_num);
+	      int count =sqlSession.selectOne("listRegionCount",region_num);
+	      return count;    
+	   }
+	   
+	   //페이지 카운트처리
+	   public int listRegionCountSearch(int region_num,String search,String searchString) {
+	      Map<String,Object> map = new Hashtable<>();
+	      map.put("region_num",region_num);
+	      map.put("search",search);
+	      map.put("searchString",searchString);
+	      int count = sqlSession.selectOne("listRegionCountSearch", map);
+	      return count;
+	   }
+	   
+	   
+	   public List<CarCampingRegionDTO> listAllCarCamping(int region_num, String orderBy, int startRow, int endRow){
+	      Map<String,Object> map = new Hashtable<>();
+	      map.put("region_num",region_num);
+	      map.put("orderBy",orderBy); 
+	      map.put("startRow",startRow);
+	      map.put("endRow",endRow);
+	      List<CarCampingRegionDTO> list = sqlSession.selectList("listAllCarCamping", map);
+	      return list;
+	   }
+	   
+	   public List<CarCampingRegionDTO> listAllCarCampingSearch(int region_num,String search,String searchString, String orderBy, int startRow, int endRow){
+	      Map<String,Object> map = new Hashtable<>();
+	      map.put("region_num",region_num);
+	      map.put("search",search);
+	      map.put("searchString",searchString);
+	      map.put("orderBy",orderBy);
+	      map.put("startRow",startRow);
+	      map.put("endRow",endRow);
+	      List<CarCampingRegionDTO> list = sqlSession.selectList("listAllCarCampingSearch", map);
+	      return list;
+	   }
+	   
 }
