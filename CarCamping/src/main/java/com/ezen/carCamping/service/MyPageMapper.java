@@ -175,8 +175,8 @@ public class MyPageMapper {
 		int res = sqlSession.update("UpdateRegionLikeLog", review_num);
 		return res;
 	 }
-	 public List<RentalLogDTO> getRentalLog(int mem_num) {
-		 List<RentalLogDTO> dto = sqlSession.selectList("getRentalLog", mem_num);
+	 public List<RentalLogDTO> getRentalLog(Map<String,String> map) {
+		 List<RentalLogDTO> dto = sqlSession.selectList("getRentalLog", map);
 		 return dto;
 	 }
 	    public List<ReviewRegionDTO> myPageGetWriteReviewRegion_1(int mem_num){

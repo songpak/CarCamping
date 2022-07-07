@@ -348,10 +348,11 @@
       select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and a.rp_adminConfirm=1;
    </select>  
    
-    <select id="getRentalLog" parameterType="int" resultMap="rentalLogMap">
+    <select id="getRentalLog" parameterType="java.util.Map" resultMap="rentalLogMap">
 		select a.*,b.*, c.*,d.* from RentalLog as a left join Product as b on
 		a.prod_num = b.prod_num left join Agency as c on a.agency_num =
 		c.agency_num left join Member as d on a.mem_num=d.mem_num where a.mem_num = #{mem_num}
+		and ${rental_date} between #{rental_from_date} and #{rental_to_date}
 	</select> 
    
 	

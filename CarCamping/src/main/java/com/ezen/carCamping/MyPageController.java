@@ -338,26 +338,29 @@ public class MyPageController {
 	         @RequestParam(value="page",defaultValue="1") int page) {
 	      HttpSession session = req.getSession();
 	      int mem_num = (int) session.getAttribute("mem_num");
+	      
 	      if(mode==null||mode.equals("")) {
 	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
 	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
 	         req.setAttribute("page", page);
 	         req.setAttribute("pageCount", pagination.pageCount(list));
+	         req.setAttribute("mode", "ReviewProductList");
 	         
 	      }else if(mode.equals("ReviewProductList")) {  
 	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
 	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
 	         req.setAttribute("page", page);
 	         req.setAttribute("pageCount", pagination.pageCount(list));
+	         req.setAttribute("mode", mode);
 	         
 	      }else if(mode.equals("ReviewRegionList")) {
 	         List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
 	         session.setAttribute("ReviewRegionList", pagination.getPagePost(page, list));
 	         req.setAttribute("page", page);
 	         req.setAttribute("pageCount", pagination.pageCount(list));
+	         req.setAttribute("mode", mode);
 	      }
-	      req.setAttribute("mode", mode);
-	      System.out.println("모드 값:"+mode);
+	      
 
 	      return "myPage/myPageLikeReview";
 	   }   
@@ -744,7 +747,8 @@ public class MyPageController {
 	
 	//수정(07/06 송재영)
 	   @RequestMapping("/myPageRental.myPage")
-	   public String myPageRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1")int page) {
+	   public String myPageRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1")int page,
+			   @RequestParam Map<String,String> map) {
 	      HttpSession session = req.getSession();
 	      if (session.getAttribute("mem_num") == null) {
 	         String msg = "로그인 하셔야 합니다";
@@ -759,8 +763,29 @@ public class MyPageController {
 	         List<PointLogDTO> listPointLog = myPageMapper.myPageListPointLog(mem_num);
 	         req.setAttribute("listPointLog", listPointLog);
 	         
-	         //대여 내역
-	         List<RentalLogDTO> list = myPageMapper.getRentalLog(mem_num);
+	        //날짜 검색
+	        if (map.get("rental_from_date") == null || map.get("rental_from_date").equals("")) {
+	 			map.put("rental_from_date","2021-06-01");
+//	 			Date date = new Date();
+//	 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+//	 			System.out.println(sdf.format(date));
+	 		}
+	 		if (map.get("rental_to_date") == null || map.get("rental_to_date").equals("")) {
+	 			map.put("rental_to_date", "2100-06-01");
+	 		}
+	 		
+	 		if (map.get("rental_date") == null || map.get("rental_date").equals("")) {
+	 			map.put("rental_date", "rental_from");
+	 		}
+	 		req.setAttribute("rental_from_date", map.get("rental_from_date"));
+			req.setAttribute("rental_to_date", map.get("rental_to_date"));
+			req.setAttribute("rental_date", map.get("rental_date"));
+			
+	        //대여 내역
+	 		map.put("mem_num",String.valueOf(mem_num));
+	        List<RentalLogDTO> list = myPageMapper.getRentalLog(map);
+	         
+	         
 	         session.setAttribute("cartList", pagination.getPagePost(page, list));
 	         req.setAttribute("pageCount", pagination.pageCount(list));
 	         req.setAttribute("page", page);

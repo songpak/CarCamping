@@ -68,8 +68,9 @@
       <!-- 리뷰 검색 모달 버튼 끝 -->
     <div class="row"> 
       <!-- 드랍 버튼 -->
-      <div class="col" align="right">
+      <div class="col" align="center">
          <div class="btn-group">
+         	
             <button type="button" class="btn btn-dark dropdown-toggle"
                data-bs-toggle="dropdown" aria-expanded="false" style=" border-top-width: 0px;border-bottom-width: 0px; padding-bottom: 6px;">정렬</button>
             <ul class="dropdown-menu" style="">

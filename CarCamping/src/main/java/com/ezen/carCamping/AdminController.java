@@ -1,7 +1,9 @@
 package com.ezen.carCamping;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1090,22 +1092,41 @@ public class AdminController {
 	public String adminRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
 			@RequestParam(required=false) Map<String,String> map) {
 		List<RentalLogDTO> list = adminMapper.adminListRentalLog();
+		if (map.get("rental_from_date") == null || map.get("rental_from_date").equals("")) {
+			map.put("rental_from_date","2021-06-01");
+//			Date date = new Date();
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+//			System.out.println(sdf.format(date));
+		}
+		if (map.get("rental_to_date") == null || map.get("rental_to_date").equals("")) {
+			map.put("rental_to_date", "2100-06-01");
+		}
+		
+		if (map.get("rental_date") == null || map.get("rental_date").equals("")) {
+			map.put("rental_date", "rental_from");
+		}
 		
 		//정렬만 있을때
 		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") == null || map.get("search").equals(""))) {
-			list = adminMapper.adminListRentalLogSort(Integer.parseInt(map.get("sort")));
+			list = adminMapper.adminListRentalLogSort(map);
+			
 		}
 		//검색만 있을때
 		if ((map.get("search") != null && !map.get("search").equals("")) && (map.get("sort") == null || map.get("sort").equals(""))) {
-			list = adminMapper.adminListRentalLogSearch(map.get("search"));
+			list = adminMapper.adminListRentalLogSearch(map);
+
 		}
 		//둘다 있을때
 		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") != null && !map.get("search").equals(""))) {
 			list = adminMapper.adminListRentalLogSearchAndSort(map);
+			
 		}
-		
+		req.setAttribute("rental_from_date", map.get("rental_from_date"));
+		req.setAttribute("rental_to_date", map.get("rental_to_date"));
+		req.setAttribute("rental_date", map.get("rental_date"));
 		req.setAttribute("sort", map.get("sort"));
 		req.setAttribute("search", map.get("search"));
+		
 		
 		//현재 페이지
 		req.setAttribute("page", page);

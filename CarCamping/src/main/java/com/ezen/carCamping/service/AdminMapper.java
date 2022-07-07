@@ -400,13 +400,13 @@ public class AdminMapper {
 		return list;
 	}
 	
-	public List<RentalLogDTO> adminListRentalLogSort(int sort) {
-		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSort",sort);
+	public List<RentalLogDTO> adminListRentalLogSort(Map<String,String> map) {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSort",map);
 		return list;
 	}
 	
-	public List<RentalLogDTO> adminListRentalLogSearch(String search) {
-		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSearch",search);
+	public List<RentalLogDTO> adminListRentalLogSearch(Map<String,String> map) {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSearch",map);
 		return list;
 	}
 	
