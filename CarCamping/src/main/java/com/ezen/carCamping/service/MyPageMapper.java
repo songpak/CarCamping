@@ -135,16 +135,26 @@ public class MyPageMapper {
 		System.out.println("맵퍼의:ReviewRegionNum "+ ReviewRegionNum );
 		return ReviewRegionNum;
 	}
-	//지역 좋아요 불러오기
 	public int CountReviewLikeLog(String mem_id,int review_num) {
-		Map<String,Object> map = new Hashtable<>();
-		map.put("mem_id", mem_id);
-		map.put("review_num", review_num);
-		int res = (int)sqlSession.selectOne("CountReviewLikeLog", map);
-		if(res>0) System.out.println("해당 아이디의  해당 리뷰에 대해 추천한 기록이있습니다");
-		else System.out.println("해당 아이디의 해당 리뷰에 대해 추천한 기록이 없습니다");
-		return res;
-	}
+	      Map<String,Object> map = new Hashtable<>();
+	      map.put("mem_id", mem_id);
+	      map.put("review_num", review_num);
+	      int res = (int)sqlSession.selectOne("CountReviewLikeLog", map);
+	      if(res>0) System.out.println("해당 아이디의  해당 리뷰에 대해 추천한 기록이있습니다");
+	      else System.out.println("해당 아이디의 해당 리뷰에 대해 추천한 기록이 없습니다");
+	      return res;
+	   }
+	   
+	   public int CountProductReviewLikeLog(String mem_id,int rp_num) {
+	      Map<String,Object> map = new Hashtable<>();
+	      map.put("mem_id", mem_id);
+	      map.put("rp_num", rp_num);
+	      int res = (int)sqlSession.selectOne("CountProductReviewLikeLog", map);
+	      if(res>0) System.out.println("해당 아이디의  해당 리뷰에 대해 추천한 기록이있습니다");
+	      else System.out.println("해당 아이디의 해당 리뷰에 대해 추천한 기록이 없습니다");
+	      return res;
+	   }
+	   
 	
 	 public int DeleteProductReview(Map<String,String> map) {
 //	 Map<String,Object> map = new Hashtable<>();
@@ -169,30 +179,28 @@ public class MyPageMapper {
 		 List<RentalLogDTO> dto = sqlSession.selectList("getRentalLog", mem_num);
 		 return dto;
 	 }
-	 public RentalLogDTO getRentalLogOne(int rental_num) {
-		 RentalLogDTO dto = sqlSession.selectOne("getRentalLogOne", rental_num);
-		 return dto;
-	 }
-	 
-	 public List<ReviewRegionDTO> myPageGetWriteReviewRegion_1(int mem_num){
-	     List<ReviewRegionDTO> rdto = sqlSession.selectList("myPageGetWriteReviewRegion_1",mem_num);
-	     return rdto;
-	 }
-	 public List<ReviewProductDTO> myPageGetWriteReviewProduct_1(int mem_num){
-		 List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct_1",mem_num);
-	     return pdto;
-	 }
-	 
-	 public int myPageExtendRentalLog(Map<String,String> map) {
-		 int res = sqlSession.update("myPageExtendRentalLog",map);
-		 return res;
-	 }
-	 
-	 public List<PointLogDTO> myPageListPointLog(int mem_num) {
-		 List<PointLogDTO> list = sqlSession.selectList("myPageListPointLog", mem_num);
-		 return list;
-	 }
-
+	    public List<ReviewRegionDTO> myPageGetWriteReviewRegion_1(int mem_num){
+	         List<ReviewRegionDTO> rdto = sqlSession.selectList("myPageGetWriteReviewRegion_1",mem_num);
+	         return rdto;
+	   }
+	    public List<ReviewProductDTO> myPageGetWriteReviewProduct_1(int mem_num){
+	         List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct_1",mem_num);
+	         return pdto;
+	   } 
+	    
+    public int myPageExtendRentalLog(Map<String,String> map) {
+        int res = sqlSession.update("myPageExtendRentalLog",map);
+        return res;
+     }
+     
+     public List<PointLogDTO> myPageListPointLog(int mem_num) {
+        List<PointLogDTO> list = sqlSession.selectList("myPageListPointLog", mem_num);
+        return list;
+     }
+     public RentalLogDTO getRentalLogOne(int rental_num) {
+         RentalLogDTO dto = sqlSession.selectOne("getRentalLogOne", rental_num);
+         return dto;
+      }
 }
  
 

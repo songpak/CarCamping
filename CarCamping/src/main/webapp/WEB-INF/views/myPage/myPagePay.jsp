@@ -63,7 +63,7 @@
 				<th scope="col" width="30%" class="text-center">
 				사용할 포인트
 				</th>
-				<td width="200" width="70%" class="text-danger">
+				<td width="200" width="70%" class="text-success">
 				<form action="myPageCheckOut.myPage" method="post">
 				 <input type="hidden" name= "cart_num" value="${mdto.cart_num }">
        			 <input type="hidden" name= "rental_price" value="${mdto.productDTO.prod_price}">

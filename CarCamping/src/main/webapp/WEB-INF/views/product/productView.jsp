@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
+
 <style>
  .carousel-item img {
 	    width:598px;
@@ -525,7 +526,7 @@ function popup(rp_num) {
 			
 			var searchSelect = document.getElementById("search");
 			var search = searchSelect.options[searchSelect.selectedIndex].value;
-			var searchString = document.getElementById("searchString").value;
+			var searchString = encodeURIComponent(document.getElementById("searchString").value);
 			var f = document.createElement("form");	
 			f.setAttribute("method","post");
 			f.setAttribute("action","productView.product");

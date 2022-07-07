@@ -271,18 +271,17 @@
 	</update>
 	
 	<!-- 포인트 내역 ResultMap -->
-	<resultMap id="pointLogMap" type="PointLogDTO">
-		<id column="point_num" property="point_num"/>
-		<result column="point_sysdate" property="point_sysdate"/>
-		<result column="point_reason" property="point_reason"/>
-		<result column="point_saving" property="point_saving"/>
-		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"></association>
-	</resultMap>
-	
-	<select id="adminListPointLog" resultMap="pointLogMap" parameterType="int">
-		select * from PointLog a join Member b on a.mem_num = b.mem_num where a.mem_num = #{mem_num} order by point_sysdate DESC
-	</select>
-	
+   <resultMap id="pointLogMap" type="PointLogDTO">
+      <id column="point_num" property="point_num"/>
+      <result column="point_sysdate" property="point_sysdate"/>
+      <result column="point_reason" property="point_reason"/>
+      <result column="point_saving" property="point_saving"/>
+      <association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"></association>
+   </resultMap>
+   
+   <select id="adminListPointLog" resultMap="pointLogMap" parameterType="int">
+      select * from PointLog a join Member b on a.mem_num = b.mem_num where a.mem_num = #{mem_num} order by point_sysdate DESC
+   </select>
 	
 	
 <!-- /////////////////////////////////////////////////////////////////////////////////// -->

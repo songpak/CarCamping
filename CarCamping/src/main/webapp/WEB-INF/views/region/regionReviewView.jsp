@@ -169,9 +169,7 @@
 							<blockquote class="blockquote">
 								<p class="mb-0">REVIEW</p>
 							</blockquote>
-							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>
-							${selectedReview.review_regionContent}
-							</textarea>
+							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>${selectedReview.review_regionContent}</textarea>
 							<span style="float: left;font-size: 15px;">작성일자 : ${selectedReview.review_sysdate}</span>
 						</div>
 					</div>
@@ -208,7 +206,8 @@
 				    $('body').fadeTo( "fast", 0.4 ).append(loadingHtml);
 					var like_button = document.getElementById("likeCount");
 	   				var like_color = like_button.style.backgroundColor;
-	   				
+	   				console.log(like_button);
+	   				console.log(like_color);
 	   				$.ajax({
 						url: "updateReviewLike.region", //컨트롤러 맵핑
 		                type: "POST",
@@ -220,12 +219,12 @@
 					       	// $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
 					       	 $('body').fadeTo( "slow", 1 ).find('#loading').remove();
 		                	$("#likeCount").text(res+"💖");
-		                	if(like_color == 'rgb(255, 255, 255)'){
+		                	if(like_color =='rgb(255, 255, 255)'){
 		                		 alert("회원님의 좋아요가 성공적으로 등록되었습니다 !!😍"); 
-		                		$("#likeCount").css("background-color","#bb2d3b");//#bb2d3b  rgb(187, 45, 59)
+		                		$("#likeCount").css("background-color","rgb(187, 45, 59)");//#bb2d3b  rgb(187, 45, 59)
 		               		}else if(like_color == 'rgb(187, 45, 59)'){          
 		               			alert("회원님의 좋아요가 취소되었습니다 !!😢"); 
-		               			$("#likeCount").css("background-color","white");
+		               			$("#likeCount").css("background-color","rgb(255, 255, 255)");
 		               		}   
 		                	isRun  = false;
 		                }

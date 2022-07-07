@@ -30,6 +30,7 @@
 		<result column="prod_sysdate" property="prod_sysdate"/>
 		<result column="prod_update" property="prod_update"/>
 		<result column="prod_reviewScore" property="prod_reviewScore"/>
+		<result column="prod_reviewCount" property="prod_reviewCount"/>
 		<association property="brandCategoryDTO" javaType="BrandCategoryDTO" resultMap="brandCategoryMap">
 		</association>
 		<association property="productCategoryDTO" javaType="ProductCategoryDTO" resultMap="productCategoryMap">

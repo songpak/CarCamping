@@ -270,22 +270,25 @@
 	 
 	<!-- 용품리뷰 테이블이랑 용품리뷰 좋아요 테이블을 조인하는데 회원번호에 해당하는 데이터만 가져오면 된다 -->
 	<select id ="ReviewProductList" resultMap="reviewProductMap" parameterType="int">
-		  select a.*, b.* from ReviewProduct a join ReviewProductLikeLog b on a.rp_num = b.rp_num where b.mem_num = #{mem_num} 
-		<!-- select rp_title as title,rp_score as score,rp_readCount as readCount,rp_likeCount as likeCount,rp_sysdate as sysdate,rp_adminConfirm as Confirm
- 		from ReviewProduct a join ReviewProductLikeLog b on a.rp_num = b.rp_num where b.mem_num = #{mem_num}  -->
-	</select>
-	
-	<select id ="ReviewProductNum" resultMap="reviewProductMap" parameterType="int">
-		select a.*, b.* from ReviewProduct a join ReviewProductLikeLog b on a.rp_num = b.rp_num where b.rp_num = #{rp_num}  
-	</select>
-	
-	<update id="UpdateProductLikeLog" parameterType="int">
-		update ReviewProduct set rp_likeCount = rp_likeCount -1  where rp_num = #{rp_num}
-	</update>   
+        select a.*, b.* from ReviewProduct a join ReviewProductLikeLog b on a.rp_num = b.rp_num where b.mem_num = #{mem_num} 
+   </select>
+   
+   <select id ="ReviewProductNum" resultMap="reviewProductMap" parameterType="int">
+      select a.*, b.* from ReviewProduct a join ReviewProductLikeLog b on a.rp_num = b.rp_num where b.rp_num = #{rp_num}  
+   </select>
+   
+   <select id="CountProductReviewLikeLog" parameterType="java.util.Map" resultType="Integer">
+      select count(*) from ReviewProductLikeLog a,Member b
+      where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.rp_num = #{rp_num}
+   </select>
+   
+   <update id="UpdateProductLikeLog" parameterType="int">
+      update ReviewProduct set rp_likeCount = rp_likeCount -1  where rp_num = #{rp_num}
+   </update>   
 
-	<delete id ="DeleteProductReview" parameterType="java.util.Map">
-	 delete from ReviewProductLikeLog where rp_num = #{rp_num} and mem_num = #{mem_num}
-	</delete>
+   <delete id ="DeleteProductReview" parameterType="java.util.Map">
+    delete from ReviewProductLikeLog where rp_num = #{rp_num} and mem_num = #{mem_num}
+   </delete>
  		<resultMap id="reviewRegionMap" type="ReviewRegionDTO">
 		<id column="review_num" property="review_num"/> 
 		<result column="review_title" property="review_title"/>
@@ -305,27 +308,27 @@
 		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"/>
 			</resultMap>
 	<select id ="ReviewRegionList" resultMap="reviewRegionMap" parameterType="int">
-		select a.*, b.* from ReviewRegion a join ReviewLikeLog b on a.review_num = b.review_num where b.mem_num = #{mem_num} 
-	</select>
-	
-	<select id="ReviewRegionNum" resultMap="reviewRegionMap" parameterType="int">
-	select a.*, b.* from ReviewRegion a join ReviewLikeLog b on a.review_num = b.review_num where b.review_num = #{review_num}
-	</select>
-	
+      select a.*, b.* from ReviewRegion a join ReviewLikeLog b on a.review_num = b.review_num where b.mem_num = #{mem_num} 
+   </select>
+   
+   <select id="ReviewRegionNum" resultMap="reviewRegionMap" parameterType="int">
+   select a.*, b.* from ReviewRegion a join ReviewLikeLog b on a.review_num = b.review_num where b.review_num = #{review_num}
+   </select>
+   
 
-	<select id="CountReviewLikeLog" parameterType="java.util.Map" resultType="Integer">
-		select count(*) from ReviewLikeLog a,Member b
-		where a.mem_num = b.mem_num and b.mem_id = #{mem_id}
-	</select>
-	
-	<update id="UpdateRegionLikeLog" parameterType="int">
-		update ReviewRegion set review_likeCount = review_likeCount -1  where review_num = #{review_num}
-	</update> 
+   <select id="CountReviewLikeLog" parameterType="java.util.Map" resultType="Integer">
+      select count(*) from ReviewLikeLog a,Member b
+      where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.review_num = #{review_num}
+   </select>
+   
+   <update id="UpdateRegionLikeLog" parameterType="int">
+      update ReviewRegion set review_likeCount = review_likeCount -1  where review_num = #{review_num}
+   </update> 
 
-	
-	<delete id ="DeleteRegionReveiw" parameterType="java.util.Map">
-		 delete from ReviewLikeLog where review_num = #{review_num} and mem_num = #{mem_num}
-	</delete>
+   
+   <delete id ="DeleteRegionReveiw" parameterType="java.util.Map">
+       delete from ReviewLikeLog where review_num = #{review_num} and mem_num = #{mem_num}
+   </delete>
 	
 	
 	
@@ -349,35 +352,38 @@
 		select a.*,b.*, c.*,d.* from RentalLog as a left join Product as b on
 		a.prod_num = b.prod_num left join Agency as c on a.agency_num =
 		c.agency_num left join Member as d on a.mem_num=d.mem_num where a.mem_num = #{mem_num}
-	</select>
+	</select> 
+   
 	
-	 
-   <!-- 07/06추가 - 송재영 - 대여내역 상세정보-->
+	<!-- 07/06추가 - 송재영 - 대여내역 상세정보-->
    <select id="getRentalLogOne" parameterType="int" resultMap="rentalLogMap">
-   		select a.*,b.*, c.*,d.* from RentalLog as a left join Product as b on
-		a.prod_num = b.prod_num left join Agency as c on a.agency_num =
-		c.agency_num left join Member as d on a.mem_num=d.mem_num where a.rental_num = #{rental_num}
+         select a.*,b.*, c.*,d.* from RentalLog as a left join Product as b on
+      a.prod_num = b.prod_num left join Agency as c on a.agency_num =
+      c.agency_num left join Member as d on a.mem_num=d.mem_num where a.rental_num = #{rental_num}
    </select>
    
-	<!--07/06추가 - 송재영 - 연장신청  -->
-	<update id="myPageExtendRentalLog" parameterType="java.util.Map">
-		update RentalLog set rental_return = 3, rental_extend = 1, rental_extendPrice = (#{rental_price}/(date(#{rental_to}) - date(#{rental_from})+1))
-		where rental_num = #{rental_num}
-	</update>
+   <!--07/06추가 - 송재영 - 연장신청  -->
+   <update id="myPageExtendRentalLog" parameterType="java.util.Map">
+      update RentalLog set rental_return = 3, rental_extend = 1, rental_extendPrice = (#{rental_price}/(date(#{rental_to}) - date(#{rental_from})+1))
+      where rental_num = #{rental_num}
+   </update>
+   
+   
+   <!-- 포인트 내역 ResultMap -->
+   <resultMap id="pointLogMap" type="PointLogDTO">
+      <id column="point_num" property="point_num"/>
+      <result column="point_sysdate" property="point_sysdate"/>
+      <result column="point_reason" property="point_reason"/>
+      <result column="point_saving" property="point_saving"/>
+      <association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"></association>
+   </resultMap>
+   
+   <select id="myPageListPointLog" resultMap="pointLogMap" parameterType="int">
+      select * from PointLog a join Member b on a.mem_num = b.mem_num where a.mem_num = #{mem_num} order by point_sysdate DESC
+   </select>
 	
 	
-	<!-- 포인트 내역 ResultMap -->
-	<resultMap id="pointLogMap" type="PointLogDTO">
-		<id column="point_num" property="point_num"/>
-		<result column="point_sysdate" property="point_sysdate"/>
-		<result column="point_reason" property="point_reason"/>
-		<result column="point_saving" property="point_saving"/>
-		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"></association>
-	</resultMap>
 	
-	<select id="myPageListPointLog" resultMap="pointLogMap" parameterType="int">
-		select * from PointLog a join Member b on a.mem_num = b.mem_num where a.mem_num = #{mem_num} order by point_sysdate DESC
-	</select>
 </mapper>
 
 

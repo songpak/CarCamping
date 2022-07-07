@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -31,11 +31,11 @@
       <form name="viewRentalLog" method="post" action="myPageExtendRentalLog.myPage" enctype="multipart/form-data">
       <input type = "hidden" name="rental_num" value="${rdto.rental_num}">
       <table class="table table-sm">
-      	 <%-- <tr>
-      	 	<td colspan="2">
-      	 		<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rdto.productDTO.prod_viewImage1}">
-      	 	</td>
-      	 </tr> --%>
+          <%-- <tr>
+             <td colspan="2">
+                <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rdto.productDTO.prod_viewImage1}">
+             </td>
+          </tr> --%>
          <tr>
             <th>용품명</th>
             <td>${rdto.productDTO.prod_name}</td>
@@ -51,19 +51,19 @@
          <tr>
             <th>대여시작일</th>
             <td>${rdto.rental_from}
-            	<input type="hidden" name="rental_from" value="${rdto.rental_from}">
+               <input type="hidden" name="rental_from" value="${rdto.rental_from}">
             </td>
          </tr>
          <tr>
             <th>대여종료일</th>
             <td>${rdto.rental_to}
-            	<input type="hidden" name="rental_to" value="${rdto.rental_to}">
+               <input type="hidden" name="rental_to" value="${rdto.rental_to}">
             </td>
          </tr>
          <tr>
             <th>대여요금</th>
             <td>${rdto.rental_price}
-            	<input type="hidden" name="rental_price" value="${rdto.rental_price}">
+               <input type="hidden" name="rental_price" value="${rdto.rental_price}">
             </td>
          </tr>
          <tr>
@@ -111,7 +111,7 @@
          <tr>
             <td colspan="2" align="center">
                <c:if test="${rdto.rental_return==1}">
-               		<button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">연장신청하기</button>
+                     <button type="button" class="btn btn-primary" onclick="location.href='javascript:con()'">연장신청하기</button>
                </c:if>
             </td>
          </tr>

@@ -230,12 +230,11 @@ public class AdminMapper {
 		int res = sqlSession.update("adminDenyMember", map);
 		return res;
 	}
-	
-	public List<PointLogDTO> adminListPointLog(int mem_num) {
-		 List<PointLogDTO> list = sqlSession.selectList("adminListPointLog", mem_num);
-		 return list;
-	 }
 
+	public List<PointLogDTO> adminListPointLog(int mem_num) {
+       List<PointLogDTO> list = sqlSession.selectList("adminListPointLog", mem_num);
+       return list;
+	}
 	
 	
 ///////////////////////////////////////////////////////////////////////////////////////////

@@ -691,7 +691,7 @@ public class AdminController {
 	public String adminViewMember(HttpServletRequest req,@RequestParam int mem_num) {
 		MemberDTO dto = adminMapper.adminGetMember(mem_num);
 		req.setAttribute("mdto", dto);
-		
+      
 		//포인트 내역
 		List<PointLogDTO> listPointLog = adminMapper.adminListPointLog(mem_num);
 		req.setAttribute("listPointLog", listPointLog);
