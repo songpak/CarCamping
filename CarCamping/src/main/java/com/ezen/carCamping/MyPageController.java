@@ -331,6 +331,7 @@ public class MyPageController {
 	}
 
 
+<<<<<<< HEAD
 
 
 	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ + 페이징 추가 (송재영)
@@ -445,6 +446,118 @@ public class MyPageController {
 	      return "myPage/myPageRegionReview";
 	   }
 
+=======
+
+	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ + 수정 (송재영 07/06)
+	   @RequestMapping("/myPageLikeReview.myPage")
+	   public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode,
+	         @RequestParam(value="page",defaultValue="1") int page) {
+	      HttpSession session = req.getSession();
+	      int mem_num = (int) session.getAttribute("mem_num");
+	      if(mode==null||mode.equals("")) {
+	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
+	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
+	         req.setAttribute("page", page);
+	         req.setAttribute("pageCount", pagination.pageCount(list));
+	         
+	      }else if(mode.equals("ReviewProductList")) {  
+	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
+	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
+	         req.setAttribute("page", page);
+	         req.setAttribute("pageCount", pagination.pageCount(list));
+	         
+	      }else if(mode.equals("ReviewRegionList")) {
+	         List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
+	         session.setAttribute("ReviewRegionList", pagination.getPagePost(page, list));
+	         req.setAttribute("page", page);
+	         req.setAttribute("pageCount", pagination.pageCount(list));
+	      }
+	      req.setAttribute("mode", mode);
+	      System.out.println("모드 값:"+mode);
+
+	      return "myPage/myPageLikeReview";
+	   }   
+	   
+	   
+	   @RequestMapping("/myPageProductReview.myPage")
+	   public String myPageProductReview(HttpServletRequest req) {
+	      int mem_num = Integer.parseInt(req.getParameter("mem_num"));
+	      int rp_num = Integer.parseInt(req.getParameter("rp_num"));
+	      HttpSession session = req.getSession();
+	      MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
+	      String id = dto.getMem_id();
+	      session.setAttribute("id", id);
+	      if (id==null || id.equals("")) req.setAttribute("check", 0);
+	      else{
+	         int check = myPageMapper.CountProductReviewLikeLog(id, rp_num);
+	         System.out.println(check);
+	         req.setAttribute("check", check);
+	      }
+	      ReviewProductDTO rplist =myPageMapper.ReviewProductNum(rp_num);
+	      req.setAttribute("mem_num", mem_num);
+	      req.setAttribute("rplist", rplist);
+	      Class<? extends ReviewProductDTO> cls = rplist.getClass();
+	      List<String> reviewImages = new java.util.ArrayList<>();
+	      for(int i=1;i<=5;i++) {
+	         String imageVar = "rp_image"+i;
+	         System.out.println(imageVar);
+	         try {
+	            java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
+	            f.setAccessible(true);
+	            String imageSrc = (String)f.get(rplist);
+	            if(imageSrc!=null) {
+	               reviewImages.add(imageSrc);
+	            }
+	         }catch (Exception e) {
+	            e.printStackTrace();
+	         }
+	      }
+	      
+	      req.setAttribute("reviewImageList", reviewImages);
+	      return "myPage/myPageProductReview";
+	   }
+
+	   @RequestMapping("/myPageRegionReview.myPage")
+	   public String myPageRegionReview(HttpServletRequest req) {
+	      int mem_num = Integer.parseInt(req.getParameter("mem_num"));
+	      int review_num = Integer.parseInt(req.getParameter("review_num"));
+	      System.out.println(review_num);
+	      HttpSession session = req.getSession();
+	      MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
+	      String id = dto.getMem_id();
+	      session.setAttribute("id", id);
+	      
+	      if (id==null || id.equals("")) req.setAttribute("check", 0);
+	      else{
+	         int check = myPageMapper.CountReviewLikeLog(id, review_num);
+	         System.out.println(check);
+	         req.setAttribute("check", check);
+	      }
+	      ReviewRegionDTO rrlist=myPageMapper.ReviewRegionNum(review_num);
+	      req.setAttribute("mem_num", mem_num);
+	      req.setAttribute("rrlist", rrlist);
+	      Class<? extends ReviewRegionDTO> cls = rrlist.getClass();
+	      List<String> reviewImages = new java.util.ArrayList<>();
+	      for(int i=1;i<=5;i++) {
+	         String imageVar = "review_regionImage"+i;
+	         System.out.println(imageVar);
+	         try {
+	            java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
+	            f.setAccessible(true);
+	            String imageSrc = (String)f.get(rrlist);
+	            if(imageSrc!=null) {
+	               reviewImages.add(imageSrc);
+	            }
+	         }catch (Exception e) {
+	            e.printStackTrace();
+	         }
+	      }
+	      
+	      req.setAttribute("reviewImageList", reviewImages);
+	      return "myPage/myPageRegionReview";
+	   }
+
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 	@RequestMapping("/DeleteProductReview.myPage")
 	public String DeleteProductReview(HttpServletRequest req,@RequestParam Map<String,String> map) {
 		//		int mem_num = Integer.parseInt(req.getParameter("mem_num"));

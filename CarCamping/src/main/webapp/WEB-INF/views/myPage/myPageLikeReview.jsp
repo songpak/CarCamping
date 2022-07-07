@@ -122,6 +122,7 @@
    <c:set var="i" value="0" />
      <c:set var="j" value="3" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<table class="table table-borderless">
 	<c:if test="${empty mode || mode eq 'ReviewProductList'}">
 	 <c:forEach items="${ReviewProductList}" var="rpdto">
@@ -198,6 +199,8 @@
 		</c:if>
 		<c:set var="i" value="${i+1 }" />
 =======
+=======
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
    <table class="table table-borderless">
    <c:if test="${mode eq 'ReviewProductList'}">
     <c:forEach items="${ReviewProductList}" var="rpdto">
@@ -258,7 +261,10 @@
       </tr>
       </c:if>
       <c:set var="i" value="${i+1 }" />
+<<<<<<< HEAD
 >>>>>>> ce7cb530a409e182c0bdd4257680880f78f029cd
+=======
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
        
           </c:forEach>  
              </c:if>
@@ -266,6 +272,7 @@
    
    <c:set var="i" value="0" />
      <c:set var="j" value="3" />
+<<<<<<< HEAD
 <<<<<<< HEAD
 	<table class="table table-borderless">
 	<c:if test="${mode eq 'ReviewRegionList'}">
@@ -347,6 +354,8 @@
 		</c:if>
 		<c:set var="i" value="${i+1 }" />
 =======
+=======
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
    <table class="table table-borderless">
    <c:if test="${empty mode || mode eq 'ReviewRegionList'}">
     <c:forEach items="${ReviewRegionList}" var="rvdto">
@@ -397,7 +406,10 @@
                         </c:choose>
                               <br>
                      조회수:${rvdto.review_readCount}&nbsp;|&nbsp;좋아요:${rvdto.review_likeCount}<br> 작성일:${rvdto.review_sysdate}<br>
+<<<<<<< HEAD
                      ????:${rvdto.review_adminConfirm}
+=======
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
                   </p>
                   <button type="button" class="btn btn-dark"
 							onclick="location.href='javascript:popup_region(${rvdto.review_num})'">
@@ -411,7 +423,10 @@
       </tr>
       </c:if>
       <c:set var="i" value="${i+1 }" />
+<<<<<<< HEAD
 >>>>>>> ce7cb530a409e182c0bdd4257680880f78f029cd
+=======
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
           </c:forEach>  
           </c:if>     
    </table>
