@@ -2,46 +2,6 @@
 </section>
 <div id="hd">
 <div class="banner_slide"> <!--바케성 0613 배너  -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-	<div class="card text-center"> 
-		<div class="card-body" >
-			<a href="#">
-				<img src="resources/images/banner_bottom1.jpg" style="width:1870px; height:150px; padding:0px;"/>
-			</a>
-		</div>
-	</div>
-	<div class="card text-center">
-		<div class="card-body" >
-			<a href="#">
-				<img src="resources/images/banner_bottom2.jpg" style="width:1870px; height:150px; padding:0px;"/>
-			</a>
-		</div>
-	</div>
-	<div class="card text-center">
-		<div class="card-body" >
-			<a href="#">
-				<img src="resources/images/banner_bottom3.jpg" style="width:1870px; height:150px; padding:0px;"/>
-			</a>
-		</div>
-	</div>
-	<div class="card text-center"> 
-		<div class="card-body" >
-			<a href="#">
-				<img src="resources/images/banner_bottom4.jpg" style="width:1870px; height:150px; padding:0px;"/>
-			</a>
-		</div>
-	</div>
-	<div class="card text-center"> 
-		<div class="card-body" >
-			<a href="#">
-				<img src="resources/images/banner_bottom5.jpg" style="width:1870px; height:150px; padding:0px;"/>
-			</a>
-		</div>
-	</div>
-=======
-=======
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
    <div class="card text-center"> 
       <div class="card-body" >
          <a href="#">
@@ -77,10 +37,6 @@
          </a>
       </div>
    </div>
-<<<<<<< HEAD
->>>>>>> ce7cb530a409e182c0bdd4257680880f78f029cd
-=======
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 </div>
    
 </div>

@@ -121,86 +121,6 @@
 
    <c:set var="i" value="0" />
      <c:set var="j" value="3" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-	<table class="table table-borderless">
-	<c:if test="${empty mode || mode eq 'ReviewProductList'}">
-	 <c:forEach items="${ReviewProductList}" var="rpdto">
-	 <c:if test="${i%j == 0 }">
-		<tr> 
-		 </c:if>
-			<td>
-				<div class="card" style="width: 18rem;">
-					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rpdto.rp_image1}" class="card-img-top">
-					<div class="card-body">
-						<h5 class="card-title">제목:${rpdto.rp_title}</h5>
-						
-						<p class="card-text">
-							<label for="disabledRange" class="form-label"></label>
-							<h5 style="padding-right: 180px;">별점 (${rpdto.rp_score}/5)</h5>
-							<ul class="">
-							<li class=" d-flex justify-content-between align-items-center">
-							  
-							<div class="container" style="width: 424px;margin-left: 0px;margin-right: 0px;padding-right: 0px;padding-left: 0px;">
-								<div class="row">
-									<div id="myform">
-										<fieldset style="float:left;">
-										<c:choose>
-				 				<c:when test="${rpdto.rp_score >= 1 && rpdto.rp_score< 2 }">
-				  							<label for="rate1">⭐</label>
-				 				</c:when>
-				 				<c:when test="${rpdto.rp_score >= 2 && rpdto.rp_score < 3 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				 				</c:when>
-								 <c:when test="${rpdto.rp_score >= 3 && rpdto.rp_score < 4 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				  						<label for="rate3">⭐</label>
-				 				</c:when>
-				 				<c:when test="${rpdto.rp_score >= 4 && rpdto.rp_score < 5 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				  						<label for="rate3">⭐</label>
-				  						 <label for="rate4">⭐</label>
-				 				</c:when>
-				 				<c:when test="${rpdto.rp_score eq 5 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				  						<label for="rate3">⭐</label>
-				  						<label for="rate4">⭐</label>
-				  						<label for="rate5">⭐</label> 
-				 				</c:when>
-								 <c:otherwise>
-										 ☆☆☆☆☆
-								 </c:otherwise>
-								</c:choose>
-										</fieldset>
-									</div>
-								</div>
-							</div>
-						</li>
-						</ul>
-							조회수:${rpdto.rp_readCount}|좋아요:${rpdto.rp_likeCount}<br>
-							작성일:${rpdto.rp_sysdate}<br>
-							????:${rpdto.rp_adminConfirm}
-						</p>
-						<button type="button" class="btn btn-dark"    
-							data-bs-toggle="modal" data-bs-target="#staticBackdrop-1" onclick = "location.href ='myPageProductReview.myPage?mem_num=${mem_num}&rp_num=${rpdto.rp_num}'">
-							상세보기</button>
-								<button type="button" class="btn btn-dark"    
-							data-bs-toggle="modal" data-bs-target="#staticBackdrop-1" onclick = "location.href ='DeleteProductReview.myPage?mem_num=${mem_num}&rp_num=${rpdto.rp_num}'">
-							삭제하기</button>
-					</div>
-				</div>
-			</td>   
-			<c:if test="${i%j == j-1 }">
-		</tr>
-		</c:if>
-		<c:set var="i" value="${i+1 }" />
-=======
-=======
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
    <table class="table table-borderless">
    <c:if test="${mode eq 'ReviewProductList'}">
     <c:forEach items="${ReviewProductList}" var="rpdto">
@@ -261,10 +181,6 @@
       </tr>
       </c:if>
       <c:set var="i" value="${i+1 }" />
-<<<<<<< HEAD
->>>>>>> ce7cb530a409e182c0bdd4257680880f78f029cd
-=======
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
        
           </c:forEach>  
              </c:if>
@@ -272,90 +188,6 @@
    
    <c:set var="i" value="0" />
      <c:set var="j" value="3" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-	<table class="table table-borderless">
-	<c:if test="${mode eq 'ReviewRegionList'}">
-	 <c:forEach items="${ReviewRegionList}" var="rvdto">
-	 <c:if test="${i%j == 0 }">
-		<tr> 
-		 </c:if> 
-			<td>
-				<div class="card" style="width: 18rem;">
-					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rvdto.review_regionImage1}" class="card-img-top">
-					<div class="card-body">
-						<h5 class="card-title">제목:${rvdto.review_title}</h5>
-						
-						<p class="card-text">
-						
-							<label for="disabledRange" class="form-label"></label>
-							 <h5 style="padding-right: 180px;">별점 (${rvdto.review_regionScore}/5)</h5>
-							<ul class="">
-							<li class=" d-flex justify-content-between align-items-center">
-							 
-							<div class="container" style="width: 424px;margin-left: 0px;margin-right: 0px;padding-right: 0px;padding-left: 0px;">
-								
-								<div class="row">
-									<div id="myform">
-										<fieldset style="float:left;">
-										<c:choose>
-				 				<c:when test="${rvdto.review_regionScore >= 1 && rvdto.review_regionScore< 2 }">
-				  							<label for="rate1">⭐</label>
-				 				</c:when>
-				 				<c:when test="${rvdto.review_regionScore >= 2 && rvdto.review_regionScore < 3 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				 				</c:when>
-								 <c:when test="${rvdto.review_regionScore >= 3 && rvdto.review_regionScore < 4 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				  						<label for="rate3">⭐</label>
-				 				</c:when>
-				 				<c:when test="${rvdto.review_regionScore >= 4 && rvdto.review_regionScore < 5 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				  						<label for="rate3">⭐</label>
-				  						 <label for="rate4">⭐</label>
-				 				</c:when>
-				 				<c:when test="${rvdto.review_regionScore eq 5 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				  						<label for="rate3">⭐</label>
-				  						<label for="rate4">⭐</label>
-				  						<label for="rate5">⭐</label> 
-				 				</c:when>
-								 <c:otherwise>
-										 ☆☆☆☆☆
-								 </c:otherwise>
-								</c:choose>
-										</fieldset>
-									</div>
-								</div>
-							</div>
-						</li>
-						</ul>
-							조회수:${rvdto.review_readCount}|좋아요:${rvdto.review_likeCount}<br>
-							작성일:${rvdto.review_sysdate}<br>
-							????:${rvdto.review_adminConfirm}
-						</p>
-						<button type="button" class="btn btn-dark"     
-							data-bs-toggle="modal" data-bs-target="#staticBackdrop-1" onclick = "location.href ='myPageRegionReview.myPage?mem_num=${mem_num}&review_num=${rvdto.review_num}'">
-						상세보기</button>
-						<button type="button" class="btn btn-dark"     
-							data-bs-toggle="modal" data-bs-target="#staticBackdrop-1" onclick = "location.href ='DeleteReviewReview.myPage?mem_num=${mem_num}&review_num=${rvdto.review_num}'">
-						삭제하기</button>
-							
-							
-					</div>
-				</div>
-			</td>   
-			<c:if test="${i%j == j-1 }">
-		</tr>
-		</c:if>
-		<c:set var="i" value="${i+1 }" />
-=======
-=======
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
    <table class="table table-borderless">
    <c:if test="${empty mode || mode eq 'ReviewRegionList'}">
     <c:forEach items="${ReviewRegionList}" var="rvdto">
@@ -406,10 +238,7 @@
                         </c:choose>
                               <br>
                      조회수:${rvdto.review_readCount}&nbsp;|&nbsp;좋아요:${rvdto.review_likeCount}<br> 작성일:${rvdto.review_sysdate}<br>
-<<<<<<< HEAD
                      ????:${rvdto.review_adminConfirm}
-=======
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
                   </p>
                   <button type="button" class="btn btn-dark"
 							onclick="location.href='javascript:popup_region(${rvdto.review_num})'">
@@ -423,10 +252,6 @@
       </tr>
       </c:if>
       <c:set var="i" value="${i+1 }" />
-<<<<<<< HEAD
->>>>>>> ce7cb530a409e182c0bdd4257680880f78f029cd
-=======
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
           </c:forEach>  
           </c:if>     
    </table>
