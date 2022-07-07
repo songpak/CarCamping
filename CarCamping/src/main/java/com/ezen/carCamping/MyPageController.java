@@ -332,7 +332,7 @@ public class MyPageController {
 
 
 
-<<<<<<< HEAD
+
 	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ + 페이징 추가 (송재영)
 	@RequestMapping("/myPageLikeReview.myPage")
 	public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode,
@@ -362,34 +362,6 @@ public class MyPageController {
 		}
 		req.setAttribute("mode", mode);
 //		System.out.println("모드 값:"+mode);
-=======
-	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ + 수정 (송재영 07/06)
-	   @RequestMapping("/myPageLikeReview.myPage")
-	   public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode,
-	         @RequestParam(value="page",defaultValue="1") int page) {
-	      HttpSession session = req.getSession();
-	      int mem_num = (int) session.getAttribute("mem_num");
-	      if(mode==null||mode.equals("")) {
-	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
-	         req.setAttribute("page", page);
-	         req.setAttribute("pageCount", pagination.pageCount(list));
-	         
-	      }else if(mode.equals("ReviewProductList")) {  
-	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
-	         req.setAttribute("page", page);
-	         req.setAttribute("pageCount", pagination.pageCount(list));
-	         
-	      }else if(mode.equals("ReviewRegionList")) {
-	         List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
-	         session.setAttribute("ReviewRegionList", pagination.getPagePost(page, list));
-	         req.setAttribute("page", page);
-	         req.setAttribute("pageCount", pagination.pageCount(list));
-	      }
-	      req.setAttribute("mode", mode);
-	      System.out.println("모드 값:"+mode);
->>>>>>> ce7cb530a409e182c0bdd4257680880f78f029cd
 
 	      return "myPage/myPageLikeReview";
 	   }   
