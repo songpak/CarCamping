@@ -1,8 +1,6 @@
 package com.ezen.carCamping.service;
 
 import java.util.Hashtable;
-
-
 import java.util.List;
 import java.util.Map;
 
@@ -10,19 +8,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import com.ezen.carCamping.dto.CarCampingRegionDTO;
-
-import com.ezen.carCamping.dto.AgencyDTO;
-
-import com.ezen.carCamping.dto.MemberDTO;
+import com.ezen.carCamping.dto.PointLogDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
-import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
-
+import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
-import com.ezen.carCamping.dto.RentalLogDTO;
 
 
 @Service
@@ -178,14 +169,29 @@ public class MyPageMapper {
 		 List<RentalLogDTO> dto = sqlSession.selectList("getRentalLog", mem_num);
 		 return dto;
 	 }
-	    public List<ReviewRegionDTO> myPageGetWriteReviewRegion_1(int mem_num){
-	         List<ReviewRegionDTO> rdto = sqlSession.selectList("myPageGetWriteReviewRegion_1",mem_num);
-	         return rdto;
-	   }
-	    public List<ReviewProductDTO> myPageGetWriteReviewProduct_1(int mem_num){
-	         List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct_1",mem_num);
-	         return pdto;
-	   } 
+	 public RentalLogDTO getRentalLogOne(int rental_num) {
+		 RentalLogDTO dto = sqlSession.selectOne("getRentalLogOne", rental_num);
+		 return dto;
+	 }
+	 
+	 public List<ReviewRegionDTO> myPageGetWriteReviewRegion_1(int mem_num){
+	     List<ReviewRegionDTO> rdto = sqlSession.selectList("myPageGetWriteReviewRegion_1",mem_num);
+	     return rdto;
+	 }
+	 public List<ReviewProductDTO> myPageGetWriteReviewProduct_1(int mem_num){
+		 List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct_1",mem_num);
+	     return pdto;
+	 }
+	 
+	 public int myPageExtendRentalLog(Map<String,String> map) {
+		 int res = sqlSession.update("myPageExtendRentalLog",map);
+		 return res;
+	 }
+	 
+	 public List<PointLogDTO> myPageListPointLog(int mem_num) {
+		 List<PointLogDTO> list = sqlSession.selectList("myPageListPointLog", mem_num);
+		 return list;
+	 }
 
 }
  

@@ -131,7 +131,7 @@ function regChk(){
             <div class="col-sm-2"></div>
                 <div class="col-sm-9">
                     <h2 class="text-center">정보 수정</h2>
-                     
+
                     <form name="signCheck" action="myPageProfile.myPage" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="mem_num" value="${getMember.mem_num}"/>
                      

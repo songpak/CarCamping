@@ -13,6 +13,7 @@ import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
+import com.ezen.carCamping.dto.PointLogDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
@@ -229,8 +230,12 @@ public class AdminMapper {
 		int res = sqlSession.update("adminDenyMember", map);
 		return res;
 	}
-
 	
+	public List<PointLogDTO> adminListPointLog(int mem_num) {
+		 List<PointLogDTO> list = sqlSession.selectList("adminListPointLog", mem_num);
+		 return list;
+	 }
+
 	
 	
 ///////////////////////////////////////////////////////////////////////////////////////////

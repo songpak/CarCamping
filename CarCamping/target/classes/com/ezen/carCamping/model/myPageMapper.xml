@@ -349,10 +349,35 @@
 		select a.*,b.*, c.*,d.* from RentalLog as a left join Product as b on
 		a.prod_num = b.prod_num left join Agency as c on a.agency_num =
 		c.agency_num left join Member as d on a.mem_num=d.mem_num where a.mem_num = #{mem_num}
-	</select> 
+	</select>
+	
+	 
+   <!-- 07/06추가 - 송재영 - 대여내역 상세정보-->
+   <select id="getRentalLogOne" parameterType="int" resultMap="rentalLogMap">
+   		select a.*,b.*, c.*,d.* from RentalLog as a left join Product as b on
+		a.prod_num = b.prod_num left join Agency as c on a.agency_num =
+		c.agency_num left join Member as d on a.mem_num=d.mem_num where a.rental_num = #{rental_num}
+   </select>
    
+	<!--07/06추가 - 송재영 - 연장신청  -->
+	<update id="myPageExtendRentalLog" parameterType="java.util.Map">
+		update RentalLog set rental_return = 3, rental_extend = 1, rental_extendPrice = (#{rental_price}/(date(#{rental_to}) - date(#{rental_from})+1))
+		where rental_num = #{rental_num}
+	</update>
 	
 	
+	<!-- 포인트 내역 ResultMap -->
+	<resultMap id="pointLogMap" type="PointLogDTO">
+		<id column="point_num" property="point_num"/>
+		<result column="point_sysdate" property="point_sysdate"/>
+		<result column="point_reason" property="point_reason"/>
+		<result column="point_saving" property="point_saving"/>
+		<association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"></association>
+	</resultMap>
+	
+	<select id="myPageListPointLog" resultMap="pointLogMap" parameterType="int">
+		select * from PointLog a join Member b on a.mem_num = b.mem_num where a.mem_num = #{mem_num} order by point_sysdate DESC
+	</select>
 </mapper>
 
 

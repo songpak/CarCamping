@@ -1,7 +1,6 @@
 package com.ezen.carCamping;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import com.ezen.carCamping.dto.AdminAnnounceDTO;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
+import com.ezen.carCamping.dto.PointLogDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
@@ -693,6 +692,9 @@ public class AdminController {
 		MemberDTO dto = adminMapper.adminGetMember(mem_num);
 		req.setAttribute("mdto", dto);
 		
+		//포인트 내역
+		List<PointLogDTO> listPointLog = adminMapper.adminListPointLog(mem_num);
+		req.setAttribute("listPointLog", listPointLog);
 		return "admin/adminViewMember";
 	}
 	

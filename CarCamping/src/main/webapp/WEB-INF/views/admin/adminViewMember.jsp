@@ -136,6 +136,54 @@
 		</table>
 		</form>
 	</div>
+	<!-- 포인트 적립 내역 -->
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	  포인트 적립 내역
+	</button>
+	
+	<!-- 포인트 적립 내역 모달 -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">포인트 적립내역</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body" style="overflow:auto;">
+	        <table class="table table-striped">
+				<tr>
+					<th>적립일시</th>
+					<th>적립내용</th>
+					<th>적립금</th>
+				</tr>
+				<c:forEach items="${listPointLog}" var="pdto">
+					<tr>
+						<td>${pdto.point_sysdate}</td>
+						<td>
+							<c:if test="${pdto.point_reason==1}">
+								첫 리뷰 작성
+							</c:if>
+							<c:if test="${pdto.point_reason==2}">
+								리뷰 작성 승인
+							</c:if>
+							<c:if test="${pdto.point_reason==3}">
+								인기글 리뷰 선정
+							</c:if>
+							<c:if test="${pdto.point_reason==5}">
+								용품 대여 적립
+							</c:if>
+						</td>
+						<td>${pdto.point_saving}</td>
+					</tr>
+				</c:forEach>
+			</table>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
