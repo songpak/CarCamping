@@ -40,7 +40,7 @@
 <div class="container" align="center"
 	class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
 	<div class="row" align="center">
-		<p class="fw-bolder">좋아요 한 리뷰 목록</p>
+		<h3 class="fw-bolder">좋아요 한 리뷰</h3>
 	</div>
 		<!-- 리뷰 검색 모달 버튼 -->
 <!-- 		<div class="col" align="right">
@@ -54,10 +54,11 @@
 		<div class="col" align="right">
 			<div class="btn-group">
 				<button type="button" class="btn btn-dark dropdown-toggle"
-					data-bs-toggle="dropdown" aria-expanded="false" style=" border-top-width: 0px;border-bottom-width: 0px; padding-bottom: 6px;">정렬</button>
+					data-bs-toggle="dropdown" aria-expanded="false" style=" border-top-width: 0px;border-bottom-width: 0px; padding-bottom: 6px;">리뷰보기</button>
 				<ul class="dropdown-menu" style="">
-					<li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewProductList">용품순</a></li>
 					<li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewRegionList">지역순</a></li>
+					<li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewProductList">용품순</a></li>
+					
 				</ul>
 			</div>
 		</div>
@@ -104,14 +105,14 @@
 	<c:set var="i" value="0" />
      <c:set var="j" value="3" />
 	<table class="table table-borderless">
-	<c:if test="${empty mode || mode eq 'ReviewProductList'}">
+	<c:if test="${mode eq 'ReviewProductList'}">
 	 <c:forEach items="${ReviewProductList}" var="rpdto">
 	 <c:if test="${i%j == 0 }">
 		<tr> 
 		 </c:if>
 			<td>
 				<div class="card" style="width: 18rem;">
-					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${ProductreviewImageList}" class="card-img-top">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rpdto.rp_image1}" class="card-img-top">
 					<div class="card-body">
 						<h5 class="card-title">제목:${rpdto.rp_title}</h5>
 						
@@ -162,8 +163,7 @@
 						</li>
 						</ul>
 							조회수:${rpdto.rp_readCount}|좋아요:${rpdto.rp_likeCount}<br>
-							작성일:${rpdto.rp_sysdate}<br>
-							????:${rpdto.rp_adminConfirm}
+							작성일:${rpdto.rp_sysdate}<br>	
 						</p>
 						<button type="button" class="btn btn-dark"    
 							data-bs-toggle="modal" data-bs-target="#staticBackdrop-1" onclick = "location.href ='myPageProductReview.myPage?mem_num=${mem_num}&rp_num=${rpdto.rp_num}'">
@@ -186,29 +186,21 @@
 	<c:set var="i" value="0" />
      <c:set var="j" value="3" />
 	<table class="table table-borderless">
-	<c:if test="${mode eq 'ReviewRegionList'}">
+	<c:if test="${empty mode || mode eq 'ReviewRegionList'}">
 	 <c:forEach items="${ReviewRegionList}" var="rvdto">
 	 <c:if test="${i%j == 0 }">
 		<tr> 
 		 </c:if> 
 			<td>
 				<div class="card" style="width: 18rem;">
-					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${RegionreviewImageList}" class="card-img-top">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rvdto.review_regionImage1}" class="card-img-top">
 					<div class="card-body">
-						<h5 class="card-title">제목:${rvdto.review_title}</h5>
-						
+						<h5 class="card-title">${rvdto.review_title}</h5>
 						<p class="card-text">
 						
-							<label for="disabledRange" class="form-label"></label>
-							 <h5 style="padding-right: 180px;">별점 (${rvdto.review_regionScore}/5)</h5>
-							<ul class="">
-							<li class=" d-flex justify-content-between align-items-center">
-							 
-							<div class="container" style="width: 424px;margin-left: 0px;margin-right: 0px;padding-right: 0px;padding-left: 0px;">
-								
-								<div class="row">
-									<div id="myform">
-										<fieldset style="float:left;">
+							<label for="disabledRange" class="form-label">평점 :
+							${rvdto.review_regionScore}</label> <br>
+							 별점: 
 										<c:choose>
 				 				<c:when test="${rvdto.review_regionScore >= 1 && rvdto.review_regionScore< 2 }">
 				  							<label for="rate1">⭐</label>
@@ -238,30 +230,18 @@
 								 <c:otherwise>
 										 ☆☆☆☆☆
 								 </c:otherwise>
-								</c:choose>
-										</fieldset>
-									</div>
-								</div>
-							</div>
-						</li>
-						</ul>
-							조회수:${rvdto.review_readCount}|좋아요:${rvdto.review_likeCount}<br>
-							작성일:${rvdto.review_sysdate}<br>
-							????:${rvdto.review_adminConfirm}
+								</c:choose> <br>								
+
+							조회수:${rvdto.review_readCount}&nbsp;|&nbsp;좋아요:${rvdto.review_likeCount}<br>
 						</p>
 						<button type="button" class="btn btn-dark"     
 							data-bs-toggle="modal" data-bs-target="#staticBackdrop-1" onclick = "location.href ='myPageRegionReview.myPage?mem_num=${mem_num}&review_num=${rvdto.review_num}'">
-						상세보기</button>
-						<button type="button" class="btn btn-dark"     
-							data-bs-toggle="modal" data-bs-target="#staticBackdrop-1" onclick = "location.href ='DeleteReviewReview.myPage?mem_num=${mem_num}&review_num=${rvdto.review_num}'">
-						삭제하기</button>
-							
-							
+						상세보기</button>&nbsp;&nbsp;
 					</div>
 				</div>
 			</td>   
 			<c:if test="${i%j == j-1 }">
-		</tr>
+		</tr><tr>
 		</c:if>
 		<c:set var="i" value="${i+1 }" />
           </c:forEach>  

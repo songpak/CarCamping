@@ -174,6 +174,18 @@ public class MyPageMapper {
 		int res = sqlSession.update("UpdateRegionLikeLog", review_num);
 		return res;
 	 }
+	 public List<RentalLogDTO> getRentalLog(int mem_num) {
+		 List<RentalLogDTO> dto = sqlSession.selectList("getRentalLog", mem_num);
+		 return dto;
+	 }
+	    public List<ReviewRegionDTO> myPageGetWriteReviewRegion_1(int mem_num){
+	         List<ReviewRegionDTO> rdto = sqlSession.selectList("myPageGetWriteReviewRegion_1",mem_num);
+	         return rdto;
+	   }
+	    public List<ReviewProductDTO> myPageGetWriteReviewProduct_1(int mem_num){
+	         List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct_1",mem_num);
+	         return pdto;
+	   } 
 
 }
  

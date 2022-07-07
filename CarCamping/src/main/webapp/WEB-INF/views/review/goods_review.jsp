@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="../top.jsp" %>
-<c:set var="mem_num" value="3" />
+<c:set var="mem_num" value="${mem_num}" />
  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -315,7 +315,6 @@ $(document).ready(function() {
 	var pc_num = '${pc_num}';
 	var brand_num = '${brand_num}';
 	var prod_num = ${requestScope.prod_num};
-	alert(prod_num);
 	var prod_name ='${prod_name}';
 	if(prod_num != null){
 		var prodCateSelect = document.getElementById("review_prodCate")

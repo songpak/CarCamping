@@ -61,7 +61,7 @@ public class MemberController {
 	      if(referer.indexOf("login.login")>0) {//이전 페이지가 로그인 페이지라면
 			  session.setAttribute("re_url",session.getAttribute("re_url"));
 		   }else {
-		       System.out.println("이전 페이지 : "+referer); //로그인 페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 로그인 페이지가 아닌 다른 페이지
+			   	//로그인 페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 로그인 페이지가 아닌 다른 페이지
 		       session.setAttribute("re_url", referer);
 		   }
       return "login/login";
@@ -168,7 +168,6 @@ public class MemberController {
     		   int res = LoginLogMapper.insertLoginLogSuccess(ldto);
     		   msg = dto.getMem_id()+"님, 환영합니다!!";
     		   url = (String) session.getAttribute("re_url");
-    		   System.out.println("re_url : " + url);
     		   login_success = 0;
     		   session.setAttribute("mem_num",  dto.getMem_num());
     		   session.setAttribute("mbdto", dto);

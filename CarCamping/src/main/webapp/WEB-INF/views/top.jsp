@@ -113,12 +113,18 @@ background: #fff;
                                <li><a style="background: transparent; " onclick="location.href='field_review.review'">장소 리뷰</a></li>
                            <li><a style="background: transparent;" onclick="location.href='goods_review.review'">용품 리뷰</a></li>
                         </ul></li>
+                         <c:if test="${empty mbdto}">   
+                         <li>
+                         </li>
+                         </c:if>
+                         <c:if test="${not empty mbdto}">
                      <li class="scroll-to-section">
                         <button class="btn btn-link" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"
                         style="background-color: #091835;  color: #ffffff; text-decoration: none;">
                            프로필
                         </button>
                      </li>
+                     </c:if>
                             <div class="offcanvas offcanvas-start" tabindex="-1"
                         id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="background-color: #091835;">
                         <div class="offcanvas-header" style="padding-left: 90px; background-color: #091835;">

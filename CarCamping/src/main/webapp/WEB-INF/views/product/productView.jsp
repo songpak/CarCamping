@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
+
 <style>
  .carousel-item img {
 	    width:598px;
@@ -348,11 +349,11 @@ max-width: 200px;
 							<li><a class="dropdown-item" href="productViewOrder.product?search=${prodsearch}&searchString=${prodsearchString}&mode=listReviewPop&prod_num=${prod_num}"> 별점순</a></li>
 						</ul>
 					</div>
-					<button type="button" class="btn btn-success"
+					<button type="button" class="btn btn-dark"
 						style="margin-left: 15px; background-color: #00205b; border-color: #00205b;"
 						onclick="location.href ='productView.product?prod_num=${getProduct.prod_num}'">
 						전체보기</button>
-					<button type="button" class="btn btn-success"
+					<button type="button" class="btn btn-dark"
 						style="margin-left: 15px; background-color: #00205b; border-color: #00205b;"
 						onclick="location.href='goods_review.review?prod_num=${getProduct.prod_num}'">
 						리뷰 등록 하기</button>
@@ -386,17 +387,15 @@ max-width: 200px;
 						</c:if>
 						<c:if test="${empty searchString }">
 							<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
-						<button type="button" class="btn btn-dark" style="margin-left: 431px;align: center;
-						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
-									onclick="goods_review.review?prod_num=${getProduct.prod_num}">
-									리뷰 등록 하기</button></td>
+						</td>
 						</c:if>
 					</c:if>
 					<c:forEach var="pdto" items="${listBoard }">
 						<td>
-							<div class="card border-success" style="width: 18rem;">
+							<div class="card border-dark" style="width: 18rem;">
 								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.rp_image1}" class="card-img-top"
-									style="width: 284px; height: 200px;">
+									style="width: 286px; height: 200px;  display:inline-block;"><span style=" text-align:center; margin-top: 10px;">${pdto.memberDTO.mem_nickName}</span>
+								
 								<div class="card-body">
 									<div class="card-body">
 										<h5 id="reviewTitle" class="card-title">${pdto.rp_title}</h5>
@@ -404,7 +403,7 @@ max-width: 200px;
 									</div>
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item">별점 (${pdto.rp_score}/5)
-											<fieldset style="float: right;">
+											<fieldsest style="float: right;">
 												<c:choose>
 													<c:when test="${pdto.rp_score >= 1 && pdto.rp_score < 2 }">
 														<label for="rate1">⭐</label>
@@ -433,7 +432,7 @@ max-width: 200px;
 													</c:when>
 													<c:otherwise>
 										 ☆☆☆☆☆
-								 </c:otherwise>
+										 </c:otherwise>
 												</c:choose>
 											</fieldset>
 										</li>
@@ -452,11 +451,10 @@ max-width: 200px;
 											</div>
 										</li>
 									</ul>
-									<!-- 0701박혜성 추가 -->
+								
 									<div class="card-body">
-										<a href="javascript:popup(${pdto.rp_num })"><button
-												type="button" class="btn btn-primary" style="width: 100%;">
-												${pdto.memberDTO.mem_nickName}</button></a>
+										<a href="javascript:popup(${pdto.rp_num })"><button type="button" class="btn btn-dark" style="width: 100%; background:#091835;">
+										리뷰 보기</button></a>
 										<span style="float: left;font-size: 14px;">작성일자 : ${pdto.rp_sysdate }</span>
 									</div>
 								</div>
@@ -511,9 +509,10 @@ function popup(rp_num) {
 	        }
 	      };
 	   var mid = '${mem_num}';
+	   console.log(mid);			
 	   if(!isEmpty(mid)){
-	   var url = "productReviewView.product?rp_num="+rp_num;
-	   var name = "popup";
+	   	var url = "productReviewView.product?rp_num="+rp_num;
+	   	var name = "popup";
 	    var _left = Math.ceil(( window.screen.width - 800 )/2);
 	   var _top = Math.ceil(( window.screen.height - 1000 )/2); 
 	   var option = "width = 800, height = 900, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
@@ -527,7 +526,7 @@ function popup(rp_num) {
 			
 			var searchSelect = document.getElementById("search");
 			var search = searchSelect.options[searchSelect.selectedIndex].value;
-			var searchString = document.getElementById("searchString").value;
+			var searchString = encodeURIComponent(document.getElementById("searchString").value);
 			var f = document.createElement("form");	
 			f.setAttribute("method","post");
 			f.setAttribute("action","productView.product");
