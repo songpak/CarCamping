@@ -136,6 +136,15 @@ public class MemberController {
    @RequestMapping(value="login.login", method=RequestMethod.POST)
    public String loginOk(HttpServletRequest req, HttpServletResponse resp,         
          @RequestParam Map<String, String> params) {
+	 
+	 //관리자 로그인 추가 - 07/06 송재영
+     if (params.get("mem_id").equals("0000") && params.get("mem_password").equals("486")) {
+        req.setAttribute("msg", "관리자 페이지로 이동합니다");
+        req.setAttribute("url", "goAdmin.admin"); 
+         return "message";
+     }
+	   
+	   
 	  int login_success = 1;
       String msg = null, url = null;
       HttpSession session = req.getSession();

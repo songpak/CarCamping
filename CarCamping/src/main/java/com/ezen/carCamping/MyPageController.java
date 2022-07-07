@@ -1,12 +1,8 @@
 package com.ezen.carCamping;
 
-import java.io.File; 
-
+import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,26 +22,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.ezen.carCamping.dto.MemberDTO;
+import com.ezen.carCamping.dto.PointLogDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
 import com.ezen.carCamping.dto.RegionDTO;
-
+import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
 import com.ezen.carCamping.pagination.Pagination;
-
-import com.ezen.carCamping.dto.ReviewProductDTO;
-import com.ezen.carCamping.dto.ReviewRegionDTO;
-
 import com.ezen.carCamping.service.MemberMapper;
 import com.ezen.carCamping.service.MyPageMapper;
 import com.ezen.carCamping.service.ProductMapper;
 import com.ezen.carCamping.service.RegionMapper;
 import com.ezen.carCamping.service.S3FileService;
-
-import com.ezen.carCamping.dto.RentalLogDTO;
 
 
 
@@ -218,23 +207,6 @@ public class MyPageController {
 	//----------------------------------------------------------------------------------------------------
 
 
-	@RequestMapping("/myPageRental.myPage")
-	public String myPageRental(HttpServletRequest req) {
-		HttpSession session = req.getSession();
-		if (session.getAttribute("mem_num") == null) {
-			String msg = "로그인 하셔야 합니다";
-			String url = "login.login";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		} else {
-			int mem_num = (int) session.getAttribute("mem_num");
-			List<RentalLogDTO> list = myPageMapper.getRentalLog(mem_num);
-			session.setAttribute("cartList", list);
-		}
-		return "myPage/myPageRental";
-	}
-
 	@RequestMapping(value = "myPageProfile.myPage", method = RequestMethod.GET)
 	public String memberUpdate(HttpServletRequest req) {
 		HttpSession session = req.getSession();
@@ -294,6 +266,19 @@ public class MyPageController {
 		req.setAttribute("url", url);
 		return "message";
 	}
+	 @RequestMapping("/checkNick.myPage")
+     public String myPagecheckNick(HttpServletRequest req, @RequestParam String mem_nickName) {   
+          MemberDTO dto = memberMapper.getMemberNick(mem_nickName);
+           int result = -1;
+          if (dto == null){   
+              result= 1;
+           }else {
+              result = 0;
+           }
+          req.setAttribute("result", result);
+           return "login/checkNick";
+        }
+
 
 
 	@RequestMapping("/myPageQuestion.myPage")//마이페이지 문의목록
@@ -347,62 +332,114 @@ public class MyPageController {
 
 
 
-	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@RequestMapping("/myPageLikeReview.myPage")
-	public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode) {
-		HttpSession session = req.getSession();
-		int mem_num = (int) session.getAttribute("mem_num");
-		if(mode==null||mode.equals("")) {
-			List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-			System.out.println("모드가 널 일때 값 :" + list);
-			session.setAttribute("ReviewProductList", list);
-		}else if(mode.equals("ReviewProductList")) {  
-			List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-			System.out.println("모드가 용품 일때 값 :" + list);
-			session.setAttribute("ReviewProductList", list);
-		}else if(mode.equals("ReviewRegionList")) {
-			List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
-			System.out.println("모드가 지역 일때 값 :" + list);
-			session.setAttribute("ReviewRegionList", list);
-		}
-		req.setAttribute("mode", mode);
-		System.out.println("모드 값:"+mode);
+	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ + 수정 (송재영 07/06)
+	   @RequestMapping("/myPageLikeReview.myPage")
+	   public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode,
+	         @RequestParam(value="page",defaultValue="1") int page) {
+	      HttpSession session = req.getSession();
+	      int mem_num = (int) session.getAttribute("mem_num");
+	      if(mode==null||mode.equals("")) {
+	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
+	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
+	         req.setAttribute("page", page);
+	         req.setAttribute("pageCount", pagination.pageCount(list));
+	         
+	      }else if(mode.equals("ReviewProductList")) {  
+	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
+	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
+	         req.setAttribute("page", page);
+	         req.setAttribute("pageCount", pagination.pageCount(list));
+	         
+	      }else if(mode.equals("ReviewRegionList")) {
+	         List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
+	         session.setAttribute("ReviewRegionList", pagination.getPagePost(page, list));
+	         req.setAttribute("page", page);
+	         req.setAttribute("pageCount", pagination.pageCount(list));
+	      }
+	      req.setAttribute("mode", mode);
+	      System.out.println("모드 값:"+mode);
 
-		return "myPage/myPageLikeReview";
-	}   
-	@RequestMapping("/myPageProductReview.myPage")
-	public String myPageProductReview(HttpServletRequest req) {
-		int mem_num = Integer.parseInt(req.getParameter("mem_num"));
-		int rp_num = Integer.parseInt(req.getParameter("rp_num"));
-		HttpSession session = req.getSession();
-		String id = (String) session.getAttribute("mem_id");
-		if (id==null || id.equals("")) req.setAttribute("check", 0);
-		else{
-			int check = myPageMapper.CountReviewLikeLog(id, rp_num);
-			req.setAttribute("check", check);
-		}
-		ReviewProductDTO rplist =myPageMapper.ReviewProductNum(rp_num);
-		req.setAttribute("mem_num", mem_num);
-		req.setAttribute("rplist", rplist);
-		return "myPage/myPageProductReview";
-	}
+	      return "myPage/myPageLikeReview";
+	   }   
+	   
+	   
+	   @RequestMapping("/myPageProductReview.myPage")
+	   public String myPageProductReview(HttpServletRequest req) {
+	      int mem_num = Integer.parseInt(req.getParameter("mem_num"));
+	      int rp_num = Integer.parseInt(req.getParameter("rp_num"));
+	      HttpSession session = req.getSession();
+	      MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
+	      String id = dto.getMem_id();
+	      session.setAttribute("id", id);
+	      if (id==null || id.equals("")) req.setAttribute("check", 0);
+	      else{
+	         int check = myPageMapper.CountProductReviewLikeLog(id, rp_num);
+	         System.out.println(check);
+	         req.setAttribute("check", check);
+	      }
+	      ReviewProductDTO rplist =myPageMapper.ReviewProductNum(rp_num);
+	      req.setAttribute("mem_num", mem_num);
+	      req.setAttribute("rplist", rplist);
+	      Class<? extends ReviewProductDTO> cls = rplist.getClass();
+	      List<String> reviewImages = new java.util.ArrayList<>();
+	      for(int i=1;i<=5;i++) {
+	         String imageVar = "rp_image"+i;
+	         System.out.println(imageVar);
+	         try {
+	            java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
+	            f.setAccessible(true);
+	            String imageSrc = (String)f.get(rplist);
+	            if(imageSrc!=null) {
+	               reviewImages.add(imageSrc);
+	            }
+	         }catch (Exception e) {
+	            e.printStackTrace();
+	         }
+	      }
+	      
+	      req.setAttribute("reviewImageList", reviewImages);
+	      return "myPage/myPageProductReview";
+	   }
 
-	@RequestMapping("/myPageRegionReview.myPage")
-	public String myPageRegionReview(HttpServletRequest req) {
-		int mem_num = Integer.parseInt(req.getParameter("mem_num"));
-		int review_num = Integer.parseInt(req.getParameter("review_num"));
-		HttpSession session = req.getSession();
-		String id = (String) session.getAttribute("mem_id");
-		if (id==null || id.equals("")) req.setAttribute("check", 0);
-		else{
-			int check = myPageMapper.CountReviewLikeLog(id, review_num);
-			req.setAttribute("check", check);
-		}
-		ReviewRegionDTO rrlist=myPageMapper.ReviewRegionNum(review_num);
-		req.setAttribute("mem_num", mem_num);
-		req.setAttribute("rrlist", rrlist);
-		return "myPage/myPageRegionReview";
-	}
+	   @RequestMapping("/myPageRegionReview.myPage")
+	   public String myPageRegionReview(HttpServletRequest req) {
+	      int mem_num = Integer.parseInt(req.getParameter("mem_num"));
+	      int review_num = Integer.parseInt(req.getParameter("review_num"));
+	      System.out.println(review_num);
+	      HttpSession session = req.getSession();
+	      MemberDTO dto = (MemberDTO) session.getAttribute("mbdto");
+	      String id = dto.getMem_id();
+	      session.setAttribute("id", id);
+	      
+	      if (id==null || id.equals("")) req.setAttribute("check", 0);
+	      else{
+	         int check = myPageMapper.CountReviewLikeLog(id, review_num);
+	         System.out.println(check);
+	         req.setAttribute("check", check);
+	      }
+	      ReviewRegionDTO rrlist=myPageMapper.ReviewRegionNum(review_num);
+	      req.setAttribute("mem_num", mem_num);
+	      req.setAttribute("rrlist", rrlist);
+	      Class<? extends ReviewRegionDTO> cls = rrlist.getClass();
+	      List<String> reviewImages = new java.util.ArrayList<>();
+	      for(int i=1;i<=5;i++) {
+	         String imageVar = "review_regionImage"+i;
+	         System.out.println(imageVar);
+	         try {
+	            java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
+	            f.setAccessible(true);
+	            String imageSrc = (String)f.get(rrlist);
+	            if(imageSrc!=null) {
+	               reviewImages.add(imageSrc);
+	            }
+	         }catch (Exception e) {
+	            e.printStackTrace();
+	         }
+	      }
+	      
+	      req.setAttribute("reviewImageList", reviewImages);
+	      return "myPage/myPageRegionReview";
+	   }
 
 	@RequestMapping("/DeleteProductReview.myPage")
 	public String DeleteProductReview(HttpServletRequest req,@RequestParam Map<String,String> map) {
@@ -704,5 +741,56 @@ public class MyPageController {
 		req.setAttribute("url", url);
 		return "message";
 	}
+	
+	//수정(07/06 송재영)
+	   @RequestMapping("/myPageRental.myPage")
+	   public String myPageRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1")int page) {
+	      HttpSession session = req.getSession();
+	      if (session.getAttribute("mem_num") == null) {
+	         String msg = "로그인 하셔야 합니다";
+	         String url = "login.login";
+	         req.setAttribute("msg", msg);
+	         req.setAttribute("url", url);
+	         return "message";
+	      } else {
+	         int mem_num = (int) session.getAttribute("mem_num");
+	         
+	         //포인트 내역
+	         List<PointLogDTO> listPointLog = myPageMapper.myPageListPointLog(mem_num);
+	         req.setAttribute("listPointLog", listPointLog);
+	         
+	         //대여 내역
+	         List<RentalLogDTO> list = myPageMapper.getRentalLog(mem_num);
+	         session.setAttribute("cartList", pagination.getPagePost(page, list));
+	         req.setAttribute("pageCount", pagination.pageCount(list));
+	         req.setAttribute("page", page);
+	      }
+	      return "myPage/myPageRental";
+	   }
+	   
+	   // 추가 07/06 - 송재영
+	   @RequestMapping("/myPageViewRentalLog.myPage")
+	   public String myPageViewRentalLog(HttpServletRequest req,@RequestParam int rental_num) {
+	      RentalLogDTO dto = myPageMapper.getRentalLogOne(rental_num);
+	      req.setAttribute("rdto", dto);
+	      return "myPage/myPageViewRentalLog";
+	   }
+	   
+	   // 추가 07/06 - 송재영
+	   @RequestMapping("/myPageExtendRentalLog.myPage")
+	   public String myPageExtendRentalLog(HttpServletRequest req,@RequestParam Map<String,String> map) {
+	      int res = myPageMapper.myPageExtendRentalLog(map);
+	      String msg = null, url = null;
+	      if (res>0) {
+	         msg = "연장신청되었습니다.";
+	         url = "myPageRental.myPage";
+	      }else {
+	         msg = "연장신청이 실패되었습니다. 고객센터에 문의해주세요.";
+	         url = "myPageRental.myPage";
+	      }
+	      req.setAttribute("msg", msg);
+	      req.setAttribute("url", url);
+	      return "message";
+	   }
 
 }

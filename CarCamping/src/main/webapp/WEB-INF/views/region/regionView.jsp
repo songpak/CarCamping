@@ -439,7 +439,7 @@ max-width: 200px;
 					<c:forEach var="review_ccr" items="${reviewList }">
 						<td>
 							<div class="card border-dark" style="width: 18rem;">
-								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${review_ccr.review_image1}" class="card-img-top"
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${review_ccr.review_regionImage1}" class="card-img-top"
 									style="width: 286px; height: 200px;  display:inline-block;"><span style=" text-align:center; margin-top: 10px;">${review_ccr.memberDTO.mem_nickName}</span>
 									
 								<div class="card-body">
