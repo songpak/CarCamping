@@ -274,7 +274,10 @@ public class ProductController {
 	@RequestMapping(value="updateProductReviewLike.product",method=RequestMethod.POST)
 	   @ResponseBody
 	   public String updateProductReviewLike(HttpServletRequest req,@RequestParam String mem_id,@RequestParam String rp_num) {
+<<<<<<< HEAD
 	      System.out.println(rp_num);
+=======
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 	      HttpSession session = req.getSession();
 	      
 	      MemberDTO mdto = (MemberDTO) session.getAttribute("mbdto");

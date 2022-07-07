@@ -304,6 +304,7 @@ public class RegionController {
 		return String.valueOf(count);
 	}
 	
+<<<<<<< HEAD
 	@RequestMapping(value="/board.region", method = RequestMethod.GET)
 	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params,
 			@RequestParam (required = false) String mode) {
@@ -349,6 +350,60 @@ public class RegionController {
 	req.setAttribute("endPage", endPage);
 	return "/region/regionBoard";
 	}
+=======
+	   @RequestMapping(value="/board.region", method = RequestMethod.GET)
+	   public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params) {
+	   List<CarCampingRegionDTO>list =null;
+	   int region_num = Integer.parseInt(params.get("region_num"));   
+	   String pageNum = params.get("pageNum");
+	   String mode=params.get("mode");
+	   String orderBy = params.get("orderBy");
+	   if(orderBy == null) orderBy="ccr_num";
+	   String search = params.get("search");
+	   String searchString = params.get("searchString");
+	   
+	   int pageSize= 12;
+	   int currentpage;
+	   if(pageNum==null) {
+	      pageNum="1";
+	      currentpage=Integer.parseInt(pageNum);
+	   }else {
+	      double pageNum_db =Double.parseDouble(pageNum);
+	      if(pageNum_db<=0)pageNum_db = 0 ;
+	      currentpage = (int)(pageNum_db);
+	   }
+	   int startRow = (currentpage -1) * pageSize +1;
+	   int endRow = startRow + pageSize - 1;
+	   int rowCount=RegionMapper.listRegionCount(region_num);
+	   if(endRow>rowCount) endRow=rowCount;
+	   if(mode==null || mode.equals("")) {
+	      list = RegionMapper.listAllCarCamping(region_num, orderBy, startRow-1, endRow);
+	   }
+	   else if(mode.equals("searchCcr")){
+	      if(search!=null && searchString != null || !(search.equals("") && searchString.equals(""))) {
+	         list = RegionMapper.listAllCarCampingSearch(region_num, search, searchString, orderBy, startRow-1, endRow);
+	         System.out.println(list.size());
+	         rowCount = RegionMapper.listRegionCountSearch(region_num, search, searchString);
+	      }
+	   }
+	   int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
+	   int pageBlock = 5;
+	   int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
+	   int endPage = startPage + pageBlock - 1;
+	   if (endPage > pageCount) endPage = pageCount;
+	   req.setAttribute("mode", mode);
+	   req.setAttribute("search", search);
+	   req.setAttribute("searchString", searchString);
+	   req.setAttribute("orderBy", orderBy);
+	   req.setAttribute("region_num", region_num);
+	   req.setAttribute("rowCount",rowCount);
+	   req.setAttribute("list", list);
+	   req.setAttribute("pageCount", pageCount);
+	   req.setAttribute("startPage", startPage);
+	   req.setAttribute("endPage", endPage);
+	   return "/region/regionBoard";
+	   }
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 	
 	
 	

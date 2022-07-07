@@ -102,7 +102,7 @@
                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #00205b; border-color: #00205b;">정렬</button>
                            <ul class="dropdown-menu" style="margin-right: 13px;">
                            <li><a class="dropdown-item" href="goProduct.product?search=${search}&searchString=${searchString}&mode=listProductNew">최신순 </a></li>
-                           <li><a class="dropdown-item" href="goProduct.product?search=${search}&searchString=${searchString}&mode=listProductPop">인기순</a></li>
+                           <li><a class="dropdown-item" href="goProduct.product?search=${search}&searchString=${searchString}&mode=listProductPop">별점순</a></li>
                           <li> <a class="dropdown-item" href="goProduct.product?search=${search}&searchString=${searchString}&mode=listProductPrice">가격순</a></li>
                         </ul>
                         </div>
@@ -172,7 +172,11 @@
 										별점을 등록해 주세요! 
 								 </c:otherwise>
 								</c:choose>
+<<<<<<< HEAD
 								<label style="padding-right: 50px;"><font size="2" color ="gray">(${pdto.prod_reviewScore}/5) ${pdto.prod_reviewCount} 개의 리뷰</font></label>
+=======
+								<label style="padding-right: 50px;"><font size="2" color ="gray">(${pdto.prod_reviewScore}/5) ${pdto.prod_reviewCount}개의 리뷰</font></label>
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 										</fieldset>										
 									</div>
 								</div>

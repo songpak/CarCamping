@@ -234,27 +234,22 @@
 	</select>
 
 
-	<select resultType="int" id="listRegionCount" parameterType="int">
-	 select count(*) from CarCampingRegion where region_num = #{region_num} 
-	</select> 
+	   <select resultType="int" id="listRegionCount" parameterType="int">
+    select count(*) from CarCampingRegion where region_num = #{region_num} 
+   </select> 
+   
+   <select resultType="int" id="listRegionCountSearch" parameterType="Map">
+    select count(*) from CarCampingRegion where region_num = #{region_num} and ${search} like CONCAT('%',#{searchString},'%') 
+   </select> 
 
-	<select resultMap="carCampingRegionMap" id="listRegionMain" parameterType="int">
-		 select a.*,b.* from CarCampingRegion a join Region b on a.region_num = b.region_num and a.region_num = #{region_num}
-	  where a.region_num = #{region_num} limit #{startRow},#{endRow}
-	</select>
-		
-		<!-- 차박지 보드 그냥 정렬 눌렀을때 -->
-	<select id="listRegionReviewCount" resultMap="carCampingRegionMap" parameterType="int">
-		 SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ccr_reviewCount DESC limit #{startRow},#{endRow}
-	</select>
-	
-	<select id="listRegionLikeCount" resultMap="carCampingRegionMap" parameterType="int">
-		 SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ccr_likeCount DESC limit #{startRow},#{endRow}
-	</select>
-	
-	<select id="listRegionscore" resultMap="carCampingRegionMap" parameterType="int">
-		 SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ccr_score DESC limit #{startRow},#{endRow}
-	</select>
+   <select id="listAllCarCamping" resultMap="carCampingRegionMap" parameterType="Map">
+       SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} ORDER BY ${orderBy} DESC limit #{startRow},#{endRow}
+   </select>
+   
+   <select id="listAllCarCampingSearch" resultMap="carCampingRegionMap" parameterType="Map">
+       SELECT * FROM CarCampingRegion WHERE region_num = #{region_num} and ${search} like CONCAT('%',#{searchString},'%') 
+       ORDER BY ${orderBy} DESC limit #{startRow},#{endRow}
+   </select>
 
 	
 </mapper>

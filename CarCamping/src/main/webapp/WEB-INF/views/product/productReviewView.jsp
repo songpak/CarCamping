@@ -168,9 +168,13 @@
                      <blockquote class="blockquote">
                         <p class="mb-0">REVIEW</p>
                      </blockquote>
+<<<<<<< HEAD
 						<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>
                      ${getReviewProduct.rp_content}
                      </textarea>
+=======
+						<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>${getReviewProduct.rp_content}</textarea>
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
                      <span style="float: left;font-size: 15px;">작성일자 : ${getReviewProduct.rp_sysdate}</span>
                   </div>
                </div>
@@ -216,17 +220,17 @@
                          rp_num: '${getReviewProduct.rp_num}'
                       },         
                       success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
-                         // $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
-                          $('body').fadeTo( "slow", 1 ).find('#loading').remove();
-                         $("#likeCount").text(res+"💖");
-                         if(like_color == 'rgb(255, 255, 255)'){
-                             alert("회원님의 좋아요가 성공적으로 등록되었습니다 !!😍"); 
-                            $("#likeCount").css("background-color","#bb2d3b");//#bb2d3b  rgb(187, 45, 59)
-                           }else if(like_color == 'rgb(187, 45, 59)'){          
-                              alert("회원님의 좋아요가 취소되었습니다 !!😢"); 
-                              $("#likeCount").css("background-color","white");
-                           }   
-                         isRun  = false;
+					       	// $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
+					       	 $('body').fadeTo( "slow", 1 ).find('#loading').remove();
+		                	$("#likeCount").text(res+"💖");
+		                	if(like_color =='rgb(255, 255, 255)'){
+		                		 alert("회원님의 좋아요가 성공적으로 등록되었습니다 !!😍"); 
+		                		$("#likeCount").css("background-color","rgb(187, 45, 59)");//#bb2d3b  rgb(187, 45, 59)
+		               		}else if(like_color == 'rgb(187, 45, 59)'){          
+		               			alert("회원님의 좋아요가 취소되었습니다 !!😢"); 
+		               			$("#likeCount").css("background-color","rgb(255, 255, 255)");
+		               		}   
+		                	isRun  = false;
                       }
                });
          }   

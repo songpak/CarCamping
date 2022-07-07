@@ -1,8 +1,6 @@
 package com.ezen.carCamping.service;
 
 import java.util.Hashtable;
-
-
 import java.util.List;
 import java.util.Map;
 
@@ -10,19 +8,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import com.ezen.carCamping.dto.CarCampingRegionDTO;
-
-import com.ezen.carCamping.dto.AgencyDTO;
-
-import com.ezen.carCamping.dto.MemberDTO;
+import com.ezen.carCamping.dto.PointLogDTO;
 import com.ezen.carCamping.dto.ProductCartDTO;
-import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
-
+import com.ezen.carCamping.dto.RentalLogDTO;
 import com.ezen.carCamping.dto.ReviewProductDTO;
 import com.ezen.carCamping.dto.ReviewRegionDTO;
-import com.ezen.carCamping.dto.RentalLogDTO;
 
 
 @Service
@@ -144,16 +135,26 @@ public class MyPageMapper {
 		System.out.println("맵퍼의:ReviewRegionNum "+ ReviewRegionNum );
 		return ReviewRegionNum;
 	}
-	//지역 좋아요 불러오기
 	public int CountReviewLikeLog(String mem_id,int review_num) {
-		Map<String,Object> map = new Hashtable<>();
-		map.put("mem_id", mem_id);
-		map.put("review_num", review_num);
-		int res = (int)sqlSession.selectOne("CountReviewLikeLog", map);
-		if(res>0) System.out.println("해당 아이디의  해당 리뷰에 대해 추천한 기록이있습니다");
-		else System.out.println("해당 아이디의 해당 리뷰에 대해 추천한 기록이 없습니다");
-		return res;
-	}
+	      Map<String,Object> map = new Hashtable<>();
+	      map.put("mem_id", mem_id);
+	      map.put("review_num", review_num);
+	      int res = (int)sqlSession.selectOne("CountReviewLikeLog", map);
+	      if(res>0) System.out.println("해당 아이디의  해당 리뷰에 대해 추천한 기록이있습니다");
+	      else System.out.println("해당 아이디의 해당 리뷰에 대해 추천한 기록이 없습니다");
+	      return res;
+	   }
+	   
+	   public int CountProductReviewLikeLog(String mem_id,int rp_num) {
+	      Map<String,Object> map = new Hashtable<>();
+	      map.put("mem_id", mem_id);
+	      map.put("rp_num", rp_num);
+	      int res = (int)sqlSession.selectOne("CountProductReviewLikeLog", map);
+	      if(res>0) System.out.println("해당 아이디의  해당 리뷰에 대해 추천한 기록이있습니다");
+	      else System.out.println("해당 아이디의 해당 리뷰에 대해 추천한 기록이 없습니다");
+	      return res;
+	   }
+	   
 	
 	 public int DeleteProductReview(Map<String,String> map) {
 //	 Map<String,Object> map = new Hashtable<>();
@@ -186,7 +187,24 @@ public class MyPageMapper {
 	         List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct_1",mem_num);
 	         return pdto;
 	   } 
+<<<<<<< HEAD
 
+=======
+	    
+    public int myPageExtendRentalLog(Map<String,String> map) {
+        int res = sqlSession.update("myPageExtendRentalLog",map);
+        return res;
+     }
+     
+     public List<PointLogDTO> myPageListPointLog(int mem_num) {
+        List<PointLogDTO> list = sqlSession.selectList("myPageListPointLog", mem_num);
+        return list;
+     }
+     public RentalLogDTO getRentalLogOne(int rental_num) {
+         RentalLogDTO dto = sqlSession.selectOne("getRentalLogOne", rental_num);
+         return dto;
+      }
+>>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 }
  
 
