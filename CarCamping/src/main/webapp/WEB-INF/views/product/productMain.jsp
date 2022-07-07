@@ -169,10 +169,10 @@
 				  						<label for="rate5">⭐</label> 
 				 				</c:when>
 								 <c:otherwise>
-										 ☆☆☆☆☆
+										별점을 등록해 주세요! 
 								 </c:otherwise>
 								</c:choose>
-								<label style="padding-right: 50px;"><font size="2" color ="gray">(${pdto.prod_reviewScore}/5)</font></label>
+								<label style="padding-right: 50px;"><font size="2" color ="gray">(${pdto.prod_reviewScore}/5) ${pdto.prod_reviewCount} 개의 리뷰</font></label>
 										</fieldset>										
 									</div>
 								</div>

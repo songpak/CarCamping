@@ -39,19 +39,22 @@
 			<th>대리점명</th>
 			<th>대여기간</th>
 			<th>대여금</th>
+			<th>대여상태</th>
 			
 		</tr>
 		 <c:forEach items="${cartList}" var="mdto">
 		<tr>
-			<td>${mdto.produdctDTO.prod_name}</td>
+			<td>${mdto.productDTO.prod_name}</td>
 			<td>${mdto.agencyDTO.agency_name}</td>
-			<td>${mdto.cart_from} ~ ${mdto.cart_to}</td>
-			<td>${mdto.produdctDTO.prod_price}원</td>
+			<td>${mdto.rental_from} ~ ${mdto.rental_to}</td>
+			<td>${mdto.productDTO.prod_price}원</td>
+			
+			 
 		</tr>
 		</c:forEach>
 		
 	</table>
-	
+
 	<!-- 대여내역 보기 모달 -->
  <form class="row gy-2 gx-3 align-items-center">
 	<div class="modal fade" id="staticBackdrop-11" data-bs-backdrop="static"

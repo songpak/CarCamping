@@ -54,7 +54,7 @@
 		<div class="col" align="right">
 			<div class="btn-group">
 				<button type="button" class="btn btn-dark dropdown-toggle"
-					data-bs-toggle="dropdown" aria-expanded="false" style=" border-top-width: 0px;border-bottom-width: 0px; padding-bottom: 6px;">정렬</button>
+					data-bs-toggle="dropdown" aria-expanded="false" style=" border-top-width: 0px;border-bottom-width: 0px; padding-bottom: 6px;">리뷰보기</button>
 				<ul class="dropdown-menu" style="">
 					<li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewProductList">용품순</a></li>
 					<li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewRegionList">지역순</a></li>

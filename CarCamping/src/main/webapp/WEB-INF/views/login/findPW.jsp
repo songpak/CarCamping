@@ -44,7 +44,7 @@
 							<br />
 							<div class="row">
 								<div class="col-md-12 form-group">
-									<button class="btn btn-success mb-3" type="submit" style="width: 100%;">임시 비밀번호 발급</button>
+									<button class="btn btn-dark mb-3" type="submit" style="width: 100%; background:#091835; color: #fff;">임시 비밀번호 발급</button>
 								</div>
 							</div>
 						</form>

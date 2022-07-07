@@ -61,7 +61,7 @@ public class MemberController {
 	      if(referer.indexOf("login.login")>0) {//이전 페이지가 로그인 페이지라면
 			  session.setAttribute("re_url",session.getAttribute("re_url"));
 		   }else {
-		       System.out.println("이전 페이지 : "+referer); //로그인 페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 로그인 페이지가 아닌 다른 페이지
+			   	//로그인 페이지가 아닌 다른 페이지 -> 로그인 페이지 -> 로그인 페이지가 아닌 다른 페이지
 		       session.setAttribute("re_url", referer);
 		   }
       return "login/login";
@@ -106,7 +106,7 @@ public class MemberController {
 	      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 	      .toString();
 	    		
-	    String from = "qkzptjd5440@naver.com";//보내는 이 메일주소
+	    String from = "ektmf1101@naver.com";//보내는 이 메일주소
 	    String to = mem_email;
 	    String title = "[임시 비빌번호]를 확인해주세요";
 	    String content = "[임시 비밀번호]는 ["+ generatedString +"] 입니다.<br/> 발급받으신 임시 비밀번호로 로그인 하시고, [프로필 ]- [내 정보] 에서 비밀번호를 변경해주세요.";
@@ -168,7 +168,6 @@ public class MemberController {
     		   int res = LoginLogMapper.insertLoginLogSuccess(ldto);
     		   msg = dto.getMem_id()+"님, 환영합니다!!";
     		   url = (String) session.getAttribute("re_url");
-    		   System.out.println("re_url : " + url);
     		   login_success = 0;
     		   session.setAttribute("mem_num",  dto.getMem_num());
     		   session.setAttribute("mbdto", dto);
@@ -253,11 +252,7 @@ public class MemberController {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			try {
-				mf.transferTo(file);
-			}catch(IOException e) {
-				e.printStackTrace();
-				}
+			
 		}
 	  
       rdto.setRegion_num(Integer.parseInt(req.getParameter("region_num")));
@@ -284,6 +279,7 @@ public class MemberController {
 			for (int i = 0; i < cookie.length; i++) {
 				if (cookie[i].getName().equals("loginCookie")) {
 					cookie[i].setMaxAge(0);
+					cookie[i].setPath("/");
 					resp.addCookie(cookie[i]);
 					break;
 				}
@@ -340,7 +336,7 @@ public class MemberController {
   public String CertifyEmail(@RequestParam("mem_email") String mem_email) throws Exception{
     int serti = (int)((Math.random()* (99999 - 10000 + 1)) + 10000);
     
-    String from = "qkzptjd5440@naver.com";//보내는 이 메일주소
+    String from = "ektmf1101@naver.com";//보내는 이 메일주소
     String to = mem_email;
     String title = "회원가입시 필요한 인증번호 입니다.";
     String content = "[인증번호] "+ serti +" 입니다. <br/> 인증번호 확인란에 기입해주십시오.";
