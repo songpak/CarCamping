@@ -31,14 +31,13 @@ public class MemberMapper {
                + "' and mem_email='"+params.get("mem_email")+"'";
             params.put("sql", sql);
             MemberDTO dto = sqlSession.selectOne("searchMemberID", params);
-            if (dto == null) return "입력된 값과 일치하는 회원이 없습니다.";
-            return "아이디는 " + dto.getMem_id() +" 입니다.";
-         
+            if (dto == null) return "입력된 값과 일치하는 데이터가 없습니다.";
+			return "아이디는 " + dto.getMem_id() +" 입니다.";
    }
    
    public String searchMemberPW(Map<String, String> params) {
       String sql = null;
-      sql = "select * from Member where mem_id='"+params.get("mem_id") 
+      sql = "select * from Member where mem_userName='"+params.get("mem_userName") 
       + "' and mem_email='"+params.get("mem_email") + "'";
          params.put("sql", sql);
       MemberDTO dto = sqlSession.selectOne("searchMemberPW", params);

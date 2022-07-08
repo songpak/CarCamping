@@ -84,6 +84,7 @@ public class MemberController {
       String url = "login.login";
       req.setAttribute("msg", msg);
       req.setAttribute("url", url);
+
       return "message";
    }
    
