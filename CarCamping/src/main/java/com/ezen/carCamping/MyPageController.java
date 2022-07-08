@@ -210,24 +210,6 @@ public class MyPageController {
 	@RequestMapping(value = "myPageProfile.myPage", method = RequestMethod.GET)
 	public String memberUpdate(HttpServletRequest req) {
 		HttpSession session = req.getSession();
-<<<<<<< HEAD
-		if (session.getAttribute("mem_num") == null) {
-			String msg = "로그인 하셔야 합니다";
-			String url = "login.login";
-			req.setAttribute("msg", msg);
-			req.setAttribute("url", url);
-			return "message";
-		} else {
-			int mem_num = (int) session.getAttribute("mem_num");
-			List<RentalLogDTO> list = myPageMapper.getRentalLog(mem_num);
-			session.setAttribute("cartList", list);
-		}
-		return "myPage/myPageRental";
-	}
-
-	@RequestMapping(value = "myPageProfile.myPage", method = RequestMethod.GET)
-	public String memberUpdate(HttpServletRequest req) {
-		HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");  
 		int mem_num = dto.getMem_num();
 		MemberDTO res = memberMapper.getMember(mem_num);
@@ -237,17 +219,6 @@ public class MyPageController {
 		return "myPage/myPageProfile";
 	}
 
-=======
-		MemberDTO dto = (MemberDTO)session.getAttribute("mbdto");  
-		int mem_num = dto.getMem_num();
-		MemberDTO res = memberMapper.getMember(mem_num);
-		req.setAttribute("getMember", res);
-
-
-		return "myPage/myPageProfile";
-	}
-
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 
 	@RequestMapping(value="myPageProfile.myPage", method=RequestMethod.POST)
 	public String memberUpdateOk(HttpServletRequest req, @ModelAttribute MemberDTO dto, BindingResult result) {
@@ -268,11 +239,7 @@ public class MyPageController {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			try {
-				mf.transferTo(file);
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
+			
 
 		}else {
 
@@ -295,8 +262,6 @@ public class MyPageController {
 		req.setAttribute("url", url);
 		return "message";
 	}
-<<<<<<< HEAD
-=======
 	 @RequestMapping("/checkNick.myPage")
      public String myPagecheckNick(HttpServletRequest req, @RequestParam String mem_nickName) {   
           MemberDTO dto = memberMapper.getMemberNick(mem_nickName);
@@ -310,7 +275,6 @@ public class MyPageController {
            return "login/checkNick";
         }
 
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 
 
 	@RequestMapping("/myPageQuestion.myPage")//마이페이지 문의목록
@@ -363,65 +327,6 @@ public class MyPageController {
 	}
 
 
-<<<<<<< HEAD
-
-	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@RequestMapping("/myPageLikeReview.myPage")
-	public String myPagaLikeReview(HttpServletRequest req,@RequestParam (required = false) String mode) {
-		HttpSession session = req.getSession();
-		int mem_num = (int) session.getAttribute("mem_num");
-		if(mode==null||mode.equals("")) {
-			List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-			System.out.println("모드가 널 일때 값 :" + list);
-			session.setAttribute("ReviewProductList", list);
-		}else if(mode.equals("ReviewProductList")) {  
-			List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-			System.out.println("모드가 용품 일때 값 :" + list);
-			session.setAttribute("ReviewProductList", list);
-		}else if(mode.equals("ReviewRegionList")) {
-			List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
-			System.out.println("모드가 지역 일때 값 :" + list);
-			session.setAttribute("ReviewRegionList", list);
-		}
-		req.setAttribute("mode", mode);
-		System.out.println("모드 값:"+mode);
-
-		return "myPage/myPageLikeReview";
-	}   
-	@RequestMapping("/myPageProductReview.myPage")
-	public String myPageProductReview(HttpServletRequest req) {
-		int mem_num = Integer.parseInt(req.getParameter("mem_num"));
-		int rp_num = Integer.parseInt(req.getParameter("rp_num"));
-		HttpSession session = req.getSession();
-		String id = (String) session.getAttribute("mem_id");
-		if (id==null || id.equals("")) req.setAttribute("check", 0);
-		else{
-			int check = myPageMapper.CountReviewLikeLog(id, rp_num);
-			req.setAttribute("check", check);
-		}
-		ReviewProductDTO rplist =myPageMapper.ReviewProductNum(rp_num);
-		req.setAttribute("mem_num", mem_num);
-		req.setAttribute("rplist", rplist);
-		return "myPage/myPageProductReview";
-	}
-
-	@RequestMapping("/myPageRegionReview.myPage")
-	public String myPageRegionReview(HttpServletRequest req) {
-		int mem_num = Integer.parseInt(req.getParameter("mem_num"));
-		int review_num = Integer.parseInt(req.getParameter("review_num"));
-		HttpSession session = req.getSession();
-		String id = (String) session.getAttribute("mem_id");
-		if (id==null || id.equals("")) req.setAttribute("check", 0);
-		else{
-			int check = myPageMapper.CountReviewLikeLog(id, review_num);
-			req.setAttribute("check", check);
-		}
-		ReviewRegionDTO rrlist=myPageMapper.ReviewRegionNum(review_num);
-		req.setAttribute("mem_num", mem_num);
-		req.setAttribute("rrlist", rrlist);
-		return "myPage/myPageRegionReview";
-	}
-=======
 
 	// 전용재 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ + 수정 (송재영 07/06)
 	   @RequestMapping("/myPageLikeReview.myPage")
@@ -430,26 +335,26 @@ public class MyPageController {
 	      HttpSession session = req.getSession();
 	      int mem_num = (int) session.getAttribute("mem_num");
 	      if(mode==null||mode.equals("")) {
-	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
-	         req.setAttribute("page", page);
-	         req.setAttribute("pageCount", pagination.pageCount(list));
-	         
-	      }else if(mode.equals("ReviewProductList")) {  
-	         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
-	         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
-	         req.setAttribute("page", page);
-	         req.setAttribute("pageCount", pagination.pageCount(list));
-	         
-	      }else if(mode.equals("ReviewRegionList")) {
-	         List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
-	         session.setAttribute("ReviewRegionList", pagination.getPagePost(page, list));
-	         req.setAttribute("page", page);
-	         req.setAttribute("pageCount", pagination.pageCount(list));
-	      }
-	      req.setAttribute("mode", mode);
-	      System.out.println("모드 값:"+mode);
-
+	    	  List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
+		         session.setAttribute("ReviewRegionList", pagination.getPagePost(page, list));
+		         req.setAttribute("page", page);
+		         req.setAttribute("pageCount", pagination.pageCount(list));
+		         req.setAttribute("mode", "ReviewRegionList");
+		         
+		      }else if(mode.equals("ReviewProductList")) {  
+		         List<ReviewProductDTO>list = myPageMapper.ReviewProductList(mem_num);
+		         session.setAttribute("ReviewProductList", pagination.getPagePost(page, list));
+		         req.setAttribute("page", page);
+		         req.setAttribute("pageCount", pagination.pageCount(list));
+		         req.setAttribute("mode", mode);
+		         
+		      }else if(mode.equals("ReviewRegionList")) {
+		         List<ReviewRegionDTO>list = myPageMapper.ReviewRegionList(mem_num);
+		         session.setAttribute("ReviewRegionList", pagination.getPagePost(page, list));
+		         req.setAttribute("page", page);
+		         req.setAttribute("pageCount", pagination.pageCount(list));
+		         req.setAttribute("mode", mode);
+		      }
 	      return "myPage/myPageLikeReview";
 	   }   
 	   
@@ -531,7 +436,6 @@ public class MyPageController {
 	      req.setAttribute("reviewImageList", reviewImages);
 	      return "myPage/myPageRegionReview";
 	   }
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 
 	@RequestMapping("/DeleteProductReview.myPage")
 	public String DeleteProductReview(HttpServletRequest req,@RequestParam Map<String,String> map) {
@@ -833,12 +737,11 @@ public class MyPageController {
 		req.setAttribute("url", url);
 		return "message";
 	}
-<<<<<<< HEAD
-=======
 	
 	//수정(07/06 송재영)
-	   @RequestMapping("/myPageRental.myPage")
-	   public String myPageRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1")int page) {
+	@RequestMapping("/myPageRental.myPage")
+	   public String myPageRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1")int page,
+			   @RequestParam Map<String,String> map) {
 	      HttpSession session = req.getSession();
 	      if (session.getAttribute("mem_num") == null) {
 	         String msg = "로그인 하셔야 합니다";
@@ -853,8 +756,29 @@ public class MyPageController {
 	         List<PointLogDTO> listPointLog = myPageMapper.myPageListPointLog(mem_num);
 	         req.setAttribute("listPointLog", listPointLog);
 	         
-	         //대여 내역
-	         List<RentalLogDTO> list = myPageMapper.getRentalLog(mem_num);
+	        //날짜 검색
+	        if (map.get("rental_from_date") == null || map.get("rental_from_date").equals("")) {
+	 			map.put("rental_from_date","2021-06-01");
+//	 			Date date = new Date();
+//	 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+//	 			System.out.println(sdf.format(date));
+	 		}
+	 		if (map.get("rental_to_date") == null || map.get("rental_to_date").equals("")) {
+	 			map.put("rental_to_date", "2100-06-01");
+	 		}
+	 		
+	 		if (map.get("rental_date") == null || map.get("rental_date").equals("")) {
+	 			map.put("rental_date", "rental_from");
+	 		}
+	 		req.setAttribute("rental_from_date", map.get("rental_from_date"));
+			req.setAttribute("rental_to_date", map.get("rental_to_date"));
+			req.setAttribute("rental_date", map.get("rental_date"));
+			
+	        //대여 내역
+	 		map.put("mem_num",String.valueOf(mem_num));
+	        List<RentalLogDTO> list = myPageMapper.getRentalLog(map);
+	         
+	         
 	         session.setAttribute("cartList", pagination.getPagePost(page, list));
 	         req.setAttribute("pageCount", pagination.pageCount(list));
 	         req.setAttribute("page", page);
@@ -886,6 +810,5 @@ public class MyPageController {
 	      req.setAttribute("url", url);
 	      return "message";
 	   }
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 
 }

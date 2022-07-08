@@ -55,37 +55,9 @@
 		</script>
 		
 <div class="container" align="center"
-<<<<<<< HEAD
-	class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
-	<div class="row" align="center">
-		<p class="fw-bolder">좋아요 한 리뷰 목록</p>
-	</div>
-		<!-- 리뷰 검색 모달 버튼 -->
-<!-- 		<div class="col" align="right">
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#staticBackdrop">리뷰 검색</button>
-		</div> -->
-		<div class="col" align="left">
-		<!-- 리뷰 검색 모달 버튼 끝 -->
-	 <div class="row"> 
-		<!-- 드랍 버튼 -->
-		<div class="col" align="right">
-			<div class="btn-group">
-				<button type="button" class="btn btn-dark dropdown-toggle"
-					data-bs-toggle="dropdown" aria-expanded="false" style=" border-top-width: 0px;border-bottom-width: 0px; padding-bottom: 6px;">리뷰보기</button>
-				<ul class="dropdown-menu" style="">
-					<li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewProductList">용품순</a></li>
-					<li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewRegionList">지역순</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	</div> 
-	<div class="row">&nbsp;</div>
-=======
    class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
    <div class="row" align="center">
-      <p class="fw-bolder">좋아요 한 리뷰 목록</p>
+      <h3 class="fw-bolder">내가 좋아요 한 리뷰</h3>
    </div>
       <!-- 리뷰 검색 모달 버튼 -->
 <!--       <div class="col" align="right">
@@ -101,8 +73,8 @@
             <button type="button" class="btn btn-dark dropdown-toggle"
                data-bs-toggle="dropdown" aria-expanded="false" style=" border-top-width: 0px;border-bottom-width: 0px; padding-bottom: 6px;">정렬</button>
             <ul class="dropdown-menu" style="">
-               <li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewRegionList">지역순</a></li>
-               <li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewProductList">용품순</a></li>
+               <li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewRegionList">차박지 리뷰</a></li>
+               <li><a class="dropdown-item" href="myPageLikeReview.myPage?mode=ReviewProductList">용품 리뷰</a></li>
                
             </ul>
          </div>
@@ -110,7 +82,6 @@
    </div>
    </div> 
    <div class="row">&nbsp;</div>
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 
 
    <!-- 리뷰 검색 모달 -->

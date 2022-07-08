@@ -175,8 +175,8 @@ public class MyPageMapper {
 		int res = sqlSession.update("UpdateRegionLikeLog", review_num);
 		return res;
 	 }
-	 public List<RentalLogDTO> getRentalLog(int mem_num) {
-		 List<RentalLogDTO> dto = sqlSession.selectList("getRentalLog", mem_num);
+	 public List<RentalLogDTO> getRentalLog(Map<String,String> map) {
+		 List<RentalLogDTO> dto = sqlSession.selectList("getRentalLog", map);
 		 return dto;
 	 }
 	    public List<ReviewRegionDTO> myPageGetWriteReviewRegion_1(int mem_num){
@@ -187,9 +187,6 @@ public class MyPageMapper {
 	         List<ReviewProductDTO> pdto = sqlSession.selectList("myPageGetWriteReviewProduct_1",mem_num);
 	         return pdto;
 	   } 
-<<<<<<< HEAD
-
-=======
 	    
     public int myPageExtendRentalLog(Map<String,String> map) {
         int res = sqlSession.update("myPageExtendRentalLog",map);
@@ -204,7 +201,6 @@ public class MyPageMapper {
          RentalLogDTO dto = sqlSession.selectOne("getRentalLogOne", rental_num);
          return dto;
       }
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 }
  
 

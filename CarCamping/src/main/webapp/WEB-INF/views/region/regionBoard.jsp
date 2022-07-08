@@ -29,11 +29,7 @@
   border-color: #ccc;
 }
 .list-group-item{
-<<<<<<< HEAD
-	border:0;
-=======
    border:0;
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 }
 </style>
     </head>
@@ -41,23 +37,6 @@
         <!-- Section-->
         <section class="py-5">
         <div style="display: flex;float: right;margin-right: 305px;">
-<<<<<<< HEAD
-		<div class="btn-group">
-						<button type="button" class="btn btn-primary dropdown-toggle"
-							data-bs-toggle="dropdown" aria-expanded="false"
-							style="background-color: #00205b; border-color: #00205b;">정렬</button>
-						<ul class="dropdown-menu" style="margin-right: 13px;">
-							<li><a class="dropdown-item" href="board.region?region_num=${region_num}&mode=listRegionReviewCount&pageNum=1">리뷰순</a></li>
-							<li><a class="dropdown-item" href="board.region?region_num=${region_num}&mode=listRegionLikeCount&pageNum=1">좋아요순</a></li>  
-							<li><a class="dropdown-item" href="board.region?region_num=${region_num}&mode=listRegionscore&pageNum=1">별점순</a></li>
-				</ul>
-					</div>
-		<select name="search2">
-			<option>제목</option>
-		</select>
-		<input class="form-control me-2" type="text" name="searchString2" placeholder="검색" aria-label="Search2" style="width:400px;"> 
-		<input type="submit" value="검색" style="padding-left: 0px; padding-right: 0px; width: 62px;">	
-=======
       <div class="btn-group">
                   <button type="button" class="btn btn-primary dropdown-toggle"
                      data-bs-toggle="dropdown" aria-expanded="false"
@@ -74,7 +53,6 @@
       </select>
       <input class="form-control me-2" type="text" id="searchString" name="searchString" placeholder="검색" aria-label="Search2" style="width:400px;"> 
       <input type="submit" value="검색" onclick="search_function();" style="padding-left: 0px; padding-right: 0px; width: 62px;">   
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 </div>
 <br>
 <br>
@@ -86,17 +64,10 @@
                    <table class="table table-borderless">
 
                     <c:if test="${empty {list}}">
-<<<<<<< HEAD
-					<tr>
-						<td>해당 지역에 등록된 차박지가 없습니다.</td>
-					</tr>
-					</c:if>
-=======
                <tr>
                   <td>해당 지역에 등록된 차박지가 없습니다.</td>
                </tr>
                </c:if>
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
                     <c:forEach items="${list}" var="bdto">
                      <td>
                         <div class="card" style="display: inline-block">
@@ -104,11 +75,7 @@
                          <c:if test="${ bdto.ccr_popular == 0}">
                             <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">hot</div>
                            </c:if>
-<<<<<<< HEAD
-                            <!-- 장소 이미지 -->	
-=======
                             <!-- 장소 이미지 -->   
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
                             <img class="card-img-top" src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${bdto.ccr_viewImage1}" style="width: 300px; height: 200px;"  alt="..." />
                             <!-- Product details-->
                             <div class="card-body p-4">
@@ -116,45 +83,6 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder" style="padding-bottom: 20px;">${bdto.ccr_name }</h5>
                                     <!-- Product price-->
-<<<<<<< HEAD
-                                  		 리뷰 수 : ${bdto.ccr_reviewCount}<br>
-                                  		 좋아요 수 : ${bdto.ccr_likeCount}<br>
-                                  		 
-                                  		 <li class="list-group-item" >
-											
-												<c:choose>
-				 				<c:when test="${bdto.ccr_score >= 1 && bdto.ccr_score < 2 }">
-				  							<label for="rate1">⭐</label>
-				 				</c:when>
-				 				<c:when test="${bdto.ccr_score >= 2 && bdto.ccr_score < 3 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				 				</c:when>
-								 <c:when test="${bdto.ccr_score >= 3 && bdto.ccr_score < 4 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				  						<label for="rate3">⭐</label>
-				 				</c:when>
-				 				<c:when test="${bdto.ccr_score >= 4 && bdto.ccr_score < 5 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				  						<label for="rate3">⭐</label>
-				  						 <label for="rate4">⭐</label>
-				 				</c:when>
-				 				<c:when test="${bdto.ccr_score eq 5 }">
-				  						<label for="rate1">⭐</label>
-				  						<label for="rate2">⭐</label>
-				  						<label for="rate3">⭐</label>
-				  						<label for="rate4">⭐</label>
-				  						<label for="rate5">⭐</label> 
-				 				</c:when>
-								 <c:otherwise>
-										 ☆☆☆☆☆
-								 </c:otherwise>
-								</c:choose>
-											
-										</li>
-=======
                                          리뷰 수 : ${bdto.ccr_reviewCount}<br>
                                          좋아요 수 : ${bdto.ccr_likeCount}<br>
                                          
@@ -192,7 +120,6 @@
                         </c:choose>
                                  
                               </li>
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
                                 </div>
                             </div>
                             <!-- Product actions-->
@@ -218,39 +145,6 @@
        
         <div class="col-xs-6 col-xs-offset-3"> 
    <nav aria-label="Page navigation example">
-<<<<<<< HEAD
-				<ul class="pagination justify-content-center">
-					<c:if test="${rowCount>0 }">
-						<c:if test="${startPage>1}">
-								<li class="page-item">
-								<a class="page-link" onclick="location.href='board.region?region_num=${region_num}&pageNum=${startPage-1}&mode=${mode }'">
-									Previous</a>
-								</li> 
-						</c:if>
-						<c:forEach var="i" begin="${startPage}" end="${endPage}">
-							<li class="page-item">
-							<a class="page-link" onclick="location.href='board.region?region_num=${region_num}&pageNum=${i}&mode=${mode}'">
-									<c:out value="${i}" /></a>
-							</li>						
- 						</c:forEach>
-						<c:if test="${endPage < pageCount }">
-							<li class="page-item">
-							<a class="page-link" onclick="location.href='board.region?region_num=${region_num}&pageNum=${endPage+1}&mode=${mode }'">
-									Next</a>							
-							</li>
-						</c:if>
-					</c:if>	
-				</ul>
-			</nav>
-			<br>
-			<br>
-</div>
-        
-    </body>
-</html>
-
-	<%@include file="../bottom.jsp"%>
-=======
             <ul class="pagination justify-content-center">
                <c:if test="${rowCount>0 }">
                   <c:if test="${startPage>1}">
@@ -292,4 +186,3 @@
 </html>
 
    <%@include file="../bottom.jsp"%>
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9

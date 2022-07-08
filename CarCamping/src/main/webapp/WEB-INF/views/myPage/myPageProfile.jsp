@@ -25,14 +25,21 @@
 var right = 0;
 function regChk(){
   var signCheck = document.signCheck;
+  var fileName = $("#mem_image").val();           
+  var ext = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
+  if (!(ext == "" || ext == "gif" || ext == "jpg" || ext == "png")) {
+     alert("이미지파일 ( ,.jpg, .png, .gif ) 만 업로드 가능합니다.");   
+     signCheck.mem_image.focus();
+     return false;
+  }
       if (signCheck.mem_phone.value==""){
          alert("전화번호를 입력하셔야 합니다.")
-         signCheck.mem_introduce.focus() 
+         signCheck.mem_phone.focus() 
          return false;
          }
      if (signCheck.mem_birthday.value==""){
          alert("생년월일을 입력하셔야 합니다.")
-         signCheck.mem_introduce.focus() 
+         signCheck.mem_birthday.focus() 
          return false;
          }
     if (signCheck.mem_summary.value==""){
@@ -100,6 +107,11 @@ function regChk(){
           document.signCheck.submit()
 }       
            </script>
+           
+           
+        
+           
+          
            
            <!-- 닉네임 체크 -->  
                <script>
@@ -184,15 +196,14 @@ function regChk(){
                       </tr>
                       <tr><td>닉네임  </td>
                       <td>
-                       <input type="text" value="${getMember.mem_nickName}" id="mem_nickName" name="mem_nickName" class="form-control"  required>
-                       <button type = "button" class="btn btn-dark" style="background:#091835" onclick = "fn_CheckNick()" name="CheckNick" class="CheckNick">중복 체크</button>
+                       <input type="text" value="${getMember.mem_nickName}" id="mem_nickName" name="mem_nickName" class="form-control"  required> 
+                       <button type = "button" class="btn btn-dark btn-s" style="background:#091835" onclick = "fn_CheckNick()" name="CheckNick" class="CheckNick">중복 체크</button>
                         <input type = "hidden" id = "nickDuplication" name="nickDuplication" value="nickUncheck"/>
-                      </td>
                        <tr>
                         <td>프로필 사진</td>
                         <td>
                         <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getMember.mem_image}" width="150" height="150">
-                     <input type="file" id="mem_image" name="mem_image" width="150" height="150">
+                     <input type="file" id="mem_image" name="mem_image">
                      <input type="hidden" id="mem_image2" name="mem_image2" value="${getMember.mem_image}">
                         </td>
                       </tr>

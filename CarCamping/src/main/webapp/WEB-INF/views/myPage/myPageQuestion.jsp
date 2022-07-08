@@ -55,7 +55,7 @@
 				<td align="center" onclick="location.href='myPageContactUsView.myPage?question_num=${dto.question_num}'">
 						${dto.question_title}
 					</td>
-				<td align="center">${dto.memberDTO.mem_id}</td>
+				<td align="center">${dto.memberDTO.mem_nickName}</td>
 				<td align="center">${dto.question_sysdate}</td>
 				<c:if test="${empty dto.question_reply}">
 				<td></td>

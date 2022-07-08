@@ -168,13 +168,7 @@
                      <blockquote class="blockquote">
                         <p class="mb-0">REVIEW</p>
                      </blockquote>
-<<<<<<< HEAD
-						<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>
-                     ${getReviewProduct.rp_content}
-                     </textarea>
-=======
 						<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>${getReviewProduct.rp_content}</textarea>
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
                      <span style="float: left;font-size: 15px;">작성일자 : ${getReviewProduct.rp_sysdate}</span>
                   </div>
                </div>

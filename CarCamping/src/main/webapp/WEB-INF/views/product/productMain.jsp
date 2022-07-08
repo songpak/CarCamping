@@ -172,11 +172,7 @@
 										별점을 등록해 주세요! 
 								 </c:otherwise>
 								</c:choose>
-<<<<<<< HEAD
-								<label style="padding-right: 50px;"><font size="2" color ="gray">(${pdto.prod_reviewScore}/5) ${pdto.prod_reviewCount} 개의 리뷰</font></label>
-=======
 								<label style="padding-right: 50px;"><font size="2" color ="gray">(${pdto.prod_reviewScore}/5) ${pdto.prod_reviewCount}개의 리뷰</font></label>
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 										</fieldset>										
 									</div>
 								</div>

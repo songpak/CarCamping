@@ -218,12 +218,12 @@
 			resultMap="memberMap" />
 	</resultMap>
 	<select id="myPageGetQuestion" resultMap="questionMap">
-		select a.*,b.mem_id
+		select a.*,b.mem_nickName
 		from Question a join Member b on a.mem_num=b.mem_num
 	</select>
 	<select id="myPageGetQuestionSelectMember"
 		resultMap="questionMap">
-		select a.*,b.mem_id from Question a join Member b on
+		select a.*,b.mem_nickName from Question a join Member b on
 		a.mem_num = b.mem_num where a.mem_num= #{mem_num}
 	</select>
 	<insert id="insertQuestion" parameterType="questionDTO">
@@ -332,7 +332,6 @@
 	
 	
 	
-	
 <!-- 	<select id ="CountProductLikeLog" parameterType="Map" resultType="Integer">
 		select count(*) from ReviewProductLikeLog a,Member b
 		where a.mem_num = b.mem_num and b.mem_id = #{mem_id} and a.rp_num = #{rp_num}
@@ -348,15 +347,12 @@
    <select id="myPageGetWriteReviewProduct_1"  resultMap="reviewProductMap">
       select a.*,b.* from ReviewProduct a join Member b on a.mem_num = b.mem_num where a.mem_num= #{mem_num} and a.rp_adminConfirm=1;
    </select>  
-   
-    <select id="getRentalLog" parameterType="int" resultMap="rentalLogMap">
+	 <select id="getRentalLog" parameterType="java.util.Map" resultMap="rentalLogMap">
 		select a.*,b.*, c.*,d.* from RentalLog as a left join Product as b on
 		a.prod_num = b.prod_num left join Agency as c on a.agency_num =
 		c.agency_num left join Member as d on a.mem_num=d.mem_num where a.mem_num = #{mem_num}
+		and ${rental_date} between #{rental_from_date} and #{rental_to_date}
 	</select> 
-   
-<<<<<<< HEAD
-=======
 	
 	<!-- 07/06추가 - 송재영 - 대여내역 상세정보-->
    <select id="getRentalLogOne" parameterType="int" resultMap="rentalLogMap">
@@ -385,7 +381,6 @@
       select * from PointLog a join Member b on a.mem_num = b.mem_num where a.mem_num = #{mem_num} order by point_sysdate DESC
    </select>
 	
->>>>>>> 5ca2a6bba2e7ee9e942e9b80a7d5913d633300c9
 	
 	
 </mapper>

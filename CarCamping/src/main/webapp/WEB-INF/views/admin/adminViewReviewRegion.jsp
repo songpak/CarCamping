@@ -78,27 +78,27 @@
 							<div class="carousel-inner">
 								<c:if test="${not empty rdto.review_regionImage1}">
 									<div class="carousel-item active">
-										<img src="${upPath}/${rdto.review_regionImage1}" class="d-block w-100" alt="...">
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rdto.review_regionImage1}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty rdto.review_regionImage2}">
 									<div class="carousel-item">
-										<img src="${upPath}/${rdto.review_regionImage2}" class="d-block w-100" alt="...">
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rdto.review_regionImage2}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty rdto.review_regionImage3}">
 									<div class="carousel-item">
-										<img src="${upPath}/${rdto.review_regionImage3}" class="d-block w-100" alt="...">
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rdto.review_regionImage3}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty rdto.review_regionImage4}">
 									<div class="carousel-item">
-										<img src="${upPath}/${rdto.review_regionImage4}" class="d-block w-100" alt="...">
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rdto.review_regionImage4}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 								<c:if test="${not empty rdto.review_regionImage5}">
 									<div class="carousel-item">
-										<img src="${upPath}/${rdto.review_regionImage5}" class="d-block w-100" alt="...">
+										<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${rdto.review_regionImage5}" class="d-block w-100" alt="...">
 									</div>
 								</c:if>
 							</div>
