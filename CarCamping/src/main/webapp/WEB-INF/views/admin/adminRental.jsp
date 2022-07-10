@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../top.jsp"%>
+<%@ include file="adminTop.jsp"%>
 <%@ include file="left.jsp"%>   
 <style>
 .page-link {
@@ -32,29 +32,68 @@
 		</div>
 	<div class="row justify-content-md-center">
 		<!-- 드랍 버튼 -->
-			<div class="col" align="left">
+			<div class="col" align="center">
 				<form name="sortForm" method="post" enctype="multipart/form-data" action="adminRental.admin">
 					<select name="sort">
-						<option value="4">미납</option>
-						<option value="3">연장</option>
-						<option value="2">반납완료</option>
-						<option value="1">대여중</option>
-						<option value="0">대기</option>
+						<c:if test="${sort == 4}">	
+							<option value="4" selected>미납</option>
+						</c:if>
+						<c:if test="${sort != 4}">	
+							<option value="4">미납</option>
+						</c:if>
+						
+						<c:if test="${sort == 3}">
+							<option value="3" selected>연장</option>
+						</c:if>
+						<c:if test="${sort != 3}">
+							<option value="3">연장</option>
+						</c:if>
+						
+						<c:if test="${sort == 2}">
+							<option value="2" selected>반납완료</option>
+						</c:if>
+						<c:if test="${sort != 2}">
+							<option value="2">반납완료</option>
+						</c:if>
+						
+						<c:if test="${sort == 1}">
+							<option value="1" selected>대여중</option>
+						</c:if>
+						<c:if test="${sort != 1}">
+							<option value="1">대여중</option>
+						</c:if>
+						<c:if test="${sort == 0}">
+							<option value="0" selected>대기</option>
+						</c:if>
+						<c:if test="${sort != 0}">
+							<option value="0">대기</option>
+						</c:if>
 					</select>
+					<select name="rental_date">
+						<option value="rental_from">대여시작일</option>
+						<option value="rental_to">대여종료일</option>
+						<option value="rental_pay">결제일시</option>
+					</select>
+					
+					<input type="date" name="rental_from_date">~
+					<input type="date" name="rental_to_date">
+					
+					<input type="search" name="search" placeholder="ID | 용품명">
+					<input type="hidden" name="sort" value="${sort}">
 					<input type="hidden" name="search" value="${search}">
-					<input type="submit" value="선택">
+					<input type="submit" value="검색">
 				</form>
 			</div>
 		<!-- 드랍 버튼 끝 -->
 		
 		<!-- ID 검색 버튼 -->
-		<div class="col" align="right">
+		<%-- <div class="col" align="right">
 			<form name="searchForm" action="adminRental.admin" method="post" enctype="multipart/form-data">
 				<input type="search" name="search" placeholder="ID | 용품명">
 				<input type="hidden" name="sort" value="${sort}">
 				<button type="submit">검색</button>
 			</form>
-		</div>
+		</div> --%>
 	</div>
 </div>
 	&nbsp;
@@ -121,22 +160,22 @@
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<c:if test="${page-3>1}">
-				<li class="page-item"><a class="page-link" href="adminRental.admin?page=${page-1}&sort=${sort}&search=${search}">Previous</a></li>
+				<li class="page-item"><a class="page-link" href="adminRental.admin?page=${page-1}&sort=${sort}&search=${search}&rental_from__date=${rental_from_date}&rental_to_date=${rental_to_date}&rental_date=${rental_date}">Previous</a></li>
 			</c:if>
 		<c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
 			<c:if test="${i==page}">
-				<li class="page-item"><a class="page-link" href="adminRental.admin?page=${i}&sort=${sort}&search=${search}" style="color:blue;">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="adminRental.admin?page=${i}&sort=${sort}&search=${search}&rental_from__date=${rental_from_date}&rental_to_date=${rental_to_date}&rental_date=${rental_date}" style="color:blue;">${i}</a></li>
 			</c:if>
 			<c:if test="${i!=page}">
-				<li class="page-item"><a class="page-link" href="adminRental.admin?page=${i}&sort=${sort}&search=${search}">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="adminRental.admin?page=${i}&sort=${sort}&search=${search}&rental_from__date=${rental_from_date}&rental_to_date=${rental_to_date}&rental_date=${rental_date}">${i}</a></li>
 			</c:if>
 		</c:forEach>
 			<c:if test="${page+3<pageCount}">
-				<li class="page-item"><a class="page-link" href="adminRental.admin?page=${page+1}&sort=${sort}&search=${search}">Next</a></li>
+				<li class="page-item"><a class="page-link" href="adminRental.admin?page=${page+1}&sort=${sort}&search=${search}&rental_from__date=${rental_from_date}&rental_to_date=${rental_to_date}&rental_date=${rental_date}">Next</a></li>
 			</c:if>
 		</ul>
 	</nav>
 </div>
 </div>
-<!-- End Content Column Grid -->
+<!— End Content Column Grid —>
 <%@ include file="../bottom.jsp"%>

@@ -1,8 +1,9 @@
 package com.ezen.carCamping;
 
 import java.io.IOException;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import com.ezen.carCamping.dto.AdminAnnounceDTO;
 import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
+import com.ezen.carCamping.dto.PointLogDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
@@ -692,7 +693,10 @@ public class AdminController {
 	public String adminViewMember(HttpServletRequest req,@RequestParam int mem_num) {
 		MemberDTO dto = adminMapper.adminGetMember(mem_num);
 		req.setAttribute("mdto", dto);
-		
+      
+		//포인트 내역
+		List<PointLogDTO> listPointLog = adminMapper.adminListPointLog(mem_num);
+		req.setAttribute("listPointLog", listPointLog);
 		return "admin/adminViewMember";
 	}
 	
@@ -1088,22 +1092,41 @@ public class AdminController {
 	public String adminRental(HttpServletRequest req,@RequestParam(value="page",defaultValue="1") int page,
 			@RequestParam(required=false) Map<String,String> map) {
 		List<RentalLogDTO> list = adminMapper.adminListRentalLog();
+		if (map.get("rental_from_date") == null || map.get("rental_from_date").equals("")) {
+			map.put("rental_from_date","2021-06-01");
+//			Date date = new Date();
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+//			System.out.println(sdf.format(date));
+		}
+		if (map.get("rental_to_date") == null || map.get("rental_to_date").equals("")) {
+			map.put("rental_to_date", "2100-06-01");
+		}
+		
+		if (map.get("rental_date") == null || map.get("rental_date").equals("")) {
+			map.put("rental_date", "rental_from");
+		}
 		
 		//정렬만 있을때
 		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") == null || map.get("search").equals(""))) {
-			list = adminMapper.adminListRentalLogSort(Integer.parseInt(map.get("sort")));
+			list = adminMapper.adminListRentalLogSort(map);
+			
 		}
 		//검색만 있을때
 		if ((map.get("search") != null && !map.get("search").equals("")) && (map.get("sort") == null || map.get("sort").equals(""))) {
-			list = adminMapper.adminListRentalLogSearch(map.get("search"));
+			list = adminMapper.adminListRentalLogSearch(map);
+
 		}
 		//둘다 있을때
 		if ((map.get("sort") != null && !map.get("sort").equals("")) && (map.get("search") != null && !map.get("search").equals(""))) {
 			list = adminMapper.adminListRentalLogSearchAndSort(map);
+			
 		}
-		
+		req.setAttribute("rental_from_date", map.get("rental_from_date"));
+		req.setAttribute("rental_to_date", map.get("rental_to_date"));
+		req.setAttribute("rental_date", map.get("rental_date"));
 		req.setAttribute("sort", map.get("sort"));
 		req.setAttribute("search", map.get("search"));
+		
 		
 		//현재 페이지
 		req.setAttribute("page", page);
@@ -1139,5 +1162,34 @@ public class AdminController {
 		mav.addObject("url", url);
 		return mav;
 	}
+	
+	//공지사항 보기 - user  박혜성 추가 0701
+	   @RequestMapping("/uesrAnnounce.admin")
+	   public String uesrAnnounce(HttpServletRequest req,@RequestParam(required=false) Map<String,String> map,
+	         @RequestParam(value="page",defaultValue="1") int page) {
+	      List<AdminAnnounceDTO> list = new ArrayList<AdminAnnounceDTO>();
+	      
+	      if (map.containsKey("sort")) {
+	         list = adminMapper.adminListAnnounceSort(map);
+	      }else {
+	         list = adminMapper.adminListAnnounce();
+	      }
+	      //현재 페이지
+	      req.setAttribute("page", page);
+	      //총 페이지
+	      req.setAttribute("pageCount", pagination.pageCount(list));
+	      //현재 페이지에 맞는 게시물 리스트
+	      req.setAttribute("adminListAnnounce", pagination.getPagePost(page, list));
+	      
+	      return "announce";
+	   }
+	   
+	   @RequestMapping(value="/userViewAnnounce.admin", method=RequestMethod.GET)
+	   public String userViewAnnounce(HttpServletRequest req,@RequestParam int aa_num) {
+	      AdminAnnounceDTO dto = adminMapper.adminGetAnnounce(aa_num);
+	      req.setAttribute("adto", dto);
+	      
+	      return "announceView";
+	   }
 	
 }

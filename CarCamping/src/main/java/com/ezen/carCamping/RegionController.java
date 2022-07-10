@@ -1,7 +1,5 @@
 package com.ezen.carCamping;
 
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -55,8 +53,6 @@ public class RegionController {
 		ChkSignIn(req);
 		RegionDTO dto = RegionMapper.selectRegion(region_num);
 		List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(region_num);
-		
-		System.out.print(region_num);
 		req.setAttribute("regionDTO", dto);
 		req.setAttribute("hotList_Region", list);
 		req.setAttribute("hotRegionList", ht.get("hot_list"));
@@ -68,34 +64,43 @@ public class RegionController {
 	}
 	
 	@RequestMapping(value = "changeHotRegion.region", method=RequestMethod.GET,produces = "application/text; charset=UTF-8")
-	   @ResponseBody
-	   public String changeHotRegion(HttpServletRequest req,@RequestParam("regionNum") int regionNum,@RequestParam(required = false) String memId) {
-	      ChkSignIn(req);
-	      System.out.println(regionNum);
-	      //int region_num = Integer.parseInt(regionNum);
-	      RegionDTO dto = RegionMapper.selectRegion(regionNum);
-	      List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(regionNum);
-	      
-	      String hotList_html ="<li class=\"list-group-item fs-2 text-center\"><button\r\n" + 
-	            "            class=\"btn btn-outline-warning btn-lg\" type=\"button\" onclick=\"location.href='board.region?region_num="+dto.getRegion_num()+"'\"\r\n" + 
-	            "            style=\"-bs-btn-padding-x: 70px; - -bs-btn-padding-y: 15px;\">\r\n" + 
-	            "            <i class=\"bi bi-trophy-fill\" width=\"40\" height=\"40\"\r\n" + 
-	            "               fill=\"currentColor\"></i>"+dto.getRegion_name()+" 차박지 더 많이 보기<i\r\n" + 
-	            "               class=\"bi bi-trophy-fill\" width=\"40\" height=\"40\"\r\n" + 
-	            "               fill=\"currentColor\"></i></button></li>";
-	      for(int i=0;i<list.size();i++) {
-	         hotList_html+="<li class='"+"list-group-item position-relative'><img src='"
-	               +"https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/"+list.get(i).getCcr_viewImage1()
-	               +"' class='img-responsive rounded-circle' style='"+"width: 107px; height: 107px;'>"
-	               +"<div class='position-absolute top-50 start-50 translate-middle'>"
-	               +"<i class='bi bi-trophy-fill' width='40' height='40' style='color:#ffc107;'></i>"
-	               +"<a href ='regionView.region?ccr_num="
-	               +list.get(i).getCcr_num()+"'style=\'color:#050a16; font-weight: bold;\'>"
-	               +list.get(i).getCcr_name()+"</a></div></li>";
-	      }
-
-	      return hotList_html;
-	   }
+    @ResponseBody
+    public String changeHotRegion(HttpServletRequest req,@RequestParam("regionNum") int regionNum,@RequestParam(required = false) String memId) {
+       ChkSignIn(req);
+       System.out.println(regionNum);
+       //int region_num = Integer.parseInt(regionNum);
+       RegionDTO dto = RegionMapper.selectRegion(regionNum);
+       List<CarCampingRegionDTO> list = RegionMapper.listCarCampingRegionHotRegion(regionNum);
+       
+       String hotList_html ="<li class=\"list-group-item fs-2 text-center\"><button\r\n" + 
+             "            class=\"btn btn-outline-warning btn-lg\" type=\"button\" onclick=\"location.href='board.region?region_num="+dto.getRegion_num()+"'\"\r\n" + 
+             "            style=\"-bs-btn-padding-x: 70px; - -bs-btn-padding-y: 15px;\">\r\n" + 
+             "            <i class=\"bi bi-trophy-fill\" width=\"40\" height=\"40\"\r\n" + 
+             "               fill=\"currentColor\"></i>"+dto.getRegion_name()+" 차박지 전체 보기<i\r\n" + 
+             "               class=\"bi bi-trophy-fill\" width=\"40\" height=\"40\"\r\n" + 
+             "               fill=\"currentColor\"></i></button></li>";
+       if(list.size()!=0) {
+       for(int i=0;i<list.size();i++) {
+          hotList_html+="<li class='"+"list-group-item position-relative'><img src='"
+                +"https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/"+list.get(i).getCcr_viewImage1()
+                +"' class='img-responsive rounded-circle' style='"+"width: 107px; height: 107px;'>"
+                +"<div class='position-absolute top-50 start-50 translate-middle'>"
+                +"<i class='bi bi-trophy-fill' width='40' height='40' style='color:#ffc107;'></i>"
+                +"<a href ='regionView.region?ccr_num="
+                +list.get(i).getCcr_num()+"'style=\'color:#050a16; font-weight: bold;\'>"
+                +list.get(i).getCcr_name()+"</a></div></li>";
+       }
+       }else {
+         hotList_html += "<li class=\"list-group-item position-relative\"><img\r\n" + 
+               "                  src=\"resources/images/sik.jpg\"\r\n" + 
+               "                  class=\"img-responsive rounded-circle\"\r\n" + 
+               "                  style=\"width: 107px; height: 107px;\">\r\n" + 
+               "                  <div class=\"position-absolute top-50 start-50 translate-middle\">\r\n" + 
+               "                     인기 차박지가 없습니다. 전체 보기를 눌러주세요 ! \r\n" + 
+               "            </div></li>"; 
+       }
+       return hotList_html;
+    }
 	   
 	
 	
@@ -144,13 +149,10 @@ public class RegionController {
 		if (rowCount > 0) {
 			if(mode.equals("none")) {
 			list = RegionMapper.listCcrReview(ccr_num,startRow-1,endRow,orderBy);
-			System.out.println(list.size());
 			}
 			else if(mode.equals("searchReview")) {
 				String search  = params.get("search");
-				System.out.println(search);
 				String searchString = params.get("searchString");
-				System.out.println(searchString);
 				if(search.equals("mem_nickName")) {
 				rowCount = RegionMapper.countRevieWrietrSearch(ccr_num, search, searchString);
 				list = RegionMapper.listCcrReviewWriterSearch(ccr_num,  startRow-1, endRow, orderBy, search, searchString);	
@@ -194,7 +196,6 @@ public class RegionController {
 			  session.setAttribute("mem_num", mdto.getMem_num());
 			  session.setAttribute("mem_id", mdto.getMem_id());
 		  }else if(mdto == null){
-			  System.out.println("로그인안해쓴ㄴ데여?");
 			  req.setAttribute("msg", "로그인을 하시여 리뷰를 볼 수 있습니다 !\n로그인창으로 이동합니다.");
 			  req.setAttribute("url","login.login");
 			  return "message";
@@ -217,11 +218,6 @@ public class RegionController {
                 rep.addCookie(newCookie);
                 int result = RegionMapper.addReviewReadCount(review_num);
                 dto.setReview_readCount(dto.getReview_readCount()+1);
-                if(result>0) {
-                    System.out.println("議고쉶�닔 利앷�");
-                }else {
-                    System.out.println("議고쉶�닔 利앷� �뿉�윭");
-                }
             }
             	
         }else { 
@@ -235,7 +231,6 @@ public class RegionController {
 				java.lang.reflect.Field f = cls.getDeclaredField(imageVar);
 				f.setAccessible(true);
 				String imageSrc = (String)f.get(dto);
-				System.out.println(imageSrc);
 				if(imageSrc!=null) {
 					reviewImages.add(imageSrc);
 				}
@@ -248,7 +243,6 @@ public class RegionController {
 		if (id==null || id.equals("")) req.setAttribute("check", 0);
 		else{
 			int check = RegionMapper.checkReviewLikeLog(id, review_num);
-			System.out.println("check = "+ check);
 			req.setAttribute("check", check);
 		}
 					
@@ -276,11 +270,8 @@ public class RegionController {
 		int count = 0;
 		if(check==0) { 
 			count = RegionMapper.insertRegionLikeLog(mem_id, ccr_num); 
-			System.out.println("insert�썑 異붿쿇�� "+count);
-	
 		}else {
 			count = RegionMapper.deleteRegionLikeLog(mem_id, ccr_num);
-			System.out.println("delete�썑 異붿쿇�� "+count);
 
 		}
 
@@ -307,59 +298,64 @@ public class RegionController {
 		int count = 0;
 		if(check==0) {
 			count = RegionMapper.insertReviewLikeLog(mem_id, review_num); 
-			System.out.println("insert�썑 異붿쿇�� "+count);
 		}else {
 			count = RegionMapper.deleteReviewLikeLog(mem_id, review_num);
-			System.out.println("delete�썑 異붿쿇�� "+count);
 		}
 		return String.valueOf(count);
 	}
 	
-	@RequestMapping(value="/board.region", method = RequestMethod.GET)
-	public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params,
-			@RequestParam (required = false) String mode) {
-	List<CarCampingRegionDTO>list =null;
-	int region_num = Integer.parseInt(params.get("region_num"));	
-	String pageNum = params.get("pageNum");
-	mode=params.get("mode");
-	int pageSize= 10;
-	int currentpage;
-	if(pageNum==null) {
-		pageNum="1";
-		currentpage=Integer.parseInt(pageNum);
-	}else {
-		double pageNum_db =Double.parseDouble(pageNum);
-		if(pageNum_db<=0)pageNum_db = 0 ;
-		currentpage = (int)(pageNum_db);
-	}
-	int startRow = (currentpage -1) * pageSize +1;
-	int endRow = startRow + pageSize - 1;
-	int rowCount=RegionMapper.listRegionCount(region_num);
-	if(endRow>rowCount)
-		endRow=rowCount;
-	if(mode==null || mode.equals("")) {
-		list=RegionMapper.listRegionMain(region_num, startRow-1, pageSize);
-	}else if(mode.equals("listRegionReviewCount")) {
-		list=RegionMapper.listRegionReviewCount(region_num, startRow-1, pageSize);
-	}else if(mode.equals("listRegionLikeCount")) {
-		list=RegionMapper.listRegionLikeCount(region_num, startRow-1, pageSize);
-	}else if(mode.equals("listRegionscore")) {
-		list=RegionMapper.listRegionscore(region_num, startRow-1, pageSize);
-	}
-	int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
-	int pageBlock = 5;
-	int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
-	int endPage = startPage + pageBlock - 1;
-	if (endPage > pageCount) endPage = pageCount;
-	req.setAttribute("mode", mode);
-	req.setAttribute("region_num", region_num);
-	req.setAttribute("rowCount",rowCount);
-	req.setAttribute("list", list);
-	req.setAttribute("pageCount", pageCount);
-	req.setAttribute("startPage", startPage);
-	req.setAttribute("endPage", endPage);
-	return "/region/regionBoard";
-	}
+	   @RequestMapping(value="/board.region", method = RequestMethod.GET)
+	   public String Board(HttpServletRequest req,HttpServletResponse rep,@RequestParam Map<String,String> params) {
+	   List<CarCampingRegionDTO>list =null;
+	   int region_num = Integer.parseInt(params.get("region_num"));   
+	   String pageNum = params.get("pageNum");
+	   String mode=params.get("mode");
+	   String orderBy = params.get("orderBy");
+	   if(orderBy == null) orderBy="ccr_num";
+	   String search = params.get("search");
+	   String searchString = params.get("searchString");
+	   
+	   int pageSize= 12;
+	   int currentpage;
+	   if(pageNum==null) {
+	      pageNum="1";
+	      currentpage=Integer.parseInt(pageNum);
+	   }else {
+	      double pageNum_db =Double.parseDouble(pageNum);
+	      if(pageNum_db<=0)pageNum_db = 0 ;
+	      currentpage = (int)(pageNum_db);
+	   }
+	   int startRow = (currentpage -1) * pageSize +1;
+	   int endRow = startRow + pageSize - 1;
+	   int rowCount=RegionMapper.listRegionCount(region_num);
+	   if(endRow>rowCount) endRow=rowCount;
+	   if(mode==null || mode.equals("")) {
+	      list = RegionMapper.listAllCarCamping(region_num, orderBy, startRow-1, endRow);
+	   }
+	   else if(mode.equals("searchCcr")){
+	      if(search!=null && searchString != null || !(search.equals("") && searchString.equals(""))) {
+	         list = RegionMapper.listAllCarCampingSearch(region_num, search, searchString, orderBy, startRow-1, endRow);
+	         System.out.println(list.size());
+	         rowCount = RegionMapper.listRegionCountSearch(region_num, search, searchString);
+	      }
+	   }
+	   int pageCount = rowCount/pageSize + (rowCount%pageSize==0 ? 0 : 1);
+	   int pageBlock = 5;
+	   int startPage = (currentpage - 1)/pageBlock  * pageBlock + 1;
+	   int endPage = startPage + pageBlock - 1;
+	   if (endPage > pageCount) endPage = pageCount;
+	   req.setAttribute("mode", mode);
+	   req.setAttribute("search", search);
+	   req.setAttribute("searchString", searchString);
+	   req.setAttribute("orderBy", orderBy);
+	   req.setAttribute("region_num", region_num);
+	   req.setAttribute("rowCount",rowCount);
+	   req.setAttribute("list", list);
+	   req.setAttribute("pageCount", pageCount);
+	   req.setAttribute("startPage", startPage);
+	   req.setAttribute("endPage", endPage);
+	   return "/region/regionBoard";
+	   }
 	
 	
 	

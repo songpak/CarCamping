@@ -25,7 +25,7 @@
   color: #000;
   background-color: #fafafa; 
   border-color: #ccc;
-}
+}T
 .list-group-item{
 	border:0;
 }

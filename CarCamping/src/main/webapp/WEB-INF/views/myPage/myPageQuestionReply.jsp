@@ -48,7 +48,7 @@
 							<br />
 							<div class="row">
 								
-									<button class="btn btn-dark mb-3" type="submit" style="width: 756px background:#091835; border-color: #091835;" onClick="window.close()">확인</button>
+									<button class="btn btn-dark mb-3" type="submit" style="width: 756px; background:#091835; border-color: #091835; color: white;" onClick="window.close()">확인</button>
 							
 							</div>
 						</form>

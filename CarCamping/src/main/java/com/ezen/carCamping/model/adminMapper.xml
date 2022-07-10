@@ -270,6 +270,18 @@
 		update Member set mem_denied = #{mem_denied} where mem_num = #{mem_num}
 	</update>
 	
+	<!-- 포인트 내역 ResultMap -->
+   <resultMap id="pointLogMap" type="PointLogDTO">
+      <id column="point_num" property="point_num"/>
+      <result column="point_sysdate" property="point_sysdate"/>
+      <result column="point_reason" property="point_reason"/>
+      <result column="point_saving" property="point_saving"/>
+      <association property="memberDTO" javaType="MemberDTO" resultMap="memberMap"></association>
+   </resultMap>
+   
+   <select id="adminListPointLog" resultMap="pointLogMap" parameterType="int">
+      select * from PointLog a join Member b on a.mem_num = b.mem_num where a.mem_num = #{mem_num} order by point_sysdate DESC
+   </select>
 	
 	
 <!-- /////////////////////////////////////////////////////////////////////////////////// -->
@@ -495,22 +507,22 @@
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
 	</select>
 	
-	<select id="adminListRentalLogSort" parameterType="int" resultMap="rentalLogMap">
+	<select id="adminListRentalLogSort" parameterType="java.util.Map" resultMap="rentalLogMap">
 		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num 
-		where a.rental_return = #{sort}
+		where a.rental_return = #{sort} and ${rental_date} between #{rental_from_date} and #{rental_to_date}
 	</select>
 	
-	<select id="adminListRentalLogSearch" parameterType="String" resultMap="rentalLogMap">
+	<select id="adminListRentalLogSearch" parameterType="java.util.Map" resultMap="rentalLogMap">
 		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
-		where b.mem_id like CONCAT('%',trim(#{String}),'%') or c.prod_name like CONCAT('%',trim(#{String}),'%')
+		where (b.mem_id like CONCAT('%',trim(#{search}),'%') or c.prod_name like CONCAT('%',trim(#{search}),'%')) and ${rental_date} between #{rental_from_date} and #{rental_to_date}
 	</select>
 	
-	<select id="adminListRentalLogSearchAndSort" parameterType="String" resultMap="rentalLogMap">
+	<select id="adminListRentalLogSearchAndSort" parameterType="java.util.Map" resultMap="rentalLogMap">
 		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
-		where a.rental_return = #{sort} and b.mem_id like CONCAT('%',trim(#{String}),'%') or c.prod_name like CONCAT('%',trim(#{String}),'%')
+		where (a.rental_return = #{sort} and (b.mem_id like CONCAT('%',trim(#{search}),'%') or c.prod_name like CONCAT('%',trim(#{search}),'%'))) and ${rental_date} between #{rental_from_date} and #{rental_to_date}
 	</select>
 	
 	<select id="adminGetRentalLog" resultMap="rentalLogMap" parameterType="int">

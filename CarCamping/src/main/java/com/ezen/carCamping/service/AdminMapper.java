@@ -13,6 +13,7 @@ import com.ezen.carCamping.dto.AgencyDTO;
 import com.ezen.carCamping.dto.BrandCategoryDTO;
 import com.ezen.carCamping.dto.CarCampingRegionDTO;
 import com.ezen.carCamping.dto.MemberDTO;
+import com.ezen.carCamping.dto.PointLogDTO;
 import com.ezen.carCamping.dto.ProductCategoryDTO;
 import com.ezen.carCamping.dto.ProductDTO;
 import com.ezen.carCamping.dto.QuestionDTO;
@@ -230,7 +231,10 @@ public class AdminMapper {
 		return res;
 	}
 
-	
+	public List<PointLogDTO> adminListPointLog(int mem_num) {
+       List<PointLogDTO> list = sqlSession.selectList("adminListPointLog", mem_num);
+       return list;
+	}
 	
 	
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -396,13 +400,13 @@ public class AdminMapper {
 		return list;
 	}
 	
-	public List<RentalLogDTO> adminListRentalLogSort(int sort) {
-		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSort",sort);
+	public List<RentalLogDTO> adminListRentalLogSort(Map<String,String> map) {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSort",map);
 		return list;
 	}
 	
-	public List<RentalLogDTO> adminListRentalLogSearch(String search) {
-		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSearch",search);
+	public List<RentalLogDTO> adminListRentalLogSearch(Map<String,String> map) {
+		List<RentalLogDTO> list = sqlSession.selectList("adminListRentalLogSearch",map);
 		return list;
 	}
 	

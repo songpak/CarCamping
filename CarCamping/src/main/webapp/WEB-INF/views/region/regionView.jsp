@@ -412,9 +412,8 @@ max-width: 200px;
 				<div class="col" align="right">
 				<div class="col-md-8 mb-2" >
 					<div class="input-group mb-1" style="left: 12px;">
-						<input type="hidden" name="mode" value="find" /> <select
-							id="search" class="form-select"
-							aria-label="Default select example" >
+						<input type="hidden" name="mode" value="find" /> 
+						<select	id="search" class="form-select"	aria-label="Default select example" >
 							<option value="review_title" align="center">리뷰제목</option>
 							<option value="review_regionContent" align="center">리뷰내용</option>
 							<option value="mem_nickName" align="center">리뷰작성자</option>
@@ -435,17 +434,13 @@ max-width: 200px;
 						<c:if test="${not empty searchString }"><td><h2 align="center">검색 하신 리뷰는 존재하지 않습니다.</h2></td></c:if>
 						<c:if test="${empty searchString }">
 						<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
-						<button type="button" class="btn btn-dark" style="margin-left: 431px;align: center;
-						background-color: #00205b; border-color: #00205b; margin-top: 121px;height: 124px;width: 332px;" 
-							onclick="location.href='field_review.review?ccr_num=${ccr_num}'">
-							리뷰 등록 하기 
-						</button></td></c:if>
+						</td></c:if>
 						</c:if>
 					<c:forEach var="review_ccr" items="${reviewList }">
 						<td>
 							<div class="card border-dark" style="width: 18rem;">
-								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${review_ccr.review_title}" class="card-img-top"
-									style="width: 284px; height: 200px;  display:inline-block;"><span style=" text-align:center; margin-top: 10px;">${review_ccr.memberDTO.mem_nickName}</span>
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${review_ccr.review_regionImage1}" class="card-img-top"
+									style="width: 286px; height: 200px;  display:inline-block;"><span style=" text-align:center; margin-top: 10px;">${review_ccr.memberDTO.mem_nickName}</span>
 									
 								<div class="card-body">
 									<div class="card-body">

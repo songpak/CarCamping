@@ -86,10 +86,10 @@
 				  						<label for="rate5">⭐</label> 
 				 				</c:when>
 								 <c:otherwise>
-										 ☆☆☆☆☆
+										별점을 등록해 주세요! 
 								 </c:otherwise>
 								</c:choose>
-								<label style="padding-right: 50px;"><font size="2" color ="gray">(${hotRegion.ccr_score}/5)</font></label>
+								<label style="padding-right: 50px;"><font size="2" color ="gray">(${hotRegion.ccr_score}/5) ${hotRegion.ccr_reviewCount} 개의 리뷰</font></label>
 										</fieldset>										
 									</div>
 								</div>
@@ -169,10 +169,10 @@
 				  						<label for="rate5">⭐</label> 
 				 				</c:when>
 								 <c:otherwise>
-										 ☆☆☆☆☆
+										별점을 등록해 주세요! 
 								 </c:otherwise>
 								</c:choose>
-								<label style="padding-right: 50px;"><font size="2" color ="gray">(${recommandRegion.ccr_score}/5)</font></label>										</fieldset>
+								<label style="padding-right: 50px;"><font size="2" color ="gray">(${recommandRegion.ccr_score}/5) ${recommandRegion.ccr_reviewCount} 개의 리뷰</font></label>										</fieldset>
 										
 									</div>
 								</div>

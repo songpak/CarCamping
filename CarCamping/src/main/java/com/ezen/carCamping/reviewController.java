@@ -131,7 +131,6 @@ public class reviewController {
 			req.setAttribute("brandCateList", reviewMapper.listAllBrandCate());
 		}
 		if(prod_num!=null) {
-			System.out.println(prod_num);
 			ProductDTO pdto = ProductMapper.getProduct(prod_num);
 			req.setAttribute("pc_num",pdto.getProductCategoryDTO().getPc_num());
 			req.setAttribute("brand_num",pdto.getBrandCategoryDTO().getBrand_num());
@@ -145,7 +144,6 @@ public class reviewController {
 	@ResponseBody
 	public String prod_list(HttpServletRequest req,HttpServletResponse res ,@RequestParam String pc_num,@RequestParam String brand_num) {
 		List<ProductDTO> list = reviewMapper.listProdByCategory(Integer.parseInt(pc_num),Integer.parseInt(brand_num));
-		System.out.println(list.size());
 		String prodListHtml ="";
 		for(int i=0;i<list.size();i++) {
 			ProductDTO dto = list.get(i);

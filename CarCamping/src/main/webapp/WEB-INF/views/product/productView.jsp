@@ -2,9 +2,54 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
 
-<script>
+<style>
+ .carousel-item img {
+	    width:598px;
+	    height:400px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
+
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
  
-       </script>
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+div .cardbody {
+    display: block;  
+}
+#reviewTitle {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+   
+#reviewSummary{
+max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>
+
 
 <c:set var="prod_num" value="${sessionScope.prod_num}" />
 <c:set var="mem_num" value="${sessionScope.mem_num}" />
@@ -19,10 +64,54 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
+
+			    
+					<!-- 현재 이미지 캐러셀 -->
+					&nbsp;
+					<div id="carouselExampleControls" class="carousel slide"
+						data-bs-ride="carousel">
+						<div class="carousel-inner">
+							
+						</div>
+						<div class="carousel-inner">
+							<div class="carousel-item active ">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage1}" class="d-block w-100" alt="...">
+							</div>
+							<c:if test="${not empty getProduct.prod_viewImage2}">
+							<div class="carousel-item ">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage2}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty getProduct.prod_viewImage3}">
+							<div class="carousel-item">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage3}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty getProduct.prod_viewImage4}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage4}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty getProduct.prod_viewImage5}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage5}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+						</div>
+						  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+   						 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+					</div>
+			 <hr class="mb-4">		
 			<div class="modal-body">${getProduct.prod_viewContent}</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary"
-					data-bs-dismiss="modal" style="width: 100%;">Close</button>
+				<button type="button" class="btn btn-dark" 
+					data-bs-dismiss="modal" style="width: 100%; background:#091835;">Close</button>
 			</div>
 			    
 		</div>
@@ -236,17 +325,14 @@ max-width: 200px;
 		
 		<div class="col-md-8 themed-grid-col">
 			<div class="row" align="center">
-				<div class="row">
+					<div class="row">
 					<figure class="text-center">
 						<blockquote class="blockquote">
 							<p></p>
 						</blockquote>
-						<figcaption class="blockquote-footer">
-							<cite title="Source Title"></cite>
-						</figcaption>
 					</figure>
 				</div>
-				<h2 style="margin-bottom: 20px;">${getProduct.prod_name}리뷰 목록</h2>
+				<h3 style="margin-bottom: 11px; padding-bottom: 0px; padding-top: 0px; padding-left: 0px; padding-right: 15px;">${getProduct.prod_name} 리뷰 목록</h3>
 			</div>
 			<div class="row">
 				<!-- 드랍 버튼 -->
@@ -263,11 +349,11 @@ max-width: 200px;
 							<li><a class="dropdown-item" href="productViewOrder.product?search=${prodsearch}&searchString=${prodsearchString}&mode=listReviewPop&prod_num=${prod_num}"> 별점순</a></li>
 						</ul>
 					</div>
-					<button type="button" class="btn btn-success"
+					<button type="button" class="btn btn-dark"
 						style="margin-left: 15px; background-color: #00205b; border-color: #00205b;"
 						onclick="location.href ='productView.product?prod_num=${getProduct.prod_num}'">
 						전체보기</button>
-					<button type="button" class="btn btn-success"
+					<button type="button" class="btn btn-dark"
 						style="margin-left: 15px; background-color: #00205b; border-color: #00205b;"
 						onclick="location.href='goods_review.review?prod_num=${getProduct.prod_num}'">
 						리뷰 등록 하기</button>
@@ -275,10 +361,10 @@ max-width: 200px;
 				</div>
 
 				<div class="col" align="right">
-					<div class="input-group mb-3">
-						<input type="hidden" name="mode" value="find" /> <select
-							id="search" class="form-select"
-							aria-label="Default select example">
+				<div class="col-md-8 mb-2" >
+					<div class="input-group mb-1" style="left: 12px;">
+						<input type="hidden" name="mode" value="find" /> 
+						<select	id="search" class="form-select"	aria-label="Default select example">
 							<option value="rp_title" align="center">리뷰제목</option>
 							<option value="rp_content" align="center">리뷰내용</option>
 							<!-- <option value="mem_nickName" align="center">리뷰작성자</option> -->
@@ -291,7 +377,7 @@ max-width: 200px;
 					</div>
 				</div>
 			</div>
-
+		</div>	
 			<!-- 본문 -->
 			<table class="table table-borderless">
 				<tr>
@@ -301,17 +387,15 @@ max-width: 200px;
 						</c:if>
 						<c:if test="${empty searchString }">
 							<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
-								<button type="button" class="btn btn-success"
-									style="margin-left: 431px; align: center; background-color: #00205b; border-color: #00205b; margin-top: 121px; height: 124px; width: 332px;"
-									onclick="goods_review.review?prod_num=${getProduct.prod_num}">
-									리뷰 등록 하기</button></td>
+						</td>
 						</c:if>
 					</c:if>
 					<c:forEach var="pdto" items="${listBoard }">
 						<td>
-							<div class="card border-success" style="width: 18rem;">
-								<img src="resources/images/sik.jpg" class="card-img-top"
-									style="width: 284px; height: 200px;">
+							<div class="card border-dark" style="width: 18rem;">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.rp_image1}" class="card-img-top"
+									style="width: 286px; height: 200px;  display:inline-block;"><span style=" text-align:center; margin-top: 10px;">${pdto.memberDTO.mem_nickName}</span>
+								
 								<div class="card-body">
 									<div class="card-body">
 										<h5 id="reviewTitle" class="card-title">${pdto.rp_title}</h5>
@@ -319,7 +403,7 @@ max-width: 200px;
 									</div>
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item">별점 (${pdto.rp_score}/5)
-											<fieldset style="float: right;">
+											<fieldsest style="float: right;">
 												<c:choose>
 													<c:when test="${pdto.rp_score >= 1 && pdto.rp_score < 2 }">
 														<label for="rate1">⭐</label>
@@ -348,7 +432,7 @@ max-width: 200px;
 													</c:when>
 													<c:otherwise>
 										 ☆☆☆☆☆
-								 </c:otherwise>
+										 </c:otherwise>
 												</c:choose>
 											</fieldset>
 										</li>
@@ -367,11 +451,10 @@ max-width: 200px;
 											</div>
 										</li>
 									</ul>
-									<!-- 0701박혜성 추가 -->
+								
 									<div class="card-body">
-										<a href="javascript:popup(${pdto.rp_num })"><button
-												type="button" class="btn btn-primary" style="width: 100%;">
-												${pdto.memberDTO.mem_nickName}</button></a>
+										<a href="javascript:popup(${pdto.rp_num })"><button type="button" class="btn btn-dark" style="width: 100%; background:#091835;">
+										리뷰 보기</button></a>
 										<span style="float: left;font-size: 14px;">작성일자 : ${pdto.rp_sysdate }</span>
 									</div>
 								</div>
@@ -409,7 +492,7 @@ max-width: 200px;
 					</c:if>
 				</ul>
 				<button class="btn btn-primary" onclick="contact();"
-					style="float: right;">문의하기</button>
+					style="float: right; background-color: #00205b; border-color: #00205b;">문의하기</button>
 			</nav>
 		</div>
 	</div>
@@ -426,9 +509,10 @@ function popup(rp_num) {
 	        }
 	      };
 	   var mid = '${mem_num}';
+	   console.log(mid);			
 	   if(!isEmpty(mid)){
-	   var url = "productReviewView.product?rp_num="+rp_num;
-	   var name = "popup";
+	   	var url = "productReviewView.product?rp_num="+rp_num;
+	   	var name = "popup";
 	    var _left = Math.ceil(( window.screen.width - 800 )/2);
 	   var _top = Math.ceil(( window.screen.height - 1000 )/2); 
 	   var option = "width = 800, height = 900, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
@@ -442,7 +526,7 @@ function popup(rp_num) {
 			
 			var searchSelect = document.getElementById("search");
 			var search = searchSelect.options[searchSelect.selectedIndex].value;
-			var searchString = document.getElementById("searchString").value;
+			var searchString = encodeURIComponent(document.getElementById("searchString").value);
 			var f = document.createElement("form");	
 			f.setAttribute("method","post");
 			f.setAttribute("action","productView.product");
@@ -469,7 +553,7 @@ function popup(rp_num) {
 	    function contact() {
 	          var url = "myPageContactUs.myPage";
 	          var name = "popup test";
-	          var option = "width = 600, height = 500, top = 100, left = 200, location = no"
+	          var option = "width = 800, height = 400, top = 100, left = 200, location = no"
 	          window.open(url, name, option);
 	  	}
 	    
