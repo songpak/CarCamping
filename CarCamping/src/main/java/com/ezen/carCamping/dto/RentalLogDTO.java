@@ -2,7 +2,10 @@ package com.ezen.carCamping.dto;
 
 public class RentalLogDTO {
 	private int rental_num;
-	private ProductCartDTO productCartDTO;
+	private MemberDTO memberDTO;
+	private ProductDTO productDTO;
+	private AgencyDTO agencyDTO;
+	private int rental_productCount;
 	private String rental_from;
 	private String rental_to;
 	private int rental_return;
@@ -10,6 +13,7 @@ public class RentalLogDTO {
 	private int rental_notReturn;
 	private int rental_price;
 	private int rental_usePoint;
+	private String rental_pay;
 	private int rental_extendPrice;
 	private int rental_notReturnPrice;
 	
@@ -19,12 +23,31 @@ public class RentalLogDTO {
 	public void setRental_num(int rental_num) {
 		this.rental_num = rental_num;
 	}
-	public ProductCartDTO getProductCartDTO() {
-		return productCartDTO;
+	public MemberDTO getMemberDTO() {
+		return memberDTO;
 	}
-	public void setProductCartDTO(ProductCartDTO productCartDTO) {
-		this.productCartDTO = productCartDTO;
+	public void setMemberDTO(MemberDTO memberDTO) {
+		this.memberDTO = memberDTO;
 	}
+	public ProductDTO getProductDTO() {
+		return productDTO;
+	}
+	public void setProductDTO(ProductDTO productDTO) {
+		this.productDTO = productDTO;
+	}
+	public AgencyDTO getAgencyDTO() {
+		return agencyDTO;
+	}
+	public void setAgencyDTO(AgencyDTO agencyDTO) {
+		this.agencyDTO = agencyDTO;
+	}
+	public int getRental_productCount() {
+		return rental_productCount;
+	}
+	public void setRental_productCount(int rental_productCount) {
+		this.rental_productCount = rental_productCount;
+	}
+	
 	public String getRental_from() {
 		return rental_from;
 	}
@@ -66,6 +89,12 @@ public class RentalLogDTO {
 	}
 	public void setRental_usePoint(int rental_usePoint) {
 		this.rental_usePoint = rental_usePoint;
+	}
+	public String getRental_pay() {
+		return rental_pay;
+	}
+	public void setRental_pay(String rental_pay) {
+		this.rental_pay = rental_pay;
 	}
 	public int getRental_extendPrice() {
 		return rental_extendPrice;

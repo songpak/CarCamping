@@ -6,16 +6,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./rating.css">
+    <link rel="stylesheet" href="resources/css/rating.css">
+    
 </head>
+
+
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+	crossorigin="anonymous">
+</script> 
+
+<!-- <script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+	crossorigin="anonymous"></script> -->
+
+<!-- CSS only -->
+
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 
 
 <div class="container-fluid themed-container">
 	<!-- Row Grid -->
-	<div class="row mb-3">
+	<div class="row justify-content-md-center">
     <!-- List Column Grid -->
 	<div class="d-flex flex-column flex-shrink-0 p-3 bg-light text-center" style="width: 250px; height: 700px;">
-    <a href="/" class="sidebar-heading border-bottom bg-light">
+    <a href="goAdmin.admin" class="sidebar-heading border-bottom bg-light">
       <use xlink:href="#bootstrap"></use></svg>
       <span class="fs-4"><b>관리자 페이지</b></span>
     </a>
@@ -100,6 +122,7 @@
         
          대여현황
         </a>
+        
       </li>
     </ul>
     

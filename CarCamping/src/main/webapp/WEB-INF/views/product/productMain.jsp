@@ -1,205 +1,234 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
-<!-- 	<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-	crossorigin="anonymous"></script> -->
-<!-- CSS only -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-<link rel="stylesheet"
-	href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 
+
+
+<!-- CSS only -->
 <style type="text/css">
 .swiper-container {
-	height: 420px;
-	border: 5px solid silver;
-	border-radius: 7px;
-	box-shadow: 0 0 20px #ccc inset;
+   height: 420px;
+   border: 5px solid silver; 
+   border-radius: 7px;
+   box-shadow: 0 0 20px #ccc inset;
 }
-
 .swiper-slide {
-	text-align: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+   text-align: center;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.swiper-slide img {
+   box-shadow: 0 0 5px #555;
+   max-width: 100%;
+}
+.d-flex .card {
+   margin-right: 20px;
+}
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
 }
 
-.swiper-slide img {
-	box-shadow: 0 0 5px #555;
-	max-width: 100%;
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
 }
-.d-flex .card{
-	margin-right : 20px;
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
 }
+
 </style>
 
+<i class="fa-brands fa-searchengin"></i>
 <!-- 클래스명은 변경하면 안 됨 -->
 
 <div id="doc" class="gm-t7">
-	<div class="gm-b">
-		<div id="secondary">
-			<div id="leftcolumn">
-				<!-- 중앙 정렬을 위해서 d-flex justify-content-center는 지우면 안됩니다 !! -->
-				<nav class="navbar d-flex justify-content-center"
-					style="background-color: #e3f2fd; margin-bottom: 5px;">
+   <div class="gm-b">
+      <div id="secondary">
+       
 
-					<h2>요기는 알아서 바꾸세여</h2>
-				</nav>
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style=" margin-left: 255px;margin-right: 255px;"">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="resources/images/banner1.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="resources/images/banner2.JPG" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="resources/images/banner_2.PNG" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>            <!-- 이전 버튼 -->
+            <!-- 페이징 -->
+            <div class="swiper-pagination"></div>
+         </div>
+			<nav class="navbar navbar-expand-lg "Eighthnavbarexample" 
+               style="margin-bottom: 0px;background-color: #fff;border-left-width: 100px;margin-left: 213px;margin-right: 213px;margin-top: 10px;">
+           
 
-			</div>
-			<div class="swiper-container">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide">
-						<a href="productView.product"><img src="http://ktsmemo.cdn3.cafe24.com/p/0199.jpg"></a>
-					</div>
-					<div class="swiper-slide">
-						<a href="productView.product"><img src="http://ktsmemo.cdn3.cafe24.com/p/0199.jpg"></a>
-					</div>
-					
-					<div class="swiper-slide" style="font-size: 50pt;">- 끝 -</div>
+               <div class="container">
+                                  <a class="navbar-brand text-dark" style="margin-right:570px;" href="goProduct.product"><font size="5"><b>✨ 전 체 용 품</b></font></a>
+               <!-- 검색 form  #091835-->
+               <div class="d-flex" style="width: 500px; height: 40px;">
+                <div class="input-group">
+                  <!-- 검색 form -->
+                  <form class="d-flex" action="goProduct.product" style="width: 500px; height: 40px;" method="get">
+                     <select class="form-control" name="search" style="width: 156px;">
+                        <option value="prod_name">용품명</option>
+                        <option value="brand_name">브랜드명</option>
+                     </select> 
+                     <input class="form-control" class="form-control me-3" type="text" name="searchString" placeholder="용품을 검색해보세요!" aria-label="Search" style="margin-left: 0px;"> 
+                        <button type="submit" class="btn btn-dark" style="padding-left: 0px; padding-right: 0px; width: 122px; background-color: #00205b; border-color: #00205b; margin-right: 3px;">검색</button>
+                  
+						<div class="btn-group">
+                       <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #00205b; border-color: #00205b;">정렬</button>
+                           <ul class="dropdown-menu" style="margin-right: 13px;">
+                           <li><a class="dropdown-item" href="goProduct.product?search=${search}&searchString=${searchString}&mode=listProductNew">최신순 </a></li>
+                           <li><a class="dropdown-item" href="goProduct.product?search=${search}&searchString=${searchString}&mode=listProductPop">별점순</a></li>
+                          <li> <a class="dropdown-item" href="goProduct.product?search=${search}&searchString=${searchString}&mode=listProductPrice">가격순</a></li>
+                        </ul>
+                        </div>
+                  </form>
 				</div>
-				<!-- 네비게이션 -->
-				<div class="swiper-button-next"></div>
-				<!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-				<div class="swiper-button-prev"></div>
-				<!-- 이전 버튼 -->
+               </div>
+               </div>
+         </nav>
+          <div 
+               style="margin-bottom: 0px;background-color: #fff;border-left-width: 100px;margin-left: 255px;margin-right: 255px;margin-top: 2px;">
 
-				<!-- 페이징 -->
-				<div class="swiper-pagination"></div>
-			</div>
-
-			<script>
-				new Swiper('.swiper-container', {
-
-					slidesPerView : 3, // 동시에 보여줄 슬라이드 갯수
-					spaceBetween : 30, // 슬라이드간 간격
-					slidesPerGroup : 3, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
-
-					// 그룹수가 맞지 않을 경우 빈칸으로 메우기
-					// 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
-					loopFillGroupWithBlank : true,
-
-					loop : true, // 무한 반복
-
-					pagination : { // 페이징
-						el : '.swiper-pagination',
-						clickable : true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
-					},
-					navigation : { // 네비게이션
-						nextEl : '.swiper-button-next', // 다음 버튼 클래스명
-						prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
-					},
-				});
-			</script>
-
-			<nav class="navbar bg-light rounded-pill"
-				style="margin-top: 20px; margin-bottom: 10px;">
-				<div class="container-fluid">
-					<h1 class="navbar-brand">
-						인 기 용 품
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-							fill="currentColor" class="bi bi-hand-thumbs-up"
-							viewBox="0 0 16 16">
-  <path
-								d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z" />
-</svg>
-					</h1>
-					<form class="d-flex" style="width: 500px; height: 40px;"
-						role="search">
-						<input class="form-control me-2" type="search"
-							placeholder="인기용품을 검색해보세요!" aria-label="Search">
-						<button class="btn btn-outline-primary" type="submit"
-							style="padding-left: 0px; padding-right: 0px; width: 62px;">검색</button>
-					</form>
-				</div>
-			</nav>
-
-			<div id="bd">
-				<div id="gm-main" style="text-align: center">
-					<div class="gm-b">
-						<div class="gm-gb">
-							<div class="gm-u first">
-								<div class="d-flex p-2">
-									<div class="card" style="width: 18rem;">
-										<a href="productView.product"><img src="images/1.jpg" class="card-img-top" alt="..."></a>
-										<div class="card-body">
-											<p class="card-text">1</p>
-										</div>
-									</div>
-									<div class="card" style="width: 18rem;">
-										<a href="productView.product"><img src="images/1.jpg" class="card-img-top" alt="..."></a>
-										<div class="card-body">
-											<p class="card-text">2</p>
-										</div>
+                <hr style="border: 0;height: 2px;background-color: #585858d4;margin-top: -16;margin-top: -16;margin-top: 0px;margin-bottom: 16px;">
+         </div>
+ 
+         <c:set var="i" value="0" />
+         <c:set var="j" value="4" />
+         <table align="center"
+            style="border: 1px solid;border-left-width: 30px;border-color: transparent;">
+            <c:forEach items="${listProduct}" var="pdto">
+               <c:if test="${i%j == 0 }">
+                  <tr>
+               </c:if>
+               <td>
+                  <div class="card"
+                     style="width: 18rem; margin-right: 30px; margin-bottom: 50px;">
+                     <a href="productView.product?prod_num=${pdto.prod_num}"><img
+                        src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.prod_viewImage1}" width="286" height="200"
+                        ></a>
+                     <div class="card-body" style="width: 286px; height: 235px;" >
+                           <div class="card-body">
+										<h5 class="card-title"><font color="black" ><b>${pdto.prod_name}</b></font></h5>
+										<hr style="background-color: #585858d4;">
+										<p class="card-text"> <font size="2" color ="gray">${pdto.brandCategoryDTO.brand_name}</font></p>
+										<p class="card-text">${pdto.prod_price} 원</p>
+										<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 0;padding-left: 0px;">
+							<div class="container" style="width: 300px;margin-left: 0px;margin-right: 0px;padding-right: 0px;padding-left: 0px;">
+								<div class="row">
+									<div id="myform">
+										<fieldset style="width: 100%;">
+										<c:choose>
+				 				<c:when test="${pdto.prod_reviewScore >= 1 && pdto.prod_reviewScore < 2 }">
+				  							<label for="rate1">⭐</label>
+				 				</c:when>
+				 				<c:when test="${pdto.prod_reviewScore >= 2 && pdto.prod_reviewScore < 3 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				 				</c:when>
+								 <c:when test="${pdto.prod_reviewScore >= 3 && pdto.prod_reviewScore < 4 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				 				</c:when>
+				 				<c:when test="${pdto.prod_reviewScore >= 4 && pdto.prod_reviewScore < 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						 <label for="rate4">⭐</label>
+				 				</c:when>
+				 				<c:when test="${pdto.prod_reviewScore eq 5 }">
+				  						<label for="rate1">⭐</label>
+				  						<label for="rate2">⭐</label>
+				  						<label for="rate3">⭐</label>
+				  						<label for="rate4">⭐</label>
+				  						<label for="rate5">⭐</label> 
+				 				</c:when>
+								 <c:otherwise>
+										별점을 등록해 주세요! 
+								 </c:otherwise>
+								</c:choose>
+								<label style="padding-right: 50px;"><font size="2" color ="gray">(${pdto.prod_reviewScore}/5) ${pdto.prod_reviewCount}개의 리뷰</font></label>
+										</fieldset>										
 									</div>
 								</div>
 							</div>
-							<div class="gm-u second">
-								<div class="d-flex p-2">
-									<div class="card" style="width: 18rem;">
-										<a href="productView.product"><img src="images/1.jpg" class="card-img-top" alt="..."></a>
-										<div class="card-body">
-											<p class="card-text">1</p>
-										</div>
+						</li>
 									</div>
-									<div class="card" style="width: 18rem;">
-										<a href="productView.product"><img src="images/1.jpg" class="card-img-top" alt="..."></a>
-										<div class="card-body">
-											<p class="card-text">2</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="gm-u thrid">
-								<div class="d-flex p-2">
-									<div class="card" style="width: 18rem;">
-										<a href="productView.product"><img src="images/1.jpg" class="card-img-top" alt="..."></a>
-										<div class="card-body">
-											<p class="card-text">1</p>
-										</div>
-									</div>
-									<div class="card" style="width: 18rem;">
-										<a href="productView.product"><img src="images/1.jpg" class="card-img-top" alt="..."></a>
-										<div class="card-body">
-											<p class="card-text">2</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 
+                       
+                        <br>
 
-					<!-- <div id="hd">
-						<div class="card text-center">
-							<div class="card-header">배너</div>
-							<div class="card-body">
-								<h5 class="card-title">Special title treatment</h5>
-								<p class="card-text">With supporting text below as a natural
-									lead-in to additional content.</p>
-								<a href="#" class="btn btn-primary">Go somewhere</a>
-							</div>
-							<div class="card-footer text-muted">2 days ago</div>
-						</div>
-					</div> -->
-
-				</div>
-			</div>
-		</div>
-	</div>
+                     </div>
+                  </div>
+               </td>
+               <c:if test="${i%j == j-1 }">
+                  </tr>
+               </c:if>
+               <c:set var="i" value="${i+1 }" />
+            </c:forEach>
+            <c:if test="${empty listProduct}">
+               <div class="card" style="width: 20rem;">
+                  <h4>등록된 상품이 없습니다!</h4>
+                  <br>
+                  <div class="card-body">
+                     <p class="card-text">다시 검색해 주세요!</p>
+                  </div>
+               </div>
+            </c:if>
+         </table>
+      </div>
+   </div>
 </div>
+
+
+<nav aria-label="Page navigation example">
+   <ul class="pagination justify-content-center">
+      <c:if test="${rowCount>0 }">
+         <c:if test="${startPage>1}">
+            <li class="page-item"><a class="page-link"
+               onclick="location.href='goProduct.product?&pageNum=${startPage-1}&mode=${mode}'">
+                  Previous</a></li>
+         </c:if>
+         <c:forEach var="i" begin="${startPage}" end="${endPage}">
+            <!-- 1 2  -->
+            <li class="page-item"><a class="page-link"
+               onclick="location.href='goProduct.product?&pageNum=${i}&mode=${mode}'">
+                  <c:out value="${i}" />
+            </a></li>
+         </c:forEach>
+         <c:if test="${endPage < pageCount }">
+            <li class="page-item"><a class="page-link"
+               onclick="location.href='goProduct.product?&pageNum=${endPage+1}&mode=${mode}'">
+                  Next</a></li>
+         </c:if>
+      </c:if>
+   </ul>
+</nav>
+<br><br>
 
 <%@ include file="../bottom.jsp"%>

@@ -1,140 +1,99 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../top.jsp"%> 
-<!-- Content Column Grid -->
-<div class="container" align="center" class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
-	<div class="row" align="center">
-		<div class="col">
-			<p class="fw-bolder">문의사항 목록</p>
-		</div>
-	<div class="row">
-		<!-- 드랍 버튼 -->
-			<div class="col" align="left">
-				<div class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button"
-						id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-						정렬</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-						<li><button class="dropdown-item" type="button">최신순</button></li>
-						<li><button class="dropdown-item" type="button">오래된순</button></li>
-						
-					</ul>
-				</div>
-			</div>
-		<!-- 드랍 버튼 끝 -->
-	
-		<!-- 답변 유무 라디오 그룹 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../top.jsp"%>
+<html>
+<head>
+ <meta charset="UTF-8">  
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+	<title>문의목록</title>
+	<script>
+		function popup(){
+			var url = "myPageContactUs.myPage?mem_num=${mem_num}"
+			var name = "문의글 작성"
+			var option = "width=800,height=400,top=100,left=300,location=no"
+			window.open(url,name,option);
+		}
 		
-			
-		<!-- 답변 유무 라디오 그룹 끝 -->
-	</div>
-	<div class="row">
-		&nbsp;
-	</div>
-</div>
-	
-	<!-- 본문 -->
-	<table class="table table-striped">
-		<tr>
-			<th>문의일시</th>
-			<th>회원ID</th>
-			<th>제목</th>
-			<th>답변</th>
-		</tr>
-		<tr>
-			<td>2022-06-03</td>
-			<td>ABC1234</td>
-			<td>포인트 적립제도에 대해 문의드립니다</td>
-			<td><button type="button" 
-					class="btn btn-primary"
-					data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop-11">
-						보기
-				</button></td>
-		</tr>
-		
-	</table>
-	
-	<div class="col" align="right">
-			문의하기
-	</div>
-	<!-- 누르면 문의하기 폼 가져오기 -->
-	<form class="row gy-2 gx-3 align-items-center">
-		<div class="modal fade" id="staticBackdrop-11" data-bs-backdrop="static"
-			data-bs-keyboard="false" tabindex="-1"
-			aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">문의하기</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
 
-						<!-- 문의사항 제목 -->
-						<div class="row">
-							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="floatingInput"
-									placeholder="name@example.com"> <label
-									for="floatingInput">제목</label>
-							</div>
-						</div>
-						
-						<!-- 문의일시 -->
-						<div class="form-floating">
-							<textarea class="form-control" placeholder="Leave a comment here"
-								id="floatingTextarea2" style="height: 100px"></textarea>
-							<label for="floatingTextarea2">문의일시</label>
-						</div>
-						
-						
-						<!-- 문의사항 내용 -->
-						<div class="form-floating">
-							<textarea class="form-control" placeholder="Leave a comment here"
-								id="floatingTextarea2" style="height: 100px"></textarea>
-							<label for="floatingTextarea2">문의내용</label>
-						</div>
-						
-						<!-- 답변일시 -->
-						<div class="form-floating">
-							<textarea class="form-control" placeholder="Leave a comment here"
-								id="floatingTextarea2" style="height: 100px"></textarea>
-							<label for="floatingTextarea2">답변일시</label>
-						</div>
-						
-						
-						<!-- 답변내용 -->
-						<div class="form-floating">
-							<textarea class="form-control" placeholder="Leave a comment here"
-								id="floatingTextarea2" style="height: 100px"></textarea>
-							<label for="floatingTextarea2">답변 (1000자 이내)</label>
-						</div>
-						
-						
-						<!-- 버튼 영역 -->
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal">닫기</button>
-								<button type="button" class="btn btn-primary">수정</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-	</form>
-	<!-- 문의사항 답변 모달 끝 -->
-	
+		function popupReply(a){
+			var url = "myPageQuestionReply.myPage?question_num="+a
+			var name = "답변 보기"
+			var option = "width=800,height=400,top=100,left=300,location=no"
+			window.open(url,name,option);
+		}
+
+	</script>
+</head>
+<body>
+
+	<div class="container" align="center" class="col-lg-9 my-4 mb-4 border border-dark rounded-lg">
+		<h2>문 의 목 록</h2>
+
+		
+		
+		<table class="table table-striped table-hover">
+		<tr>
+			<th scope="col" width="60%" class="text-center">제목</th>
+			<th scope="col" width="10%" class="text-center">작성자</th>
+			<th scope="col" width="10%" class="text-center">문의일</th>
+			<th scope="col" width="20%" class="text-center">답변</th>
+
+		</tr>
+				<c:if test="${empty listBoard}">
+			<tr>
+				<td colspan="4">등록된 문의사항이 없습니다.</td>
+			</tr>
+		</c:if>			
+		<c:forEach var="dto" items="${listBoard}">
+			<tr>
+				<td align="center" onclick="location.href='myPageContactUsView.myPage?question_num=${dto.question_num}'">
+						${dto.question_title}
+					</td>
+				<td align="center">${dto.memberDTO.mem_nickName}</td>
+				<td align="center">${dto.question_sysdate}</td>
+				<c:if test="${empty dto.question_reply}">
+				<td></td>
+				</c:if>			
+				<c:if test="${not empty dto.question_reply}">
+				<td align="center">
+				<button type="button" class="btn btn-dark" onclick="location.href='javascript:popupReply(${dto.question_num})'">답변보기</button>
+					</c:if>		
+			</tr>	
+		</c:forEach>
+	</table>
+		 <div class="col-md-offset-9"> 
+		<button id="writehBtn" type="button" class="btn btn-dark" onclick="location.href='javascript:popup()'" >문의글 작성</button>
+                
+		</div>
+		
+		 <div class="col-xs-6 col-xs-offset-3"> 
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
-			<li class="page-item disabled"><a class="page-link">Previous</a>
-			</li>
-			<li class="page-item"><a class="page-link" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#">Next</a></li>
+			<c:if test="${page-3>1}">
+            <li class="page-item"><a class="page-link" href="myPageQuestion.myPage?page=${page-1}&mem_num=${sessionScope.mem_num}">Previous</a></li>
+         </c:if>
+      <c:forEach var="i" begin="${page-3<1?1:page-3}" end="${page+3>pageCount?pageCount:page+3}">
+         <c:if test="${i==page}">
+            <li class="page-item"><a class="page-link" href="myPageQuestion.myPage?page=${i}&mem_num=${sessionScope.mem_num}" style="color:blue;">${i}</a></li>
+         </c:if>
+         <c:if test="${i!=page}">
+            <li class="page-item"><a class="page-link" href="myPageQuestion.myPage?page=${i}&mem_num=${sessionScope.mem_num}">${i}</a></li>
+         </c:if>
+      </c:forEach>
+         <c:if test="${page+3<pageCount}">
+            <li class="page-item"><a class="page-link" href="myPageQuestion.myPage?page=${page+1}&mem_num=${sessionScope.mem_num}">Next</a></li>
+         </c:if>
 		</ul>
 	</nav>
 </div>
-<!-- End Content Coulmn Grid -->
+</div>
+
+</body>
 <%@ include file="../bottom.jsp"%>
+</html>

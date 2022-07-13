@@ -43,6 +43,44 @@
 		var option = "width = 700, height = 1000, top = 100, left = 200, location = no"
 		window.open(url, name, option);
 	}
+	
+	function changeHotRegion(region_num, mem_id){
+		console.log(region_num);
+		console.log(mem_id);
+		var send_region_num = region_num;
+		var send_mem_id = mem_id;
+		var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:40%;left:45%; text-align:center;"> ';
+		loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/carLoading.gif"/>"  /></div></div>';
+		$('body').fadeTo("fast", 1).append(loadingHtml);
+		$.ajax({
+			url: "changeHotRegion.region", //컨트롤러 맵핑
+            type: "GET",
+            data: { //사용자가 데이터를 정의한다	
+            	"regionNum" : region_num,
+            	"memId" : mem_id
+            },
+            contentType: "application/json",
+            success: function (result) {
+            	$('body').fadeTo("slow", 1).find('#loading').remove();
+		   			const ultag = document.getElementById('hotRegion_list');//ul - id : hotRegion_list 비우기
+		   		 	const items = ultag.getElementsByTagName('li');   		
+		   			 while (ultag.firstChild) {                   
+		   				ultag.removeChild(ultag.firstChild);                
+		   			}
+		   		 $("#hotRegion_list").append(result);
+		   		
+		   		
+           	},
+            error: function() {
+            	$('body').fadeTo("slow", 1).find('#loading').remove();
+                alert("에러 발생");
+            }
+
+            });
+		
+		
+		
+	}
 </script>
 
 <div id="ccm-doc-hs" class="ccm-t7-hs">
@@ -71,23 +109,22 @@
 											options);
 
 									//좌표
-									function Position(x, y) {
+									function Position(x, y, regionName) {
 										this.x = x;
 										this.y = y;
+										this.regionName= regionName;
 
 									}
 									var PositionArr = [
-											new Position(37.540705, 126.956764),//서울=1
-											//new Position(37.17, 127.7),//경기도
-											new Position(37.8304115,
-													128.2260705),//강원도 2 
-											new Position(36.628503, 127.929344),//경상북도 5 
-											new Position(36.557229, 126.779757),//경상남도 6 
-											new Position(36.248647, 128.664734),//충청북도 3
-											new Position(35.259787, 128.664734),//충청남도 4 
-											new Position(35.716705, 127.144185),//전라북도 7 
-											new Position(34.819400, 126.893113),//전라남도 8
-											new Position(33.364805, 126.542671) //제주도=9
+											new Position(37.540705, 126.956764,"서울&경기도"),//서울=1
+											new Position( 37.58682247087561, 128.26747425295994    ,"강원도"),//강원도 2 
+											new Position(36.628503, 127.929344,"충청북도"),//경상북도 5 
+											new Position(36.557229, 126.779757,"충청남도"),//경상남도 6 
+											new Position(36.248647, 128.664734,"경상북도"),//충청북도 3
+											new Position(35.259787, 128.664734,"경상남도"),//충청남도 4 
+											new Position(35.716705, 127.144185,"전라북도"),//전라북도 7 
+											new Position(34.819400, 126.893113,"전라남도"),//전라남도 8
+											new Position(33.364805, 126.542671,"제주도") //제주도=9
 									];
 
 									//이미지
@@ -111,7 +148,6 @@
 										var markerImage = new kakao.maps.MarkerImage(
 												imageSrc, imageSize,
 												imageOption);
-
 										addMarker(i);
 									}
 									//마커-클릭 이벤트 추가
@@ -122,24 +158,43 @@
 											image : markerImage,
 											clickable : true
 										});
-										kakao.maps.event
-												.addListener(
-														marker,
-														'click',
-														function() {//해당지역 인기글 변경
-															//window.location.href = "goRegionHOT.region?region_num="+(i + 1);
-															//window.location.href = "goRegion.region?region_num="+ (i + 1);
-															document.hotRegionLocation.region_num.value=i+1	
-															document.hotRegionLocation.submit()    
-															
+										var content = '<div id="ifw" class="btn btn-primary" style="padding:5px;"><span>'+PositionArr[i].regionName+'</span></div>';
+										//PositionArr[i].regionName
+								
+										var customOverlay = new kakao.maps.CustomOverlay(
+												{	map : map,
+													clickable : true,
+													content : content,
+													position :markerPosition,
+												    xAnchor: 0.3,
+												    yAnchor: 3
+												});
+										customOverlay.setMap(map);
+										customOverlay.setVisible(false);
+													kakao.maps.event.addListener(marker,'click',function() {//해당지역 인기글 변경
+														document.hotRegionLocation.region_num.value = i + 1
+														document.hotRegionLocation.mem_id = '${sessionScope.id}'
+														//document.hotRegionLocation.submit()
+														var region_num = i+1;
+														var mem_id = '${sessionScope.id}';
+														changeHotRegion(region_num,mem_id);
+														
 														});
+											kakao.maps.event.addListener(marker,'mouseover', function() {
+												customOverlay.setVisible(true);
+											});
+											
+											  kakao.maps.event.addListener(marker, 'mouseout', function() { 
+											 customOverlay.setVisible(false);
+										});
 									}
 								</script> 
 							</div>
 						</div>
 					</div>
-					<form name="hotRegionLocation" action="goRegionHotLocList.region" method="post">
+					<form name="hotRegionLocation" action="regionHotLocList.region" method="post">
 						<input type="hidden" name="region_num"/>
+						<input type="hidden" name="mem_id"/>
 					</form>
 								
 					<!--지역별 HOT리뷰글  -->

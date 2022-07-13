@@ -1,331 +1,608 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../top.jsp"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- 
-1. 로그인 했을떄 안했을때 넘어가는 페이지 분리
-2.리스트 다음페이지로 넘기기
-3.리뷰 검색
-4.대여날짜 넘기기
-5.정렬
-※일단 페이지 내에서 할 수 있는 기능부터 구현할것!!
- -->
 
-<!-- 부트스트랩 영역 -->
-<link
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-		rel="stylesheet"
-		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-		crossorigin="anonymous"> 
-	
-	<link rel="stylesheet"
-		href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-		
-	<link rel="stylesheet"
-		href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-		
-	<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-	<!-- 부트스트랩 영역 끝 -->
-	 
-<!-- 용품상세보기 영역 -->
-<div class="container-fluid themed-container"
-	style="margin-top: 40px; margin-left: 10%;">
-	<!-- Row Grid -->
-	<div class="row mb-3">
-		<!-- List Column Grid -->
-		<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
-			style="width: 280px;">
-			<a href="/"
-				class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-				<svg class="bi me-2" width="40" height="32">
-					<use xlink:href="#bootstrap"></use></svg> <span class="fs-4">용품
-					상세정보</span>
-					
-			<!-- 이미지 영역 -->
-			</a> <img src="resources/images/carbak1.jpg" class="card-img-top" alt="...">
-			<!-- 이미지 영역 끝 -->
-			
-			<script type="text/javascript">
-		$("#mForm").submit(function(){
-			var indate2 = $("#indate1").val();
-			var outdate2 = $("#outdate1").val();
-			var date1 = indate2.split('-');
-			var in_date = new Date(indate2);
-			var date2 = outdate2.split('-');
-			var out_date = new Date(outdate2);
-			
-   			var date = new Date();
-   			
-	   		if(indate2 != ''){
-	       		if(outdate2 != ''){
-		    		if(date.getDate() <= in_date.getDate()){
-		    			if(in_date.getDate() > out_date.getDate()){
-		     				alert('반납날짜보다 빌린날짜가 먼저여야 합니다');
-		     				return false;
-		     			}
-		    		}else {
-		    			alert('지난 날짜는 선택 할 수 없습니다.');
-		    			return false;
-		    		}
-	       		}else{
-	       			alert('반납날짜를 지정해주세요');
-	       			return false;
-	       		}
-	       	}else{
-	       		alert('빌린날짜를 지정해주세요');
-	       		return false;
-	       	}
-		});
-	});
-</script>
+<style>
+ .carousel-item img {
+	    width:598px;
+	    height:400px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    object-fit:cover;
+	}
 
-<script>
-			function popup1() {
-				var url = "myPageContactUs.myPage";
-				var name = "popup test";
-				var option = "width = 600, height = 500, top = 100, left = 200, location = no"
-				window.open(url, name, option);
-			}
-</script>
-			<style>
-.search-box {
-	width: fit-content;
-	background-color: 262626;
-	border-radius: 8px;
-	padding: 25px;
-	box-shadow: 0 2px 8px rgb(0 0 0/ 20%);
-	box-sizing: border-box;
-	margin: 0 auto;
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
 }
 
-.search-box input {
-	border-radius: 5px;
-	border: 1px solid #1f244d;
-	line-height: 40px;
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
 }
 
-.search-box input[type="text"], .search-box input[type="date"] {
-	text-indent: 5px;
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
 }
-
-.search-box>div {
-	margin-right: 10px;
-	font-size: 13px;
+div .cardbody {
+    display: block;  
+}
+#reviewTitle {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+   
+#reviewSummary{
+max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
-			<form name="f_searchOk" action="SearchOk" method="post" id="mForm">
-				<div style="width: 100%; padding: 50px 0; background: 262626;">
-					<div class="row search-box">
-						<div style="margin-bottom: 10px;">
-							빌린날짜 <input type="date" id="indate1" name="indate"
-								value="${indate}">
-						</div>
-						<div>
-							반납날짜 <input type="date" id="outdate1" name="outdate"
-								value="${outdate}">
-						</div>
-						<br>
-						<br>
-						<button type="button" class="btn btn-primary"
-							style="margin-top: 10px; margin-bottom: 20px;"
-							onclick="location.href='myPageCart.myPage'">대여하기</button>
 
-						<button type="button" class="btn btn-primary"
-						onclick="location.href='javascript:popup1()'">문의하기</button>
+
+<c:set var="prod_num" value="${sessionScope.prod_num}" />
+<c:set var="mem_num" value="${sessionScope.mem_num}" />
+
+<div class="modal modal-center fade" id="prodContent" tabindex="-1"
+	role="dialog" aria-labelledby="regionContentLabel">
+	<div class="modal-dialog modal-center modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">${getProduct.prod_name}의
+					정보</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+
+			    
+					<!-- 현재 이미지 캐러셀 -->
+					&nbsp;
+					<div id="carouselExampleControls" class="carousel slide"
+						data-bs-ride="carousel">
+						<div class="carousel-inner">
+							
+						</div>
+						<div class="carousel-inner">
+							<div class="carousel-item active ">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage1}" class="d-block w-100" alt="...">
+							</div>
+							<c:if test="${not empty getProduct.prod_viewImage2}">
+							<div class="carousel-item ">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage2}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty getProduct.prod_viewImage3}">
+							<div class="carousel-item">
+								<img  src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage3}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty getProduct.prod_viewImage4}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage4}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+							<c:if test="${not empty getProduct.prod_viewImage5}">
+							<div class="carousel-item">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage5}" class="d-block w-100" alt="...">
+							</div>
+							</c:if>
+						</div>
+						  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+   						 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 					</div>
-				</div>
-			</form>
-
+			 <hr class="mb-4">		
+			<div class="modal-body">${getProduct.prod_viewContent}</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-dark" 
+					data-bs-dismiss="modal" style="width: 100%; background:#091835;">Close</button>
+			</div>
+			    
 		</div>
-		<!-- 용품 상세보기 영역 끝 -->
+	</div>
+</div>
+ 
+<style>
+html, body {
+	background: white;
+}
+
+body {
+	background: white;
+}
+
+.row mb-3 {
+	margin-left: 25px;
+	margin-top: 60px;
+}
+
+#prodInfo li {
+	width: 100%;
+	padding-bottom: 0px;
+	padding-top: 0px;
+	border-color: #00205b;
+}
+
+.modal.modal-center {
+	text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+	.modal.modal-center:before {
+		display: inline-block;
+		vertical-align: middle;
+		content: " ";
+		height: 100%;
+	}
+}
+
+.modal-dialog.modal-center.modal-lg {
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	 
+}
+
+#prodContent .modal-content {
+	width: 600px;
+	height: 800px;
+}
+
+#prodContent 
+.border .border-4 {
+	border-color: red;
+}
+
+//0701박혜성
+div .cardbody {
+    display: block;  
+}
+#reviewTitle {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+   
+#reviewSummary {
+max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+</style>
+<!-- <script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+	crossorigin="anonymous">
+</script> -->
+
+<div class="container-fluid themed-container" style="margin-left: 90px;"
+	id="test">
+	<div class="row mb-3">
+	
+		<div class="d-flex flex-column flex-shrink-0 p-3 text-white border border-4 border-dark"
+			style="width: 332px; padding-left: 0px; padding-bottom: 0px; padding-right: 0px; padding-top: 0px; height: 632px; margin-right: 86px; margin-top: 50px;">
+		<form action="myPageCart.myPage" method="post" onsubmit="return chk_rent()">
+			<input type="hidden" name="productDTO.prod_num" value="${getProduct.prod_num}">
+            <c:if test="${not empty mem_num}">
+               <input type="hidden" name="memberDTO.mem_num" value="${mem_num}">
+            </c:if>
+          <%--   <c:if test="${empty mem_num}">
+               <input type="hidden" name="loginCheck" value='0'>
+            </c:if> --%>
+				<span class="fs-4 text-center" style="height: 40px;">
+					<button type="button" class="btn btn-primary"
+						data-bs-toggle="modal" data-bs-target="#prodContent"
+						style="background-color: #00205b; border-color: #00205b; width: 100%">${getProduct.prod_name}</button>
+				</span>
+
+				<hr style="margin-top: 0px; margin-bottom: 5px;">
+				<ul id="prodInfo" class="nav nav-pills flex-column mb-auto"
+					style="margin-bottom: 0px; height: 490px;">
+					<li
+						class="list-group-item d-flex justify-content-between align-items-center">
+						<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${getProduct.prod_viewImage1}" class="card-img-top"
+						style="height: 250px;">
+					</li>
+
+					<li id="viewCount"
+						class="list-group-item d-flex justify-content-between align-items-center">
+						리 뷰 수
+						<button type="button" class="btn btn-dark rounded-pill" disabled
+							style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px; padding-right: 10px; height: 20px;">
+							${countReviewProd}</button>
+					</li>
+					<li
+						class="list-group-item d-flex justify-content-between align-items-center">
+						별점 (${getProduct.prod_reviewScore}/5)
+						<div class="container"
+							style="width: 424px; margin-left: 0px; margin-right: 0px; padding-right: 0px; padding-left: 0px;">
+							<div class="row">
+								<div id="myform">
+									<fieldset style="float: right;">
+										<c:choose>
+											<c:when
+												test="${getProduct.prod_reviewScore >= 1 && getProduct.prod_reviewScore < 2 }">
+												<label for="rate1">⭐</label>
+											</c:when>
+											<c:when
+												test="${getProduct.prod_reviewScore >= 2 && getProduct.prod_reviewScore < 3 }">
+												<label for="rate1">⭐</label>
+												<label for="rate2">⭐</label>
+											</c:when>
+											<c:when
+												test="${getProduct.prod_reviewScore >= 3 && getProduct.prod_reviewScore < 4 }">
+												<label for="rate1">⭐</label>
+												<label for="rate2">⭐</label>
+												<label for="rate3">⭐</label>
+											</c:when>
+											<c:when
+												test="${getProduct.prod_reviewScore >= 4 && getProduct.prod_reviewScore < 5 }">
+												<label for="rate1">⭐</label>
+												<label for="rate2">⭐</label>
+												<label for="rate3">⭐</label>
+												<label for="rate4">⭐</label>
+											</c:when>
+											<c:when test="${getProduct.prod_reviewScore eq 5 }">
+												<label for="rate1">⭐</label>
+												<label for="rate2">⭐</label>
+												<label for="rate3">⭐</label>
+												<label for="rate4">⭐</label>
+												<label for="rate5">⭐</label>
+											</c:when>
+											<c:otherwise>
+										 ☆☆☆☆☆
+								 </c:otherwise>
+										</c:choose>
+									</fieldset>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li
+						class="list-group-item d-flex justify-content-between align-items-center"
+						style="height: 31px;">일일대여 요금
+						<div>${getProduct.prod_price }원</div>
+					</li>
+					<li
+						class="list-group-item d-flex justify-content-between align-items-center"
+						style="height: 31px;">대여 시작 날짜
+						<div>
+							<input type="date" id="indate1" name="cart_from"
+								style="border: transparent;">
+						</div>
+					</li>
+					<li
+						class="list-group-item d-flex justify-content-between align-items-center"
+						style="height: 31px;">반납 날짜
+						<div>
+							<input type="date" id="outdate1" name="cart_to"
+								style="border: transparent;">
+						</div>
+					</li>
+					<li
+						class="list-group-item d-flex justify-content-between align-items-center"
+						style="height: 31px;">대여 수량 입력
+						<div align="center">
+							<input type="number" name="cart_prodCount" value="1"
+								pattern="[0-9]+" min="1" max="10">
+						</div>
+					</li>
+					<li
+						class="list-group-item d-flex justify-content-between align-items-center"
+						style="height: 31px;">대리점 선택
+						<div>
+							<select name="agencyDTO.agency_num" style="border: transparent;">
+								<c:forEach items="${getAgency}" var="dto">
+									<option value="${dto.agency_num}">${dto.agency_name}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</li>
+				</ul>
+				<input type="submit" value="대여하기"
+					style="background-color: #0D6EFD; color: white; height: 55px; width: 100%">
+			</form>
+		</div>
 		
-		<!-- 팝업 연결 영역 -->
-		<script>
-        function popup(){
-            var url = "productReviewView.product";
-            var name = "popup test";
-            var option = "width = 800, height = 1000, top = 100, left = 200, location = no"
-            window.open(url, name, option);
-        }
-    </script>
-    <!-- 팝업 연결영역 끝 -->
-    
 		<div class="col-md-8 themed-grid-col">
 			<div class="row" align="center">
-				<div class="row">
+					<div class="row">
+					<figure class="text-center">
+						<blockquote class="blockquote">
+							<p></p>
+						</blockquote>
+					</figure>
 				</div>
-				<h2>용품 리뷰 목록</h2>
+				<h3 style="margin-bottom: 11px; padding-bottom: 0px; padding-top: 0px; padding-left: 0px; padding-right: 15px;">${getProduct.prod_name} 리뷰 목록</h3>
 			</div>
 			<div class="row">
 				<!-- 드랍 버튼 -->
 				<div class="col">
 					<div class="btn-group">
 						<button type="button" class="btn btn-primary dropdown-toggle"
-							data-bs-toggle="dropdown" aria-expanded="false">정렬</button>
-						<ul class="dropdown-menu" style="">
-							<li><a class="dropdown-item" href="#">인기순</a></li>
-							<li><a class="dropdown-item" href="#">최신순</a></li>
-
+							data-bs-toggle="dropdown" aria-expanded="false"
+							style="background-color: #00205b; border-color: #00205b;">정렬</button>
+						<ul class="dropdown-menu" style="margin-right: 13px;">
+							<li><a class="dropdown-item" href="productViewOrder.product?search=${prodsearch}&searchString=${prodsearchString}&mode=listReviewNew&prod_num=${prod_num}"> <!-- 정렬 넣기 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  -->
+									최신순
+							</a></li>
+							<li><a class="dropdown-item" href="productViewOrder.product?search=${prodsearch}&searchString=${prodsearchString}&mode=listReviewLike&prod_num=${prod_num}"> 좋아요순</a></li>
+							<li><a class="dropdown-item" href="productViewOrder.product?search=${prodsearch}&searchString=${prodsearchString}&mode=listReviewPop&prod_num=${prod_num}"> 별점순</a></li>
 						</ul>
 					</div>
+					<button type="button" class="btn btn-dark"
+						style="margin-left: 15px; background-color: #00205b; border-color: #00205b;"
+						onclick="location.href ='productView.product?prod_num=${getProduct.prod_num}'">
+						전체보기</button>
+					<button type="button" class="btn btn-dark"
+						style="margin-left: 15px; background-color: #00205b; border-color: #00205b;"
+						onclick="location.href='goods_review.review?prod_num=${getProduct.prod_num}'">
+						리뷰 등록 하기</button>
+
 				</div>
 
-
-				<!-- 리뷰 검색 모달 버튼 -->
 				<div class="col" align="right">
-					<button type="button" class="btn btn-primary"
-						data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-						리뷰 검색</button>
-				</div>
-				<!-- 리뷰 검색 모달 버튼 끝 -->
-			</div>
-			<div class="row">&nbsp;</div>
-
-
-			<!-- 리뷰 검색 모달 -->
-			<form class="row gy-2 gx-3 align-items-center" name ="f" action="productView.product" method="post">
-				<div class="modal fade" id="staticBackdrop"
-					data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-					aria-labelledby="staticBackdropLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="staticBackdropLabel">리뷰 검색</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-							
-								<!-- 선택범주&검색명 -->
-								
-								<div class="row">
-									<div class="col">
-										<div class="form-floating">
-										
-											<select class="form-select" name="search"
-												aria-label="Floating label select example">
-												<option selected value ="rp_title">리뷰 제목</option>
-												<option value="prodName">용품명</option>
-											</select> <label for="floatingSelect">선택</label>
-										</div>
-									</div>
-									<div class="col">
-										<div class="form-floating mb-3">
-											<input type="text" class="form-control" name="searchString"> 
-												<label for="floatingInput">검색창</label>
-												
-										</div>
-									</div>
-								</div>
-
-								<!-- 버튼 영역 -->
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">닫기</button>
-									<button type="submit" class="btn btn-primary">찾기</button>
-								</div>
-							</div>
-						</div>
+				<div class="col-md-8 mb-2" >
+					<div class="input-group mb-1" style="left: 12px;">
+						<input type="hidden" name="mode" value="find" /> 
+						<select	id="search" class="form-select"	aria-label="Default select example">
+							<option value="rp_title" align="center">리뷰제목</option>
+							<option value="rp_content" align="center">리뷰내용</option>
+							<!-- <option value="mem_nickName" align="center">리뷰작성자</option> -->
+						</select> <input type="text" id="searchString" class="form-control"
+							placeholder="리뷰를 검색하세요 !" aria-label="Recipient's username"
+							aria-describedby="button-addon2">
+						<button class="btn btn-primary" type="button" id="button-addon2"
+							style="background-color: #00205b; border-color: #00205b;"
+							onclick="search_function();">검색</button>
 					</div>
 				</div>
-			</form>
-			<!-- 리뷰 검색 모달 끝 -->
-
+			</div>
+		</div>	
 			<!-- 본문 -->
 			<table class="table table-borderless">
-			<c:if test="${empty listProdReview }">
-			<tr>
-				<td>
-					<div class="card" style="width: 18rem;">
-						<!-- 리뷰리스트 이미지 영역 -->
-							<img src="resources/images/carbak4.jpg" class="card-img-top">
-							<!-- 리뷰리스트 이미지 영역 끝 -->
-							<div class="card-body">
-								<h5 class="card-title">리뷰 없음</h5>
-								<p class="card-text">
-									<label for="disabledRange" class="form-label">없음</label> <input
-										type="range" class="form-range" id="disabledRange" disabled>
-									조회수|좋아요 개수<br>작성일
-								</p>
-								<a href="javascript:popup()"><button type="button"
-										class="btn btn-primary" data-bs-toggle="modal">없음</button></a>
-							</div>
-						</div>
-					</td>
-			</tr>
-				</c:if>
-				
-				<c:forEach var="dto" items="${listProdReview}">
 				<tr>
-					<c:set var="count" value="0" />
-					<td align="right"><c:out value="${pageNum}"/></td>
-					<c:set var="pageNum" value="${pageNum-1}"/>
-					<td>
-						<div class="card" style="width: 18rem;">
-						<!-- 리뷰리스트 이미지 영역 -->
-							<img src="resources/images/carbak4.jpg" class="card-img-top">
-							<!-- 리뷰리스트 이미지 영역 끝 -->
-							<div class="card-body">
-								<h5 class="card-title">${dto.rp_title}</h5>
-								<p class="card-text">
-									<label for="disabledRange" class="form-label">${dto.rp_score}|${dto.rp_likeCount}</label> <input
-										type="range" class="form-range" id="disabledRange" disabled>
-									조회수|좋아요 개수<br>작성일
-								</p>
-								<a href="javascript:popup()"><button type="button"
-										class="btn btn-primary" data-bs-toggle="modal">내용</button></a>
+					<c:if test="${empty listBoard}">
+						<c:if test="${not empty searchString }">
+							<td><h2 align="center">검색 하신 리뷰는 존재하지 않습니다.</h2></td>
+						</c:if>
+						<c:if test="${empty searchString }">
+							<td><h2 align="center">제일 먼저 리뷰를 등록해보세요!</h2>
+						</td>
+						</c:if>
+					</c:if>
+					<c:forEach var="pdto" items="${listBoard }">
+						<td>
+							<div class="card border-dark" style="width: 18rem;">
+								<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${pdto.rp_image1}" class="card-img-top"
+									style="width: 286px; height: 200px;  display:inline-block;"><span style=" text-align:center; margin-top: 10px;">${pdto.memberDTO.mem_nickName}</span>
+								
+								<div class="card-body">
+									<div class="card-body">
+										<h5 id="reviewTitle" class="card-title">${pdto.rp_title}</h5>
+										<p class="card-text" id="reviewSummary">${pdto.rp_summaryContent }</p>
+									</div>
+									<ul class="list-group list-group-flush">
+										<li class="list-group-item">별점 (${pdto.rp_score}/5)
+											<fieldsest style="float: right;">
+												<c:choose>
+													<c:when test="${pdto.rp_score >= 1 && pdto.rp_score < 2 }">
+														<label for="rate1">⭐</label>
+													</c:when>
+													<c:when test="${pdto.rp_score >= 2 && pdto.rp_score < 3 }">
+														<label for="rate1">⭐</label>
+														<label for="rate2">⭐</label>
+													</c:when>
+													<c:when test="${pdto.rp_score >= 3 && pdto.rp_score < 4 }">
+														<label for="rate1">⭐</label>
+														<label for="rate2">⭐</label>
+														<label for="rate3">⭐</label>
+													</c:when>
+													<c:when test="${pdto.rp_score >= 4 && pdto.rp_score < 5 }">
+														<label for="rate1">⭐</label>
+														<label for="rate2">⭐</label>
+														<label for="rate3">⭐</label>
+														<label for="rate4">⭐</label>
+													</c:when>
+													<c:when test="${pdto.rp_score eq 5 }">
+														<label for="rate1">⭐</label>
+														<label for="rate2">⭐</label>
+														<label for="rate3">⭐</label>
+														<label for="rate4">⭐</label>
+														<label for="rate5">⭐</label>
+													</c:when>
+													<c:otherwise>
+										 ☆☆☆☆☆
+										 </c:otherwise>
+												</c:choose>
+											</fieldset>
+										</li>
+										<li
+											class="list-group-item d-flex justify-content-between align-items-center">
+											조회수
+											<div>
+												<p>${pdto.rp_readCount}</p>
+											</div>
+										</li>
+										<li
+											class="list-group-item d-flex justify-content-between align-items-center">
+											좋아요
+											<div>
+												<p>${pdto.rp_likeCount}</p>
+											</div>
+										</li>
+									</ul>
+								
+									<div class="card-body">
+										<a href="javascript:popup(${pdto.rp_num })"><button type="button" class="btn btn-dark" style="width: 100%; background:#091835;">
+										리뷰 보기</button></a>
+										<span style="float: left;font-size: 14px;">작성일자 : ${pdto.rp_sysdate }</span>
+									</div>
+								</div>
 							</div>
-						</div>
-					</td>
-					</tr>
-					<c:set var="count" value="${count+1 }"/>
-					<c:if test="${count%3==0 }">
-					<tr></tr>
+						</td>
+						<c:set var="count" value="${count+1 }" />
+						<c:if test="${count%3==0 }">
+				</tr>
+				<tr>
 					</c:if>
 					</c:forEach>
+				</tr>
 			</table>
-			
-			<!-- 페이지 넘기기 영역 -->
-			  <nav aria-label="Page navigation example">
+			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
-					
-					<!-- 페이징 기능 -->
-					<c:if test="${rowCount>0}">			
-			<c:if test="${startPage>1}">
-					<li class="page-item disabled"><a class="page-link" href="productView.product?pageNum=${startPage-1}">Previous</a></li>
+					<c:if test="${page-3>1}">
+						<li class="page-item"><a class="page-link"
+							href="productView.product?page=${page-1}&prod_num=${getProduct.prod_num}">Previous</a></li>
 					</c:if>
-					<c:forEach var="i" begin="${startPage}" end="${endPage}">
-					[<a class="page-link" href="productView.product?pageNum=${i}"><c:out value="${i}"/></a>]
+					<c:forEach var="i" begin="${page-3<1?1:page-3}"
+						end="${page+3>pageCount?pageCount:page+3}">
+						<c:if test="${i==page}">
+							<li class="page-item"><a class="page-link"
+								href="productView.product?page=${i}&prod_num=${getProduct.prod_num}"
+								style="color: blue;">${i}</a></li>
+						</c:if>
+						<c:if test="${i!=page}">
+							<li class="page-item"><a class="page-link"
+								href="productView.product?page=${i}&prod_num=${getProduct.prod_num}">${i}</a></li>
+						</c:if>
 					</c:forEach>
-					
-					<c:if test="${endPage<pageCount}">
-					<li class="page-item"><a class="page-link" href="productView.product?pageNum=${endPage+1}">Next</a></li>
+					<c:if test="${page+3<pageCount}">
+						<li class="page-item"><a class="page-link"
+							href="productView.product?page=${page+1}&prod_num=${getProduct.prod_num}">Next</a></li>
 					</c:if>
-		</c:if>
-		<!-- 페이징 기능 끝 --> 
 				</ul>
+				<button class="btn btn-primary" onclick="contact();"
+					style="float: right; background-color: #00205b; border-color: #00205b;">문의하기</button>
 			</nav>
-			<!-- 페이지 넘기기 영역 끝 -->
-			
-			<!-- 페이지 이동할 href(리뷰DTO 완성되면 주소 넣을것) -->
-			
-			<!-- 
-			<c:if test="${rowCount>0}">			
-			<c:if test="${startPage>1}">
-				[<a href="productView.product?pageNum=${startPage-1}">이전</a>]			
-			</c:if>
-			<c:forEach var="i" begin="${startPage}" end="${endPage}">
-				[<a href="productView.product?pageNum=${i}"><c:out value="${i}"/></a>]	
-			</c:forEach>
-			<c:if test="${endPage<pageCount}">
-				[<a href="productView.product?pageNum=${endPage+1}">다음</a>]			
-			</c:if>
-		</c:if> 
-		-->
-			
 		</div>
-
 	</div>
 </div>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script>
+
+function popup(rp_num) {
+	   var isEmpty = function(value){//빈값체크
+	        if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
+	          return true
+	        }else{
+	          return false
+	        }
+	      };
+	   var mid = '${mem_num}';
+	   console.log(mid);			
+	   if(!isEmpty(mid)){
+	   	var url = "productReviewView.product?rp_num="+rp_num;
+	   	var name = "popup";
+	    var _left = Math.ceil(( window.screen.width - 800 )/2);
+	   var _top = Math.ceil(( window.screen.height - 1000 )/2); 
+	   var option = "width = 800, height = 900, top ="+_top+", left = "+_left+"'y', location = no,  menubar=no,resizable=no.toolbar=no";
+	   window.open(url, name, option);
+	   }else{
+	      alert("리뷰를 보기위해서는 로그인이 필요합니다 !");
+	   }
+	}
+		
+		function search_function(){
+			
+			var searchSelect = document.getElementById("search");
+			var search = searchSelect.options[searchSelect.selectedIndex].value;
+			var searchString = encodeURIComponent(document.getElementById("searchString").value);
+			var f = document.createElement("form");	
+			f.setAttribute("method","post");
+			f.setAttribute("action","productView.product");
+			document.body.appendChild(f);
+			var input_search = document.createElement("input");
+			var input_searchString = document.createElement("input");
+			var input_prodNum = document.createElement("input");
+			
+			input_search.setAttribute("type","hidden"); 
+			input_search.setAttribute("name","search"); 
+			input_search.setAttribute("value",search);  
+			f.appendChild(input_search);
+			input_searchString.setAttribute("type","hidden"); 
+			input_searchString.setAttribute("name","searchString"); 
+			input_searchString.setAttribute("value",searchString);  
+			f.appendChild(input_searchString);
+			input_prodNum.setAttribute("type","hidden"); 
+			input_prodNum.setAttribute("name","prod_num"); 
+			input_prodNum.setAttribute("value",'${prod_num}');
+			f.appendChild(input_prodNum);
+			f.submit(); 
+		}
+				
+	    function contact() {
+	          var url = "myPageContactUs.myPage";
+	          var name = "popup test";
+	          var option = "width = 800, height = 400, top = 100, left = 200, location = no"
+	          window.open(url, name, option);
+	  	}
+	    
+	    function chk_rent(){
+	    	
+	    }
+
+	    function getTodayDate() {
+	           const today = new Date(); 
+	           const year = today.getFullYear(); // 2021
+	           const month = ('0' + (today.getMonth() + 1)).slice(-2); // 12
+	           const day = ('0' + today.getDate()).slice(-2); // 20
+	           const dateString = year + '-' + month + '-' + day; // 2021.12.20
+	           return dateString;
+	       }
+	       function chk_rent(){
+	    	   var isEmpty = function(value){//빈값체크
+			        if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
+			          return true
+			        }else{
+			          return false
+			        }
+			      };
+			   var mid = '${mem_num}';
+			   if(isEmpty(mid)){
+				   alert("대여하기 위해서는 로그인이 필요합니다 !");
+				   return false;
+			   }
+	          var today = getTodayDate();
+	          var indate = document.getElementById("indate1").value;
+	          var outdate = document.getElementById("outdate1").value;
+	         console.log(indate)
+	         console.log(outdate)
+	          if(indate == "" || outdate == ""){
+	             alert("대여 날짜와 반납 날짜를 선택해주세요 !")
+	             return false;
+	          }
+	          else if(indate<today){
+	             alert("현재 날짜보다 이전의 날짜는 선택하실 수 없습니다.");
+	             return false;
+	          }else if(indate>outdate){
+	             alert("반납 날짜를 다시 선택해주세요")
+	             return false;   
+	          }
+	          
+	          return true;   
+	       }
+		
+</script>
+
 
 <%@include file="../bottom.jsp"%>

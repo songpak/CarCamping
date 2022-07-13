@@ -121,5 +121,6 @@ public class ReviewRegionDTO {
 	public void setReview_adminConfirm(int review_adminConfirm) {
 		this.review_adminConfirm = review_adminConfirm;
 	}
+		
 	
 }

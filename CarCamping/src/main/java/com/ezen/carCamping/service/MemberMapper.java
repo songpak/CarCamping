@@ -1,5 +1,10 @@
 package com.ezen.carCamping.service;
 
+
+import java.util.Hashtable;
+
+
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -22,23 +27,22 @@ public class MemberMapper {
 
    public String searchMemberID(Map<String, String> params) {
       String sql = null;
-      sql = "select * from Member where mem_name='"+params.get("mem_name") 
+      sql = "select * from Member where mem_userName='"+params.get("mem_userName") 
                + "' and mem_email='"+params.get("mem_email")+"'";
             params.put("sql", sql);
             MemberDTO dto = sqlSession.selectOne("searchMemberID", params);
-            if (dto == null) return "ÀÔ·ÂµÈ °ª°ú ÀÏÄ¡ÇÏ´Â È¸¿øÀÌ ¾ø½À´Ï´Ù.";
-            return "¾ÆÀÌµğ´Â " + dto.getMem_id() +" ÀÔ´Ï´Ù.";
-         
+            if (dto == null) return "ì…ë ¥ëœ ê°’ê³¼ ì¼ì¹˜í•˜ëŠ” ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.";
+			return "ì•„ì´ë””ëŠ” " + dto.getMem_id() +" ì…ë‹ˆë‹¤.";
    }
    
    public String searchMemberPW(Map<String, String> params) {
       String sql = null;
-      sql = "select * from Member where mem_id='"+params.get("mem_id") 
+      sql = "select * from Member where mem_userName='"+params.get("mem_userName") 
       + "' and mem_email='"+params.get("mem_email") + "'";
          params.put("sql", sql);
       MemberDTO dto = sqlSession.selectOne("searchMemberPW", params);
-      if (dto == null) return "ÀÔ·ÂµÈ °ª°ú ÀÏÄ¡ÇÏ´Â È¸¿øÀÌ ¾ø½À´Ï´Ù.";
-      return "ÀÓ½Ã ºñ¹Ğ¹øÈ£¸¦ ÀÌ¸ŞÀÏ·Î Àü´Ş µå¸³´Ï´Ù.";
+      if (dto == null) return "ì…ë ¥ëœ ê°’ê³¼ ì¼ì¹˜í•˜ëŠ” íšŒì›ì´ ì—†ìŠµë‹ˆë‹¤.";
+      return "ë¹„ë°€ë²ˆí˜¸ëŠ”."+dto.getMem_password()+"ì…ë‹ˆë‹¤.";
 }
    
    public MemberDTO getMemberId(String mem_id) {
@@ -50,5 +54,53 @@ public class MemberMapper {
 	      int res = sqlSession.insert("insertMember", dto);
 	      return res;
 	   }
-
+   public MemberDTO getMemberNick(String mem_nickName) {
+       MemberDTO dto = sqlSession.selectOne("getMemberNick", mem_nickName);
+       return dto;
+   }
+   public MemberDTO getMemberEmail(String mem_email) {
+       MemberDTO dto = sqlSession.selectOne("getMemberEmail", mem_email);
+       return dto;
+   }
+   public int updateMember(MemberDTO dto) {
+		int res = sqlSession.update("updateMember", dto);
+		return res;
 	}
+   public MemberDTO getMember(int mem_num){
+		MemberDTO dto = sqlSession.selectOne("getMember", mem_num);
+		return dto;
+	}
+
+   public String getMemberPassword(int mem_num) {
+	   return sqlSession.selectOne("getMemberPassword", mem_num);
+	   
+	   
+   }
+   
+   public int deleteMember(int mem_num, String mem_password) {
+	   Map<String, Object> map = new Hashtable<String, Object>();
+		map.put("mem_num", mem_num);
+		map.put("mem_password", mem_password);
+		System.out.println(mem_password);
+		return sqlSession.delete("deleteMember", map);
+		
+	}
+   //ë°•í˜œì„± : ì„ì‹œë¹„ë°€ë²ˆí˜¸
+   public MemberDTO getMemberByIdNEmail(String mem_id,String mem_email) {
+	   Map<String, Object> map = new Hashtable<String, Object>();
+	   map.put("mem_id", mem_id);
+	   map.put("mem_email", mem_email);
+	   return (MemberDTO) sqlSession.selectOne("getMemberByIdNEmail", map); 
+	}
+   
+   public int updatePassword(int mem_num,String mem_password) {
+	   Map<String, Object> map = new Hashtable<String, Object>();
+	   map.put("mem_num", mem_num);
+	   map.put("mem_password", mem_password);
+	   return sqlSession.update("updatePassword", map); 
+   }
+}
+   
+   
+
+

@@ -11,6 +11,7 @@ public class MemberDTO {
 	private String mem_birthday;
 	private String mem_gender;
 	private RegionDTO regionDTO;
+	private int rental_usePoint;
 	private int mem_point;
 	private int mem_rentalCount;
 	private String mem_sysdate;
@@ -21,9 +22,15 @@ public class MemberDTO {
 	private String mem_image;
 	private String mem_summary;
 	private String mem_introduce;
-	private int mem_firstReview;
+	private int mem_reviewCount;
 	
-	
+
+	public int getRental_usePoint() {
+		return rental_usePoint;
+	}
+	public void setRental_usePoint(int rental_usePoint) {
+		this.rental_usePoint = rental_usePoint;
+	}
 	public int getMem_num() {
 		return mem_num;
 	}
@@ -78,10 +85,10 @@ public class MemberDTO {
 	public void setMem_gender(String mem_gender) {
 		this.mem_gender = mem_gender;
 	}
-	public RegionDTO getregionDTO() {
+	public RegionDTO getRegionDTO() {
 		return regionDTO;
 	}
-	public void setregionDTO(RegionDTO regionDTO) {
+	public void setRegionDTO(RegionDTO regionDTO) {
 		this.regionDTO = regionDTO;
 	}
 	public int getMem_point() {
@@ -144,11 +151,18 @@ public class MemberDTO {
 	public void setMem_introduce(String mem_introduce) {
 		this.mem_introduce = mem_introduce;
 	}
-	public int getMem_firstReview() {
-		return mem_firstReview;
+
+	public int getMem_reviewCount() {
+		return mem_reviewCount;
 	}
-	public void setMem_firstReview(int mem_firstReview) {
-		this.mem_firstReview = mem_firstReview;
-	}
+	public void setMem_reviewCount(int mem_reviewCount) {
+		this.mem_reviewCount = mem_reviewCount;
+
+	}  
 	
+	
+	
+
 }
+	
+

@@ -10,8 +10,8 @@ public class CarCampingRegionDTO {
 	private int ccr_restroom;
 	private int ccr_water;
 	private int ccr_market;
+	private int ccr_river;
 	private String ccr_ground;
-	private int ccr_reviewCount;
 	private int ccr_likeCount;
 	private float ccr_score;
 	private int ccr_popular;
@@ -22,7 +22,8 @@ public class CarCampingRegionDTO {
 	private String ccr_viewImage5;
 	private String ccr_summary;
 	private String ccr_content;
-	
+	private int ccr_reviewCount;
+
 	public int getCcr_num() {
 		return ccr_num;
 	}
@@ -77,17 +78,17 @@ public class CarCampingRegionDTO {
 	public void setCcr_market(int ccr_market) {
 		this.ccr_market = ccr_market;
 	}
+	public int getCcr_river() {
+		return ccr_river;
+	}
+	public void setCcr_river(int ccr_river) {
+		this.ccr_river = ccr_river;
+	}
 	public String getCcr_ground() {
 		return ccr_ground;
 	}
 	public void setCcr_ground(String ccr_ground) {
 		this.ccr_ground = ccr_ground;
-	}
-	public int getCcr_reviewCount() {
-		return ccr_reviewCount;
-	}
-	public void setCcr_reviewCount(int ccr_reviewCount) {
-		this.ccr_reviewCount = ccr_reviewCount;
 	}
 	public int getCcr_likeCount() {
 		return ccr_likeCount;
@@ -107,7 +108,6 @@ public class CarCampingRegionDTO {
 	public void setCcr_popular(int ccr_popular) {
 		this.ccr_popular = ccr_popular;
 	}
-	
 	public String getCcr_viewImage1() {
 		return ccr_viewImage1;
 	}
@@ -150,4 +150,14 @@ public class CarCampingRegionDTO {
 	public void setCcr_content(String ccr_content) {
 		this.ccr_content = ccr_content;
 	}
-}
+	public int getCcr_reviewCount() {
+		return ccr_reviewCount;
+	}
+	public void setCcr_reviewCount(int ccr_reviewCount) {
+		this.ccr_reviewCount = ccr_reviewCount;
+	}
+
+}	
+
+
+
