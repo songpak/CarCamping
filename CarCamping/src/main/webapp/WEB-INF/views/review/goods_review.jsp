@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="../top.jsp" %>
-<c:set var="mem_num" value="3" />
+<c:set var="mem_num" value="${mem_num}" />
  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,9 +38,9 @@ function SelectCateEvent(){
 		 if(isRun == true) {
 		        return;
 		    }
-		 var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
-		    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>'; 
-		   $('body').fadeTo( "fast", 0.4 ).append(loadingHtml);
+		 var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:40%;left:45%; text-align:center;"> ';
+		    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/carLoading.gif"/>"  /></div></div>'; 
+		   $('body').fadeTo( "fast", 1 ).append(loadingHtml);
 		   
 		   $.ajax({
 				url : "prod_list.review",//컨트롤러 맵핑  
@@ -60,6 +60,7 @@ function SelectCateEvent(){
 					isRun  = false;
 				},
 				error :   function(request, status, error){
+					$('body').fadeTo("slow", 1).find('#loading').remove();
 		            console.log("상품 리스트를 불러오는 중 오류 발생 !");
 		        }
 			});
@@ -136,41 +137,82 @@ function fileDelete(fileNum){
 	 var goodsReview = document.dataForm;
 	 var fileList = document.getElementById("reviewImageBox");
 	 
-	 if (goodsReview.rp_summaryContent.value.length < 20) {
-         alert("한줄 리뷰는 20자 이상 입력해주세요 😅");
-         goodsReview.rp_summaryContent.focus();
+		if (goodsReview.rp_title.value.length >= 20) {
+            alert("리뷰 제목은 20자 까지 입력 가능합니다 😅");
+            goodsReview.rp_summaryContent.focus();
+            return false;
+         }
+      if (goodsReview.rp_title.value.length < 10) {
+            alert("리뷰 제목을 10자 이상 입력해주세요");
+            goodsReview.rp_summaryContent.focus();
+            return false;
+         }
+      if (goodsReview.rp_summaryContent.value.length >= 20) {
+            alert("리뷰 한줄 리뷰는 20자 까지 입력 가능합니다 😅");
+            goodsReview.rp_summaryContent.focus();
+            return false;
+         }
+      if (goodsReview.rp_summaryContent.value.length < 10) {
+            alert("리뷰 한줄 리뷰를 10자 이상 입력해주세요");
+            goodsReview.rp_summaryContent.focus();
+            return false;
+         }
+      if (goodsReview.rp_content.value.length < 30) {
+         alert("리뷰 내용을 30자 이상 입력해주세요 😅");
+         goodsReview.rp_content.focus();
          return false;
       }
-	 if (goodsReview.rp_content.value.length < 30) {
-			alert("리뷰 내용은 30자 이상 입력해주세요 😅");
-			goodsReview.rp_content.focus();
-			return false;
-	 }
-	if(document.getElementsByClassName('imagefile').length==0){
-			alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
-			return false;
-	}
- //파일업로드 multiple ajax처리  
-	$.ajax({
-   	      type: "POST",
-   	   	  enctype: "multipart/form-data",
-   	      url: "goodsReview_upload.review",
-       	  data : formData,
-       	  processData: false,
-   	      contentType: false,
-   	      success: function (data) {
-   	    	if(data == "good"){
-				alert("리뷰 업로드 성공");   	    		
-				location.href="goProduct.product";  	    		   
-			} else
-				alert("서버내 오류 또는 게시글의 내용이 너무 깁니다. 잠시후 시도 하시거나 내용을 변경해주세요");
-   	      },
-   	      error: function (xhr, status, error) {
-   	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
-   	     return false;
-   	      }
-   	    });
-   	    return false;
+      if (goodsReview.rp_content.value.length > 1000) {
+         alert("리뷰 내용은 1000자 까지 입력 가능합니다😅");
+         goodsReview.rp_content.focus();
+         return false;
+      }
+      if(document.getElementsByClassName('imagefile').length==0){
+         alert("이미지 파일을 한 개 이상 첨부해주세요 😅");
+         return false;
+      } 
+      if (!confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+          // 취소(아니오) 버튼 클릭 시 이벤트
+          	isRun=false;
+             return false;
+              } else {
+          // 확인(예) 버튼 클릭 시 이벤트
+            $("#submitButton").attr("disabled",true);
+          	var uploadingHtml = '<div id="uploading" style="z-index: 1005;position: absolute; top:20%;left:30%; text-align:center;"> ';
+               uploadingHtml += '<div class="uoloading_box"><img src="<c:url value="/resources/images/uploadLoading.gif"/>"  /></div></div>';
+               $('body').fadeTo("fast", 1).append(uploadingHtml);
+
+               $.ajax({
+                  type : "POST",
+                  enctype : "multipart/form-data",
+                  url : "goodsReview_upload.review",
+                  data : formData,
+                  processData : false,
+                  contentType : false,
+                  success : function(data) {
+                     if (data == "good") {
+                        $('body').fadeTo("slow", 1).find('#uploading').remove();
+                        alert("리뷰 업로드 성공");
+                        location.href = "goProduct.product";
+                   		 $("#submitButton").attr("disabled",false);
+                        isRun=false;
+                       
+                     } else{
+                    	 $("#submitButton").attr("disabled",false);
+                    	 $('body').fadeTo("slow", 1).find('#uploading').remove();
+                        alert("서버내 오류 또는 게시글의 내용이 너무 깁니다. 잠시후 시도 하시거나 내용을 변경해주세요");
+                     }
+                  },
+                  error : function(xhr, status, error) {
+                	  
+                 	 $("#submitButton").attr("disabled",false);
+                     $('body').fadeTo("slow", 1).find('#uploading').remove();
+                     alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
+                     return false;
+                  }
+               });
+            }
+		return false;
 	}
 </script>
 
@@ -244,7 +286,7 @@ margin-right : 0px;
             	<textarea class="form-control" id="rp_content" name="rp_content" placeholder="리뷰 상세" rows="18" required  style="resize:none;"></textarea>
        	 		<br>
        	 	<div style="text-align: center;">
-	  		<button class="btn btn-warning mb-3" type="submit" style="margin-right: 60px;">리뷰 작성</button>
+	  		<button class="btn btn-warning mb-3" type="submit" style="margin-right: 60px;" id="submitButton">리뷰 작성</button>
  			<button class="btn btn-danger mb-3" type="reset">취소</button>
 			</div>	
 			<button id="btn-upload" type="button" style="border: 1px solid #ddd; outline: none;">이미지 파일 추가</button>
@@ -273,7 +315,6 @@ $(document).ready(function() {
 	var pc_num = '${pc_num}';
 	var brand_num = '${brand_num}';
 	var prod_num = ${requestScope.prod_num};
-	alert(prod_num);
 	var prod_name ='${prod_name}';
 	if(prod_num != null){
 		var prodCateSelect = document.getElementById("review_prodCate")

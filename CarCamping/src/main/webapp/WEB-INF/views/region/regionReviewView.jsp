@@ -48,13 +48,14 @@
 		<!-- Begin Header -->
 		<div align="center" id="header">
 			<div class="card border-success mb-3"
-				style="width: 700px; height: 960px">
+				style="width: 700px; height: 1000px">
 				<div class="card-header" style="background-color: #83BD75;">
 					<h2 style="margin-bottom: 0px;">${selectedReview.review_title}</h2>
 				</div>
 				<div class="card-body">
-					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${selectedReview.review_regionImage1}" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
-					<ul class="list-group">
+					<img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${selectedReview.memberDTO.mem_image}" class="card-img rounded-circle" style="width: 145px; height: 145px; float: left;" />
+					
+					<ul class="list-group" style="padding-left: 30px; padding-right: 10px;">
 						<li class="list-group-item d-flex justify-content-between align-items-center" style="height:40px;">
 							<h5>좋 아 요</h5>
 							<c:if test="${check==0}">
@@ -110,6 +111,7 @@
 										 ☆☆☆☆☆
 								 </c:otherwise>
 								</c:choose>
+								
 										</fieldset>
 									</div>
 								</div>
@@ -117,6 +119,10 @@
 						</li>
 					
 					</ul>
+					<div celar="left">
+						<label style="float: left"><b style="padding-left: 50px;">${selectedReview.memberDTO.mem_nickName}</b></label>
+						</div>
+						<br>
 					<p></p>
 					<div class="progress" >
 						<div
@@ -163,9 +169,8 @@
 							<blockquote class="blockquote">
 								<p class="mb-0">REVIEW</p>
 							</blockquote>
-							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" readonly>
-							${selectedReview.review_regionContent}
-							</textarea>
+							<textarea class="form-control border border-5" id="reviewTextarea" rows="10" style="background-color: #ffffff;" readonly>${selectedReview.review_regionContent}</textarea>
+							<span style="float: left;font-size: 15px;">작성일자 : ${selectedReview.review_sysdate}</span>
 						</div>
 					</div>
 				</div>
@@ -176,9 +181,9 @@
 		<script>
 		var isRun = false; // ajax 동시 호출 막기(ajax가 호출되는 동안 버튼이 클릭돼도 중복으로 실행되는것을 막기위함)
 		
-		function Like_function(){//좋아요 버튼 누를시, 실행되는 함수
-			var mid = '${mem_id}'; //로그인 성공시 session에 mem_num을 저장하기 때문에, 로그인 유무를 판단하기 위해 mem_id저장
-			var isEmpty = function(value){//빈값체크를 위한 함수
+		function Like_function(){
+			var mid = '${mem_id}';
+			var isEmpty = function(value){//빈값체크
 	            if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
 	              return true
 	            }else{
@@ -186,44 +191,48 @@
 	            }
 	          };
 			
-			if(isEmpty(mid)){ //아이디가 없으면 = 로그인이 안돼있으면
+			if(isEmpty(mid)){ //아이디가 없으면
 				console.log("아이디없음");
 				alert("로그인을 해주세요 !!");
 				
-			}else{ //아이디가 있으면 = 로그인이 돼있으면		
-				 if(isRun == true) { //ajax가 실행되고 있으면 isRun이 true이므로 실행되지 않고 return됨
+			}else{ //아이디가 있으면			
+				 if(isRun == true) {
 				        return;
 				    }
-				 isRun = true;//ajax가 실행되고 있지 않으면 isRun을 true로 바꿔 더이상 중복되지 않게함
+				 isRun = true;
 					//클릭시 로딩 이미지 호출
 				  var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
 				    loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/loading_image.gif"/>"  /></div></div>'; 		   
 				    $('body').fadeTo( "fast", 0.4 ).append(loadingHtml);
-					var like_button = document.getElementById("likeCount");//좋아요 버튼을 가져옴
-	   				var like_color = like_button.style.backgroundColor;//좋아요 버튼의 색깔을 가져옴
-	   				
-	   				$.ajax({//ajax실행
+					var like_button = document.getElementById("likeCount");
+	   				var like_color = like_button.style.backgroundColor;
+	   				console.log(like_button);
+	   				console.log(like_color);
+	   				$.ajax({
 						url: "updateReviewLike.region", //컨트롤러 맵핑
 		                type: "POST",
 		                data: { //사용자가 데이터를 정의한다	
-		                	mem_id: '${mem_id}', //좋아요 내역에 insert하기 위해 mem_id를 전송
-		                	review_num: ${review_num} //좋아요 누른 행당 ccr_num을 전송
+		                	mem_id: '${mem_id}',
+		                	review_num: ${review_num}
 		                },         
-		                success: function (res) { //맵핑된 컨트롤러에서 증가된 좋아요 수를 return한다
+		                success: function (res) { //아래 function에서 data를 사용하기 위해서 파라미터로 정의한 데이터 data를 넘겨주어야한다.
+					       	// $('#test').text(data); // 바꾸고 싶은 태그의 아이디를 이용해서 태그에 접근하여 맵핑된 컨트롤러가 리턴한 스트링값으로 바꾼다.
 					       	 $('body').fadeTo( "slow", 1 ).find('#loading').remove();
-		                	$("#likeCount").text(res+"💖"); //증가된 좋아요 수를 text로 설정한다
-		                	if(like_color == 'rgb(255, 255, 255)'){// 좋아요 버튼 누르기 전, 좋아요 버튼의  색깔이 흰색이였다면 사용자가 좋아요를 누른것이므로 좋아요를 추가한다
+		                	$("#likeCount").text(res+"💖");
+		                	if(like_color =='rgb(255, 255, 255)'){
 		                		 alert("회원님의 좋아요가 성공적으로 등록되었습니다 !!😍"); 
-		                		$("#likeCount").css("background-color","#bb2d3b");//#bb2d3b  rgb(187, 45, 59)
-		               		}else if(like_color == 'rgb(187, 45, 59)'){ //좋아요 버튼 누르기 전, 좋아요 버튼이 빨간색이였다면 사용자가 좋아요를 취소한것이므로 좋아요를 취소한다.  
+		                		$("#likeCount").css("background-color","rgb(187, 45, 59)");//#bb2d3b  rgb(187, 45, 59)
+		               		}else if(like_color == 'rgb(187, 45, 59)'){          
 		               			alert("회원님의 좋아요가 취소되었습니다 !!😢"); 
-		               			$("#likeCount").css("background-color","white");
+		               			$("#likeCount").css("background-color","rgb(255, 255, 255)");
 		               		}   
-		                	isRun  = false; //ajax가 성공적으로 끝났다면 isRun을 false로 바꾸어 ajax가 다시 실행될 수 있게  해준다
+		                	isRun  = false;
 		                }
 					});
-			}
+			}	
 		}
+		
+		
 		document.getElementById("reviewTextarea").scrollTop = document.getElementById("reviewTextarea").scrollHeight;
 		
 		</script>

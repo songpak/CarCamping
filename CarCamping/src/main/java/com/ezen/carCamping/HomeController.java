@@ -25,35 +25,40 @@ import com.ezen.carCamping.service.MemberMapper;
  */
 @Controller
 public class HomeController {
-	   @Autowired
-	   private MemberMapper memberMapper;
-	   
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model,HttpServletRequest req) {
-		HttpSession session = req.getSession();
-	   	Cookie[] cookie = req.getCookies();
-	    for(int i=0; i < cookie.length; i++){
-	         if(cookie[i].getName().equals("loginCookie")){
-	        	 String value = cookie[i].getValue();
-	        	  MemberDTO dto = memberMapper.getMemberId(value);
-	        	 session.setAttribute("mem_num",  dto.getMem_num());
-	             session.setAttribute("mbdto", dto);
-	         }
-	    }
-	
-		return "index";
-	}
-	
-	@RequestMapping("/index.do")
-	public String goIndex(HttpServletRequest req, HttpServletResponse resp) {
+      @Autowired
+      private MemberMapper memberMapper;
+      
+   private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+   
+   /**
+    * Simply selects the home view to render by returning its name.
+    */
+   @RequestMapping(value = "/", method = RequestMethod.GET)
+   public String home(Locale locale, Model model,HttpServletRequest req) {
+      HttpSession session = req.getSession();
+      Cookie[] cookie = req.getCookies();
+       if(cookie !=null) {
+    	   for(int i=0; i < cookie.length; i++){
+       
+            if(cookie[i].getName().equals("loginCookie")){
+               String value = cookie[i].getValue();
+               try {
+                   MemberDTO dto = memberMapper.getMemberId(value);
+                  session.setAttribute("mem_num",  dto.getMem_num());
+                   session.setAttribute("mbdto", dto);
+               }catch(Exception e) {}
+            }
+    	   } 
+       }
+   
+      return "index";
+   }
+   
+   @RequestMapping("/index.do")
+   public String goIndex(HttpServletRequest req, HttpServletResponse resp) {
 
-			return "index";
+         return "index";
 
-	}
-	
+   }
+   
 }

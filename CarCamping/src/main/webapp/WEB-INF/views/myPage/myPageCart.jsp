@@ -50,7 +50,7 @@
                        
                             <div class="row">
                                 <div class="col-md-3 text-left">
-                                    <img src="${mdto.productDTO.prod_viewImage1}" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                    <img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${mdto.productDTO.prod_viewImage1}" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                 </div>
                                 <div class="col-md-9 text-left mt-sm-2">
                                 

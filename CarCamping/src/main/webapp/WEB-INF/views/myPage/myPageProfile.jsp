@@ -25,14 +25,21 @@
 var right = 0;
 function regChk(){
   var signCheck = document.signCheck;
+  var fileName = $("#mem_image").val();           
+  var ext = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
+  if (!(ext == "" || ext == "gif" || ext == "jpg" || ext == "png")) {
+     alert("이미지파일 ( ,.jpg, .png, .gif ) 만 업로드 가능합니다.");   
+     signCheck.mem_image.focus();
+     return false;
+  }
       if (signCheck.mem_phone.value==""){
          alert("전화번호를 입력하셔야 합니다.")
-         signCheck.mem_introduce.focus() 
+         signCheck.mem_phone.focus() 
          return false;
          }
      if (signCheck.mem_birthday.value==""){
          alert("생년월일을 입력하셔야 합니다.")
-         signCheck.mem_introduce.focus() 
+         signCheck.mem_birthday.focus() 
          return false;
          }
     if (signCheck.mem_summary.value==""){
@@ -100,6 +107,40 @@ function regChk(){
           document.signCheck.submit()
 }       
            </script>
+           
+           
+        
+           
+          
+           
+           <!-- 닉네임 체크 -->  
+               <script>
+           function inputNickChk(){
+              var signCheck = document.signCheck;
+              var CheckNick = document.signCheck.CheckNick;
+              document.signCheck.nickDuplication.value="nickUncheck";
+              CheckNick.disabled=false;
+              CheckNick.style.opaclty=1;
+              CheckNick.style.cursor= "pointer";        
+           } 
+           function fn_CheckNick(){
+              var signCheck = document.signCheck;
+              var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+              var mem_nickName = signCheck.mem_nickName.value;
+              if(mem_nickName.length==0||mem_nickName==""){
+                 alert("닉네임을 입력해 주세요.");
+                 signCheck.mem_nickName.focus();
+                 return false;
+              }
+              if( regExp.test(mem_nickName) ){
+                 alert("특수문자는 입력하실수 없습니다.");
+                 return false;
+              }
+                 window.open("checkNick.login?mem_nickName="+mem_nickName,"","width=500,height=300");
+                 
+           }
+         
+           </script>
 
  
   <!-- 비밀번호 확인 -->
@@ -155,7 +196,9 @@ function regChk(){
                       </tr>
                       <tr><td>닉네임  </td>
                       <td>
-                       <input type="text" value="${getMember.mem_nickName}" id="mem_nickName" name="mem_nickName" class="form-control"  required>
+                       <input type="text" value="${getMember.mem_nickName}" id="mem_nickName" name="mem_nickName" class="form-control"  required> 
+                       <button type = "button" class="btn btn-dark btn-s" style="background:#091835" onclick = "fn_CheckNick()" name="CheckNick" class="CheckNick">중복 체크</button>
+                        <input type = "hidden" id = "nickDuplication" name="nickDuplication" value="nickUncheck"/>
                        <tr>
                         <td>프로필 사진</td>
                         <td>

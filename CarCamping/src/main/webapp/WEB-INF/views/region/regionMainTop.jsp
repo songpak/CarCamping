@@ -49,6 +49,9 @@
 		console.log(mem_id);
 		var send_region_num = region_num;
 		var send_mem_id = mem_id;
+		var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:40%;left:45%; text-align:center;"> ';
+		loadingHtml += '<div class="loading_box"><img src="<c:url value="/resources/images/carLoading.gif"/>"  /></div></div>';
+		$('body').fadeTo("fast", 1).append(loadingHtml);
 		$.ajax({
 			url: "changeHotRegion.region", //컨트롤러 맵핑
             type: "GET",
@@ -58,7 +61,7 @@
             },
             contentType: "application/json",
             success: function (result) {
-		   			alert("성공");
+            	$('body').fadeTo("slow", 1).find('#loading').remove();
 		   			const ultag = document.getElementById('hotRegion_list');//ul - id : hotRegion_list 비우기
 		   		 	const items = ultag.getElementsByTagName('li');   		
 		   			 while (ultag.firstChild) {                   
@@ -69,6 +72,7 @@
 		   		
            	},
             error: function() {
+            	$('body').fadeTo("slow", 1).find('#loading').remove();
                 alert("에러 발생");
             }
 
@@ -91,91 +95,96 @@
 								<script type="text/javascript"
 									src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a12f9fc709978bc3b122b007b64e2afd"></script>
 								<script>
-									//카카오 지도 api를 사용하여 지도를 생성
-									var container = document 
-											.getElementById('map'); //지조를 담을 container생성
-									var options = {//지도 옵션 설정
-										center : new kakao.maps.LatLng(36, 128), //지도 중심 좌표 설정
-										level : 13,//지도 확대 레벨
-										draggable : false, //사용자 드래그 액션 막기
-										disableDoubleClick : true,//사용자 더블클릭 액션 막기
-										disableDoubleClickZoom : true // 자용자 지도 더블클릭시 지도 확대 이벤트 막기
+									//맵생성
+									var container = document
+											.getElementById('map');
+									var options = {
+										center : new kakao.maps.LatLng(36, 128),
+										level : 13,
+										draggable : false,
+										disableDoubleClick : true,
+										disableDoubleClickZoom : true
 									};
 									var map = new kakao.maps.Map(container,
-											options); // 지도 객체 생성
+											options);
 
-									
-									function Position(x, y, regionName) { //region Marker의 정보 객체 정의
-										this.x = x;// x position
-										this.y = y;// y position
-										this.regionName= regionName; //region name
+									//좌표
+									function Position(x, y, regionName) {
+										this.x = x;
+										this.y = y;
+										this.regionName= regionName;
 
 									}
-									var PositionArr = [ //region Marker 배열
+									var PositionArr = [
 											new Position(37.540705, 126.956764,"서울&경기도"),//서울=1
 											new Position( 37.58682247087561, 128.26747425295994    ,"강원도"),//강원도 2 
-											new Position(36.628503, 127.929344,"경상북도"),//경상북도 5 
-											new Position(36.557229, 126.779757,"경상남도"),//경상남도 6 
-											new Position(36.248647, 128.664734,"충청북도"),//충청북도 3
-											new Position(35.259787, 128.664734,"충청남도"),//충청남도 4 
+											new Position(36.628503, 127.929344,"충청북도"),//경상북도 5 
+											new Position(36.557229, 126.779757,"충청남도"),//경상남도 6 
+											new Position(36.248647, 128.664734,"경상북도"),//충청북도 3
+											new Position(35.259787, 128.664734,"경상남도"),//충청남도 4 
 											new Position(35.716705, 127.144185,"전라북도"),//전라북도 7 
 											new Position(34.819400, 126.893113,"전라남도"),//전라남도 8
 											new Position(33.364805, 126.542671,"제주도") //제주도=9
 									];
 
-									
-									imageSize = new kakao.maps.Size(64, 69),//marker size 정의
+									//이미지
+									//var imageSrc = 'mapMarkerImage/', //이미지 
+									imageSize = new kakao.maps.Size(64, 69),
 											imageOption = {
 												offset : new kakao.maps.Point(
-														27, 69)//마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정
+														27, 69)
 											};
 
-									//마커를 Map위에 올리기
-									for (var i = 0; i < PositionArr.length; i++) { //region Marker 배열의 크기만큼 반복
+									//var markerImage = new kakao.maps.MarkerImage(
+									//		imageSrc, imageSize, imageOption);
+
+									//마커
+									for (var i = 0; i < PositionArr.length; i++) {
 										var markerPosition = new kakao.maps.LatLng(
 												PositionArr[i].x,
-												PositionArr[i].y);//region Marker의 좌표
+												PositionArr[i].y);
 										var imageSrc = "resources/images/mapMarkerImage/"
-												+ (i + 1) + ".png"//Marker의 image 설정
+												+ (i + 1) + ".png"
 										var markerImage = new kakao.maps.MarkerImage(
 												imageSrc, imageSize,
-												imageOption);//marker Image 객체 생성
-										addMarker(i);// marker를 Map에 추가하는 함수
+												imageOption);
+										addMarker(i);
 									}
-									
+									//마커-클릭 이벤트 추가
 									function addMarker(i) {
 										var marker = new kakao.maps.Marker({
-											map : map,// 마커를 올릴 지도
-											position : markerPosition, //마커의 위치
-											image : markerImage, // 마커의 이미지
-											clickable : true //마커 클릭 가능 설정
+											map : map,
+											position : markerPosition,
+											image : markerImage,
+											clickable : true
 										});
-										//마커 mouseOver 액션시, 나오는 content
-										var content = '<div id="ifw" class="btn btn-primary" style="padding:5px;"><span>'+
-										PositionArr[i].regionName+'</span></div>';
-										//마커 mouseOver 액션시, 나오는 커스텀오버레이 객체 생성
+										var content = '<div id="ifw" class="btn btn-primary" style="padding:5px;"><span>'+PositionArr[i].regionName+'</span></div>';
+										//PositionArr[i].regionName
+								
 										var customOverlay = new kakao.maps.CustomOverlay(
-												{	map : map, //올릴 map
-													clickable : true, //클릭 가능
-													content : content, // 보이는 내용
-													position :markerPosition, //나타나는 위치(마커 위에 나타나므로 position을 marker position과 동일하게 설정)
-												    xAnchor: 0.3, // 마커를 기준으로 위치를 설정
+												{	map : map,
+													clickable : true,
+													content : content,
+													position :markerPosition,
+												    xAnchor: 0.3,
 												    yAnchor: 3
 												});
-										customOverlay.setMap(map); //커스텀오버레이를 map에 올림
-										customOverlay.setVisible(false); // 사용자가 mouseOver시, 커스텀오버레이가 나타나므로 처음에는 false로 안보이게 함
-													kakao.maps.event.addListener(marker,'click',function() {//사용자가 마커를 누르면 regionMain(우측div박스) 해당지역에 대한 안기 carCampingRegion이 나타남
+										customOverlay.setMap(map);
+										customOverlay.setVisible(false);
+													kakao.maps.event.addListener(marker,'click',function() {//해당지역 인기글 변경
 														document.hotRegionLocation.region_num.value = i + 1
 														document.hotRegionLocation.mem_id = '${sessionScope.id}'
-														var region_num = i+1;//marker 마다 해당 region_num 설정
-														var mem_id = '${sessionScope.id}';// session에 id가 있을시 저장
-														changeHotRegion(region_num,mem_id);//ajax를 사용한 비동기 통신으로 해당 region에 대한 carCampingRegion을 가져옴
+														//document.hotRegionLocation.submit()
+														var region_num = i+1;
+														var mem_id = '${sessionScope.id}';
+														changeHotRegion(region_num,mem_id);
+														
 														});
-											kakao.maps.event.addListener(marker,'mouseover', function() { // 해당 마커에 마우스를 올리면 사용자에게 보이게 하는 액션을 마커에 추가
+											kakao.maps.event.addListener(marker,'mouseover', function() {
 												customOverlay.setVisible(true);
 											});
 											
-											  kakao.maps.event.addListener(marker, 'mouseout', function() {  // 해당 마커에 마우스를 올리면 사용자에게 사라진게하는 액션을 마커에 추가
+											  kakao.maps.event.addListener(marker, 'mouseout', function() { 
 											 customOverlay.setVisible(false);
 										});
 									}
