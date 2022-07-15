@@ -221,7 +221,7 @@ public class MemberController {
     			   		return "message";
     			   	}
     			   	//비밀번호가 틀린 횟수 사용자에게 보여줌
-    			    msg = "비밀번호를 " + countLoginReason_0 + "틀렸습니다.\\n비밀번호를 "+PasswordErrorCount+"번 틀리시면 계정이 이용제한됩니다.\\n꼭 다시 확인하고 로그인해 주세요!!";
+    			    msg = "비밀번호를 " + countLoginReason_0 + "번 틀렸습니다.\\n비밀번호를 "+PasswordErrorCount+"번 틀리시면 계정이 이용제한됩니다.\\n꼭 다시 확인하고 로그인해 주세요!!";
     			    
     		   } else if(latestLoginSuccessDate==null) { // 최근 로그인 성공 내역이 없다면
     			   	int countLoginReason_0 = LoginLogMapper.countLoginReason_0_now(login_userId); // 현재 날짜 이후로 count
@@ -231,7 +231,7 @@ public class MemberController {
     			   		req.setAttribute("url", "login.login");
     			   		return "message";
    			   		}
-    			   	msg = "비밀번호를 " + countLoginReason_0 + "틀렸습니다.\\n비밀번호를 "+PasswordErrorCount+"번 틀리시면 계정이 이용제한됩니다.\\n꼭 다시 확인하고 로그인해 주세요!!";
+    			   	msg = "비밀번호를 " + countLoginReason_0 + "번 틀렸습니다.\\n비밀번호를 "+PasswordErrorCount+"번 틀리시면 계정이 이용제한됩니다.\\n꼭 다시 확인하고 로그인해 주세요!!";
     		   }
     		   url = "login.login";
     	   }
