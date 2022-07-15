@@ -11476,6 +11476,7 @@ Caused by: org.eclipse.core.internal.dtree.ObjectNotFoundException: Tree element
 	at java.security.AccessController.doPrivileged(Native Method)
 	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:834)
 	... 29 more
+<<<<<<< HEAD
 !SESSION 2022-07-15 18:57:00.560 -----------------------------------------------
 eclipse.buildId=3.9.11.201912161153-RELEASE-e412
 java.version=1.8.0_321
@@ -11617,3 +11618,5 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+=======
+>>>>>>> 80108e33fa6de5c8754cc1440986d270f17f4286

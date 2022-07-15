@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 CONTENT_ASSIST_BACKGROUND_COLOR=207,227,247
 CONTENT_ASSIST_FOREGROUND_COLOR=5,15,26
 content_assist_parameters_background=207,227,247
 content_assist_parameters_foreground=5,15,26
 content_assist_proposals_background=207,227,247
 content_assist_proposals_foreground=5,15,26
+=======
+>>>>>>> 80108e33fa6de5c8754cc1440986d270f17f4286
 eclipse.preferences.version=1
 fontPropagated=true
 org.eclipse.jface.textfont=1|Consolas|12.0|0|WINDOWS|1|-16|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
@@ -12,7 +15,10 @@ org.eclipse.wst.jsdt.ui.formatterprofiles.version=11
 org.eclipse.wst.jsdt.ui.javadoclocations.migrated=true
 org.eclipse.wst.jsdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 org.eclipse.wst.jsdt.ui.text.templates_migrated=true
+<<<<<<< HEAD
 overriddenByCSS=,CONTENT_ASSIST_BACKGROUND_COLOR,CONTENT_ASSIST_FOREGROUND_COLOR,content_assist_parameters_background,content_assist_parameters_foreground,content_assist_proposals_background,content_assist_proposals_foreground,
+=======
+>>>>>>> 80108e33fa6de5c8754cc1440986d270f17f4286
 proposalOrderMigrated=true
 tabWidthPropagated=true
 useAnnotationsPrefPage=true
