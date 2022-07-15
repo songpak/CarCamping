@@ -49,18 +49,26 @@ function regChk(){
        signCheck.mem_password.focus();
        return false;
     }
+   var nameRegExp = /^[가-힣|a-zA-Z]+$/;
+   var mem_userName = signCheck.mem_userName.value;
+   if (!nameRegExp.test(mem_userName)){
+        alert("이름이 올바르지 않습니다.");
+        signCheck.mem_userName.focus();
+        return false;
+  }
 
     if(signCheck.nickDuplication.value != "nickCheck"){
       alert("닉네임 중복체크를 해주세요.");
       return false;
-   }
-   var nameRegExp = /^[가-힣|a-zA-Z]+$/;
-    var mem_userName = signCheck.mem_userName.value;
-    if (!nameRegExp.test(mem_userName)){
-         alert("이름이 올바르지 않습니다.");
-         signCheck.mem_userName.focus();
+    }
+      var fileName = $("#mem_image").val();           
+      var ext = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
+      if (!(ext == "gif" || ext == "jpg" || ext == "png")) {
+         alert("이미지파일 (.jpg, .png, .gif ) 만 업로드 가능합니다.");   
+         signCheck.mem_image.focus();
          return false;
-   }
+      }
+ 
    var telRegExp = /^01+[016789]+[0-9]{7,8}$/;
    var mem_phone = signCheck.mem_phone.value;
    if(!telRegExp.test(mem_phone)){
@@ -77,13 +85,6 @@ function regChk(){
          signCheck.mem_birthday.focus();
          return false; 
       }
-   var fileName = $("#mem_image").val();           
-   var ext = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
-   if (!(ext == "gif" || ext == "jpg" || ext == "png")) {
-      alert("이미지파일 (.jpg, .png, .gif ) 만 업로드 가능합니다.");   
-      signCheck.mem_image.focus();
-      return false;
-   }
    
    if (signCheck.mem_summary.value==""){
 		alert("자기소개 요약을 입력하셔야 합니다.")

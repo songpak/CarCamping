@@ -24,7 +24,7 @@
       <table class="table table-sm">
          <tr>
             <th>프로필 이미지</th>
-            <td><img src="${upPath}/${mdto.mem_image}"></td>
+            <td><img src="https://s3.ap-northeast-2.amazonaws.com/qkzptjd5440/${mdto.mem_image}"></td>
          </tr>
          <tr>
             <th>

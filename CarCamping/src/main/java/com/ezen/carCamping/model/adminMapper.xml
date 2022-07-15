@@ -507,22 +507,22 @@
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
 	</select>
 	
-	<select id="adminListRentalLogSort" parameterType="int" resultMap="rentalLogMap">
+	<select id="adminListRentalLogSort" parameterType="java.util.Map" resultMap="rentalLogMap">
 		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num 
-		where a.rental_return = #{sort}
+		where a.rental_return = #{sort} and ${rental_date} between #{rental_from_date} and #{rental_to_date}
 	</select>
 	
-	<select id="adminListRentalLogSearch" parameterType="String" resultMap="rentalLogMap">
+	<select id="adminListRentalLogSearch" parameterType="java.util.Map" resultMap="rentalLogMap">
 		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
-		where b.mem_id like CONCAT('%',trim(#{String}),'%') or c.prod_name like CONCAT('%',trim(#{String}),'%')
+		where (b.mem_id like CONCAT('%',trim(#{search}),'%') or c.prod_name like CONCAT('%',trim(#{search}),'%')) and ${rental_date} between #{rental_from_date} and #{rental_to_date}
 	</select>
 	
-	<select id="adminListRentalLogSearchAndSort" parameterType="String" resultMap="rentalLogMap">
+	<select id="adminListRentalLogSearchAndSort" parameterType="java.util.Map" resultMap="rentalLogMap">
 		select a.*,b.*,c.*,d.* from RentalLog a join Member b join Product c join Agency d 
 		on a.mem_num = b.mem_num and a.prod_num = c.prod_num and a.agency_num = d.agency_num
-		where a.rental_return = #{sort} and b.mem_id like CONCAT('%',trim(#{String}),'%') or c.prod_name like CONCAT('%',trim(#{String}),'%')
+		where (a.rental_return = #{sort} and (b.mem_id like CONCAT('%',trim(#{search}),'%') or c.prod_name like CONCAT('%',trim(#{search}),'%'))) and ${rental_date} between #{rental_from_date} and #{rental_to_date}
 	</select>
 	
 	<select id="adminGetRentalLog" resultMap="rentalLogMap" parameterType="int">
