@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: User
 Build-Jdk: 1.8.0_321
+=======
+Built-By: SongJY
+Build-Jdk: 1.8.0_333
+>>>>>>> 176b152857d9c7ac5d24af64ecd24cfc41c3d9f1
 Created-By: Maven Integration for Eclipse
 
