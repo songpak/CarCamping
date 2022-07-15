@@ -1,2 +1,0 @@
-# CarCamping
-CarCampingProject
