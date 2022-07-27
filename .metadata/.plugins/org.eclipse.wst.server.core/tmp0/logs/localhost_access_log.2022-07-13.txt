@@ -48,3 +48,10 @@
 0:0:0:0:0:0:0:1 - - [13/Jul/2022:11:47:00 +0900] "POST /carCamping/login.login HTTP/1.1" 200 243
 0:0:0:0:0:0:0:1 - - [13/Jul/2022:11:47:03 +0900] "GET /carCamping/goAdmin.admin HTTP/1.1" 200 15542
 0:0:0:0:0:0:0:1 - - [13/Jul/2022:11:47:03 +0900] "GET /carCamping/slick/slick.min.js HTTP/1.1" 404 721
+127.0.0.1 - - [13/Jul/2022:11:58:19 +0900] "GET / HTTP/1.1" 404 807
+0:0:0:0:0:0:0:1 - - [13/Jul/2022:11:58:20 +0900] "GET /carCamping/ HTTP/1.1" 200 11228
+0:0:0:0:0:0:0:1 - - [13/Jul/2022:11:58:20 +0900] "GET /carCamping/css/bootstrap.min.css HTTP/1.1" 404 721
+0:0:0:0:0:0:0:1 - - [13/Jul/2022:11:58:20 +0900] "GET /carCamping/resources/js/bootstrap.bundle.min.js HTTP/1.1" 404 721
+0:0:0:0:0:0:0:1 - - [13/Jul/2022:11:58:20 +0900] "GET /favicon.ico HTTP/1.1" 404 818
+0:0:0:0:0:0:0:1 - - [13/Jul/2022:12:00:00 +0900] "GET /carCamping/login.login HTTP/1.1" 200 3085
+0:0:0:0:0:0:0:1 - - [13/Jul/2022:12:00:03 +0900] "POST /carCamping/login.login HTTP/1.1" 200 243

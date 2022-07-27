@@ -102,13 +102,16 @@
 		<item value="org.springsource.sts.package:3.9.11.201912161153-RELEASE-e412"/>
 		<item value="org.springsource.sts:3.9.11.201912161153-RELEASE"/>
 	</list>
+	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="C:\Users\송 만 섭\OneDrive\바탕 화면\mvcShop"/>
+	</list>
 	<section name="ExternalProjectImportWizard">
 		<item key="WizardProjectsImportPage.STORE_NESTED_PROJECTS" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="C:\WebDevelopment\git"/>
 			<item value="C:\WebDevelopment\git\CarCamping"/>
+			<item value="C:\WebDevelopment\git"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>

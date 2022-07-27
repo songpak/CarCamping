@@ -155,7 +155,7 @@
 
       <Context docBase="C:\WebDevelopment\git\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\WebDevelopment\git\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\CarCamping" path="/carCamping" reloadable="true" source="org.eclipse.jst.jee.server:CarCamping"/>
    
-    </Host>
+    <Context docBase="C:\WebDevelopment\git\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\mvcShop" path="/mvcShop" reloadable="true" source="org.eclipse.jst.jee.server:mvcShop"/></Host>
     </Engine>
   </Service>
 </Server>

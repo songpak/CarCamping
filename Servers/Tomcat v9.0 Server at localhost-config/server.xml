@@ -155,7 +155,7 @@
 
       <Context docBase="CarCamping" path="/carCamping" reloadable="true" source="org.eclipse.jst.jee.server:CarCamping"/>
    
-    </Host>
+    <Context docBase="mvcShop" path="/mvcShop" reloadable="true" source="org.eclipse.jst.jee.server:mvcShop"/></Host>
     </Engine>
   </Service>
 </Server>
